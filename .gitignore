@@ -37,6 +37,8 @@
 *.mtc0
 *.slg
 *.stc
+.latexmkrc
+flowchart-lr.mmd
 
 # ============================
 # Docker

@@ -30,8 +30,6 @@
 \usepackage{etoolbox}
 \usepackage{setspace}
 
-% Tipografía: Arial 11 pt
-% (Nimbus Sans/Helvetica es métricamente compatible con Arial en pdfLaTeX)
 \usepackage{newtxsf}            % Matemáticas sans-serif a juego
 \usepackage[scaled=1]{helvet}   % Helvetica/Arial
 \renewcommand{\familydefault}{\sfdefault}
@@ -103,6 +101,30 @@
 \fancyfoot[C]{\thepage}
 \renewcommand{\headrulewidth}{0.4pt}
 \renewcommand{\footrulewidth}{0pt}
+
+% Configuración de páginas horizontales
+\makeatletter
+\newcommand{\intercambiarorientacion}{%
+  \clearpage
+  \dimen@=\dimexpr\paperwidth-\textwidth\relax
+  \dimen@ii=\dimexpr\paperheight-\textheight\relax
+  \global\textwidth=\dimexpr\paperheight-\dimen@\relax
+  \global\textheight=\dimexpr\paperwidth-\dimen@ii\relax
+  \dimen@=\paperwidth
+  \global\paperwidth=\paperheight
+  \global\paperheight=\dimen@
+  \global\pdfpagewidth=\paperwidth
+  \global\pdfpageheight=\paperheight
+  \global\linewidth=\textwidth
+  \global\columnwidth=\textwidth
+  \global\hsize=\textwidth
+  \global\headwidth=\textwidth
+  \global\@colht=\textheight
+  \global\@colroom=\textheight
+  \global\vsize=\textheight
+}
+\makeatother
+\newenvironment{paginahorizontal}{\intercambiarorientacion}{\intercambiarorientacion}
 
 % Configuración de índices
 \renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
