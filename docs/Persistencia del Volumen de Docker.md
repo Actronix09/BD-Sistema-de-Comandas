@@ -99,7 +99,7 @@ La base de datos `practica1`, creada en el contenedor anterior, aparece en el li
 **Evidencias Angel Gabriel Perez Angeles**
 
 ![](../evidencias/docker/Evidencias%20Angel/Evidencia%201%20-%20Configuracion%20de%20entorno.png)
-
 ![](../evidencias/docker/Evidencias%20Angel/Evidencia%202%20-%20Levantamiento%20y%20verificacion%20del%20contenedor.png)
-
 ![](../evidencias/docker/Evidencias%20Angel/Evidencia%203%20-%20Creacion%20de%20base%20de%20datos%20en%20el%20contenedor.png)
+![](../evidencias/docker/Evidencias%20Angel/Evidencia%203.5%20-%20Se%20detiene%20el%20contenedor.png)
+![](../evidencias/docker/Evidencias%20Angel/Evidencia%204%20-%20Persistencia%20de%20la%20base%20de%20datos.png)
