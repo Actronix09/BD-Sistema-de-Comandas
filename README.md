@@ -5,12 +5,10 @@
 **Alumnos:** 
 - Adrian Damas Garnica
 - Perez Angeles Angel Gabriel
-- 
 
 **Boletas:** 
 - 2023630785
 - 2025630794
-- 
 
 **Grupo:** 3CV4
 
