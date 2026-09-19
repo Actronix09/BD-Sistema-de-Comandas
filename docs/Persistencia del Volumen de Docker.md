@@ -8,12 +8,13 @@
 - [Creación del contenedor y la base de datos](#creación-del-contenedor-y-la-base-de-datos)
 - [Eliminación del contenedor](#eliminación-del-contenedor)
 - [Verificación de la persistencia](#verificación-de-la-persistencia)
+- [Anexos](#anexos)
 
 ---
 
 ## Configuración del entorno
 
-El servicio se define en el archivo [compose.yml](<../entorno/compose.yml>). La declaración relevante para esta práctica es el volumen nombrado, montado sobre el directorio donde PostgreSQL guarda su cluster de datos:
+El servicio se define en el archivo [compose.yml](<../entorno/Configuracion Adrian/compose.yml>). La declaración relevante para esta práctica es el volumen nombrado, montado sobre el directorio donde PostgreSQL guarda su cluster de datos:
 
 ```yaml
     volumes:
@@ -57,7 +58,7 @@ Finalmente se cierra la sesión de `psql` y la terminal del contenedor:
 exit
 ```
 
-![Salida de la terminal mostrando la creación del contenedor y de la base de datos practica1](<../evidencias/docker/Creación Contenedor y Base de Datos.png>)
+![Salida de la terminal mostrando la creación del contenedor y de la base de datos practica1](<../evidencias/docker/Evidencias Adrian/Creación Contenedor y Base de Datos.png>)
 
 ## Eliminación del contenedor
 
@@ -70,7 +71,7 @@ docker volume ls
 
 El comando `docker compose down` detiene y elimina los contenedores y la red del proyecto, pero **no** elimina los volúmenes nombrados: para ello es necesario añadir la bandera `-v` de forma explícita (Docker, n.d.-a). Por eso, tras su ejecución, el volumen `practica1-pgdata` sigue apareciendo en el listado aunque el contenedor ya no exista.
 
-![Salida de la terminal mostrando la eliminación del contenedor y el volumen practica1-pgdata aún presente](<../evidencias/docker/Eliminación Contenedor.png>)
+![Salida de la terminal mostrando la eliminación del contenedor y el volumen practica1-pgdata aún presente](<../evidencias/docker/Evidencias Adrian/Eliminación Contenedor.png>)
 
 ## Verificación de la persistencia
 
@@ -87,4 +88,18 @@ exit
 
 La base de datos `practica1`, creada en el contenedor anterior, aparece en el listado del contenedor nuevo. Cabe señalar que este contenedor es distinto del original —tiene otro identificador— y que los scripts de inicialización de la imagen no se ejecutaron, precisamente porque el volumen ya contenía un cluster inicializado.
 
-![Salida de la terminal mostrando que la base de datos practica1 sigue existiendo en el contenedor nuevo](<../evidencias/docker/Persistencia Volumen.png>)
+![Salida de la terminal mostrando que la base de datos practica1 sigue existiendo en el contenedor nuevo](<../evidencias/docker/Evidencias Adrian/Persistencia Volumen.png>)
+
+## Anexos
+
+**Entorno Angel Gabriel Perez Angeles**
+
+- [compose.yml](../entorno/Configuracion%20Angel/compose.yml)
+
+**Evidencias Angel Gabriel Perez Angeles**
+
+![](../evidencias/docker/Evidencias%20Angel/Evidencia%201%20-%20Configuracion%20de%20entorno.png)
+
+![](../evidencias/docker/Evidencias%20Angel/Evidencia%202%20-%20Levantamiento%20y%20verificacion%20del%20contenedor.png)
+
+![](../evidencias/docker/Evidencias%20Angel/Evidencia%203%20-%20Creacion%20de%20base%20de%20datos%20en%20el%20contenedor.png)
