@@ -66,7 +66,7 @@ Se integra el Estado del Arte consistiendo unicamente del archivo [Introducción
 
 ### Pull Request #5 — ejercicio3
 
-En la rama ejerccio3 se desarrollo la investigación principal incluida en  [Introducción.tex](./LaTeX/Secciones/Introduccion.tex), y con esta seccion concretando el desarrollo de [Practica 1.pdf](./LaTeX/Practica 1.pdf).
+En la rama ejerccio3 se desarrollo la investigación principal incluida en  [MarcoTeorico.tex](./LaTeX/Secciones/MarcoTeorico.tex), y con esta seccion concretando el desarrollo de [Practica 1.pdf](./LaTeX/Practica 1.pdf).
 
 ![Pull Request #3 fusionado en GitHub, mostrando la rama ejercicio3 integrada a main](<../evidencias/git/Pull Request Fusionado del Ejercicio 3.png>)
 
