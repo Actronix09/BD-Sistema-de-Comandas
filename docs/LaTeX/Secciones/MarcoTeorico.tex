@@ -1,0 +1,235 @@
+\newpage
+
+\section{Marco teórico}
+\label{sec:marco-teorico}
+
+\subsection{Dato, información y bases de datos}
+
+\subsubsection{¿Qué es un dato?}
+
+De acuerdo con \textcite{elmasri_navathe}, un dato \enquote{es un hecho que es reconocido y que puede ser registrado con un significado implícito} (p.~4). Un ejemplo de dato podrían ser: un nombre, números de teléfono, ubicaciones, direcciones de correo electrónico, entre muchos más.
+
+Por otro lado, \textcite{bellinger_dikw} indican que los datos \enquote{no tienen un significado aparente más allá de su propia existencia}, y estos pueden ser o no utilizables para distintos fines (p.~1).
+
+Por ambas partes los autores nos dan a entender que los datos son trozos de información que se pueden utilizar con distintos fines; Bellinger y sus colaboradores nos dicen que más allá de su existencia no tienen otro significado.
+
+\subsubsection{Información}
+
+\textcite{elmasri_navathe} señalan que una base de datos se constituye por medio de una serie de datos relacionados entre sí de manera lógica y coherente; por lo tanto, la base de datos genera información con los datos que almacena. De esta forma, no es posible construir una base de datos con una variedad aleatoria de datos sin una conexión entre sí (p.~5).
+
+\textcite{bellinger_dikw} mencionan que \enquote{la información son datos a los que se les ha dado significado a través de una conexión relacional} (p.~1).
+
+Ambos autores nos dicen que los datos tienden a tener una conexión racional y lógica para generar información y que este mismo principio es fundamental y constituye a las bases de datos. Un ejemplo de esto podría ser una calle: \enquote{calle 1} por sí sola no tiene sentido, pero si se le relaciona con una persona se puede decir que esa persona vive en la \enquote{calle 1}.
+
+\subsubsection{Base de datos}
+
+Para \textcite{date_intro_bd}, una base de datos \enquote{es un sistema computarizado que se utiliza para llevar el registro electrónico de información} (p.~2). Los usuarios y administradores pueden realizar acciones enfocadas en la información que almacenan; por ejemplo, pueden agregar más información, modificar la información existente, recuperarla o eliminar información y datos.
+
+\textcite{silberschatz_dbconcepts} definen diferencias entre un sistema de procesamiento de datos y una base de datos, indicando que un sistema gestor de bases de datos coordina sistemas físicos y accesos lógicos, y este mismo garantiza el correcto uso de la información en aplicaciones por medio de consultas (p.~4).
+
+El autor Date nos da una versión más figurada y sencilla de lo que es una base de datos, mientras que Silberschatz y sus colaboradores ofrecen una visión más técnica y detallada sobre las diferencias principales que tiene una base de datos frente a un sistema de procesamiento de datos.
+
+\subsection{Características de una base de datos}
+
+\subsubsection{Integración}
+
+\textcite{elmasri_navathe} explican que una base de datos funciona como un único repositorio donde se unifican las estructuras de los datos y la información; de esta forma, reemplaza a los archivos independientes e inconexos (p.~10).
+
+Según \textcite{silberschatz_dbconcepts}, la integración es \enquote{la consolidación y la centralización de la información dispersa o descentralizada en múltiples archivos}, de forma que permite el acceso unificado a la información (p.~3).
+
+Ambos autores nos dicen la misma idea, donde los archivos independientes o descentralizados se conectan de forma conexa en la base de datos.
+
+\subsubsection{Persistencia}
+
+De acuerdo con \textcite{elmasri_navathe}, los datos almacenados tienen la propiedad de persistir de forma duradera en los medios de almacenamiento no volátiles, sobreviviendo a la finalización o ejecución de los programas que los crearon (p.~20).
+
+\textcite{date_intro_bd} afirma que, de forma precisa, los datos de la base de datos \enquote{persisten} debido a que una vez son aceptados por el SGBD solo pueden ser removidos por una petición al SGBD, pero no como un efecto lateral si algún programa termina su ejecución (pp.~9--10).
+
+En ambas citas los autores nos plantean ideas similares: que dentro de un SGBD los datos y la información persisten, y esta persistencia siempre estará presente sin importar las ejecuciones que haga la aplicación donde se aloja el SGBD, y solo cambiará por medio de peticiones directas al SGBD.
+
+\subsubsection{Redundancia controlada}
+
+\textcite{elmasri_navathe} señalan que, aunque la norma es eliminar la duplicación mediante la normalización, cuando es necesario duplicar datos de forma intencional para acelerar las consultas, el SGBD aplica una redundancia controlada para asegurar que el cambio se haga correctamente por igual entre sus copias (pp.~17--18).
+
+\textcite{silberschatz_dbconcepts} indican que consiste en evitar la duplicación innecesaria de información (propia de los sistemas de archivos tradicionales) para prevenir inconsistencias; si existe redundancia por diseño, el SGBD mantiene la sincronización (p.~4).
+
+Los autores Elmasri y Navathe profundizan más en el aspecto de cómo funciona dicha duplicidad, y en la otra cita se profundiza en cómo se mantiene una sincronización dentro del SGBD.
+
+\subsubsection{Integridad}
+
+\textcite{elmasri_navathe} mencionan que la integridad garantiza que los datos cumplan con las restricciones definidas en el catálogo del sistema (como la clave primaria), las cuales el SGBD valida automáticamente en cada actualización (pp.~19--20).
+
+Por su parte, la integridad \enquote{asegura la corrección y consistencia de los datos mediante el cumplimiento estricto de reglas de validación como claves primarias especificadas por el administrador} \parencite[p.~5]{silberschatz_dbconcepts}.
+
+En este caso los autores dan la misma idea, donde cierta información específica (describen la clave primaria como ejemplo) tiene que cumplir con la característica de integridad.
+
+\subsubsection{Independencia de datos}
+
+Según \textcite{elmasri_navathe}, es la separación entre los programas de aplicación y los datos gracias a la abstracción. Incluye la independencia física (modificar el almacenamiento sin alterar el esquema conceptual) y la independencia lógica (alterar el esquema conceptual sin modificar las aplicaciones externas) (pp.~12, 36--38).
+
+\textcite{silberschatz_dbconcepts} la definen como la capacidad de alterar el esquema físico o lógico sin requerir la reescritura ni modificación de los programas de aplicación que acceden a la base de datos (p.~11).
+
+En la primera cita se profundiza más sobre cuáles son las partes del sistema que no interfieren con los datos, ya sea de forma física y/o lógica; la segunda cita es más clara y directa.
+
+\subsubsection{Seguridad}
+
+Consiste en la protección del sistema contra accesos no autorizados o malintencionados mediante controles de acceso discrecionales (\texttt{GRANT}/\texttt{REVOKE}), obligatorios (por niveles), cifrado de datos y defensa contra amenazas como la inyección SQL \parencite[p.~21]{elmasri_navathe}.
+
+\textcite{silberschatz_dbconcepts} la describen como los mecanismos del SGBD que restringen el acceso a la información únicamente a los usuarios autorizados, otorgando privilegios específicos de lectura, modificación o ejecución (p.~5).
+
+Ambos autores nos hablan de cómo el SGBD tiene diferentes mecanismos de seguridad para con el usuario; en la primera se profundiza más en los controles de acceso.
+
+\subsubsection{Concurrencia}
+
+\textcite{elmasri_navathe} indican que la concurrencia permite que múltiples usuarios y transacciones modifiquen la base de datos simultáneamente. El subsistema de control de concurrencia aplica bloqueos o marcas de tiempo para garantizar la atomicidad y el aislamiento de las operaciones (pp.~13--14, 21).
+
+\textcite{silberschatz_dbconcepts} señalan que es la supervisión del acceso simultáneo a los datos que evita anomalías o inconsistencias (como lecturas sucias o actualizaciones perdidas), logrando que las ejecuciones concurrentes equivalgan a ejecuciones seriales (p.~5).
+
+En la segunda cita se describen las consecuencias concretas que pueden pasar en caso de una falta de supervisión del sistema. En la primera cita se describe mejor la característica.
+
+\subsubsection{Recuperación}
+
+\textcite{elmasri_navathe} la definen como la capacidad del SGBD para restaurar la base de datos a un estado consistente tras un fallo de hardware, software o de sistema, utilizando registros en bitácora (\textit{log}), operaciones \texttt{UNDO}/\texttt{REDO} e hitos de control (p.~21).
+
+\textcite{silberschatz_dbconcepts} explican que es un conjunto de algoritmos que garantizan las propiedades de atomicidad y durabilidad, deshaciendo los cambios de transacciones no terminadas y asegurando la persistencia de las transacciones confirmadas ante fallos (p.~5).
+
+Ambas citas describen muy bien la característica, pero en la primera se describen las operaciones concretas para ponerlas en práctica.
+
+\subsection{Archivos contra bases de datos}
+
+\subsubsection{Sistemas de archivos}
+
+\textbf{Sistemas de archivos tradicionales:} como señalan \textcites[p.~10]{elmasri_navathe}[p.~3]{silberschatz_dbconcepts}, cada aplicación gestiona sus propios archivos de datos de forma independiente, incrustando la estructura de almacenamiento dentro del código fuente de los programas de aplicación.
+
+\textbf{Sistemas de bases de datos:} según \textcite{elmasri_navathe}, los datos se almacenan en un repositorio centralizado e integrado. La definición y estructura de los datos no reside en las aplicaciones, sino en un \textbf{catálogo o diccionario de datos (metadatos)} administrado por el SGBD (pp.~11--12).
+
+\subsubsection{Problemas del enfoque en sistemas de archivos tradicionales}
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Redundancia de datos:} \textcites[p.~17]{elmasri_navathe}[p.~4]{silberschatz_dbconcepts} indican que la falta de planificación centralizada ocasiona que la misma información o datos se almacenen repetidamente, y eso ocasiona desperdicio de espacio en unidades físicas.
+    \item \textbf{Inconsistencia de datos (datos duplicados y contradictorios):} \textcite{silberschatz_dbconcepts} mencionan que al modificar un dato en un archivo pero omitir la actualización en otro, el sistema almacena información contradictoria para la misma entidad, destruyendo la confiabilidad del sistema y volviendo a caer en la redundancia de datos (p.~4).
+    \item \textbf{Dependencia programa-datos:} de acuerdo con \textcites[p.~11]{elmasri_navathe}[p.~4]{silberschatz_dbconcepts}, si la estructura física y el formato de las declaraciones de archivos están codificados dentro de cada programa, cualquier cambio en la estructura de un archivo exige modificar, recompilar y probar todos los programas que acceden a él.
+    \item \textbf{Dificultad de acceso:} \textcite{silberschatz_dbconcepts} explican que los sistemas de archivos solo permiten consultas predeterminadas mediante programas compilados. No existen lenguajes de consulta como el lenguaje SQL, por lo que obtener un reporte o siquiera alguna consulta requiere codificar un nuevo programa desde cero (p.~4).
+\end{enumerate}
+
+\subsection{Usuarios de una base de datos}
+
+En un entorno de bases de datos coexisten una variedad de usuarios y perfiles técnicos y operativos involucrados en diferentes áreas de uso en las bases de datos.
+
+Según \textcite{elmasri_navathe}, en los sistemas corporativos \enquote{muchas personas participan en el diseño, uso y mantenimiento de una base de datos grande con cientos o miles de usuarios}, clasificándolos primordialmente como los \enquote{actores en el escenario} (p.~15).
+
+\subsubsection{Administrador de la base de datos}
+
+\textbf{Responsabilidades:} el administrador de la base de datos tiene la máxima autoridad técnica y operativa en el entorno. Según \textcite{elmasri_navathe}, \enquote{en un entorno de base de datos, el recurso primario es la propia base de datos y el recurso secundario es el DBMS y el software asociado; administrar estos recursos es responsabilidad del administrador de la base de datos} (p.~15). \textcite{date_intro_bd} también nos dice que el \enquote{administrador de datos es un profesional IT. El trabajo del DBA consiste en crear la base de datos real e implementar los controles técnicos necesarios para hacer cumplir las diversas decisiones de las políticas hechas por el administrador de datos} (p.~16).
+
+\textbf{Permisos:} el DBA tiene el nivel más alto de autorización dentro del entorno (privilegios de administrador). Como explican \textcite{elmasri_navathe}, \enquote{la mayoría de los sistemas de base de datos contienen comandos privilegiados que solo pueden ser utilizados por el personal del DBA} (p.~15).
+
+\subsubsection{Diseñador de la base de datos}
+
+\textbf{Responsabilidades:} el diseñador se encarga de determinar el modelo lógico de la implementación del sistema y el uso de la información de este mismo. En palabras de \textcite{elmasri_navathe}, \enquote{los diseñadores de bases de datos son responsables de identificar los datos que se almacenarán en la base de datos y de elegir las estructuras apropiadas para representar y almacenar estos datos}, y detallan que los diseñadores deben \enquote{comunicarse con todos los posibles usuarios de la base de datos para comprender sus requisitos y crear un diseño que satisfaga estas necesidades} (p.~15).
+
+\textbf{Permisos:} los permisos que tienen se centran en el modelado estructural del entorno, desarrollo y \textit{testing}; posee permisos para modificar la estructura lógica de las bases de datos, tablas e índices.
+
+\subsubsection{Programador de aplicaciones}
+
+\textbf{Responsabilidades:} este rol tiene la responsabilidad de hacer funcionar el SGBD dentro de una aplicación por medio de código y herramientas de desarrollo. Según exponen \textcite{elmasri_navathe}, \enquote{los analistas de sistemas determinan los requisitos de los usuarios finales y desarrollan especificaciones para transacciones programadas estándar, mientras que los programadores de aplicaciones implementan estas especificaciones como programas; luego prueban, depuran, documentan y mantienen estas transacciones enlatadas} (p.~16).
+
+\textbf{Permisos:} los desarrolladores tienen permisos de manipulación de datos sobre los esquemas de desarrollo y \textit{testing}. \textcite{elmasri_navathe} señalan que su labor exige interactuar con precompiladores que extraen comandos DML incrustados en lenguajes anfitriones, por lo que disponen de privilegios para ejecutar operaciones como \texttt{SELECT}, \texttt{INSERT}, \texttt{UPDATE} y \texttt{DELETE}, además de compilar procedimientos almacenados y disparadores (\textit{triggers}) (p.~43).
+
+\subsubsection{Usuario final}
+
+\textbf{Responsabilidades:} los usuarios finales son los destinatarios directos de los SGBD, aquellos a los que va dirigido el uso del sistema. \textcite{elmasri_navathe} dicen que \enquote{los usuarios finales son las personas cuyos trabajos requieren acceso a la base de datos para consultar, actualizar y generar informes; la base de datos existe principalmente para su uso} (p.~15).
+
+\textbf{Permisos:} los permisos para los usuarios finales se rigen por el principio de mínimo privilegio, donde solo tienen permitidos ciertos permisos según sea el caso. Según \textcite{elmasri_navathe}, \enquote{a los usuarios o grupos de usuarios se les asignan números de cuenta protegidos por contraseñas. Algunos usuarios solo pueden tener permiso para recuperar datos, mientras que a otros se les permite recuperar y actualizar} (p.~19).
+
+\subsection{Ciclo de vida de una base de datos}
+
+Como explican \textcite{elmasri_navathe}, una base de datos real \enquote{posee un ciclo de vida de muchos años, por lo que el DBMS debe ser capaz de mantener el sistema de base de datos permitiendo que evolucione conforme los requerimientos cambian a lo largo del tiempo} (p.~8). Esto se realiza con el fin de evitar que el proyecto fracase o genere inconsistencias. \textcite{chen_er_model} plantea que el desarrollo debe dividirse en etapas progresivas que van desde la idea en el negocio hasta la puesta en marcha técnica, produciendo cada una de ellas un resultado hasta llegar al final (pp.~9--11).
+
+\textbf{Planificación del proyecto:} antes de modelar, el equipo evalúa si el proyecto tiene sentido práctico y financiero. Se identifican los problemas actuales (como archivos duplicados o procesos manuales lentos), se define el alcance, los costos previstos y si la infraestructura actual soportará la solución. El entregable sería un documento de estudio de viabilidad y plan del proyecto.
+
+\textbf{Recolección y análisis de requerimientos:} esta etapa consiste en entender qué necesita la organización o proyecto. De acuerdo con \textcite{elmasri_navathe}, \enquote{el diseño de una base de datos completamente nueva comienza con una fase denominada especificación y análisis de requerimientos. Estos requisitos se documentan en detalle para que puedan mantenerse, modificarse y transformarse fácilmente en una implementación} (p.~8). El documento entregable para esta etapa sería un reporte de requerimientos específicos.
+
+\textbf{Diseño conceptual:} una vez que se tienen los requerimientos se crea un modelo semántico que describe el diseño conceptual de la base de datos. \textcite{chen_er_model} fundamentó este paso demostrando que representar el mundo real mediante entidades y relaciones permite organizar la información de forma natural y sin sesgos tecnológicos (pp.~9--10). El entregable para esta etapa es un esquema conceptual donde se hagan diagramas entidad-relación.
+
+\textbf{Diseño lógico:} \textcite{elmasri_navathe} explican que esta etapa es el puente entre el modelo conceptual y el paradigma del gestor elegido, usualmente el relacional (p.~62). Siguiendo las reglas de derivación introducidas por \textcite[p.~28]{chen_er_model} y formalizadas por \textcite[p.~289]{elmasri_navathe}, el entregable es el esquema lógico relacional donde se presentan tablas con las definiciones de llaves e integridad referencial.
+
+\textbf{Diseño físico:} de acuerdo con \textcites[p.~43]{date_intro_bd}[p.~37]{elmasri_navathe}, es la adaptación del diseño lógico al almacenamiento real en disco o memoria secundaria. Como indican \textcite{elmasri_navathe}, el objetivo es \enquote{estructurar los datos en el almacenamiento garantizando un buen rendimiento en las consultas y transacciones más frecuentes} (p.~643). El entregable es un esquema físico e interno donde se emplea código SQL y sentencias DDL con parámetros definidos.
+
+\textbf{Implementación:} \textcites[p.~41]{date_intro_bd}[p.~31]{elmasri_navathe} señalan que en esta etapa el diseño cobra vida en el motor, compilando el DDL para crear las tablas vacías en el DBMS y pasando al estado inicial cargando los datos reales o migrados. Asimismo, \textcite{elmasri_navathe} explican que a la par se enlazan las aplicaciones cliente (mediante \textit{drivers} como JDBC u ODBC) y se somete el sistema a pruebas de concurrencia y seguridad (pp.~43--45). El entregable es la base de datos en producción junto con sus bitácoras operativas y reportes.
+
+\textbf{Operación:} \textcites[p.~42]{date_intro_bd}[pp.~15, 45]{elmasri_navathe} describen esta fase como la vida cotidiana del sistema en producción. Los usuarios finales operan las aplicaciones y el administrador (DBA) supervisa que todo marche con fluidez: aplica respaldos periódicos, ajusta índices si las consultas se vuelven lentas y modifica estructuras cuando el negocio crece o cambia. El entregable en muchos casos son los informes de mantenimiento de la base de datos, entre otros.
+
+\subsection{Sistema gestor de bases de datos}
+
+Un Sistema Gestor de Bases de Datos (DBMS) es el conjunto de software que media entre los archivos físicos en disco, los usuarios y las aplicaciones clientes. Como señalan \textcite{elmasri_navathe}, \enquote{el DBMS es un sistema computarizado que facilita los procesos de definir, construir, manipular y compartir bases de datos entre diversos usuarios y programas de aplicación} (p.~6).
+
+\subsubsection{Módulos de componentes principales}
+
+De acuerdo con la arquitectura descrita por \textcites[pp.~41--44]{elmasri_navathe}[pp.~4--5]{silberschatz_dbconcepts}, el motor se organiza en el procesador de consultas y el gestor de almacenamiento, los cuales se conforman por los siguientes módulos:
+
+\textbf{Compilador de DDL:} interpreta las sentencias de definición de esquemas y vuelca las definiciones y restricciones semánticas directamente en el catálogo del sistema en forma de metadatos.
+
+\textbf{Compilador de DML y precompilador:} el precompilador extrae las instrucciones DML incrustadas en código anfitrión, mientras que el compilador DML las traduce a llamadas de bajo nivel comprensibles por el procesador de ejecución.
+
+\textbf{Optimizador de consultas:} examina las distintas formas de resolver una consulta declarativa y elige el plan de ejecución con menor costo estimado de CPU y operaciones de entrada/salida (E/S). Según explican \textcite{elmasri_navathe}, \enquote{la optimización de consultas es la actividad realizada por un optimizador de consultas en un DBMS para seleccionar la mejor estrategia disponible para ejecutar la consulta} (p.~691).
+
+\textbf{Procesador de base de datos en tiempo de ejecución:} es el motor central que recibe las consultas compiladas y las transacciones parametrizadas, verifica los permisos y esquemas con el catálogo y comanda la ejecución de las operaciones.
+
+\subsubsection{Lenguajes del SGBD}
+
+En los sistemas actuales basados en SQL, las instrucciones conviven en una interfaz integrada, pero conceptualmente corresponden a cuatro sublenguajes con objetivos distintos \parencites[pp.~38--41]{elmasri_navathe}[pp.~42--44, 74]{silberschatz_dbconcepts}.
+
+\textbf{Lenguaje de Definición de Datos (DDL):} utilizado por los diseñadores y el DBA para especificar el esquema conceptual, crear tablas, índices, dominios y reglas de integridad estructural \parencite[p.~39]{elmasri_navathe}.
+
+\textbf{Lenguaje de Manipulación de Datos (DML):} permite a los programas y usuarios interactivos buscar, insertar, modificar o borrar registros. Como puntualizan \textcite{elmasri_navathe}, \enquote{los DML de alto nivel, como SQL, pueden especificar y recuperar muchos registros en una sola sentencia; por lo tanto, se denominan orientados a conjuntos (\textit{set-oriented}) y declarativos} (p.~40).
+
+\textbf{Lenguaje de Control de Datos (DCL):} proporciona las primitivas de seguridad para gestionar los derechos de acceso de las cuentas de usuario sobre los objetos de la base de datos \parencites[p.~19]{elmasri_navathe}[p.~74]{silberschatz_dbconcepts}.
+
+\textbf{Lenguaje de Control de Transacciones (TCL):} delimita las unidades atómicas de trabajo garantizando que las modificaciones se apliquen de forma permanente o se descarten por completo si ocurre un error \parencite[pp.~175--176]{silberschatz_dbconcepts}.
+
+\subsubsection{Clasificación de los SGBD}
+
+\textbf{Relacionales (RDBMS / SQL):} organizan la información en tablas o relaciones bidimensionales regidas por llaves y álgebra relacional, como PostgreSQL, MySQL, Oracle, etc. \textcite{chen_er_model} demostró que estos modelos derivan limpiamente de las entidades y relaciones del mundo real (pp.~9--11).
+
+\textbf{NoSQL y almacenamiento Big Data:} diseñados para escalabilidad horizontal masiva y esquemas flexibles o semiestructurados \parencite[pp.~51--52]{elmasri_navathe}.
+
+\subsection{Sistema de bases de datos}
+
+Para evitar que los programas de aplicación dependan directamente de la forma en que los datos se almacenan físicamente en el disco, los sistemas de bases de datos modernos separan las aplicaciones de la estructura física subyacente.
+
+\subsubsection{Arquitectura de tres niveles (ANSI/SPARC)}
+
+Propuesta por el comité ANSI/SPARC, esta arquitectura busca aislar las aplicaciones de usuario de los detalles físicos del almacenamiento \parencite[p.~36]{elmasri_navathe}. Como señalan \textcite{elmasri_navathe}, \enquote{el objetivo de la arquitectura de tres esquemas es separar las aplicaciones de usuario de la base de datos física} (p.~37).
+
+\textbf{Nivel interno:} posee un esquema interno que describe la estructura de almacenamiento físico de la base de datos (archivos, métodos de acceso, índices, compresión y ordenamiento de registros) \parencite[p.~37]{elmasri_navathe}.
+
+\textbf{Nivel conceptual:} describe la estructura lógica global de toda la base de datos para la comunidad de usuarios, ocultando los detalles de almacenamiento \parencite[p.~37]{elmasri_navathe}.
+
+\textbf{Nivel externo:} comprende diversos esquemas externos o vistas de usuario. Cada vista describe únicamente la porción de datos de interés para un grupo específico de usuarios, ocultando el resto de la base de datos por razones de simplicidad o seguridad \parencite[p.~37]{elmasri_navathe}.
+
+\subsubsection{Independencia de datos}
+
+La independencia de datos es la capacidad de modificar el esquema en un nivel del sistema sin tener que alterar el esquema del nivel superior ni los programas de aplicación \parencites[pp.~37--38]{elmasri_navathe}[p.~4]{silberschatz_dbconcepts}.
+
+\subsubsection{Arquitectura centralizada}
+
+En este esquema, toda la funcionalidad del sistema se ejecuta en una sola máquina: el procesamiento del SGBD, la ejecución de los programas de aplicación y la lógica de la interfaz de usuario \parencite[pp.~46--47]{elmasri_navathe}. Los usuarios se conectaban originalmente mediante terminales sin capacidad de cómputo que solo mostraban texto e interfaces de pantalla \parencite[p.~46]{elmasri_navathe}.
+
+\subsubsection{Arquitectura cliente-servidor}
+
+Aprovecha la capacidad de cómputo en el extremo del usuario (PC, estaciones de trabajo o dispositivos móviles), dividiendo las cargas de trabajo entre dos o más capas lógicas \parencite[p.~47]{elmasri_navathe}.
+
+\subsection{Modelos de datos}
+
+Un modelo de datos es una colección integrada de conceptos destinados a describir la estructura de una base de datos, incluyendo los tipos de datos, sus relaciones, restricciones semánticas y el conjunto de operaciones básicas de manipulación y consulta. Como señalan \textcite{elmasri_navathe}, \enquote{una característica fundamental del enfoque de bases de datos es que proporciona cierto nivel de abstracción de datos. Un modelo de datos, como una colección de conceptos que pueden utilizarse para describir la estructura de una base de datos, proporciona los medios necesarios para lograr esta abstracción} (p.~32).
+
+\subsubsection{Clasificación por nivel de abstracción}
+
+De acuerdo con \textcite[pp.~33--34]{elmasri_navathe}, los modelos se ordenan en tres categorías según la cercanía que guardan con la percepción humana frente a los dispositivos de almacenamiento:
+
+\textbf{Modelos de datos conceptuales:} emplean conceptos intuitivos muy cercanos a la percepción de los usuarios finales y alejados de los detalles de hardware \parencite[p.~33]{elmasri_navathe}. Sus elementos fundamentales son las entidades (objetos del mundo real), los atributos (propiedades descriptivas) y las relaciones (asociaciones entre entidades) \parencites[p.~11]{chen_er_model}[p.~33]{elmasri_navathe}. El ejemplo canónico es el modelo Entidad-Relación y su extensión EER \parencite[p.~33]{elmasri_navathe}.
+
+\textbf{Modelos de datos de representación o implementación:} se sitúan en un punto intermedio: son comprensibles para los usuarios finales, pero se corresponden directamente con las estructuras organizativas que implementan los motores comerciales. Ocultan los detalles de almacenamiento en sectores de disco, pero representan los datos mediante estructuras de registros o tablas \parencite[p.~33]{elmasri_navathe}.
+
+\textbf{Modelos de datos físicos:} describen cómo se almacenan físicamente los datos en los medios secundarios (discos magnéticos o unidades de estado sólido) \parencite[p.~33]{elmasri_navathe}. Como especifican \textcite{elmasri_navathe}, \enquote{los modelos de datos físicos describen cómo se almacenan los datos como archivos en la computadora representando información como formatos de registro, ordenamiento de registros y rutas de acceso} (p.~34).
