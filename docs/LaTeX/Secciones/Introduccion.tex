@@ -3,11 +3,17 @@
 \section{Introducción}
 \label{sec:introducción}
 
+En la siguiente seccion se abarca la investigación previa para el desarrollo de la base de datos como proyecto final de la materia Bases de Datos, se plantean las bases para el proyecto y el producto esperado de esta investigación.
+
+
+
+\newpage
+
 \subsection{Planteamiento del problema}
 
 Los salones de eventos que ofrecen servicio de banquetes suelen gestionar la toma y el seguimiento de comandas --los pedidos de alimentos y bebidas realizados por cada mesa o por cada invitado durante un evento-- de forma manual, apoyándose en comandas de papel, hojas de cálculo o aplicaciones genéricas que no fueron diseñadas para este giro de negocio. Esta forma de operar genera problemas concretos: la información de los pedidos se duplica o se pierde entre el área de meseros, cocina y caja; no existe un registro histórico confiable de qué se sirvió en cada evento, a qué cliente y a qué costo; el control de existencias de insumos se lleva de manera aproximada, lo que provoca faltantes o compras innecesarias; y la elaboración de la cuenta final de cada evento es lenta y propensa a errores porque depende de conciliar manualmente varias comandas en papel.
 
-Este proyecto retoma y da continuidad a un desarrollo realizado en un semestre anterior, en el que se propuso un primer sistema de comandas de uso general. Sin embargo, aquella versión inicial se apoyaba en un sistema enteramente en C y este unicamente trabajaba con archivos en formato ASCII para almacenar la información, esto causa que dicho sistema tenga relaciones mal definidas, escasa normalización y ausencia de reglas de integridad, lo que dificultaba su mantenimiento y su crecimiento. Por ello, el problema que atiende la presente práctica no es únicamente digitalizar la toma de comandas, sino rediseñar, con una metodología formal de modelado entidad-relación, la base de datos que sustenta dicho sistema, de modo que sea capaz de representar correctamente eventos, clientes, mesas, menús, platillos, insumos, meseros y pagos, garantizando consistencia, integridad y escalabilidad de la información, de esta forma concretar con un sistema profesional y funcional para nuestro proyecto final de la materia de bases de datos.
+Este proyecto retoma y da continuidad a un desarrollo realizado en un semestre anterior, en el que se propuso un primer sistema de comandas de uso general. Sin embargo, aquella versión inicial se apoyaba en un sistema enteramente en C y este unicamente trabajaba con archivos en formato ASCII para almacenar la información, esto causa que dicho sistema tenga relaciones mal definidas, escasa normalización y ausencia de reglas de integridad, lo que dificultaba su mantenimiento y su crecimiento. Por ello, el problema que atiende la presente práctica no es únicamente digitalizar la toma de comandas, sino rediseñar, con una metodología formal de modelado entidad-relación, la base de datos que sustenta dicho sistema, de modo que sea capaz de representar correctamente eventos, clientes, mesas, menús, platillos, insumos, meseros y pagos, garantizando consistencia, integridad y escalabilidad de la información, de esta forma concretar con un sistema profesional y funcional para nuestro proyecto final de la materia de Bases de Datos.
 
 \subsection{Justificación}
 
@@ -31,10 +37,67 @@ Diseñar el modelo entidad-relación de una base de datos para un sistema de com
     \item Justificar las decisiones de diseño del modelo propuesto, explicando cómo cada entidad y relación contribuye a resolver la problemática planteada.
 \end{enumerate}
 
-
 \subsection{Estado del arte}
 
+\begin{table}[H]
+    \centering
+    \footnotesize
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{2.4cm}
+            >{\RaggedRight\arraybackslash}X 
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+        }
+        
+        \toprule
 
+        \textbf{Referencia} & \textbf{Problema y metodología} & \textbf{Resultados principales} & \textbf{Relación con la Unidad Temática I} & \textbf{Relación con el proyecto} \\ 
+        
+        \midrule
+
+        \textcite{aguilar2023} &
+        Los autores realizan una revisión sistemática de la literatura sobre el modelado y la gestión de bases de datos NoSQL. Analizan los procesos de modelado, los diferentes tipos de datos y las herramientas disponibles para su administración. & 
+        Se identifican cuatro modelos principales de bases de datos NoSQL: clave-valor, documentos, columnas y grafos. El modelo orientado a documentos destaca por su flexibilidad y uso frecuente. & 
+        El articulo se relaciona con la unidad temática 1.4, \enquote{Modelos de datos}, al ampliar la clasificación vista en clase. & 
+        Para el sistema de comandas, permite contrastar el uso de NoSQL con el modelo relacional requerido para manejar cuentas, pagos y comandas. \\ 
+
+        \midrule
+
+        \textcite{taipalus2024} &
+        Presenta una revisión de 117 estudios que comparan el desempeño de 44 sistemas gestores de bases de datos. También analiza el rigor metodológico y la posibilidad de reproducir los resultados de dichas comparaciones. & 
+        El estudio señala que existen pocas comparaciones de alto rigor y reproducibilidad entre SGBD. En los estudios analizados, los sistemas NoSQL presentan, en general, un mejor desempeño que los sistemas NewSQL en operaciones de lectura y escritura. & 
+        El articulo se relaciona con la unidad temática 1.2, \enquote{Sistema gestor de base de datos}, especialmente con su clasificación. & 
+        En el proyecto, sirve como referencia para analizar la elección de PostgreSQL considerando no solo el desempeño, sino también las necesidades de transacciones e integridad de los datos. \\
+        
+        \midrule
+        
+        \textcite{machuca2022} &
+        Los autores realizan una revisión de 14 artículos publicados entre 2016 y 2021 para identificar las metodologías más utilizadas en la seguridad de bases de datos. Las fuentes consultadas incluyen IEEE, arXiv, Hindawi y Dialnet, tras la revisión se seleccionaron 14 artículos para ser analizados. & 
+        El control de acceso es la estrategia de seguridad más utilizada en los trabajos revisados, seguido por técnicas de cifrado y mecanismos de protección para bases de datos en la nube. & 
+        Se relaciona con la unidad temática 1.1.1 \enquote{Características de una base de datos}, en concreto Seguridad e Integridad. & 
+        Se relaciona con las características de seguridad e integridad de las bases de datos. Para el sistema de comandas, respalda la implementación de diferentes roles y permisos para usuarios como meseros, personal de cocina, bar y cajeros o administradores. \\ 
+        
+        \bottomrule
+
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Comparación de trabajos relacionados con el proyecto}
+    \label{tab:estado-del-arte}
+\end{table}
+
+\newpage
+
+\subsubsection{Análisis del estado del arte}
+
+Al revisar los tres trabajos, lo primero que se nota es que ninguno propone un sistema nuevo. Los tres son revisiones sistemáticas de literatura, así que su aporte consiste en reunir y ordenar lo que otros autores ya han publicado para mostrar cómo se encuentra cada área. Aunque tratan temas distintos, parten de una preocupación parecida: las aplicaciones actuales manejan datos cada vez más variados, exigen un mejor desempeño y necesitan proteger la información frente a accesos no autorizados. Estos problemas son los mismos que dan sentido a los contenidos de la Unidad Temática I, lo cual indica que conceptos como modelo de datos o sistema gestor de bases de datos siguen siendo el punto de partida para estudiar las tecnologías actuales.
+
+Cada artículo, sin embargo, mira el problema desde un ángulo diferente. \textcite{aguilar2023} se ocupan del modelado y la clasificación de las bases de datos NoSQL, con lo que amplían lo visto en el apartado 1.4, \enquote{Modelos de datos}. \textcite{taipalus2024} compara el desempeño de distintos sistemas gestores, tema que corresponde al apartado 1.2, \enquote{Sistema gestor de base de datos}. Por último, \textcite{machuca2022} revisan las estrategias de seguridad más empleadas, entre ellas el control de acceso, el cifrado y la protección de bases de datos en la nube, y su trabajo se vincula con las características de seguridad e integridad del apartado 1.1.1. Leídos en conjunto, los tres artículos dejan ver que diseñar una base de datos implica bastante más que elegir un modelo o un gestor; también hay que considerar cómo responderá el sistema ante la carga de trabajo y quién podrá consultar o modificar cada dato.
+
+Otro punto en común es que ninguna de las tres áreas cuenta con criterios del todo estandarizados. En NoSQL conviven varios modelos y diversas formas de modelar. En las comparaciones de desempeño, \textcite{taipalus2024} encuentra pocos estudios rigurosos y reproducibles, además de metodologías que varían mucho entre sí. En seguridad tampoco hay un enfoque único que funcione para todos los escenarios. De aquí se desprende que no existe una tecnología de base de datos superior en términos absolutos y que la elección debe partir de las necesidades de cada sistema.
+
+Esta idea orienta las decisiones de diseño de nuestro proyecto. La revisión de \textcite{taipalus2024} reporta diferencias de desempeño importantes entre familias de gestores, con los sistemas NoSQL por encima de los NewSQL en operaciones de lectura y escritura; sin embargo, en un sistema de comandas la velocidad no es el criterio que más pesa. Una comanda duplicada, un pago mal registrado o una cuenta que no cuadra al cierre de un evento afectan directamente la operación del salón y la confianza del cliente. Por esa razón se da prioridad a la integridad y la consistencia de los datos, y PostgreSQL, al ser un gestor relacional con soporte para transacciones y restricciones de integridad, resulta la opción más adecuada. De manera similar, lo reportado por \textcite{machuca2022} respalda la definición de roles y permisos diferenciados, de modo que meseros, personal de cocina y bar, cajeros y administradores accedan solo a la información que les corresponde. En resumen, estos trabajos complementan lo estudiado en la Unidad Temática I y, al mismo tiempo, aportan argumentos concretos para sustentar el diseño del sistema.
 
 \subsection{Productos esperados}
 

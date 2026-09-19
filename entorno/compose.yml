@@ -1,0 +1,35 @@
+# ============================================================
+# Entorno de Base de Datos - PostgreSQL
+# Practica 1 - Bases de Datos (3CV4)
+# ============================================================
+
+services:
+  db:
+    # Imagen del contenedor y nombre del contenedor
+    image: postgres:16.4-alpine
+    container_name: practica1-postgres
+
+    # Reiniciar contenedor a menos que sea detenido
+    restart: unless-stopped
+
+    # Variables de entorno
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-pg-practica1}
+      POSTGRES_USER: ${POSTGRES_USER:-pg-practica1}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-pg-practica1}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+      # Zona horaria del servidor.
+      TZ: America/Mexico_City
+
+    # Puerto publicado: mapea <puerto del host>:<puerto del contenedor>,
+    # de modo que el servidor sea alcanzable desde la maquina anfitriona
+    # (por ejemplo con psql o DBeaver en localhost:5432).
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:  
+  pgdata:
+    name: practica1-pgdata
