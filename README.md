@@ -2,17 +2,21 @@
 
 ---
 
-**Alumnos:** 
-- Adrian Damas Garnica
-- Perez Angeles Angel Gabriel
+**Alumno:** Adrian Damas Garnica
 
-**Boletas:** 
-- 2023630785
-- 2025630794
+**Boleta:** 2023630785
 
 **Grupo:** 3CV4
 
 **Carrera:** Ingenieria en Sistemas Computacionales
+
+**Proyecto Principal:** Sistema de Comandas Profesional
+
+**Proyecto Asignado:** Monitoreo de Obras Públicas
+
+- **Repositorio original:** <https://github.com/gabrielhuav/PublicMunicipalWorks_DWH>
+- **Fork del equipo:** <https://github.com/Actronix09/PublicMunicipalWorks_DWH>
+- **Identificador de la confirmación del fork:** `59a0f9d96f6def17b3f9cb109bc37314a48c2cb6`
 
 ---
 
@@ -20,7 +24,7 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
 
 ---
 
-## Indice General
+## Indice
 
 - [Control de Versiones (Git)](<docs/Control de Versiones.md>)
   - [Sistema Gestor de Versiones](<docs/Control de Versiones.md#sistema-gestor-de-versiones>)
@@ -47,6 +51,15 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
   - [Eliminación del contenedor](<docs/Persistencia del Volumen de Docker.md#eliminación-del-contenedor>)
   - [Verificación de la persistencia](<docs/Persistencia del Volumen de Docker.md#verificación-de-la-persistencia>)
   - [Anexos](<docs/Persistencia del Volumen de Docker.md#anexos>)
+- [Levantamiento del Proyecto Asignado](<docs/Levantamiento.md>)
+  - [Proyecto asignado](<docs/Levantamiento.md#proyecto-asignado>)
+  - [Fork y clonación del repositorio](<docs/Levantamiento.md#fork-y-clonación-del-repositorio>)
+  - [Instrucciones seguidas del README del proyecto](<docs/Levantamiento.md#instrucciones-seguidas-del-readme-del-proyecto>)
+  - [Levantamiento de los contenedores](<docs/Levantamiento.md#levantamiento-de-los-contenedores>)
+  - [Poblado de la base de datos](<docs/Levantamiento.md#poblado-de-la-base-de-datos>)
+  - [Aplicación en funcionamiento](<docs/Levantamiento.md#aplicación-en-funcionamiento>)
+  - [Consultas directas sobre la base de datos](<docs/Levantamiento.md#consultas-directas-sobre-la-base-de-datos>)
+  - [Resultados obtenidos](<docs/Levantamiento.md#resultados-obtenidos>)
 - [Entrevista con el Cliente](<docs/Entrevista.md>)
   - [Eventos y mesas](<docs/Entrevista.md#eventos-y-mesas>)
   - [Menu y productos](<docs/Entrevista.md#menu-y-productos>)
@@ -58,7 +71,7 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
 
 ---  
   
-## Documento de la práctica
+## Documento de Desarrollo
 
 El reporte principal de la práctica se encuentra en:
 
