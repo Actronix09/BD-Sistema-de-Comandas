@@ -2,25 +2,6 @@
 
 ---
 
-## Tabla de Contenidos
-
-- [Sistema Gestor de Versiones](#sistema-gestor-de-versiones)
-  - [Git y GitHub](#git-y-github)
-- [Definiciones](#definiciones)
-  - [Repositorio](#repositorio)
-  - [Confirmación (commit)](#confirmación-commit)
-  - [Rama (branch)](#rama-branch)
-  - [Fusión (merge)](#fusión-merge)
-  - [Conflicto de fusión](#conflicto-de-fusión)
-  - [Solicitud de extracción (Pull Request)](#solicitud-de-extracción-pull-request)
-  - [Archivo `.gitignore`](#archivo-gitignore)
-  - [Archivo `README.md`](#archivo-readmemd)
-- [Flujo de Trabajo Basado en Ramas](#flujo-de-trabajo-basado-en-ramas)
-  - [¿Por qué se revisa el código entre pares antes de fusionar?](#por-qué-se-revisa-el-código-entre-pares-antes-de-fusionar)
-- [Referencias](#referencias)
-
----
-
 ## Sistema Gestor de Versiones
 
 Un sistema de control de versiones es una herramienta que almacena las diferentes versiones de un trabajo o proyecto. Lo que lo distingue del historial de acciones (deshacer/rehacer) de una aplicación convencional es que cada versión no solo guarda el archivo actual, sino todos los archivos del proyecto y los cambios realizados en ellos. Esto permite al usuario regresar a versiones anteriores, compararlas o simplemente consultar qué había en alguna de ellas (Chacon & Straub, 2014).

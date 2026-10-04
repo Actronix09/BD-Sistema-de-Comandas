@@ -2,19 +2,6 @@
 
 ---
 
-## Tabla de Contenidos
-
-- [Estructura de ramas del repositorio](#estructura-de-ramas-del-repositorio)
-- [Pull Requests realizados](#pull-requests-realizados)
-  - [Pull Request #1 — Desarrollo-Parte-2](#pull-request-1--desarrollo-parte-2)
-  - [Pull Request #3 — Caso-de-Estudio](#pull-request-3--caso-de-estudio)
-  - [Pull Request #4 - Desarrollo-Parte-4](#pull-request-4--desarrollo-parte-4)
-  - [Pull Request #5 — ejercicio3](#pull-request-5--ejercicio3)
-  - [Pull Request #6 — Desarrollo-Practico-Parte-1](#pull-request-6--desarrollo-practico-parte-1)
-- [Historial completo del repositorio](#historial-completo-del-repositorio)
-
----
-
 ## Estructura de ramas del repositorio
 
 El trabajo se dividió en ramas independientes creadas a partir de `main`, siguiendo el flujo de trabajo basado en ramas descrito en [Control de Versiones (Git)](<Control de Versiones.md#flujo-de-trabajo-basado-en-ramas>). Cada rama concentra una parte de la práctica y se integra a `main` mediante un Pull Request, nunca con una fusión directa.

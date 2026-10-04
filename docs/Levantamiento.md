@@ -2,19 +2,6 @@
 
 ---
 
-## Tabla de Contenidos
-
-- [Proyecto asignado](#proyecto-asignado)
-- [Fork y clonación del repositorio](#fork-y-clonación-del-repositorio)
-- [Instrucciones seguidas del README del proyecto](#instrucciones-seguidas-del-readme-del-proyecto)
-- [Levantamiento de los contenedores](#levantamiento-de-los-contenedores)
-- [Poblado de la base de datos](#poblado-de-la-base-de-datos)
-- [Aplicación en funcionamiento](#aplicación-en-funcionamiento)
-- [Consultas directas sobre la base de datos](#consultas-directas-sobre-la-base-de-datos)
-- [Resultados obtenidos](#resultados-obtenidos)
-
----
-
 ## Proyecto asignado
 
 El proyecto asignado es **A Dimensional Data Warehouse for Geospatial Monitoring of Municipal Public Works**, un almacén de datos dimensional para el monitoreo geoespacial de obras públicas municipales, acompañado de una API REST de referencia escrita en Flask sobre PostgreSQL.

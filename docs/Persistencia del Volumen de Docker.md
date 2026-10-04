@@ -2,16 +2,6 @@
 
 ---
 
-## Tabla de Contenidos
-
-- [Configuración del entorno](#configuración-del-entorno)
-- [Creación del contenedor y la base de datos](#creación-del-contenedor-y-la-base-de-datos)
-- [Eliminación del contenedor](#eliminación-del-contenedor)
-- [Verificación de la persistencia](#verificación-de-la-persistencia)
-- [Anexos](#anexos)
-
----
-
 ## Configuración del entorno
 
 El servicio se define en el archivo [compose.yml](<../entorno/Configuracion Adrian/compose.yml>). La declaración relevante para esta práctica es el volumen nombrado, montado sobre el directorio donde PostgreSQL guarda su cluster de datos:
