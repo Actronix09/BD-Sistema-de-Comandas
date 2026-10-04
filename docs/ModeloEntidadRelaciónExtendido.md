@@ -19,6 +19,12 @@ En este documento se encuentra documentado el proceso para el desarrollo del mod
   - [Jerarquía de Usuario](#jerarquía-de-usuario)
   - [Lo que el diagrama no puede mostrar](#lo-que-el-diagrama-no-puede-mostrar)
 - [Conceptos del modelo extendido que el caso no necesita](#conceptos-del-modelo-extendido-que-el-caso-no-necesita)
+- [Modelo en notación de Peter Chen](#modelo-en-notación-de-peter-chen)
+- [Justificación](#justificación)
+  - [Por qué las entidades débiles no pueden existir solas](#por-qué-las-entidades-débiles-no-pueden-existir-solas)
+  - [Por qué se eligió esa especialización](#por-qué-se-eligió-esa-especialización)
+  - [Cómo reflejan las cardinalidades las reglas del negocio](#cómo-reflejan-las-cardinalidades-las-reglas-del-negocio)
+  - [Tres consultas que este modelo responde y uno sin extensiones no](#tres-consultas-que-este-modelo-responde-y-uno-sin-extensiones-no)
 
 ---
 
@@ -153,10 +159,9 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
 | **Mesa - Cuenta** | *Tiene* | Una mesa puede tener varias cuentas (grupos de invitados). Esta relación solo dice en qué mesa se abrió la cuenta; quien le da identidad a la cuenta es el evento, no la mesa. | (0,N):(1,1) |
 | **Cuenta - Comanda** | *Genera* | Una cuenta genera varias comandas (rondas) durante el evento. | (0,N):(1,1) |
 | **Mesero - Comanda** | *Levanta* | Un mesero levanta varias comandas; cada comanda la levanta un solo mesero. | (0,N):(1,1) |
-| **Comanda - Producto** | *Referencia* | Cada comanda hace referencia a un producto. | (1,1):(0,N) |
+| **Comanda - Producto** | *Referencia* | Cada comanda hace referencia a un producto. | (1,1):(1,N) |
 | **Cuenta - Pago** | *Recibe* | Una cuenta puede recibir uno o varios pagos. | (0,N):(1,1) |
 | **Evento - Anticipo** | *Recibe* | Un evento puede tener uno o varios anticipos. | (0,N):(1,1) |
-| **Evento - Paquete** | *Incluye* | Registra el paquete contratado por el evento. Se conserva aparte de *Acuerda* porque un paquete puede quedar contratado antes de pactar las cantidades de sus productos. Un paquete puede estar en varios eventos y cada evento puede tener uno o varios paquetes. | (0,N):(0,N) |
 | **Paquete - Producto** | *Incluye* | Contenido base del paquete en el catálogo: qué productos trae en general, sin cantidades. Un paquete incluye uno o varios productos, y un producto puede estar en varios paquetes. No es una lista cerrada: lo que de verdad se pacta en cada evento va en la ternaria *Acuerda*, que puede agregar productos o cambiar cantidades. | (1,N):(0,N) |
 | **Producto - Producto** | *Variante* | Un producto principal puede o no tener una o más variantes; una variante no puede tener más variantes ni tampoco tener más de un producto principal. | (0,N):(0,1)<br>Principal / Variante |
 | **Cajero / Administrador - Pago** | *Maneja* | Un cajero maneja múltiples pagos; un pago solo es manejado por un cajero. | (0,N):(1,1) |
@@ -257,3 +262,59 @@ La **agregación** sirve para relacionar una relación completa con una tercera 
 **Caracterización**
 
 No se ocupa en este caso. Conviene confirmar con el profesor la definición exacta que usa, porque no es un término que aparezca igual en todas las bibliografías.
+
+---
+
+## Modelo en notación de Peter Chen
+
+![Diagrama entidad-relación extendido en notación de Peter Chen](<../modelo/diagrama-eer.png>)
+
+---
+
+## Justificación
+
+### Por qué las entidades débiles no pueden existir solas
+
+Las dos entidades débiles del modelo son Mesa y Cuenta, y las dos dependen de Evento por identificación, que es una dependencia más fuerte que la de existencia.
+
+El número de mesa no está asignado de forma permanente al mobiliario, sino que se decide cuando se monta el salón, y la cantidad de mesas cambia según cuánta gente va a ir a cada evento, entonces la mesa 3 del evento 17 y la mesa 3 del evento 22 no son la misma mesa ni tienen nada que ver entre ellas. Con la cuenta pasa lo mismo porque el secuencial se reinicia en cada evento, entonces decir "la cuenta 10" no identifica nada si no se dice de qué evento se está hablando.
+
+Por eso en los dos casos la clave parcial *el número de mesa y el secuencial* no alcanza por sí sola y hay que completarla con el número de evento, y de ahí sale la clave compuesta (Número de evento, Número de mesa) y (Número de evento, Secuencial). Como la identidad de las dos sale del evento, si se borrara un evento no quedarían mesas ni cuentas huérfanas sino registros que ya no significan nada, y toda dependencia de identificación arrastra también la de existencia.
+
+Vale aclarar que Cuenta se identifica directamente por Evento y no por Mesa, aunque el folio que ve el usuario incluya la mesa. El secuencial cuenta las cuentas de todo el evento sin importar en qué mesa se abrieron, entonces la mesa no aporta nada para distinguir una cuenta de otra y la relación *Tiene* queda como una relación normal que solo registra dónde se abrió la cuenta.
+
+### Por qué se eligió esa especialización
+
+La jerarquía de Usuario quedó **disjunta y total**, y cada restricción responde a una regla distinta del salón.
+
+Es disjunta porque una persona hace un solo trabajo a la vez. Sí puede cambiar de rol con el tiempo, por ejemplo un mesero que después se pasa a caja, pero nunca está en los dos puestos al mismo tiempo, y la restricción de disyunción habla del rol vigente y no impide que alguien migre de un subtipo a otro más adelante.
+
+Además la disyunción sostiene la separación de responsabilidades que ya traía el negocio. Si un usuario pudiera ser mesero y cajero al mismo tiempo, estaría manejando el pago del que sale su propia propina, y podría cancelar las comandas que él mismo levantó. En la entrevista los pedidos se centralizan en caja justamente para tener ese punto de control, entonces ese control solo funciona si el cajero y el mesero son personas distintas, y modelarlo como solapada abriría el hueco que el negocio ya cerró.
+
+Es total porque todos los usuarios del sistema son personal del salón y todos tienen un rol asignado, ya sea mesero, cocina, bar o cajero. Un usuario sin subtipo no tendría permisos ni función en un sistema que separa los accesos por rol, entonces no existe el caso que obligaría a dejarla parcial. El organizador del evento tampoco cuenta aquí porque no es usuario del sistema sino un atributo de Evento.
+
+También conviene aclarar por qué bar y cocina quedaron en un solo subtipo aunque la entrevista los nombre por separado. Los dos tienen exactamente los mismos atributos y participan en las mismas relaciones *los dos preparan comandas*, entonces separarlos daría dos subtipos idénticos, y el atributo `Estación asignada` ya alcanza para distinguir cuál es cuál.
+
+### Cómo reflejan las cardinalidades las reglas del negocio
+
+Lo que de verdad carga la regla de negocio es el **mínimo**, porque el máximo casi siempre es obvio y el mínimo es el que dice si algo es obligatorio u opcional. En el modelo básico de la Práctica 1 solo se podía decir 1:N, entonces no había forma de distinguir entre "tiene que haber uno" y "puede no haber ninguno", y varias reglas del cliente se quedaban fuera.
+
+En **Mesa-Pertenece-Evento (1,1):(1,N)** el (1,1) del lado de la mesa es el que obliga a que toda mesa esté dentro de un evento, que es la regla que sostiene la dependencia de identificación, y el mínimo 1 del lado del evento dice que no hay eventos sin mesas.
+
+En **Mesa-Atiende-Mesero (1,1):(0,N)** el (1,1) dice que ninguna mesa se queda sin responsable, que es lo que permite saber a quién reclamarle y a quién darle la propina, y el 0 del lado del mesero es igual de importante porque un mesero registrado en el sistema puede no traer mesas en un evento determinado. Si ahí se pusiera (1,N) el modelo estaría prohibiendo que exista un mesero que no esté trabajando ese día.
+
+En **Cuenta-Recibe-Pago (0,N):(1,1)** el 0 del lado de la cuenta es el que permite que exista una cuenta abierta todavía sin pagos, que es justo el estado normal durante el evento, y el máximo N permite que la cuenta se liquide con varios pagos cuando los invitados la dividen. Si el mínimo fuera 1 el modelo no podría representar una cuenta abierta, que es la mitad de la operación.
+
+### Tres consultas que este modelo responde y uno sin extensiones no
+
+**1. ¿Cuánto se desvió el consumo real del evento 17 respecto a lo que se acordó de cada producto en cada paquete?**
+
+Esta consulta necesita la relación ternaria *Acuerda*, porque la cantidad pactada no es un dato del paquete ni del evento ni del producto por separado sino de los tres juntos. Con solo las relaciones binarias se sabría qué paquetes contrató el evento y qué productos trae cada paquete en el catálogo, pero no cuántas porciones se acordaron de cada producto para ese evento en concreto, y si el evento contrató dos paquetes que comparten un producto tampoco se sabría cuánto corresponde a cada uno. Es justo el reporte de consumo real contra lo presupuestado que el cliente pidió en la entrevista.
+
+**2. ¿Cuánto acumuló de propinas cada mesero y cuántos pagos manejó cada cajero, sin que se mezclen entre ellos?**
+
+Esta necesita la jerarquía de especialización. Sin ella Usuario sería una sola entidad con un atributo `Rol`, y todas las relaciones colgarían de esa entidad única, entonces nada en el modelo impediría que una propina quedara asignada a alguien de cocina o que una comanda apareciera cancelada por un mesero. El atributo `Rol` sirve para filtrar al consultar, pero no impide que el dato incorrecto se guarde. Al tener *Recibe propina* colgando de Mesero y *Maneja* colgando de Cajero, la separación queda en la estructura y no en la disciplina de quien captura.
+
+**3. ¿Cuántas cuentas se abrieron en la mesa 3 del evento 17 y cuánto consumió cada una?**
+
+Esta depende de las entidades débiles. Si Mesa y Cuenta tuvieran clave propia e independiente, la mesa 3 sería una sola fila compartida por todos los eventos del salón y la pregunta no se podría acotar a un evento, o habría que inventar una numeración global que el salón no usa. Con la dependencia de identificación la mesa 3 del evento 17 es un registro distinto de la mesa 3 de cualquier otro evento, entonces la consulta se puede hacer directo y además queda garantizado que no se mezclan cuentas de eventos distintos.
