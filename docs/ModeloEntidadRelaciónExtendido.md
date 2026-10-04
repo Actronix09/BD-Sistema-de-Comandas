@@ -4,30 +4,6 @@ En este documento se encuentra documentado el proceso para el desarrollo del mod
 
 ---
 
-## Tabla de Contenidos
-
-- [El problema](#el-problema)
-- [Reconsideración de requisitos](#reconsideración-de-requisitos)
-  - [Notación](#notación)
-  - [Entidades y atributos](#entidades-y-atributos)
-- [Relaciones](#relaciones)
-  - [Por qué *Acuerda* es ternaria y *Prepara* no](#por-qué-acuerda-es-ternaria-y-prepara-no)
-  - [Atributos de relación](#atributos-de-relación)
-- [Restricciones](#restricciones)
-  - [Cardinalidades y su regla de negocio](#cardinalidades-y-su-regla-de-negocio)
-  - [Entidades débiles y de qué dependen](#entidades-débiles-y-de-qué-dependen)
-  - [Jerarquía de Usuario](#jerarquía-de-usuario)
-  - [Lo que el diagrama no puede mostrar](#lo-que-el-diagrama-no-puede-mostrar)
-- [Conceptos del modelo extendido que el caso no necesita](#conceptos-del-modelo-extendido-que-el-caso-no-necesita)
-- [Modelo en notación de Peter Chen](#modelo-en-notación-de-peter-chen)
-- [Justificación](#justificación)
-  - [Por qué las entidades débiles no pueden existir solas](#por-qué-las-entidades-débiles-no-pueden-existir-solas)
-  - [Por qué se eligió esa especialización](#por-qué-se-eligió-esa-especialización)
-  - [Cómo reflejan las cardinalidades las reglas del negocio](#cómo-reflejan-las-cardinalidades-las-reglas-del-negocio)
-  - [Tres consultas que este modelo responde y uno sin extensiones no](#tres-consultas-que-este-modelo-responde-y-uno-sin-extensiones-no)
-
----
-
 **Cliente:** Salón de eventos — sistema de comandas
 
 **Contenido:** Requisitos ampliados del caso, entidades y atributos revisados, tabla de relaciones con cardinalidades `(mín,máx)`, entidades débiles, jerarquía de Usuario y restricciones del modelo.
@@ -61,16 +37,16 @@ El modelo del que se parte es el de la práctica anterior:
 
 En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con una etiqueta entre paréntesis después del nombre del atributo o de la entidad:
 
-| Etiqueta | Significado | Color en el diagrama |
-| :-- | :-- | :-- |
-| `(entidad débil)` | Entidad débil | Azul |
-| `(PK)` | Clave primaria | Morado |
-| `(AK)` | Clave alternativa | Naranja |
-| `(clave parcial)` | Clave parcial | Rojo |
-| `(derivado)` | Atributo derivado | Rosa |
-| `(multivaluado)` | Atributo multivaluado | Amarillo |
-| `(opcional)` | Atributo opcional | Verde |
-| `(identificadora)` | Relación identificadora | Cian |
+| Etiqueta | Significado |
+| :-- | :-- |
+| `(entidad débil)` | Entidad débil |
+| `(PK)` | Clave primaria |
+| `(AK)` | Clave alternativa |
+| `(clave parcial)` | Clave parcial |
+| `(derivado)` | Atributo derivado |
+| `(multivaluado)` | Atributo multivaluado |
+| `(opcional)` | Atributo opcional |
+| `(identificadora)` | Relación identificadora |
 
 ### Entidades y atributos
 
