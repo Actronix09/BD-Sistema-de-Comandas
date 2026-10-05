@@ -12,7 +12,6 @@ El proyecto asignado es **A Dimensional Data Warehouse for Geospatial Monitoring
 | Fork del equipo | <https://github.com/Actronix09/PublicMunicipalWorks_DWH> |
 | Rama utilizada | `TestDefinitivo` |
 | Confirmación que se puso en funcionamiento | `59a0f9d96f6def17b3f9cb109bc37314a48c2cb6` |
-| Equipo donde se ejecutó | Adrian Damas Garnica |
 
 El repositorio publica también una demostración estática en GitHub Pages, pero —como indica la práctica— esa demostración **no** se considera evidencia: todo lo documentado aquí se ejecutó localmente sobre los contenedores del propio repositorio.
 
