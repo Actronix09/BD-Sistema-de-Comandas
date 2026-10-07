@@ -1,6 +1,6 @@
 # Práctica 2
 
-**Sitio del proyecto:** <https://actronix09.github.io/practica1-bd/>
+**Sitio del proyecto:** <https://actronix09.github.io/Desarrollo-Proyecto-Final-BD/>
 
 ---
 
