@@ -1,5 +1,7 @@
 # Práctica 2
 
+**Sitio del proyecto:** <https://actronix09.github.io/practica1-bd/>
+
 ---
 
 **Alumno:** Adrian Damas Garnica
