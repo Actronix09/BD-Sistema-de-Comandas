@@ -1,35 +1,513 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ===========================================================
+   Sistema de Comandas Profesional — Práctica 3.1
+   Hoja de estilos del sitio. Sin dependencias externas.
+   =========================================================== */
+
+:root {
+  --fondo: #f7f7f5;
+  --superficie: #ffffff;
+  --borde: #e0ddd6;
+  --texto: #23211d;
+  --texto-suave: #6b665d;
+  --acento: #8a3324;
+  --acento-suave: #f3e6e2;
+  --sombra: 0 1px 2px rgba(35, 33, 29, .06), 0 8px 24px rgba(35, 33, 29, .05);
+  --radio: 10px;
+  --ancho: 68rem;
 }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fondo: #16151b;
+    --superficie: #1e1d24;
+    --borde: #32303a;
+    --texto: #eceaf0;
+    --texto-suave: #a39fae;
+    --acento: #e09080;
+    --acento-suave: #2b2026;
+    --sombra: 0 1px 2px rgba(0, 0, 0, .4), 0 8px 24px rgba(0, 0, 0, .3);
+  }
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
 
 body {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  background: #0f1115;
-  color: #f2f2f2;
-  font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-  padding: 2rem 1rem;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  -webkit-text-size-adjust: 100%;
 }
+
+a { color: var(--acento); }
+
+/* --- Accesibilidad ---------------------------------------- */
+
+.salto {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--acento);
+  color: #fff;
+  padding: .75rem 1rem;
+  z-index: 100;
+}
+.salto:focus { left: 0; }
+
+:focus-visible {
+  outline: 2px solid var(--acento);
+  outline-offset: 3px;
+}
+
+/* --- Barra de navegación ----------------------------------- */
+
+.barra {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .5rem 1.5rem;
+  padding: .75rem 1.5rem;
+  background: color-mix(in srgb, var(--fondo) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--borde);
+}
+
+.barra-marca {
+  font-weight: 650;
+  letter-spacing: -.01em;
+  margin-right: auto;
+}
+
+.barra-enlaces {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.25rem;
+  list-style: none;
+  font-size: .9375rem;
+}
+
+.barra-enlaces a {
+  color: var(--texto-suave);
+  text-decoration: none;
+  padding: .125rem 0;
+  border-bottom: 1px solid transparent;
+}
+
+.barra-enlaces a:hover {
+  color: var(--texto);
+  border-bottom-color: var(--acento);
+}
+
+/* --- Portada ----------------------------------------------- */
+
+.portada {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 4.5rem 1.5rem 3rem;
+}
+
+.eyebrow {
+  font-size: .8125rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin-bottom: 1rem;
+}
+
+.portada h1 {
+  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  line-height: 1.1;
+  letter-spacing: -.025em;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+.lead {
+  font-size: clamp(1.0625rem, 2.2vw, 1.3rem);
+  color: var(--texto-suave);
+  max-width: 44rem;
+  line-height: 1.55;
+}
+
+.sello {
+  display: inline-block;
+  margin-top: 1.75rem;
+  padding: .3rem .85rem;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  background: var(--superficie);
+  font-size: .875rem;
+  color: var(--texto-suave);
+}
+
+/* --- Secciones --------------------------------------------- */
 
 main {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding-inline: 1.5rem;
+}
+
+.seccion {
+  padding-block: 3rem;
+  border-top: 1px solid var(--borde);
+}
+
+.seccion > p,
+.seccion > ul { max-width: 46rem; }
+
+.seccion h2 {
+  font-size: clamp(1.4rem, 3.2vw, 1.85rem);
+  letter-spacing: -.015em;
+  line-height: 1.25;
+  margin-bottom: 1rem;
+}
+
+.seccion-nota {
+  font-size: .8125rem;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  margin: -.65rem 0 1.15rem;
+}
+
+.seccion p + p { margin-top: 1rem; }
+
+.subtitulo {
+  font-size: 1rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--texto-suave);
+  font-weight: 600;
+  margin: 2rem 0 .85rem;
+}
+
+/* --- Tarjetas ---------------------------------------------- */
+
+.tarjeta {
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  padding: 1.5rem;
+  box-shadow: var(--sombra);
+}
+
+.rejilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.enlace-tarjeta {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  transition: transform .15s ease, border-color .15s ease;
+}
+
+.enlace-tarjeta:hover {
+  transform: translateY(-2px);
+  border-color: var(--acento);
+}
+
+.enlace-tarjeta h3 {
+  font-size: 1.0625rem;
+  margin-bottom: .5rem;
+}
+
+.enlace-tarjeta p {
+  font-size: .9375rem;
+  color: var(--texto-suave);
+  margin-bottom: .85rem;
+}
+
+.url {
+  font-size: .8125rem;
+  color: var(--acento);
+  word-break: break-all;
+}
+
+/* --- Integrante -------------------------------------------- */
+
+.persona { max-width: 36rem; }
+
+.persona-nombre {
+  font-size: 1.25rem;
+  font-weight: 650;
+  margin-bottom: 1rem;
+}
+
+.persona-datos {
+  display: grid;
+  gap: .4rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--borde);
+}
+
+.persona-datos > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  font-size: .9375rem;
+}
+
+.persona-datos dt {
+  color: var(--texto-suave);
+  min-width: 5.5rem;
+}
+
+.persona-rol {
+  font-size: .9375rem;
+  color: var(--texto-suave);
+}
+
+/* --- Lista del problema ------------------------------------ */
+
+.lista-problemas {
+  margin: .85rem 0 0 0;
+  padding-left: 1.1rem;
+  list-style: none;
+}
+
+.lista-problemas li {
+  position: relative;
+  padding-left: .55rem;
+  margin-bottom: .5rem;
+}
+
+.lista-problemas li::before {
+  content: "—";
+  position: absolute;
+  left: -1.1rem;
+  color: var(--acento);
+}
+
+/* --- Figura del diagrama ----------------------------------- */
+
+.figura {
+  margin-top: 1.75rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  box-shadow: var(--sombra);
+}
+
+/* El diagrama está dibujado sobre blanco: su lienzo se queda
+   blanco también en modo oscuro, para que no quede recortado. */
+.lienzo {
+  overflow-x: auto;
+  overflow-y: hidden;
+  background: #ffffff;
+  padding: 1rem;
+}
+
+.lienzo img {
+  display: block;
+  height: 420px;
+  width: auto;
+  max-width: none;
+  cursor: zoom-in;
+}
+
+figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+  padding: .85rem 1rem;
+  background: var(--superficie);
+  border-top: 1px solid var(--borde);
+  font-size: .875rem;
+  color: var(--texto-suave);
+}
+
+.boton {
+  font: inherit;
+  font-size: .875rem;
+  padding: .45rem .9rem;
+  border: 1px solid var(--borde);
+  border-radius: 7px;
+  background: var(--fondo);
+  color: var(--texto);
+  cursor: pointer;
+}
+
+.boton:hover { border-color: var(--acento); color: var(--acento); }
+
+.pie-enlace {
+  margin-top: 1rem;
+  font-size: .9375rem;
+  color: var(--texto-suave);
+}
+
+/* --- Sección pendiente ------------------------------------- */
+
+.pendiente {
+  margin-top: 1.5rem;
+  max-width: 46rem;
+  padding: 1.75rem;
+  border: 2px dashed var(--borde);
+  border-radius: var(--radio);
+  background: var(--acento-suave);
+}
+
+.pendiente-etiqueta {
+  display: inline-block;
+  margin-bottom: .85rem;
+  padding: .2rem .7rem;
+  border-radius: 999px;
+  background: var(--acento);
+  color: #fff;
+  font-size: .75rem;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.pendiente-detalle {
+  margin-top: 1rem;
+  font-size: .9375rem;
+  color: var(--texto-suave);
+}
+
+/* --- Índice de documentos ---------------------------------- */
+
+.indice { list-style: none; }
+
+.indice li {
+  padding: .7rem 0;
+  border-bottom: 1px solid var(--borde);
+}
+
+.indice a {
+  font-weight: 550;
+  text-decoration: none;
+}
+
+.indice a:hover { text-decoration: underline; }
+
+.indice span {
+  display: block;
+  font-size: .9375rem;
+  color: var(--texto-suave);
+}
+
+/* --- Pie de página ----------------------------------------- */
+
+.pie {
+  max-width: var(--ancho);
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem 3.5rem;
+  border-top: 1px solid var(--borde);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  font-size: .875rem;
+  color: var(--texto-suave);
+}
+
+.pie-texto p + p { margin-top: .25rem; }
+
+.pie code {
+  font-size: .875em;
+  padding: .1rem .3rem;
+  border-radius: 4px;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+}
+
+.pie-video {
+  width: 84px;
+  border-radius: 8px;
+  display: block;
+  opacity: .85;
+}
+
+/* --- Visor de diagramas ------------------------------------ */
+
+.visor {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  background: rgba(10, 10, 12, .92);
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
 }
 
-h1 {
-  font-size: clamp(2rem, 8vw, 3.5rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  text-align: center;
+/* El atributo hidden del navegador aplica display:none, pero la
+   regla de arriba lo gana por especificidad: hay que repetirlo
+   aquí o el visor se queda encima de la página. */
+.visor[hidden] { display: none; }
+
+.visor-lienzo {
+  flex: 1;
+  overflow: auto;
+  cursor: grab;
+  background: #ffffff;
 }
 
-video {
-  width: min(320px, 80vw);
-  border-radius: 12px;
+.visor-lienzo.arrastrando { cursor: grabbing; }
+
+.visor-lienzo img {
   display: block;
+  height: 100%;
+  width: auto;
+  max-width: none;
+}
+
+.visor-cerrar {
+  position: absolute;
+  top: .75rem;
+  right: .75rem;
+  z-index: 2;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: none;
+  border-radius: 50%;
+  background: rgba(10, 10, 12, .75);
+  color: #fff;
+  font-size: 1.6rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.visor-ayuda {
+  padding: .75rem 1rem;
+  text-align: center;
+  color: #cfcdd4;
+  font-size: .8125rem;
+}
+
+.visor kbd {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .9em;
+  padding: .05rem .35rem;
+  border: 1px solid #55525c;
+  border-radius: 4px;
+}
+
+body.visor-abierto { overflow: hidden; }
+
+/* --- Teléfono ---------------------------------------------- */
+
+@media (max-width: 40rem) {
+  .portada { padding-top: 3rem; }
+  .lienzo img { height: 300px; }
+  .pie { align-items: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .enlace-tarjeta { transition: none; }
 }
