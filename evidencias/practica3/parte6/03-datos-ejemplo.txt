@@ -1,0 +1,20 @@
+$ psql -v ON_ERROR_STOP=1 -U pg-practica1 -d comandas -f sql/datos-ejemplo.sql
+BEGIN
+INSERT 0 5
+INSERT 0 2
+INSERT 0 2
+INSERT 0 1
+INSERT 0 4
+INSERT 0 5
+INSERT 0 2
+INSERT 0 3
+INSERT 0 1
+INSERT 0 2
+INSERT 0 4
+INSERT 0 1
+INSERT 0 3
+INSERT 0 3
+INSERT 0 4
+INSERT 0 1
+COMMIT
+Código de salida: 0

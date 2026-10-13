@@ -1,0 +1,56 @@
+$ psql -U pg-practica1 -d comandas -f sql/inserts-rechazados.sql
+--- 1. Mesa de un evento que no existe (FK, Regla 8: la mesa no existe sin su evento)
+psql:/tmp/inserts-rechazados.sql:16: ERROR:  insert or update on table "mesa" violates foreign key constraint "fk_mesa_evento"
+DETAIL:  Key (numero_evento)=(99) is not present in table "evento".
+--- 2. Mesa 1 repetida en el evento 17 (PK compuesta, Regla 8: clave parcial + evento)
+psql:/tmp/inserts-rechazados.sql:19: ERROR:  duplicate key value violates unique constraint "pk_mesa"
+DETAIL:  Key (numero_evento, numero_mesa)=(17, 1) already exists.
+--- 3. Mesa sin mesero (NOT NULL, Regla 4: Atiende es (1,1) del lado de la mesa)
+psql:/tmp/inserts-rechazados.sql:22: ERROR:  null value in column "id_mesero" of relation "mesa" violates not-null constraint
+DETAIL:  Failing row contains (17, 4, null).
+--- 4. Cuenta del evento 17 abierta en una mesa que no está en ese evento (FK compuesta)
+psql:/tmp/inserts-rechazados.sql:25: ERROR:  insert or update on table "cuenta" violates foreign key constraint "fk_cuenta_mesa"
+DETAIL:  Key (numero_evento, numero_mesa)=(17, 8) is not present in table "mesa".
+--- 5. Propina para un usuario que es cajero, no mesero (FK al subtipo, Regla 9)
+psql:/tmp/inserts-rechazados.sql:29: ERROR:  insert or update on table "pago" violates foreign key constraint "fk_pago_mesero_propina"
+DETAIL:  Key (id_mesero_propina)=(5) is not present in table "mesero".
+--- 6. Registrar como mesero a un usuario cuyo rol es cajero_admin (disyunción, Regla 9)
+psql:/tmp/inserts-rechazados.sql:32: ERROR:  insert or update on table "mesero" violates foreign key constraint "fk_mesero_usuario"
+DETAIL:  Key (id_usuario, rol)=(5, mesero) is not present in table "usuario".
+--- 7. Usuario sin fila en su subtipo (especialización total, se revisa al COMMIT)
+BEGIN
+INSERT 0 1
+psql:/tmp/inserts-rechazados.sql:38: ERROR:  el usuario 6 tiene rol "mesero" pero no tiene fila en ese subtipo
+HINT:  La especialización de Usuario es total: inserte también la fila del subtipo en la misma transacción.
+CONTEXT:  PL/pgSQL function verificar_especializacion_total() line 15 at RAISE
+--- 8. Nombre de usuario repetido (UNIQUE, clave alternativa de Usuario)
+psql:/tmp/inserts-rechazados.sql:42: ERROR:  duplicate key value violates unique constraint "uq_usuario_usuario"
+DETAIL:  Key (usuario)=(lmendez) already exists.
+--- 9. Pago con monto cero (CHECK monto > 0)
+psql:/tmp/inserts-rechazados.sql:46: ERROR:  new row for relation "pago" violates check constraint "ck_pago_monto"
+DETAIL:  Failing row contains (6, 0.00, efectivo, 2026-10-13 10:17:52.291582-06, 13, 10, 2026, 10:17:52, 17, 2, 5, null, null).
+--- 10. Propina con mesero pero sin monto (CHECK: el atributo viaja con la relación)
+psql:/tmp/inserts-rechazados.sql:50: ERROR:  new row for relation "pago" violates check constraint "ck_pago_propina_completa"
+DETAIL:  Failing row contains (7, 150.00, efectivo, 2026-10-13 10:17:52.291881-06, 13, 10, 2026, 10:17:52, 17, 2, 5, 1, null).
+--- 11. Comanda marcada como cancelada sin cajero que la cancele (CHECK de Cancela)
+psql:/tmp/inserts-rechazados.sql:54: ERROR:  new row for relation "comanda" violates check constraint "ck_comanda_cancelacion"
+DETAIL:  Failing row contains (6, 2026-10-13 10:17:52.292252-06, 13, 10, 2026, 10:17:52, 35.00, cancelada, null, 17, 2, 1, 1, null, null).
+--- 12. Variante de una variante (disparador: la relación Variante tiene un solo nivel)
+psql:/tmp/inserts-rechazados.sql:58: ERROR:  el producto 2 es una variante y no puede tener variantes
+CONTEXT:  PL/pgSQL function verificar_variante_un_nivel() line 9 at RAISE
+--- 13. Mismo producto del mismo paquete acordado dos veces para el evento (PK de la ternaria, Regla 7)
+psql:/tmp/inserts-rechazados.sql:61: ERROR:  duplicate key value violates unique constraint "pk_acuerdo"
+DETAIL:  Key (numero_evento, numero_paquete, id_producto)=(17, 1, 1) already exists.
+--- 14. Cambiar el precio cobrado de una comanda ya levantada (disparador)
+psql:/tmp/inserts-rechazados.sql:64: ERROR:  el precio cobrado de la comanda 1 ya quedó fijado y no se puede modificar
+CONTEXT:  PL/pgSQL function fijar_precio_cobrado() line 8 at RAISE
+--- 15. Borrar el evento 17, que ya tiene anticipo, comandas y pagos (RESTRICT protege el historial)
+psql:/tmp/inserts-rechazados.sql:67: ERROR:  update or delete on table "evento" violates foreign key constraint "fk_anticipo_evento" on table "anticipo"
+DETAIL:  Key (numero_evento)=(17) is still referenced from table "anticipo".
+
+$ psql -U pg-practica1 -d comandas -c "<conteo de filas después de los rechazos>"
+ usuarios | meseros | mesas | cuentas | comandas | pagos | productos | acuerdos | eventos 
+----------+---------+-------+---------+----------+-------+-----------+----------+---------
+        5 |       2 |     3 |       3 |        4 |     1 |         4 |        4 |       1
+(1 row)
+
