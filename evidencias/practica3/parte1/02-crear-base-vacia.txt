@@ -1,0 +1,11 @@
+$ docker exec practica1-postgres createdb -U pg-practica1 -E UTF8 comandas
+(sin salida: base creada)
+
+$ docker exec practica1-postgres psql -U pg-practica1 -d comandas -c '\l comandas' -c '\dt'
+                                                  List of databases
+   Name   |    Owner     | Encoding | Locale Provider | Collate | Ctype | ICU Locale | ICU Rules | Access privileges 
+----------+--------------+----------+-----------------+---------+-------+------------+-----------+-------------------
+ comandas | pg-practica1 | UTF8     | libc            | C       | C     |            |           | 
+(1 row)
+
+Did not find any relations.

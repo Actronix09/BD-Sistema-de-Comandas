@@ -1,0 +1,30 @@
+$ cd PublicMunicipalWorks_DWH
+$ docker compose -f docker/compose.yml up -d db
+ Container obras-publicas-db-1 Starting 
+ Container obras-publicas-db-1 Started 
+ Container obras-publicas-db-1 Waiting 
+ Container obras-publicas-db-1 Healthy 
+
+$ docker ps --filter name=obras-publicas-db
+NAMES                 IMAGE                STATUS                   PORTS
+obras-publicas-db-1   postgres:16-alpine   Up 5 seconds (healthy)   0.0.0.0:55432->5432/tcp, [::]:55432->5432/tcp
+
+$ docker compose -f docker/compose.yml exec db psql -U obras -d obras_publicas -c "\dn" -c "<conteo de tablas por esquema>"
+        List of schemas
+   Name    |       Owner       
+-----------+-------------------
+ public    | pg_database_owner
+ warehouse | obras
+(2 rows)
+
+  esquema  | tablas 
+-----------+--------
+ public    |     19
+ warehouse |     15
+(2 rows)
+
+ obras | eventos_auditoria 
+-------+-------------------
+  1247 |             55740
+(1 row)
+

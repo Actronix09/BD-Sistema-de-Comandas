@@ -1,0 +1,9 @@
+$ git branch --show-current
+Practica3-Parte1-Entorno
+
+$ docker compose -f entorno/compose.yml up -d
+ Container practica1-postgres Running 
+
+$ docker ps --filter name=practica1-postgres
+NAMES                IMAGE                  STATUS         PORTS
+practica1-postgres   postgres:16.4-alpine   Up 7 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
