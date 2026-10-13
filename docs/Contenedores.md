@@ -2,20 +2,6 @@
 
 ---
 
-## Tabla de Contenidos
-
-- [Diferencias entre contenedor y maquina virtual](#diferencias-entre-contenedor-y-maquina-virtual)
-- [Imagen](#imagen)
-- [Contenedor](#contenedor)
-- [Volumen](#volumen)
-- [Puerto publicado](#puerto-publicado)
-- [Respecto a un volumen](#respecto-a-un-volumen)
-  - [¿Por qué es indispensable?](#por-qué-es-indispensable)
-  - [¿Qué ocurre si no se declara?](#qué-ocurre-si-no-se-declara)
-- [Referencias](#referencias)
-
----
-
 Los contenedores son "recipientes" donde hay una o multiples instacias instaladas, en estos contenedores nos permiten compartir proyectos entre equipos evitando la incompatibilidad de sistemas, ya que los contenedores ya tienen las configuraciones necesarias para cada proyecto y estas pueden ser compartidas entre usuarios.
 
 ## Diferencias entre contenedor y maquina virtual

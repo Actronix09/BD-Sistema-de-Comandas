@@ -2,18 +2,6 @@
 
 ---
 
-## Tabla de Contenidos
-
-- [Eventos y mesas](#eventos-y-mesas)
-- [Menu y productos](#menu-y-productos)
-- [Flujo de comandas](#flujo-de-comandas)
-- [Cobros y pagos](#cobros-y-pagos)
-- [Roles y permisos](#roles-y-permisos)
-- [Reportes](#reportes)
-- [Operacion y escalabilidad](#operacion-y-escalabilidad)
-
----
-
 Documento de trabajo para levantar los requerimientos del primer cliente del sistema de comandas: un salon de eventos. Las respuestas capturadas aqui se vaciaron despues en `docs/LaTeX/Secciones/CasoDeEstudio.tex`.
 
 ---
