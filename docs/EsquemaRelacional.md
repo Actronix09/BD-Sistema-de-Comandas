@@ -19,7 +19,7 @@ En este documento se presenta el resultado de la transformación del modelo EER 
 | [`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) | 15 instrucciones que violan una restricción cada una |
 | [`modelo/diagrama-relacional.png`](<../modelo/diagrama-relacional.png>) | Diagrama relacional |
 | [`modelo/diagrama-relacional.dbml`](<../modelo/diagrama-relacional.dbml>) | El mismo esquema en DBML, para abrirlo en dbdiagram.io o ChartDB |
-| [`evidencias/practica3/parte6/`](<../evidencias/practica3/parte6>) | Salidas completas de cada ejecución |
+| [`evidencias/practica3/parte6/`](<../evidencias/practica3/parte6>) | Capturas de cada ejecución |
 
 ---
 
@@ -168,7 +168,7 @@ Código de salida: 0
 | `COMMENT` | 105 |
 | `ERROR` | 0 |
 
-Salida completa: [`01-ejecucion-esquema.txt`](<../evidencias/practica3/parte6/01-ejecucion-esquema.txt>)
+![Final de la ejecución de esquema.sql: los COMMENT, el COMMIT y el código de salida 0](<../evidencias/practica3/parte6/01 - Ejecución del esquema.sql.png>)
 
 ### Listado de tablas creadas
 
@@ -209,11 +209,13 @@ docker exec practica1-postgres psql -U pg-practica1 -d comandas -c '\dt' -c '\dv
 (5 rows)
 ```
 
-Salida completa, con el conteo de restricciones por tabla: [`02-listado-tablas.txt`](<../evidencias/practica3/parte6/02-listado-tablas.txt>)
+![Listado de las 16 tablas y las 5 vistas creadas en la base comandas](<../evidencias/practica3/parte6/02 - Listado de tablas creadas.png>)
 
 ### Datos de ejemplo
 
-Para que los rechazos se puedan probar hacen falta filas válidas contra las cuales chocar. [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) carga el evento 17 (una boda de 180 invitados) con dos organizadores, tres mesas, tres cuentas, dos paquetes acordados, cuatro comandas en estados distintos y un pago con propina. Se ejecutó también con `ON_ERROR_STOP=1` y terminó con código 0 ([`03-datos-ejemplo.txt`](<../evidencias/practica3/parte6/03-datos-ejemplo.txt>)).
+Para que los rechazos se puedan probar hacen falta filas válidas contra las cuales chocar. [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) carga el evento 17 (una boda de 180 invitados) con dos organizadores, tres mesas, tres cuentas, dos paquetes acordados, cuatro comandas en estados distintos y un pago con propina. Se ejecutó también con `ON_ERROR_STOP=1` y terminó con código 0.
+
+![Carga de datos-ejemplo.sql: los INSERT dentro de la transacción, el COMMIT y el código de salida 0](<../evidencias/practica3/parte6/03 - Carga de datos de ejemplo.png>)
 
 Con esos datos, las vistas calculan los atributos derivados y las columnas generadas se llenan solas:
 
@@ -231,6 +233,8 @@ Con esos datos, las vistas calculan los atributos derivados y las columnas gener
 ```bash
 docker exec practica1-postgres psql -U pg-practica1 -d comandas -f /tmp/inserts-rechazados.sql
 ```
+
+![Ejecución de inserts-rechazados.sql con los 15 mensajes de error del gestor](<../evidencias/practica3/parte6/04 - INSERT rechazados.png>)
 
 Las 15 fueron rechazadas. Los tres casos centrales del modelo:
 
@@ -296,7 +300,7 @@ Después de las 15 instrucciones, el conteo de filas es el mismo que dejó `dato
         5 |       2 |     3 |       3 |        4 |     1 |         4 |        4 |       1
 ```
 
-Salida completa, con los 15 mensajes de error: [`04-inserts-rechazados.txt`](<../evidencias/practica3/parte6/04-inserts-rechazados.txt>)
+![Conteo de usuarios, mesas, cuentas, comandas y pagos después de los rechazos, igual al que dejaron los datos de ejemplo](<../evidencias/practica3/parte6/05 - Conteo tras los rechazos.png>)
 
 ---
 
@@ -409,4 +413,6 @@ Las 16 relaciones están en el esquema, y las 24 claves foráneas se explican co
 
 ### Lo que no se preservó
 
-Solo una regla del modelo EER se pierde en el esquema: **cambiar el rol de un usuario conservando lo que registró con el rol anterior**. La disyunción declarativa lo impide (se intentó `UPDATE usuario SET rol = 'cajero_admin' WHERE id_usuario = 2` y el gestor lo rechazó por `fk_mesero_usuario`, ver [`05-cambio-de-rol.txt`](<../evidencias/practica3/parte6/05-cambio-de-rol.txt>)). Se aceptó esa pérdida para conservar la separación de responsabilidades, y la alternativa, una tabla de historial de roles, quedó documentada en [Reglas de Transformación](<ReglasDeTransformacion.md#lo-que-se-sacrifica-el-cambio-de-rol>).
+Solo una regla del modelo EER se pierde en el esquema: **cambiar el rol de un usuario conservando lo que registró con el rol anterior**. La disyunción declarativa lo impide (se intentó `UPDATE usuario SET rol = 'cajero_admin' WHERE id_usuario = 2` y el gestor lo rechazó por `fk_mesero_usuario`). Se aceptó esa pérdida para conservar la separación de responsabilidades, y la alternativa, una tabla de historial de roles, quedó documentada en [Reglas de Transformación](<ReglasDeTransformacion.md#lo-que-se-sacrifica-el-cambio-de-rol>).
+
+![Intento de cambiar el rol del usuario 2 a cajero_admin, rechazado por fk_mesero_usuario](<../evidencias/practica3/parte6/06 - Cambio de rol rechazado.png>)
