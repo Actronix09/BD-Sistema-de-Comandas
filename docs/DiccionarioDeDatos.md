@@ -25,25 +25,6 @@ En este documento se describe cada columna de las tablas resultantes de la trans
 
 Los `CHECK` que involucran varias columnas aparecen en cada una de ellas.
 
-## Índice
-
-- [evento](#evento) — Evento atendido en el salón (entidad fuerte).
-- [evento_organizador](#evento_organizador) — Organizadores o clientes de un evento (atributo multivaluado de Evento).
-- [usuario](#usuario) — Personal del salón que usa el sistema (supertipo de la jerarquía).
-- [mesero](#mesero) — Subtipo Mesero de Usuario.
-- [bar_cocina](#bar_cocina) — Subtipo Bar/Cocina de Usuario.
-- [cajero_admin](#cajero_admin) — Subtipo Cajero/Administrador de Usuario.
-- [mesa](#mesa) — Mesa montada para un evento (entidad débil de Evento).
-- [cuenta](#cuenta) — Cuenta de un grupo de invitados (entidad débil de Evento).
-- [producto](#producto) — Producto del menú (entidad fuerte).
-- [producto_ingrediente](#producto_ingrediente) — Ingredientes de un producto (atributo multivaluado de Producto).
-- [paquete](#paquete) — Paquete contratable del catálogo (entidad fuerte).
-- [paquete_producto](#paquete_producto) — Contenido base de cada paquete (relación Incluye, muchos a muchos).
-- [acuerdo](#acuerdo) — Lo pactado de cada producto de cada paquete para un evento (relación ternaria Acuerda).
-- [comanda](#comanda) — Pedido de un producto levantado por un mesero (entidad fuerte).
-- [pago](#pago) — Pago recibido sobre una cuenta (entidad fuerte).
-- [anticipo](#anticipo) — Anticipo pagado a cuenta de un evento (entidad fuerte).
-
 ---
 
 ## evento

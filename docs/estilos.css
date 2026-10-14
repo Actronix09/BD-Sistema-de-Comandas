@@ -1,5 +1,5 @@
 /* ===========================================================
-   Sistema de Comandas Profesional — Práctica 3.1
+   Sistema de Comandas Profesional — Práctica 3
    Hoja de estilos del sitio. Sin dependencias externas.
    =========================================================== */
 
@@ -264,9 +264,10 @@ main {
   min-width: 5.5rem;
 }
 
-.persona-rol {
-  font-size: .9375rem;
-  color: var(--texto-suave);
+.persona-datos:last-child {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
 }
 
 /* --- Lista del problema ------------------------------------ */
@@ -317,6 +318,15 @@ main {
   cursor: zoom-in;
 }
 
+/* El diagrama relacional es casi cuadrado: con altura fija quedaría
+   diminuto, así que ocupa todo el ancho y el detalle se ve en el visor. */
+.lienzo.lienzo-ajustado { overflow: hidden; }
+
+.lienzo.lienzo-ajustado img {
+  width: 100%;
+  height: auto;
+}
+
 figcaption {
   display: flex;
   flex-wrap: wrap;
@@ -349,34 +359,54 @@ figcaption {
   color: var(--texto-suave);
 }
 
-/* --- Sección pendiente ------------------------------------- */
+/* --- Esquema relacional ------------------------------------ */
 
-.pendiente {
+.cifras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
   margin-top: 1.5rem;
-  max-width: 46rem;
-  padding: 1.75rem;
-  border: 2px dashed var(--borde);
+  list-style: none;
+}
+
+.cifras li {
+  padding: .6rem 1.1rem;
+  border: 1px solid var(--borde);
   border-radius: var(--radio);
-  background: var(--acento-suave);
-}
-
-.pendiente-etiqueta {
-  display: inline-block;
-  margin-bottom: .85rem;
-  padding: .2rem .7rem;
-  border-radius: 999px;
-  background: var(--acento);
-  color: #fff;
-  font-size: .75rem;
-  letter-spacing: .09em;
-  text-transform: uppercase;
-  font-weight: 600;
-}
-
-.pendiente-detalle {
-  margin-top: 1rem;
+  background: var(--superficie);
   font-size: .9375rem;
   color: var(--texto-suave);
+}
+
+.cifras strong {
+  display: block;
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--acento);
+}
+
+/* Cuatro tarjetas: en dos columnas no queda una sola en la última fila. */
+.decisiones {
+  grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+}
+
+.decision h3 {
+  font-size: 1.0625rem;
+  margin-bottom: .5rem;
+}
+
+.decision p {
+  font-size: .9375rem;
+  color: var(--texto-suave);
+}
+
+.seccion code,
+figcaption code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .875em;
+  padding: .05rem .3rem;
+  border-radius: 4px;
+  background: var(--acento-suave);
 }
 
 /* --- Índice de documentos ---------------------------------- */
@@ -465,6 +495,10 @@ figcaption {
   width: auto;
   max-width: none;
 }
+
+/* Diagramas marcados con data-natural: se abren a su tamaño real
+   y se recorren en ambos sentidos. */
+.visor-lienzo.natural img { height: auto; }
 
 .visor-cerrar {
   position: absolute;

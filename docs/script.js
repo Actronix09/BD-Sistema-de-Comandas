@@ -20,9 +20,12 @@
 
   /* --- Abrir y cerrar ------------------------------------- */
 
-  function abrir(ruta, descripcion) {
+  function abrir(ruta, descripcion, natural) {
     imagen.src = ruta;
     imagen.alt = descripcion || 'Diagrama en tamaño completo';
+    lienzo.classList.toggle('natural', natural);
+    lienzo.scrollLeft = 0;
+    lienzo.scrollTop = 0;
     visor.hidden = false;
     document.body.classList.add('visor-abierto');
     cerrar.focus();
@@ -36,17 +39,19 @@
 
   /* Cualquier imagen con data-completa y cualquier botón con
      data-abrir disparan el visor. Así se pueden agregar más
-     diagramas sin tocar este archivo. */
+     diagramas sin tocar este archivo. Con data-natural el
+     diagrama se abre a su tamaño real en vez de a la altura de
+     la pantalla, para los que no son tan anchos. */
 
   document.querySelectorAll('img[data-completa]').forEach(function (img) {
     img.addEventListener('click', function () {
-      abrir(img.dataset.completa, img.alt);
+      abrir(img.dataset.completa, img.alt, 'natural' in img.dataset);
     });
   });
 
   document.querySelectorAll('[data-abrir]').forEach(function (boton) {
     boton.addEventListener('click', function () {
-      abrir(boton.dataset.abrir);
+      abrir(boton.dataset.abrir, undefined, 'natural' in boton.dataset);
     });
   });
 
