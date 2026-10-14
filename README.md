@@ -1,4 +1,5 @@
-# Práctica 2
+# Desarrollo de Proyecto Final de Bases de Datos
+## Sistema de Comandas Profesional
 
 **Sitio del proyecto:** <https://actronix09.github.io/Desarrollo-Proyecto-Final-BD/>
 
