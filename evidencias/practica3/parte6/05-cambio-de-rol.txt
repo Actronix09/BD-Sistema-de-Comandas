@@ -1,3 +1,0 @@
-$ psql -U pg-practica1 -d comandas -c "UPDATE usuario SET rol = 'cajero_admin' WHERE id_usuario = 2;"
-ERROR:  update or delete on table "usuario" violates foreign key constraint "fk_mesero_usuario" on table "mesero"
-DETAIL:  Key (id_usuario, rol)=(2, mesero) is still referenced from table "mesero".
