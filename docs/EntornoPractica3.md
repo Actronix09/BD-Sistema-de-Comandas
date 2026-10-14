@@ -1,14 +1,12 @@
 # Entorno de Trabajo de la Práctica 3
 
-En este documento se registra cómo se preparó el entorno para la Práctica 3: la rama de trabajo, el gestor de bases de datos levantado con el `compose.yml` del repositorio, la base de datos vacía donde se ejecuta el esquema relacional y la base del proyecto asignado que se usa en las Partes 7 y 8.
+En este documento se registra cómo se preparó el entorno para la Práctica 3: la rama de trabajo, el gestor de bases de datos levantado con el `compose.yml` del repositorio y la base de datos vacía donde se ejecuta el esquema relacional.
 
 ---
 
-**Proyecto principal:** Sistema de Comandas Profesional
+**Proyecto:** Sistema de Comandas Profesional
 
-**Proyecto asignado:** Monitoreo de Obras Públicas (`PublicMunicipalWorks_DWH`)
-
-**Contenido:** Rama `practica3` y ramas por sección, levantamiento de PostgreSQL con `entorno/compose.yml`, creación de la base vacía `comandas` y levantamiento de la base `obras_publicas` del proyecto asignado.
+**Contenido:** Rama `practica3` y ramas por sección, levantamiento de PostgreSQL con `entorno/compose.yml` y creación de la base vacía `comandas`.
 
 ---
 
@@ -80,43 +78,3 @@ Did not find any relations.
 Salida completa: [`02-crear-base-vacia.txt`](<../evidencias/practica3/parte1/02-crear-base-vacia.txt>)
 
 Sobre esta base se ejecuta `sql/esquema.sql`. La ejecución, el listado de tablas y los `INSERT` rechazados están documentados en la Parte 6, [Esquema Relacional](<EsquemaRelacional.md>).
-
-## Base de datos del proyecto asignado
-
-Para las Partes 7 y 8 se levantó también la base del proyecto asignado desde el fork clonado en la Práctica 2 (ver [Levantamiento del Proyecto Asignado](<Levantamiento.md>)). Solo hace falta el servicio `db`; la API no se usa en esta práctica. Su volumen `obras-publicas_datos` ya estaba poblado desde la práctica anterior, así que no se vuelve a ejecutar el servicio `seed`.
-
-```bash
-cd PublicMunicipalWorks_DWH
-docker compose -f docker/compose.yml up -d --wait db
-docker compose -f docker/compose.yml exec db psql -U obras -d obras_publicas
-```
-
-```
- Container obras-publicas-db-1 Started
- Container obras-publicas-db-1 Healthy
-
-NAMES                 IMAGE                STATUS                   PORTS
-obras-publicas-db-1   postgres:16-alpine   Up 5 seconds (healthy)   0.0.0.0:55432->5432/tcp, [::]:55432->5432/tcp
-```
-
-Los dos esquemas del proyecto siguen cargados y con datos: 19 tablas en el esquema operacional `public`, 15 en el almacén `warehouse`, 1,247 obras vigentes en `dim_obra` y 55,740 filas en `fact_eventos_auditoria`.
-
-```
-  esquema  | tablas
------------+--------
- public    |     19
- warehouse |     15
-
- obras | eventos_auditoria
--------+-------------------
-  1247 |             55740
-```
-
-Salida completa: [`03-base-proyecto-asignado.txt`](<../evidencias/practica3/parte1/03-base-proyecto-asignado.txt>)
-
-Las dos bases conviven sin conflicto porque cada una publica un puerto distinto en el anfitrión:
-
-| Base | Contenedor | Puerto | Uso en la práctica |
-| :-- | :-- | :-- | :-- |
-| `comandas` | `practica1-postgres` | `5432` | Partes 2 a 6 |
-| `obras_publicas` | `obras-publicas-db-1` | `55432` | Partes 7 y 8 |
