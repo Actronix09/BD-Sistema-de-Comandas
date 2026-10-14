@@ -53,7 +53,6 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
   - [Creación del contenedor y la base de datos](<docs/Persistencia del Volumen de Docker.md#creación-del-contenedor-y-la-base-de-datos>)
   - [Eliminación del contenedor](<docs/Persistencia del Volumen de Docker.md#eliminación-del-contenedor>)
   - [Verificación de la persistencia](<docs/Persistencia del Volumen de Docker.md#verificación-de-la-persistencia>)
-  - [Anexos](<docs/Persistencia del Volumen de Docker.md#anexos>)
 - [Entrevista con el Cliente](<docs/Entrevista.md>)
   - [Eventos y mesas](<docs/Entrevista.md#eventos-y-mesas>)
   - [Menu y productos](<docs/Entrevista.md#menu-y-productos>)
