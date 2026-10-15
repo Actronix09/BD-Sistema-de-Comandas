@@ -14,9 +14,9 @@
 
 **Grupo:** 3CV4
 
-**Carrera:** Ingenieria en Sistemas Computacionales
+**Carrera:** Ingenieria en Sistemas Computacionalesl\
 
-**Proyecto Principal:** Sistema de Comandas Profesional
+**Proyecto:** Sistema de Comandas Profesional
 
 **Proyecto Paralelo del Equipo:** [Samuel-Hdzx07/BD-Proyecto-Musica](<https://github.com/Samuel-Hdzx07/BD-Proyecto-Musica.git>)
 
