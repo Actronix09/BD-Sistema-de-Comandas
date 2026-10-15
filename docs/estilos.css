@@ -205,6 +205,12 @@ main {
   margin-top: 1.5rem;
 }
 
+/* Para grupos de cuatro tarjetas: en dos columnas no queda una
+   sola en la última fila. */
+.rejilla-dos {
+  grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
+}
+
 .enlace-tarjeta {
   display: block;
   text-decoration: none;
@@ -383,11 +389,6 @@ figcaption {
   font-size: 1.6rem;
   line-height: 1.2;
   color: var(--acento);
-}
-
-/* Cuatro tarjetas: en dos columnas no queda una sola en la última fila. */
-.decisiones {
-  grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr));
 }
 
 .decision h3 {
