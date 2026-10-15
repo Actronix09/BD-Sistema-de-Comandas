@@ -18,7 +18,7 @@
 
 **Proyecto Principal:** Sistema de Comandas Profesional
 
-**Proyecto Paralelo del Equipo:** [Red Social para Musicos](<https://github.com/Actronix09/BD-Red-Social-para-Musicos.git>)
+**Proyecto Paralelo del Equipo:** [Samuel-Hdzx07/BD-Proyecto-Musica](<https://github.com/Samuel-Hdzx07/BD-Proyecto-Musica.git>)
 
 **Proyecto Asignado:** 
 
