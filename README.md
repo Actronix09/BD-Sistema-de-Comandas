@@ -174,11 +174,9 @@ El reporte principal de la práctica se encuentra en:
 
 ## Diagramas
 
-- [Diagrama entidad-relación (PDF)](<modelo/diagrama-er.pdf>)
 - [Diagrama entidad-relación (PNG)](<modelo/diagrama-er.png>)
 - [Diagrama entidad-relación extendido del sistema de comandas (PNG)](<modelo/diagrama-eer.png>)
 - [Diagrama relacional del sistema de comandas (PNG)](<modelo/diagrama-relacional.png>)
-  - Fuentes: [DBML](<modelo/diagrama-relacional.dbml>) · [Graphviz](<modelo/diagrama-relacional.dot>)
 
 ## Licencia
 
