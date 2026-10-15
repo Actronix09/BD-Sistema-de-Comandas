@@ -5,9 +5,12 @@
 
 ---
 
-**Alumnos:**
-- Adrian Damas Garnica (Boleta: 2023630785)
-- Hernandez Barrios Samuel Rodrigo (Boleta: 2026630008)
+|Alumnos|Boleta|@GitHub|
+|---|---|---|
+|Damas Garnica Adrian|2034630785|[@Actronix09](<https://github.com/Actronix09>)|
+|Esparza Ramón Fernando Adán|2025631043|[@adamighti2](<https://github.com/adamighti2>)|
+|Ramos Padrón Jesus Emmanuel|2025630963|[@Chuchin2107](<https://github.com/Chuchin2107>)|
+|Hernandez Barrios Samuel Rodrigo|2026630008|[@Samuel-Hdzx07](<https://github.com/Samuel-Hdzx07>)|
 
 **Grupo:** 3CV4
 
@@ -15,11 +18,14 @@
 
 **Proyecto Principal:** Sistema de Comandas Profesional
 
+**Proyecto Paralelo del Equipo:** [Red Social para Musicos](<https://github.com/Actronix09/BD-Red-Social-para-Musicos.git>)
+
 **Proyecto Asignado:** 
 
-- **Repositorio original:** 
-- **Fork del equipo:** 
-- **Identificador de la confirmación del fork:** 
+- **Visualización de Impacto de Sismos**
+- **Repositorio original:** [gabrielhuav/Seismic-Data-Visualization-System](<https://github.com/gabrielhuav/Seismic-Data-Visualization-System>)
+- **Fork del equipo:** [Samuel-Hdzx07/Proyecto-Asig-Sismos](<https://github.com/Samuel-Hdzx07/Proyecto-Asig-Sismos>)
+- **Identificador de la confirmación del fork:** `8569667cf4f46fab640dba3f82a7b324ca7efaf7`
 
 ---
 
