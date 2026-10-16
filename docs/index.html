@@ -109,14 +109,16 @@
       de identificación respecto de <strong>Evento</strong> —porque su numeración se reinicia
       en cada evento—, la especialización <em>disjunta y total</em> de
       <strong>Usuario</strong> en Mesero, Bar/Cocina y Cajero/Administrador, cardinalidades
-      con mínimo y máximo, y la relación ternaria <em>Acuerda</em>, que registra cuánto se
-      pactó de cada producto de cada paquete para un evento concreto.
+      con mínimo y máximo, la relación ternaria <em>Acuerda</em>, que registra cuánto se
+      pactó de cada producto de cada paquete para un evento concreto, y el inventario:
+      <strong>Ingrediente</strong> con su stock, ligado a Producto por la relación
+      <em>Receta</em>, que guarda cuánto lleva cada porción.
     </p>
 
     <figure class="figura">
       <div class="lienzo" data-scroll>
         <img src="imagenes/diagrama-eer-web.png"
-             alt="Diagrama entidad-relación extendido del Sistema de Comandas en notación de Peter Chen: las entidades Evento, Usuario, Producto, Comanda, Pago, Anticipo y Paquete, las entidades débiles Mesa y Cuenta, la jerarquía de Usuario y la relación ternaria Acuerda."
+             alt="Diagrama entidad-relación extendido del Sistema de Comandas en notación de Peter Chen: las entidades Evento, Usuario, Producto, Ingrediente, Comanda, Pago, Anticipo y Paquete, las entidades débiles Mesa y Cuenta, la jerarquía de Usuario, la relación Receta y la relación ternaria Acuerda."
              width="2600" height="677"
              data-completa="imagenes/diagrama-eer-full.png">
       </div>
@@ -148,17 +150,17 @@
     </p>
 
     <ul class="cifras">
-      <li><strong>16</strong> tablas</li>
-      <li><strong>89</strong> columnas</li>
-      <li><strong>24</strong> claves foráneas</li>
-      <li><strong>5</strong> vistas</li>
+      <li><strong>17</strong> tablas</li>
+      <li><strong>96</strong> columnas</li>
+      <li><strong>25</strong> claves foráneas</li>
+      <li><strong>6</strong> vistas</li>
     </ul>
 
     <figure class="figura">
       <div class="lienzo lienzo-ajustado">
         <img src="imagenes/diagrama-relacional.png"
-             alt="Diagrama relacional del Sistema de Comandas con sus 16 tablas agrupadas en cuatro áreas: catálogo (producto, producto_ingrediente, paquete, paquete_producto y acuerdo), evento y entidades débiles (evento, evento_organizador, anticipo, mesa y cuenta), jerarquía de Usuario (usuario, mesero, bar_cocina y cajero_admin) y operación (comanda y pago), unidas por sus claves foráneas."
-             width="2422" height="2219"
+             alt="Diagrama relacional del Sistema de Comandas con sus 17 tablas agrupadas en cuatro áreas: catálogo e inventario (producto, ingrediente, receta, paquete, paquete_producto y acuerdo), evento y entidades débiles (evento, evento_organizador, anticipo, mesa y cuenta), jerarquía de Usuario (usuario, mesero, bar_cocina y cajero_admin) y operación (comanda y pago), unidas por sus claves foráneas."
+             width="2465" height="2462"
              data-completa="imagenes/diagrama-relacional.png" data-natural>
       </div>
       <figcaption>
@@ -208,7 +210,7 @@
     </div>
 
     <p class="pie-enlace">
-      El esquema se probó con datos de ejemplo y con 15 instrucciones que violan una
+      El esquema se probó con datos de ejemplo y con 18 instrucciones que violan una
       restricción cada una, todas rechazadas por el gestor. Solo una regla del EER no se
       preservó: cambiar el rol de un usuario conservando su historial. El detalle está en
       <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/EsquemaRelacional.md">EsquemaRelacional.md</a>
@@ -267,7 +269,7 @@
       </li>
       <li>
         <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/DiccionarioDeDatos.md">Diccionario de datos</a>
-        <span>Las 89 columnas de las 16 tablas con tipo, restricciones y descripción.</span>
+        <span>Las 96 columnas de las 17 tablas con tipo, restricciones y descripción.</span>
       </li>
       <li>
         <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/sql/esquema.sql">Script <code>esquema.sql</code></a>

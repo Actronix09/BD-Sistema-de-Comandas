@@ -8,7 +8,7 @@ En este documento se describe cada columna de las tablas resultantes de la trans
 
 **Origen:** generado desde el catálogo del gestor después de ejecutar [`sql/esquema.sql`](<../sql/esquema.sql>). Las descripciones son los `COMMENT ON` del propio esquema, así que el diccionario y la base no pueden contradecirse.
 
-**Contenido:** 16 tablas y 89 columnas.
+**Contenido:** 17 tablas y 96 columnas.
 
 ---
 
@@ -129,18 +129,32 @@ Producto del menú (entidad fuerte).
 | :-- | :-- | :-- | :-- | :-- |
 | producto | `id_producto` | `INTEGER` | PK<br>IDENTITY<br>`ck_producto_no_autovariante`: CHECK (id_producto_principal <> id_producto) | Identificador del producto. |
 | producto | `nombre` | `VARCHAR(80)` | UNIQUE<br>NOT NULL | Nombre del producto. |
+| producto | `descripcion` | `VARCHAR(255)` | NULL | Descripción breve para la carta (opcional). |
 | producto | `categoria` | `VARCHAR(10)` | NOT NULL<br>`ck_producto_categoria`: CHECK (categoria IN ('alimentos', 'bebidas', 'dulceria')) | Categoría: alimentos, bebidas o dulceria. |
 | producto | `precio` | `NUMERIC(10,2)` | NOT NULL<br>`ck_producto_precio`: CHECK (precio >= 0) | Precio vigente en el catálogo. |
 | producto | `id_producto_principal` | `INTEGER` | FK → producto · ON DELETE RESTRICT · ON UPDATE RESTRICT<br>NULL<br>`ck_producto_no_autovariante`: CHECK (id_producto_principal <> id_producto) | Producto principal del que es variante (relación Variante); NULL si es principal. |
 
-## producto_ingrediente
+## ingrediente
 
-Ingredientes de un producto (atributo multivaluado de Producto).
+Insumo del inventario con su stock (entidad fuerte).
 
 | Tabla | Columna | Tipo | Restricciones | Descripción |
 | :-- | :-- | :-- | :-- | :-- |
-| producto_ingrediente | `id_producto` | `INTEGER` | PK<br>FK → producto · ON DELETE CASCADE · ON UPDATE CASCADE | Producto al que pertenece el ingrediente. |
-| producto_ingrediente | `ingrediente` | `VARCHAR(60)` | PK | Nombre del ingrediente. |
+| ingrediente | `id_ingrediente` | `INTEGER` | PK<br>IDENTITY | Identificador del ingrediente. |
+| ingrediente | `nombre` | `VARCHAR(60)` | UNIQUE<br>NOT NULL | Nombre del ingrediente. |
+| ingrediente | `unidad_medida` | `VARCHAR(5)` | NOT NULL<br>`ck_ingrediente_unidad`: CHECK (unidad_medida IN ('g', 'ml', 'pieza')) | Unidad en que se mide el stock y la receta: g, ml o pieza. |
+| ingrediente | `stock_actual` | `NUMERIC(10,3)` | NOT NULL<br>DEFAULT 0<br>`ck_ingrediente_stock`: CHECK (stock_actual >= 0) | Existencia actual; baja sola al preparar comandas y nunca es negativa. |
+| ingrediente | `stock_minimo` | `NUMERIC(10,3)` | NOT NULL<br>DEFAULT 0<br>`ck_ingrediente_minimo`: CHECK (stock_minimo >= 0) | Existencia por debajo de la cual hay que resurtir. |
+
+## receta
+
+Ingredientes de cada producto y su cantidad (relación Receta, muchos a muchos).
+
+| Tabla | Columna | Tipo | Restricciones | Descripción |
+| :-- | :-- | :-- | :-- | :-- |
+| receta | `id_producto` | `INTEGER` | PK<br>FK → producto · ON DELETE CASCADE · ON UPDATE CASCADE | Producto que lleva el ingrediente. |
+| receta | `id_ingrediente` | `INTEGER` | PK<br>FK → ingrediente · ON DELETE RESTRICT · ON UPDATE CASCADE | Ingrediente que se usa. |
+| receta | `cantidad_por_porcion` | `NUMERIC(10,3)` | NOT NULL<br>`ck_receta_cantidad`: CHECK (cantidad_por_porcion > 0) | Cantidad del ingrediente por porción, en su unidad (atributo de la relación). |
 
 ## paquete
 
@@ -240,4 +254,5 @@ Los atributos derivados no son columnas de ninguna tabla; se consultan en estas 
 | v_cuenta | `total_acumulado` | `NUMERIC(10,2)` | `SUM(precio_cobrado)` de sus comandas no canceladas | Total acumulado de la cuenta |
 | v_usuario | `edad` | `SMALLINT` | Años de `age(CURRENT_DATE, fecha_nacimiento)` | Edad del usuario |
 | v_mesero | `propinas_acumuladas` | `NUMERIC(10,2)` | `SUM(monto_propina)` de sus pagos | Propinas acumuladas del mesero |
+| v_producto | `disponible` | `BOOLEAN` | `NOT EXISTS` un ingrediente de su receta con `stock_actual < cantidad_por_porcion` | Si el producto se puede preparar con el stock actual |
 | v_comanda | `precio_catalogo` | `NUMERIC(10,2)` | `producto.precio` | Precio vigente del producto, para compararlo con el cobrado |

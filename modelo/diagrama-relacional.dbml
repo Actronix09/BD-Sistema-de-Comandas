@@ -132,16 +132,26 @@ Table paquete_producto {
 Table producto {
   id_producto "integer" [pk]
   nombre "character varying(80)" [not null, unique]
+  descripcion "character varying(255)"
   categoria "character varying(10)" [not null]
   precio "numeric(10,2)" [not null]
   id_producto_principal "integer"
 }
 
-Table producto_ingrediente {
+Table ingrediente {
+  id_ingrediente "integer" [pk]
+  nombre "character varying(60)" [not null, unique]
+  unidad_medida "character varying(5)" [not null]
+  stock_actual "numeric(10,3)" [not null]
+  stock_minimo "numeric(10,3)" [not null]
+}
+
+Table receta {
   id_producto "integer"
-  ingrediente "character varying(60)"
+  id_ingrediente "integer"
+  cantidad_por_porcion "numeric(10,3)" [not null]
   indexes {
-    (id_producto, ingrediente) [pk]
+    (id_producto, id_ingrediente) [pk]
   }
 }
 
@@ -166,7 +176,8 @@ Ref fk_mesa_mesero: mesa.id_mesero > mesero.id_usuario [delete: restrict, update
 Ref fk_cuenta_evento: cuenta.numero_evento > evento.numero_evento [delete: cascade, update: cascade]
 Ref fk_cuenta_mesa: cuenta.(numero_evento, numero_mesa) > mesa.(numero_evento, numero_mesa) [delete: restrict, update: restrict]
 Ref fk_producto_principal: producto.id_producto_principal > producto.id_producto [delete: restrict, update: restrict]
-Ref fk_producto_ingrediente_producto: producto_ingrediente.id_producto > producto.id_producto [delete: cascade, update: cascade]
+Ref fk_receta_producto: receta.id_producto > producto.id_producto [delete: cascade, update: cascade]
+Ref fk_receta_ingrediente: receta.id_ingrediente > ingrediente.id_ingrediente [delete: restrict, update: cascade]
 Ref fk_paquete_producto_paquete: paquete_producto.numero_paquete > paquete.numero_paquete [delete: cascade, update: cascade]
 Ref fk_paquete_producto_producto: paquete_producto.id_producto > producto.id_producto [delete: restrict, update: cascade]
 Ref fk_acuerdo_evento: acuerdo.numero_evento > evento.numero_evento [delete: cascade, update: cascade]
