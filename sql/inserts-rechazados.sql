@@ -65,3 +65,13 @@ UPDATE comanda SET precio_cobrado = 1.00 WHERE id_comanda = 1;
 
 \warn '--- 15. Borrar el evento 17, que ya tiene anticipo, comandas y pagos (RESTRICT protege el historial)'
 DELETE FROM evento WHERE numero_evento = 17;
+
+\warn '--- 16. Preparar un refresco de dieta sin stock de su ingrediente (disparador de stock, receta)'
+INSERT INTO comanda (estado, numero_evento, secuencial, id_mesero, id_producto, id_bar_cocina)
+VALUES ('en_preparacion', 17, 2, 1, 2, 4);
+
+\warn '--- 17. Dejar el stock de un ingrediente en negativo (CHECK stock_actual >= 0)'
+UPDATE ingrediente SET stock_actual = -5 WHERE id_ingrediente = 6;
+
+\warn '--- 18. Borrar un ingrediente que todavía usa una receta (RESTRICT de Receta)'
+DELETE FROM ingrediente WHERE id_ingrediente = 4;
