@@ -17,8 +17,7 @@ En este documento se presenta el resultado de la transformación del modelo EER 
 | [`sql/esquema.sql`](<../sql/esquema.sql>) | `CREATE TABLE` de las 17 tablas, disparadores, índices, vistas y comentarios |
 | [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) | Datos válidos mínimos (un evento con mesas, cuentas, comandas y un pago, y el inventario con las recetas) |
 | [`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) | 18 instrucciones que violan una restricción cada una |
-| [`modelo/diagrama-relacional.png`](<../modelo/diagrama-relacional.png>) | Diagrama relacional |
-| [`modelo/diagrama-relacional.dbml`](<../modelo/diagrama-relacional.dbml>) | El mismo esquema en DBML, para abrirlo en dbdiagram.io o ChartDB |
+| [`modelo/diagrama-relacional.svg`](<../modelo/diagrama-relacional.svg>) | Diagrama relacional generado desde el catálogo; el SVG lleva dentro el diagrama editable de draw.io |
 | [`evidencias/practica3/parte6/`](<../evidencias/practica3/parte6>) | Capturas de cada ejecución |
 
 ---
@@ -317,7 +316,7 @@ Las 18 instrucciones y la restricción que las detuvo:
 Después de las 18 instrucciones, el conteo de filas es el mismo que dejó `datos-ejemplo.sql`: ninguna fila inválida quedó guardada.
 
 ```
- usuarios | meseros | mesas | cuentas | comandas | pagos | productos | acuerdos | eventos | ingredientes | recetas | stock_parmesano
+ usuarios | meseros | mesas | cuentas | comandas | pagos | productos | acuerdos | eventos | ingredientes | recetas | stock_parmesano 
 ----------+---------+-------+---------+----------+-------+-----------+----------+---------+--------------+---------+-----------------
         5 |       2 |     3 |       3 |        4 |     1 |         4 |        4 |       1 |            8 |       9 |         770.000
 ```
@@ -328,15 +327,16 @@ Después de las 18 instrucciones, el conteo de filas es el mismo que dejó `dato
 
 ## 6.3 Diagrama relacional
 
-![Diagrama relacional del sistema de comandas](<../modelo/diagrama-relacional.png>)
+![Diagrama relacional del sistema de comandas](<../modelo/diagrama-relacional.svg>)
 
-El diagrama se generó **desde el catálogo de la base ya creada**, no a mano: se leyeron de `pg_attribute` y `pg_constraint` las columnas, los tipos, las claves primarias y las 25 claves foráneas, y se dibujaron con Graphviz. Así, el diagrama muestra exactamente lo que el gestor tiene declarado.
+El diagrama se generó **desde el catálogo de la base ya creada**, no a mano: se leyeron de `pg_attribute` y `pg_constraint` las 96 columnas (con su tipo, si admiten nulos y si son generadas), las claves primarias, las claves alternativas y las 25 claves foráneas, y se dibujaron en draw.io. Así, el diagrama muestra exactamente lo que el gestor tiene declarado. El SVG lleva dentro el diagrama editable, así que se puede abrir en draw.io para reacomodarlo sin volver a generarlo.
 
-- Cada línea une una clave foránea (lado con pata de gallo, muchos) con la clave primaria que referencia (lado con barra, uno).
-- Las tablas se agrupan por área: evento y sus entidades débiles, jerarquía de Usuario, catálogo y operación.
-- `?` marca las columnas que admiten nulos y la cursiva sobre fondo gris marca las columnas generadas.
-
-El mismo esquema está en [`modelo/diagrama-relacional.dbml`](<../modelo/diagrama-relacional.dbml>). Ese archivo se puede pegar en [dbdiagram.io](https://dbdiagram.io) o importar en ChartDB para moverlo de forma interactiva. La fuente de Graphviz es [`modelo/diagrama-relacional.dot`](<../modelo/diagrama-relacional.dot>).
+- Cada línea une la clave primaria referenciada con la clave foránea que la usa. Del lado de la clave primaria, la doble barra indica que la FK es `NOT NULL` (mínimo 1) y el círculo con barra que admite nulos (mínimo 0). Del lado de la FK, la pata de gallo con círculo indica cero o muchos; en los tres subtipos va círculo con barra, porque cada usuario tiene a lo más una fila en su subtipo.
+- La línea continua indica que la FK forma parte de la clave primaria (relación identificadora: entidades débiles, subtipos, tablas de relaciones N:M y el atributo multivaluado). La punteada indica que la FK es una columna aparte.
+- En las FK compuestas la línea sale de la columna que las distingue: `numero_mesa` en `cuenta`, `secuencial` en `comanda` y `pago`, e `id_usuario` en los subtipos, aunque su FK sea `(id_usuario, rol)`.
+- La primera columna de cada tabla dice si la columna es `PK`, `FK` o `UQ` (clave alternativa). Como en 6.1, la clave primaria va <ins>subrayada</ins> y la clave foránea en *cursiva*.
+- `?` después del tipo marca las columnas que admiten nulos, y las columnas generadas van en cursiva sobre fondo gris con ⚙.
+- Las tablas se agrupan por área. A la izquierda están el evento con sus organizadores, anticipos y cuentas, y arriba el inventario (ingrediente y receta). Al centro, mesa, comanda, pago y acuerdo. A la derecha, el catálogo (producto y paquete) y la jerarquía de Usuario.
 
 ---
 

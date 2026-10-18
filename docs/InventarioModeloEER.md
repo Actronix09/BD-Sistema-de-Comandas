@@ -12,7 +12,7 @@ En este documento se enlistan todos los elementos del modelo EER del sistema de 
 
 ---
 
-![Diagrama entidad-relación extendido del sistema de comandas](<../modelo/diagrama-eer.png>)
+![Diagrama entidad-relación extendido del sistema de comandas](<../modelo/diagrama-eer-chen.svg>)
 
 ## Entidades fuertes
 
