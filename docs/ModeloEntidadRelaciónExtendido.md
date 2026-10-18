@@ -28,7 +28,7 @@ El problema del negocio es el mismo de la Práctica 1: digitalizar el flujo de c
 
 El modelo del que se parte es el de la práctica anterior:
 
-![Diagrama Entidad-Relación de la Práctica 1](<../modelo/diagrama-er.png>)
+![Diagrama Entidad-Relación de la Práctica 1](<../modelo/diagrama-er.svg>)
 
 ---
 
@@ -267,7 +267,7 @@ No se ocupa en este caso. Conviene confirmar con el profesor la definición exac
 
 ## Modelo en notación de Peter Chen
 
-![Diagrama entidad-relación extendido en notación de Peter Chen](<../modelo/diagrama-eer.png>)
+![Diagrama entidad-relación extendido en notación de Peter Chen](<../modelo/diagrama-eer-chen.svg>)
 
 ---
 

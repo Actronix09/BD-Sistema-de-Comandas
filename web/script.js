@@ -1,7 +1,7 @@
 /* ===========================================================
    Visor de diagramas.
 
-   Los diagramas del proyecto son muy anchos (el EER mide 16384
+   Los diagramas del proyecto son muy anchos (el EER mide 3672
    píxeles de ancho), así que en la página se muestran reducidos
    dentro de un contenedor con desplazamiento lateral. Este guion
    abre la versión grande en una superposición que se recorre

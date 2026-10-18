@@ -19,7 +19,7 @@ La práctica se desarrolla en la rama `practica3`, creada a partir de `main` des
 | `Practica3-Parte1-Entorno` | `practica3` | Este documento y las capturas del levantamiento |
 | `Practica3-Parte2-Inventario` | `practica3` | [Inventario del Modelo EER](<InventarioModeloEER.md>) |
 | `Practica3-Parte3a5-Transformacion` | `practica3` | [Reglas de Transformación](<ReglasDeTransformacion.md>): entidades, atributos, relaciones, entidades débiles y jerarquías |
-| `Practica3-Parte6-EsquemaRelacional` | `practica3` | [Esquema Relacional](<EsquemaRelacional.md>), `sql/esquema.sql`, diagrama y [Diccionario de Datos](<DiccionarioDeDatos.md>) |
+| `Practica3-Parte6-EsquemaRelacional` | `practica3` | [Esquema Relacional](<ModeloRelacional.md>), `sql/esquema.sql`, diagrama y [Diccionario de Datos](<DiccionarioDeDatos.md>) |
 
 ```bash
 git switch practica3
@@ -79,4 +79,4 @@ Did not find any relations.
 
 ![Creación de la base comandas y listado que confirma que todavía no tiene tablas](<../evidencias/practica3/parte1/03 - Creación de la base vacia.png>)
 
-Sobre esta base se ejecuta `sql/esquema.sql`. La ejecución, el listado de tablas y los `INSERT` rechazados están documentados en la Parte 6, [Esquema Relacional](<EsquemaRelacional.md>).
+Sobre esta base se ejecuta `sql/esquema.sql`. La ejecución, el listado de tablas y los `INSERT` rechazados están documentados en la Parte 6, [Esquema Relacional](<ModeloRelacional.md>).
