@@ -114,12 +114,12 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
     - [Jerarquía de Usuario](<docs/ReglasDeTransformacion.md#jerarquía-de-usuario>)
     - [Lo que el esquema no puede garantizar](<docs/ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>)
     - [Tablas resultantes](<docs/ReglasDeTransformacion.md#tablas-resultantes>)
-- [Esquema Relacional, DDL Ejecutado y Diccionario](<docs/EsquemaRelacional.md>)
-  - [6.1 Esquema completo](<docs/EsquemaRelacional.md#61-esquema-completo>)
-  - [6.2 Script de definición de datos](<docs/EsquemaRelacional.md#62-script-de-definición-de-datos>)
-  - [6.3 Diagrama relacional](<docs/EsquemaRelacional.md#63-diagrama-relacional>)
-  - [6.4 Diccionario de datos](<docs/EsquemaRelacional.md#64-diccionario-de-datos>)
-  - [6.5 Preservación del significado](<docs/EsquemaRelacional.md#65-preservación-del-significado>)
+- [Esquema Relacional, DDL Ejecutado y Diccionario](<docs/ModeloRelacional.md>)
+  - [6.1 Esquema completo](<docs/ModeloRelacional.md#61-esquema-completo>)
+  - [6.2 Script de definición de datos](<docs/ModeloRelacional.md#62-script-de-definición-de-datos>)
+  - [6.3 Diagrama relacional](<docs/ModeloRelacional.md#63-diagrama-relacional>)
+  - [6.4 Diccionario de datos](<docs/ModeloRelacional.md#64-diccionario-de-datos>)
+  - [6.5 Preservación del significado](<docs/ModeloRelacional.md#65-preservación-del-significado>)
 - [Diccionario de Datos del Sistema de Comandas](<docs/DiccionarioDeDatos.md>)
   - [Convenciones](<docs/DiccionarioDeDatos.md#convenciones>)
   - [evento](<docs/DiccionarioDeDatos.md#evento>)
@@ -175,11 +175,10 @@ El reporte principal de la práctica se encuentra en:
 
 ## Diagramas
 
-- [Diagrama entidad-relación (PDF)](<modelo/diagrama-er.pdf>)
-- [Diagrama entidad-relación (PNG)](<modelo/diagrama-er.png>)
-- [Diagrama entidad-relación extendido del sistema de comandas (PNG)](<modelo/diagrama-eer.png>)
-- [Diagrama relacional del sistema de comandas (PNG)](<modelo/diagrama-relacional.png>)
-  - Fuentes: [DBML](<modelo/diagrama-relacional.dbml>) · [Graphviz](<modelo/diagrama-relacional.dot>)
+- [Diagrama entidad-relación de la Práctica 1](<modelo/diagrama-er.svg>)
+- [Diagrama entidad-relación extendido en notación de Peter Chen](<modelo/diagrama-eer-chen.svg>)
+- [Diagrama entidad-relación extendido en notación Crow's Foot](<modelo/diagrama-eer-crowsfeet.svg>)
+- [Diagrama relacional del sistema de comandas](<modelo/diagrama-relacional.svg>)
 
 ## Licencia
 
