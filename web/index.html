@@ -117,14 +117,14 @@
 
     <figure class="figura">
       <div class="lienzo" data-scroll>
-        <img src="imagenes/diagrama-eer-web.png"
+        <img src="imagenes/diagrama-eer-chen.svg"
              alt="Diagrama entidad-relación extendido del Sistema de Comandas en notación de Peter Chen: las entidades Evento, Usuario, Producto, Ingrediente, Comanda, Pago, Anticipo y Paquete, las entidades débiles Mesa y Cuenta, la jerarquía de Usuario, la relación Receta y la relación ternaria Acuerda."
-             width="2600" height="677"
-             data-completa="imagenes/diagrama-eer-full.png">
+             width="3672" height="1792"
+             data-completa="imagenes/diagrama-eer-chen.svg">
       </div>
       <figcaption>
         <span>Diagrama EER del Sistema de Comandas. Desplácelo de lado para recorrerlo.</span>
-        <button type="button" class="boton" data-abrir="imagenes/diagrama-eer-full.png">
+        <button type="button" class="boton" data-abrir="imagenes/diagrama-eer-chen.svg">
           Ver en tamaño completo
         </button>
       </figcaption>
@@ -158,14 +158,14 @@
 
     <figure class="figura">
       <div class="lienzo lienzo-ajustado">
-        <img src="imagenes/diagrama-relacional.png"
-             alt="Diagrama relacional del Sistema de Comandas con sus 17 tablas agrupadas en cuatro áreas: catálogo e inventario (producto, ingrediente, receta, paquete, paquete_producto y acuerdo), evento y entidades débiles (evento, evento_organizador, anticipo, mesa y cuenta), jerarquía de Usuario (usuario, mesero, bar_cocina y cajero_admin) y operación (comanda y pago), unidas por sus claves foráneas."
-             width="2465" height="2462"
-             data-completa="imagenes/diagrama-relacional.png" data-natural>
+        <img src="imagenes/diagrama-relacional.svg"
+             alt="Diagrama relacional del Sistema de Comandas con sus 17 tablas: a la izquierda el evento con evento_organizador, anticipo y cuenta, y arriba el inventario (ingrediente y receta); al centro mesa, comanda, pago y acuerdo; a la derecha el catálogo (producto, paquete y paquete_producto) y la jerarquía de Usuario (usuario, mesero, bar_cocina y cajero_admin), unidas por sus 25 claves foráneas."
+             width="2795" height="1572"
+             data-completa="imagenes/diagrama-relacional.svg" data-natural>
       </div>
       <figcaption>
-        <span>Clave primaria subrayada, clave foránea señalada, <code>?</code> admite nulos y cursiva para columnas generadas.</span>
-        <button type="button" class="boton" data-abrir="imagenes/diagrama-relacional.png" data-natural>
+        <span>Clave primaria subrayada, clave foránea en cursiva, <code>?</code> admite nulos y columnas generadas en gris con ⚙. Línea continua: relación identificadora.</span>
+        <button type="button" class="boton" data-abrir="imagenes/diagrama-relacional.svg" data-natural>
           Ver en tamaño completo
         </button>
       </figcaption>
@@ -213,7 +213,7 @@
       El esquema se probó con datos de ejemplo y con 18 instrucciones que violan una
       restricción cada una, todas rechazadas por el gestor. Solo una regla del EER no se
       preservó: cambiar el rol de un usuario conservando su historial. El detalle está en
-      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/EsquemaRelacional.md">EsquemaRelacional.md</a>
+      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloRelacional.md">ModeloRelacional.md</a>
       y <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ReglasDeTransformacion.md">ReglasDeTransformacion.md</a>.
     </p>
   </section>
@@ -264,7 +264,7 @@
         <span>Reglas 1 a 9 aplicadas al modelo, tipos de dato y estrategia para la jerarquía de Usuario.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/EsquemaRelacional.md">Esquema relacional</a>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloRelacional.md">Esquema relacional</a>
         <span>Esquema completo, ejecución del DDL, instrucciones rechazadas y preservación del significado.</span>
       </li>
       <li>
