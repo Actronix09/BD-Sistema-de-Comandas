@@ -1,7 +1,7 @@
 # Desarrollo de Practicas de Bases de Datos
 ## Práctica 3
 
-**Sitio del proyecto:** <https://actronix09.github.io/Desarrollo-Proyecto-Final-BD/>
+**Sitio del proyecto:** <https://actronix09.github.io/BD-Sistema-de-Comandas/>
 
 ---
 
