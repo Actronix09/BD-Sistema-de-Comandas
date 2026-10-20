@@ -22,7 +22,7 @@ INSERT INTO mesa (numero_evento, numero_mesa, id_mesero) VALUES (17, 1, 2);
 INSERT INTO mesa (numero_evento, numero_mesa, id_mesero) VALUES (17, 4, NULL);
 
 \warn '--- 4. Cuenta del evento 17 abierta en una mesa que no está en ese evento (FK compuesta)'
-INSERT INTO cuenta (numero_evento, secuencial, numero_mesa) VALUES (17, 4, 8);
+INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, 4, 8, 'Amigos del novio');
 
 \warn '--- 5. Propina para un usuario que es cajero, no mesero (FK al subtipo, Regla 9)'
 INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
@@ -75,3 +75,9 @@ UPDATE ingrediente SET stock_actual = -5 WHERE id_ingrediente = 6;
 
 \warn '--- 18. Borrar un ingrediente que todavía usa una receta (RESTRICT de Receta)'
 DELETE FROM ingrediente WHERE id_ingrediente = 4;
+
+\warn '--- 19. Cuenta con nombre en blanco (CHECK ck_cuenta_nombre)'
+INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, 5, 1, '   ');
+
+\warn '--- 20. Nombre repetido en una cuenta abierta de la misma mesa (índice único parcial)'
+INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, 6, 1, 'novios');

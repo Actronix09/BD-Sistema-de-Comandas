@@ -80,13 +80,13 @@ INSERT INTO mesa (numero_evento, numero_mesa, id_mesero) VALUES
     (17, 2, 1),
     (17, 3, 2);
 
-INSERT INTO cuenta (numero_evento, secuencial, numero_mesa) VALUES
-    (17, 1, 1),
-    (17, 2, 1),
-    (17, 3, 3);
+INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES
+    (17, 1, 1, 'Novios'),
+    (17, 2, 1, 'Padrinos'),
+    (17, 3, 3, 'Familia Torres');
 
 -- Comandas: el precio cobrado se copia solo del catálogo, y las que entran
--- ya en preparación o entregadas descuentan su receta del inventario.
+-- ya en preparación, lista o entregadas descuentan su receta del inventario.
 INSERT INTO comanda (fecha_hora, estado, numero_evento, secuencial, id_mesero, id_producto, id_bar_cocina, id_cajero_cancela, detalles) VALUES
     (TIMESTAMPTZ '2026-10-17 21:05:00-06', 'entregada',      17, 1, 1, 1, 4, NULL, NULL),
     (TIMESTAMPTZ '2026-10-17 21:20:00-06', 'en_preparacion', 17, 1, 1, 3, 3, NULL, 'sin queso'),
@@ -95,5 +95,21 @@ INSERT INTO comanda (fecha_hora, estado, numero_evento, secuencial, id_mesero, i
 
 INSERT INTO pago (monto, forma_pago, fecha_hora, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina) VALUES
     (250.00, 'tarjeta', TIMESTAMPTZ '2026-10-17 23:40:00-06', 17, 1, 5, 1, 35.00);
+
+-- setval para las ids para evitar errores
+SELECT setval(pg_get_serial_sequence('producto', 'id_producto'),
+    (SELECT max(id_producto) FROM producto));
+
+SELECT setval(pg_get_serial_sequence('usuario', 'id_usuario'),
+    (SELECT max(id_usuario) FROM usuario));
+
+SELECT setval(pg_get_serial_sequence('ingrediente', 'id_ingrediente'),
+    (SELECT max(id_ingrediente) FROM ingrediente));
+
+SELECT setval(pg_get_serial_sequence('paquete', 'numero_paquete'),
+    (SELECT max(numero_paquete) FROM paquete));
+
+SELECT setval(pg_get_serial_sequence('evento', 'numero_evento'),
+    (SELECT max(numero_evento) FROM evento));
 
 COMMIT;
