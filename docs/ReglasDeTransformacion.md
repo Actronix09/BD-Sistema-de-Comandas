@@ -70,7 +70,7 @@ La columna `rol` de usuario no viene de un atributo del EER: es el discriminador
 | producto | `CHECK (precio >= 0)` | precio | Un precio negativo no tiene sentido; 0 sí, para cortesías |
 | producto | admite `NULL` | descripcion | Atributo opcional: no todos los productos llevan texto en la carta |
 | comanda | `CHECK (precio_cobrado >= 0)` | precio_cobrado | Igual que el precio |
-| comanda | `CHECK (estado IN ('pendiente','en_preparacion','entregada','cancelada'))` + `DEFAULT 'pendiente'` | estado | El ciclo de vida de una comanda |
+| comanda | `CHECK (estado IN ('pendiente','en_preparacion','lista','entregada','cancelada'))` + `DEFAULT 'pendiente'` | estado | El ciclo de vida de una comanda |
 | comanda | `DEFAULT now()` | fecha_hora | La comanda queda fechada al levantarla |
 | comanda | admite `NULL` | detalles | Atributo marcado como opcional en el EER |
 | pago | `CHECK (monto > 0)` | monto | Un pago de cero no es un pago |
@@ -259,7 +259,7 @@ Las dos entidades débiles del modelo dependen de Evento **por identificación**
 | Entidad débil | Discriminador (clave parcial) | Tabla resultante |
 | :-- | :-- | :-- |
 | Mesa | Número de mesa | **mesa** (<ins>*numero_evento*</ins>, <ins>numero_mesa</ins>, *id_mesero*) — *numero_evento* → evento, *id_mesero* → mesero |
-| Cuenta | Secuencial | **cuenta** (<ins>*numero_evento*</ins>, <ins>secuencial</ins>, *numero_mesa*, folio, estado) — *numero_evento* → evento, *(numero_evento, numero_mesa)* → mesa |
+| Cuenta | Secuencial | **cuenta** (<ins>*numero_evento*</ins>, <ins>secuencial</ins>, *numero_mesa*, nombre, folio, estado) — *numero_evento* → evento, *(numero_evento, numero_mesa)* → mesa |
 
 ```sql
 CONSTRAINT pk_mesa PRIMARY KEY (numero_evento, numero_mesa),

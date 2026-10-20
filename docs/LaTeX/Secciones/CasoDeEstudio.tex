@@ -150,7 +150,7 @@ Además, se ha de aclarar que este proyecto ya tiene un sistema inicial de apoyo
 \begin{itemize}
     \item \textbf{Evento}: organizador/cliente, fecha, tipo de evento, número de mesas, paquete contratado, estado del evento.
     \item \textbf{Mesa}: número de mesa.
-    \item \textbf{Cuenta}: identificador, estado (abierta/cerrada), total acumulado.
+    \item \textbf{Cuenta}: identificador, nombre (alias que la distingue de las demás cuentas de su mesa), estado (abierta/cerrada), total acumulado.
     \item \textbf{Mesero / Usuario}: nombre, rol (mesero, cocina, bar, cajero/administrador).
     \item \textbf{Producto}: nombre, descripción, categoría (alimentos, bebidas con alcohol, bebidas sin alcohol, dulcería), precio, variantes (tamaño o preparación distinta).
     \item \textbf{Ingrediente}: nombre, unidad de medida, stock actual, stock mínimo.
@@ -229,7 +229,7 @@ El modelo entidad-relación de la Figura~\ref{fig:diagrama-er} se construyó a p
 
     \item \textbf{Mesa}: el cliente indicó que las mesas están numeradas y que su cantidad varía entre eventos. Se define como entidad, y no como un simple atributo, porque sobre ella recaen dos reglas del negocio: la asignación de meseros y la división de la cuenta en grupos de invitados.
 
-    \item \textbf{Cuenta}: surge de la respuesta más relevante sobre cobros: lo más común es cobrar por grupo de invitados, con dos o tres cuentas por mesa. Separar la cuenta de la mesa permite que cada grupo tenga su propio consumo, su propio \emph{total} y su propio \emph{estado} (abierta o cerrada), sin mezclarse con el de otros grupos sentados en la misma mesa.
+    \item \textbf{Cuenta}: surge de la respuesta más relevante sobre cobros: lo más común es cobrar por grupo de invitados, con dos o tres cuentas por mesa. Separar la cuenta de la mesa permite que cada grupo tenga su propio consumo, un \emph{nombre} que lo identifica dentro de la mesa, su propio \emph{total} y su propio \emph{estado} (abierta o cerrada), sin mezclarse con el de otros grupos sentados en la misma mesa.
 
     \item \textbf{Usuario}: agrupa en una sola entidad a todas las personas que operan el sistema. En lugar de crear una entidad distinta para meseros, cocina, bar y caja, se utiliza el atributo \emph{rol}, ya que todos comparten los mismos datos (código y nombre) y solo difieren en las funciones que pueden realizar. Esto simplifica el modelo y facilita agregar roles en el futuro.
 

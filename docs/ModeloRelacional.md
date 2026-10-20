@@ -37,7 +37,7 @@ Notación: clave primaria <ins>subrayada</ins>, clave foránea en *cursiva* y �
 | **bar_cocina** | *<ins>id_usuario</ins>* `INTEGER`, *rol* `VARCHAR(12)`, estado `VARCHAR(10)`, estacion_asignada `VARCHAR(6)` |
 | **cajero_admin** | *<ins>id_usuario</ins>* `INTEGER`, *rol* `VARCHAR(12)`, nivel_acceso `VARCHAR(13)`, caja_asignada `SMALLINT` |
 | **mesa** | *<ins>numero_evento</ins>* `INTEGER`, <ins>numero_mesa</ins> `SMALLINT`, *id_mesero* `INTEGER` |
-| **cuenta** | *<ins>numero_evento</ins>* `INTEGER`, <ins>secuencial</ins> `SMALLINT`, *numero_mesa* `SMALLINT`, folio ⚙ `VARCHAR(30)`, estado `VARCHAR(8)` |
+| **cuenta** | *<ins>numero_evento</ins>* `INTEGER`, <ins>secuencial</ins> `SMALLINT`, *numero_mesa* `SMALLINT`, nombre `VARCHAR(60)`, folio ⚙ `VARCHAR(30)`, estado `VARCHAR(8)` |
 | **producto** | <ins>id_producto</ins> `INTEGER`, nombre `VARCHAR(80)`, descripcion `VARCHAR(255)`, categoria `VARCHAR(10)`, precio `NUMERIC(10,2)`, *id_producto_principal* `INTEGER` |
 | **ingrediente** | <ins>id_ingrediente</ins> `INTEGER`, nombre `VARCHAR(60)`, unidad_medida `VARCHAR(5)`, stock_actual `NUMERIC(10,3)`, stock_minimo `NUMERIC(10,3)` |
 | **receta** | *<ins>id_producto</ins>* `INTEGER`, *<ins>id_ingrediente</ins>* `INTEGER`, cantidad_por_porcion `NUMERIC(10,3)` |
@@ -93,7 +93,7 @@ El criterio de cada acción está en [Reglas de Transformación — Acciones ref
 | bar_cocina | 1 | 1 | 0 | 3 | Disparador diferido de completitud |
 | cajero_admin | 1 | 1 | 0 | 3 | Disparador diferido de completitud |
 | mesa | 1 | 2 | 0 | 1 | |
-| cuenta | 1 | 2 | 0 | 2 | Folio generado |
+| cuenta | 1 | 2 | 0 | 3 | Folio generado |
 | producto | 1 | 1 | 1 | 3 | Disparador de variante de un nivel |
 | ingrediente | 1 | 0 | 1 | 3 | |
 | receta | 1 | 2 | 0 | 1 | |
@@ -103,7 +103,7 @@ El criterio de cada acción está en [Reglas de Transformación — Acciones ref
 | comanda | 1 | 5 | 0 | 4 | 4 columnas generadas; disparadores de precio cobrado y de stock |
 | pago | 1 | 3 | 0 | 4 | 4 columnas generadas |
 | anticipo | 1 | 1 | 0 | 1 | 3 columnas generadas |
-| **Total** | **17** | **25** | **4** | **33** | |
+| **Total** | **17** | **25** | **4** | **34** | |
 
 Además de las restricciones, el esquema incluye:
 
@@ -113,6 +113,7 @@ Además de las restricciones, el esquema incluye:
 | Disparadores normales | 3 | Variante de un solo nivel; precio cobrado fijo; descuento del stock al preparar una comanda |
 | Índices sobre claves foráneas | 16 | PostgreSQL no indexa las claves foráneas por su cuenta |
 | Vistas | 6 | Atributos derivados (`v_evento`, `v_cuenta`, `v_usuario`, `v_mesero`, `v_producto`, `v_comanda`) |
+| Índice único parcial | 1 | Nombre de cuenta sin repetir entre las cuentas abiertas de una mesa |
 
 ---
 
@@ -165,9 +166,9 @@ Código de salida: 0
 | `CREATE TABLE` | 17 |
 | `CREATE FUNCTION` | 4 |
 | `CREATE TRIGGER` | 7 |
-| `CREATE INDEX` | 16 |
+| `CREATE INDEX` | 17 |
 | `CREATE VIEW` | 6 |
-| `COMMENT` | 113 |
+| `COMMENT` | 114 |
 | `ERROR` | 0 |
 
 ![Final de la ejecución de esquema.sql: los COMMENT, el COMMIT y el código de salida 0](<../evidencias/practica3/parte6/01 - Ejecución del esquema.sql.png>)
@@ -225,7 +226,7 @@ Con esos datos, las vistas calculan los atributos derivados y las columnas gener
 
 | Consulta | Resultado |
 | :-- | :-- |
-| `SELECT folio, total_acumulado FROM v_cuenta` | `17-1-1` → 215.00 · `17-1-2` → 95.00 · `17-3-3` → 0.00 (su única comanda está cancelada) |
+| `SELECT folio, nombre, total_acumulado FROM v_cuenta` | `17-1-1` Novios → 215.00 · `17-1-2` Padrinos → 95.00 · `17-3-3` Familia Torres → 0.00 (su única comanda está cancelada) |
 | `SELECT numero_mesas FROM v_evento` | 3 |
 | `SELECT propinas_acumuladas FROM v_mesero` | Laura Méndez 35.00 · Óscar Pérez 0.00 |
 | `SELECT nombre, disponible FROM v_producto` | Refresco, Pasta Alfredo y Pastel de chocolate → `true` · Refresco de dieta → `false` (su refresco light está en 0) |
@@ -312,8 +313,10 @@ Las 18 instrucciones y la restricción que las detuvo:
 | 16 | Preparar un refresco de dieta sin refresco light en inventario | `tg_comanda_stock` | Regla de negocio del inventario: no se prepara lo que no alcanza |
 | 17 | Dejar en −5 el stock del queso parmesano | `ck_ingrediente_stock` | Regla 1: `CHECK` de dominio |
 | 18 | Borrar la pasta, que usa la receta de Pasta Alfredo | `fk_receta_ingrediente` (`RESTRICT`) | Regla 5: la receta no se queda incompleta |
+| 19 | Se intenta crear una cuenta sin nombre | `ck_cuenta_nombre` | El alias de la cuenta no queda vacio. |
+| 20 | Se intenta crear una crear una cuenta con el mismo nombre de otra abierta en la misma mesa | `ck_cuenta_nombre_abierta` | No existen dos cuentas con el mismo nombre simultaneamente en una mesa |
 
-Después de las 18 instrucciones, el conteo de filas es el mismo que dejó `datos-ejemplo.sql`: ninguna fila inválida quedó guardada.
+Después de las 20 instrucciones, el conteo de filas es el mismo que dejó `datos-ejemplo.sql`: ninguna fila inválida quedó guardada.
 
 ```
  usuarios | meseros | mesas | cuentas | comandas | pagos | productos | acuerdos | eventos | ingredientes | recetas | stock_parmesano 
@@ -329,7 +332,7 @@ Después de las 18 instrucciones, el conteo de filas es el mismo que dejó `dato
 
 ![Diagrama relacional del sistema de comandas](<../modelo/diagrama-relacional.svg>)
 
-El diagrama se generó **desde el catálogo de la base ya creada**, no a mano: se leyeron de `pg_attribute` y `pg_constraint` las 96 columnas (con su tipo, si admiten nulos y si son generadas), las claves primarias, las claves alternativas y las 25 claves foráneas, y se dibujaron en draw.io. Así, el diagrama muestra exactamente lo que el gestor tiene declarado. El SVG lleva dentro el diagrama editable, así que se puede abrir en draw.io para reacomodarlo sin volver a generarlo.
+El diagrama se generó **desde el catálogo de la base ya creada**, no a mano: se leyeron de `pg_attribute` y `pg_constraint` las 97 columnas (con su tipo, si admiten nulos y si son generadas), las claves primarias, las claves alternativas y las 25 claves foráneas, y se dibujaron en draw.io. Así, el diagrama muestra exactamente lo que el gestor tiene declarado. El SVG lleva dentro el diagrama editable, así que se puede abrir en draw.io para reacomodarlo sin volver a generarlo.
 
 - Cada línea une la clave primaria referenciada con la clave foránea que la usa. Del lado de la clave primaria, la doble barra indica que la FK es `NOT NULL` (mínimo 1) y el círculo con barra que admite nulos (mínimo 0). Del lado de la FK, la pata de gallo con círculo indica cero o muchos; en los tres subtipos va círculo con barra, porque cada usuario tiene a lo más una fila en su subtipo.
 - La línea continua indica que la FK forma parte de la clave primaria (relación identificadora: entidades débiles, subtipos, tablas de relaciones N:M y el atributo multivaluado). La punteada indica que la FK es una columna aparte.
@@ -342,7 +345,7 @@ El diagrama se generó **desde el catálogo de la base ya creada**, no a mano: s
 
 ## 6.4 Diccionario de datos
 
-Está en un documento aparte por su tamaño: [Diccionario de Datos](<DiccionarioDeDatos.md>). Documenta las 96 columnas de las 17 tablas con tabla, columna, tipo, restricciones y descripción, más las columnas calculadas de las seis vistas. Se generó desde el catálogo, y las descripciones son los `COMMENT ON COLUMN` del propio `esquema.sql`, así que cualquiera puede consultarlas también desde el gestor:
+Está en un documento aparte por su tamaño: [Diccionario de Datos](<DiccionarioDeDatos.md>). Documenta las 97 columnas de las 17 tablas con tabla, columna, tipo, restricciones y descripción, más las columnas calculadas de las seis vistas. Se generó desde el catálogo, y las descripciones son los `COMMENT ON COLUMN` del propio `esquema.sql`, así que cualquiera puede consultarlas también desde el gestor:
 
 ```sql
 SELECT column_name, col_description('comanda'::regclass, ordinal_position)
@@ -437,6 +440,8 @@ Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican co
 | Un producto está disponible si su receta alcanza | Vista `v_producto` | Datos de ejemplo (refresco de dieta no disponible) |
 | Un ingrediente en uso no se borra | `fk_receta_ingrediente` (`RESTRICT`) | Rechazo 18 |
 | Lo ya cobrado no se pierde | `ON DELETE RESTRICT` en comanda, pago y anticipo | Rechazo 15 |
+| La cuenta tiene nombre visible | `ck_cuenta_nombre` | Rechazo 19 |
+| Una cuenta abierta no repite nombre en su mesa | `ck_cuenta_nombre_abierta` | Rechazo 20 |
 
 ### Lo que no se preservó
 

@@ -66,6 +66,7 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
   - Número de mesa `(clave parcial)`
 - **Cuenta:** `(entidad débil)`
   - Secuencial `(clave parcial)`
+  - Nombre (alias de la cuenta)
   - Folio ([#Evento]-[#Mesa]-[#Secuencial]) `(derivado)`
   - Estado (abierta/cerrada)
   - Total acumulado `(derivado)`
@@ -109,7 +110,7 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
     - Año
     - Hora
   - Precio cobrado
-  - Estado
+  - Estado (pendiente/en preparación/lista/entregada/cancelada)
   - Detalles `(opcional)`
   - Precio `(derivado)`
 - **Pago:**
