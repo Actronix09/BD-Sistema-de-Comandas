@@ -16,8 +16,8 @@ En este documento se presenta el resultado de la transformación del modelo EER 
 | :-- | :-- |
 | [`sql/esquema.sql`](<../sql/esquema.sql>) | `CREATE TABLE` de las 17 tablas, disparadores, índices, vistas y comentarios |
 | [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) | Datos válidos mínimos (un evento con mesas, cuentas, comandas y un pago, y el inventario con las recetas) |
-| [`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) | 18 instrucciones que violan una restricción cada una |
-| [`modelo/diagrama-relacional.svg`](<../modelo/diagrama-relacional.svg>) | Diagrama relacional generado desde el catálogo; el SVG lleva dentro el diagrama editable de draw.io |
+| [`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) | 20 instrucciones que violan una restricción cada una |
+| [`modelo/diagrama-relacional.svg`](<../modelo/diagrama-relacional.svg>) | Diagrama relacional generado con *DBML ER Diagrams* |
 | [`evidencias/practica3/parte6/`](<../evidencias/practica3/parte6>) | Capturas de cada ejecución |
 
 ---
@@ -236,15 +236,15 @@ Con esos datos, las vistas calculan los atributos derivados y las columnas gener
 
 ### Instrucciones rechazadas por el gestor
 
-[`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) contiene 18 instrucciones; cada una viola una restricción distinta. Se ejecuta **sin** `ON_ERROR_STOP` para que cada error se muestre y se siga con la siguiente:
+[`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) contiene 20 instrucciones; cada una viola una restricción distinta. Se ejecuta **sin** `ON_ERROR_STOP` para que cada error se muestre y se siga con la siguiente:
 
 ```bash
 docker exec practica1-postgres psql -U pg-practica1 -d comandas -f /tmp/inserts-rechazados.sql
 ```
 
-![Ejecución de inserts-rechazados.sql con los 18 mensajes de error del gestor](<../evidencias/practica3/parte6/04 - INSERT rechazados.png>)
+![Ejecución de inserts-rechazados.sql con los 20 mensajes de error del gestor](<../evidencias/practica3/parte6/04 - INSERT rechazados.png>)
 
-Las 18 fueron rechazadas. Los cuatro casos centrales del modelo:
+Las 20 fueron rechazadas. Los cuatro casos centrales del modelo:
 
 **1. Mesa de un evento que no existe**: la entidad débil no puede existir sin su propietaria (Regla 8).
 
@@ -291,7 +291,7 @@ ERROR:  no hay stock suficiente de "Refresco de cola light 355 ml" para preparar
 HINT:  Resurta el ingrediente o cancele la comanda.
 ```
 
-Las 18 instrucciones y la restricción que las detuvo:
+Las 20 instrucciones y la restricción que las detuvo:
 
 | # | Instrucción | Restricción que la rechaza | Regla que protege |
 | :--: | :-- | :-- | :-- |
@@ -313,8 +313,8 @@ Las 18 instrucciones y la restricción que las detuvo:
 | 16 | Preparar un refresco de dieta sin refresco light en inventario | `tg_comanda_stock` | Regla de negocio del inventario: no se prepara lo que no alcanza |
 | 17 | Dejar en −5 el stock del queso parmesano | `ck_ingrediente_stock` | Regla 1: `CHECK` de dominio |
 | 18 | Borrar la pasta, que usa la receta de Pasta Alfredo | `fk_receta_ingrediente` (`RESTRICT`) | Regla 5: la receta no se queda incompleta |
-| 19 | Se intenta crear una cuenta sin nombre | `ck_cuenta_nombre` | El alias de la cuenta no queda vacio. |
-| 20 | Se intenta crear una crear una cuenta con el mismo nombre de otra abierta en la misma mesa | `ck_cuenta_nombre_abierta` | No existen dos cuentas con el mismo nombre simultaneamente en una mesa |
+| 19 | Cuenta con el nombre en blanco | `ck_cuenta_nombre` | El alias de la cuenta no queda vacío |
+| 20 | Cuenta con el mismo nombre que otra abierta en la misma mesa (`novios` contra `Novios`) | `ux_cuenta_nombre_abierta` (índice único parcial) | No hay dos cuentas abiertas con el mismo nombre en una mesa, sin distinguir mayúsculas |
 
 Después de las 20 instrucciones, el conteo de filas es el mismo que dejó `datos-ejemplo.sql`: ninguna fila inválida quedó guardada.
 
@@ -332,14 +332,14 @@ Después de las 20 instrucciones, el conteo de filas es el mismo que dejó `dato
 
 ![Diagrama relacional del sistema de comandas](<../modelo/diagrama-relacional.svg>)
 
-El diagrama se generó **desde el catálogo de la base ya creada**, no a mano: se leyeron de `pg_attribute` y `pg_constraint` las 97 columnas (con su tipo, si admiten nulos y si son generadas), las claves primarias, las claves alternativas y las 25 claves foráneas, y se dibujaron en draw.io. Así, el diagrama muestra exactamente lo que el gestor tiene declarado. El SVG lleva dentro el diagrama editable, así que se puede abrir en draw.io para reacomodarlo sin volver a generarlo.
+El diagrama se diseñó a partir del [Diagrama Entidad-Relación Extendido](<../modelo/diagrama-eer-chen.svg>) y del [Inventario del Modelo Entidad-Relación Extendido](<InventarioModeloEER.md>): con el análisis de ambos se determinó la estructura de cada tabla, se escribió en DBML y se dibujó con el plugin *DBML ER Diagrams*.
 
-- Cada línea une la clave primaria referenciada con la clave foránea que la usa. Del lado de la clave primaria, la doble barra indica que la FK es `NOT NULL` (mínimo 1) y el círculo con barra que admite nulos (mínimo 0). Del lado de la FK, la pata de gallo con círculo indica cero o muchos; en los tres subtipos va círculo con barra, porque cada usuario tiene a lo más una fila en su subtipo.
-- La línea continua indica que la FK forma parte de la clave primaria (relación identificadora: entidades débiles, subtipos, tablas de relaciones N:M y el atributo multivaluado). La punteada indica que la FK es una columna aparte.
-- En las FK compuestas la línea sale de la columna que las distingue: `numero_mesa` en `cuenta`, `secuencial` en `comanda` y `pago`, e `id_usuario` en los subtipos, aunque su FK sea `(id_usuario, rol)`.
-- La primera columna de cada tabla dice si la columna es `PK`, `FK` o `UQ` (clave alternativa). Como en 6.1, la clave primaria va <ins>subrayada</ins> y la clave foránea en *cursiva*.
-- `?` después del tipo marca las columnas que admiten nulos, y las columnas generadas van en cursiva sobre fondo gris con ⚙.
-- Las tablas se agrupan por área. A la izquierda están el evento con sus organizadores, anticipos y cuentas, y arriba el inventario (ingrediente y receta). Al centro, mesa, comanda, pago y acuerdo. A la derecha, el catálogo (producto y paquete) y la jerarquía de Usuario.
+- Cada línea une una clave foránea con la clave primaria que referencia y toma el color de la tabla a la que apunta. La pata de gallo queda del lado de la FK, que es el lado muchos, y la barra del lado de la clave primaria, el lado uno. Un círculo en el extremo indica que la FK admite nulos (mínimo 0).
+- 🔑 marca la clave primaria de una sola columna, 🔗 las claves foráneas y `NN` las columnas `NOT NULL`. Las claves primarias compuestas (`mesa`, `cuenta`, `receta`, `acuerdo`, `paquete_producto` y `evento_organizador`) no llevan 🔑 porque el plugin solo marca las de una columna; están en 6.1.
+- Las FK compuestas se dibujan desde la columna que las distingue: `numero_mesa` en `cuenta`, `secuencial` en `comanda` y `pago`, e `id_usuario` en los subtipos, aunque su FK sea `(id_usuario, rol)`. Las de los subtipos son uno a uno y no llevan pata de gallo.
+- Los tipos son los del esquema, salvo dos que no caben en el ancho fijo de las tablas: `producto.id_producto_principal` aparece como `int` (es `INTEGER`) y `receta.cantidad_por_porcion` como `numeric` (es `NUMERIC(10,3)`).
+- Las columnas generadas (los componentes de fecha y hora y `cuenta.folio`) aparecen como columnas normales; en 6.1 van marcadas con ⚙.
+- Las tablas se agrupan por área: arriba el catálogo y el inventario (ingrediente, receta, producto y paquete); a la izquierda el evento con sus organizadores, anticipos y cuentas; al centro mesa, acuerdo, comanda y pago; a la derecha la jerarquía de Usuario.
 
 ---
 
@@ -441,7 +441,7 @@ Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican co
 | Un ingrediente en uso no se borra | `fk_receta_ingrediente` (`RESTRICT`) | Rechazo 18 |
 | Lo ya cobrado no se pierde | `ON DELETE RESTRICT` en comanda, pago y anticipo | Rechazo 15 |
 | La cuenta tiene nombre visible | `ck_cuenta_nombre` | Rechazo 19 |
-| Una cuenta abierta no repite nombre en su mesa | `ck_cuenta_nombre_abierta` | Rechazo 20 |
+| Una cuenta abierta no repite nombre en su mesa | Índice único parcial `ux_cuenta_nombre_abierta` | Rechazo 20 |
 
 ### Lo que no se preservó
 
