@@ -20,7 +20,7 @@ BEGIN;
         ASSERT v_precio = 180.00, format('el precio cambio a %s al subir el catálogo', v_precio);
     END $$;
 
-    \warn '=== 2. Altas sin id_usuario: las secuencias no chocan'
+    \warn '=== 2. Altas sin id o numero: las secuencias no chocan'
     DO $$
     DECLARE
         v_id    INTEGER;
@@ -29,13 +29,38 @@ BEGIN;
         INSERT INTO usuario (nombre, usuario, fecha_nacimiento, contrasena_hash, rol)
         VALUES ('Pedro Nuevo Díaz', 'pnuevo', DATE '2000-02-02', '$2b$12$hashDeEjemploPedro', 'mesero')
         RETURNING id_usuario INTO v_id;
-        ASSERT v_id > 5, format('la secuencia dio %s, que ya existía', v_id);
+        ASSERT v_id > 5, format('la secuencia de usuario dio %s, que ya existía', v_id);
 
         -- 2) Su fila de subtipo, con el mismo id
         INSERT INTO mesero (id_usuario, turno_asignado) VALUES (v_id, 'matutino');
 
         -- 3) Revisar la especialización total, sin COMMIT
         SET CONSTRAINTS ALL IMMEDIATE;
+
+        -- 4) Ingrediente sin id_ingrediente
+        INSERT INTO ingrediente (nombre, unidad_medida)
+        VALUES ('Jamon', 'g')
+        RETURNING id_ingrediente INTO v_id;
+        ASSERT v_id > 8, format('la secuencia de ingrediente dio %s, que ya existía', v_id);
+
+        -- 5) Producto sin id_producto
+        INSERT INTO producto (nombre, categoria, precio)
+        VALUES ('Sandwich', 'alimentos', '50.00')
+        RETURNING id_producto INTO v_id;
+        ASSERT v_id > 4, format('la secuencia de producto dio %s, que ya existía', v_id);
+
+        -- 4) Paquete sin numero_paquete
+        INSERT INTO paquete (monto, detalles)
+        VALUES (20000.00, 'Paquete Mis Quince: ¡El paquete perfecto para tus quince años!')
+        RETURNING numero_paquete INTO v_id;
+        ASSERT v_id > 2, format('la secuencia de paquetes dio %s, que ya existía', v_id);
+
+        -- 5) Evento sin numero_evento
+        INSERT INTO evento (fecha, tipo_evento,  numero_asistentes)
+        VALUES (DATE '2026-10-22', 'quince años', 3000)
+        RETURNING numero_evento INTO v_id;
+        ASSERT v_id > 17, format('la secuencia de evento dio %s, que ya existía', v_id);
+
     END $$;
 
     \warn '=== 3. Flujo completo de un producto: el stock se toca una sola vez'
