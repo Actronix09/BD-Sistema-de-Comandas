@@ -38,7 +38,7 @@ Los tres subtipos de Usuario (Mesero, Bar/Cocina y Cajero/Administrador) no se c
 | 9 | **Mesa** | Número de mesa | Evento | *Pertenece* | Identificación | (Número de evento, Número de mesa) |
 | 10 | **Cuenta** | Secuencial | Evento | *Abre* | Identificación | (Número de evento, Secuencial) |
 
-Cuenta tiene además tres atributos propios: Folio `(derivado: [#Evento]-[#Mesa]-[#Secuencial])`, Estado (abierta/cerrada) y Total acumulado `(derivado)`. Mesa no tiene más atributos que su clave parcial.
+Cuenta tiene además cuatro atributos propios: Nombre (alias que la distingue de las demás cuentas de su mesa), Folio `(derivado: [#Evento]-[#Mesa]-[#Secuencial])`, Estado (abierta/cerrada) y Total acumulado `(derivado)`. Mesa no tiene más atributos que su clave parcial.
 
 Las dos dependencias son **de identificación**: el número de mesa y el secuencial de la cuenta se reinician en cada evento, así que por sí solos no distinguen nada. Cuenta se identifica por Evento y no por Mesa; la relación con la mesa (*Tiene*) solo registra dónde se abrió.
 
@@ -54,7 +54,7 @@ La cardinalidad se escribe para cada participante como `(mín,máx)`: cuántas v
 | R4 | *Tiene* | Cuenta (1,1) | Mesa (0,N) | 1:N | — |
 | R5 | *Genera* | Comanda (1,1) | Cuenta (0,N) | 1:N | — |
 | R6 | *Levanta* | Comanda (1,1) | Mesero (0,N) | 1:N | — |
-| R7 | *Referencia* | Comanda (1,1) | Producto (1,N) | 1:N | — |
+| R7 | *Referencia* | Comanda (1,1) | Producto (0,N) | 1:N | — |
 | R8 | *Prepara* | Comanda (0,1) | Bar/Cocina (0,N) | 1:N | — |
 | R9 | *Cancela* | Comanda (0,1) | Cajero/Administrador (0,N) | 1:N | — |
 | R10 | *Recibe* | Pago (1,1) | Cuenta (0,N) | 1:N | — |

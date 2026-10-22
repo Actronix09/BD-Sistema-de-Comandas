@@ -16,8 +16,8 @@ En este documento se presenta el resultado de la transformación del modelo EER 
 | :-- | :-- |
 | [`sql/esquema.sql`](<../sql/esquema.sql>) | `CREATE TABLE` de las 17 tablas, disparadores, índices, vistas y comentarios |
 | [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) | Datos válidos mínimos (un evento con mesas, cuentas, comandas y un pago, y el inventario con las recetas) |
-| [`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) | 18 instrucciones que violan una restricción cada una |
-| [`modelo/diagrama-relacional.svg`](<../modelo/diagrama-relacional.svg>) | Diagrama relacional generado desde el catálogo; el SVG lleva dentro el diagrama editable de draw.io |
+| [`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) | 20 instrucciones que violan una restricción cada una |
+| [`modelo/diagrama-relacional.png`](<../modelo/diagrama-relacional.png>) | Diagrama relacional generado con *DBML ER Diagrams* |
 | [`evidencias/practica3/parte6/`](<../evidencias/practica3/parte6>) | Capturas de cada ejecución |
 
 ---
@@ -37,7 +37,7 @@ Notación: clave primaria <ins>subrayada</ins>, clave foránea en *cursiva* y �
 | **bar_cocina** | *<ins>id_usuario</ins>* `INTEGER`, *rol* `VARCHAR(12)`, estado `VARCHAR(10)`, estacion_asignada `VARCHAR(6)` |
 | **cajero_admin** | *<ins>id_usuario</ins>* `INTEGER`, *rol* `VARCHAR(12)`, nivel_acceso `VARCHAR(13)`, caja_asignada `SMALLINT` |
 | **mesa** | *<ins>numero_evento</ins>* `INTEGER`, <ins>numero_mesa</ins> `SMALLINT`, *id_mesero* `INTEGER` |
-| **cuenta** | *<ins>numero_evento</ins>* `INTEGER`, <ins>secuencial</ins> `SMALLINT`, *numero_mesa* `SMALLINT`, folio ⚙ `VARCHAR(30)`, estado `VARCHAR(8)` |
+| **cuenta** | *<ins>numero_evento</ins>* `INTEGER`, <ins>secuencial</ins> `SMALLINT`, *numero_mesa* `SMALLINT`, nombre `VARCHAR(60)`, folio ⚙ `VARCHAR(30)`, estado `VARCHAR(8)` |
 | **producto** | <ins>id_producto</ins> `INTEGER`, nombre `VARCHAR(80)`, descripcion `VARCHAR(255)`, categoria `VARCHAR(10)`, precio `NUMERIC(10,2)`, *id_producto_principal* `INTEGER` |
 | **ingrediente** | <ins>id_ingrediente</ins> `INTEGER`, nombre `VARCHAR(60)`, unidad_medida `VARCHAR(5)`, stock_actual `NUMERIC(10,3)`, stock_minimo `NUMERIC(10,3)` |
 | **receta** | *<ins>id_producto</ins>* `INTEGER`, *<ins>id_ingrediente</ins>* `INTEGER`, cantidad_por_porcion `NUMERIC(10,3)` |
@@ -93,7 +93,7 @@ El criterio de cada acción está en [Reglas de Transformación — Acciones ref
 | bar_cocina | 1 | 1 | 0 | 3 | Disparador diferido de completitud |
 | cajero_admin | 1 | 1 | 0 | 3 | Disparador diferido de completitud |
 | mesa | 1 | 2 | 0 | 1 | |
-| cuenta | 1 | 2 | 0 | 2 | Folio generado |
+| cuenta | 1 | 2 | 0 | 3 | Folio generado |
 | producto | 1 | 1 | 1 | 3 | Disparador de variante de un nivel |
 | ingrediente | 1 | 0 | 1 | 3 | |
 | receta | 1 | 2 | 0 | 1 | |
@@ -103,7 +103,7 @@ El criterio de cada acción está en [Reglas de Transformación — Acciones ref
 | comanda | 1 | 5 | 0 | 4 | 4 columnas generadas; disparadores de precio cobrado y de stock |
 | pago | 1 | 3 | 0 | 4 | 4 columnas generadas |
 | anticipo | 1 | 1 | 0 | 1 | 3 columnas generadas |
-| **Total** | **17** | **25** | **4** | **33** | |
+| **Total** | **17** | **25** | **4** | **34** | |
 
 Además de las restricciones, el esquema incluye:
 
@@ -113,6 +113,7 @@ Además de las restricciones, el esquema incluye:
 | Disparadores normales | 3 | Variante de un solo nivel; precio cobrado fijo; descuento del stock al preparar una comanda |
 | Índices sobre claves foráneas | 16 | PostgreSQL no indexa las claves foráneas por su cuenta |
 | Vistas | 6 | Atributos derivados (`v_evento`, `v_cuenta`, `v_usuario`, `v_mesero`, `v_producto`, `v_comanda`) |
+| Índice único parcial | 1 | Nombre de cuenta sin repetir entre las cuentas abiertas de una mesa |
 
 ---
 
@@ -165,9 +166,9 @@ Código de salida: 0
 | `CREATE TABLE` | 17 |
 | `CREATE FUNCTION` | 4 |
 | `CREATE TRIGGER` | 7 |
-| `CREATE INDEX` | 16 |
+| `CREATE INDEX` | 17 |
 | `CREATE VIEW` | 6 |
-| `COMMENT` | 113 |
+| `COMMENT` | 114 |
 | `ERROR` | 0 |
 
 ![Final de la ejecución de esquema.sql: los COMMENT, el COMMIT y el código de salida 0](<../evidencias/practica3/parte6/01 - Ejecución del esquema.sql.png>)
@@ -225,7 +226,7 @@ Con esos datos, las vistas calculan los atributos derivados y las columnas gener
 
 | Consulta | Resultado |
 | :-- | :-- |
-| `SELECT folio, total_acumulado FROM v_cuenta` | `17-1-1` → 215.00 · `17-1-2` → 95.00 · `17-3-3` → 0.00 (su única comanda está cancelada) |
+| `SELECT folio, nombre, total_acumulado FROM v_cuenta` | `17-1-1` Novios → 215.00 · `17-1-2` Padrinos → 95.00 · `17-3-3` Familia Torres → 0.00 (su única comanda está cancelada) |
 | `SELECT numero_mesas FROM v_evento` | 3 |
 | `SELECT propinas_acumuladas FROM v_mesero` | Laura Méndez 35.00 · Óscar Pérez 0.00 |
 | `SELECT nombre, disponible FROM v_producto` | Refresco, Pasta Alfredo y Pastel de chocolate → `true` · Refresco de dieta → `false` (su refresco light está en 0) |
@@ -235,15 +236,15 @@ Con esos datos, las vistas calculan los atributos derivados y las columnas gener
 
 ### Instrucciones rechazadas por el gestor
 
-[`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) contiene 18 instrucciones; cada una viola una restricción distinta. Se ejecuta **sin** `ON_ERROR_STOP` para que cada error se muestre y se siga con la siguiente:
+[`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) contiene 20 instrucciones; cada una viola una restricción distinta. Se ejecuta **sin** `ON_ERROR_STOP` para que cada error se muestre y se siga con la siguiente:
 
 ```bash
 docker exec practica1-postgres psql -U pg-practica1 -d comandas -f /tmp/inserts-rechazados.sql
 ```
 
-![Ejecución de inserts-rechazados.sql con los 18 mensajes de error del gestor](<../evidencias/practica3/parte6/04 - INSERT rechazados.png>)
+![Ejecución de inserts-rechazados.sql con los 20 mensajes de error del gestor](<../evidencias/practica3/parte6/04 - INSERT rechazados.png>)
 
-Las 18 fueron rechazadas. Los cuatro casos centrales del modelo:
+Las 20 fueron rechazadas. Los cuatro casos centrales del modelo:
 
 **1. Mesa de un evento que no existe**: la entidad débil no puede existir sin su propietaria (Regla 8).
 
@@ -290,7 +291,7 @@ ERROR:  no hay stock suficiente de "Refresco de cola light 355 ml" para preparar
 HINT:  Resurta el ingrediente o cancele la comanda.
 ```
 
-Las 18 instrucciones y la restricción que las detuvo:
+Las 20 instrucciones y la restricción que las detuvo:
 
 | # | Instrucción | Restricción que la rechaza | Regla que protege |
 | :--: | :-- | :-- | :-- |
@@ -312,8 +313,10 @@ Las 18 instrucciones y la restricción que las detuvo:
 | 16 | Preparar un refresco de dieta sin refresco light en inventario | `tg_comanda_stock` | Regla de negocio del inventario: no se prepara lo que no alcanza |
 | 17 | Dejar en −5 el stock del queso parmesano | `ck_ingrediente_stock` | Regla 1: `CHECK` de dominio |
 | 18 | Borrar la pasta, que usa la receta de Pasta Alfredo | `fk_receta_ingrediente` (`RESTRICT`) | Regla 5: la receta no se queda incompleta |
+| 19 | Cuenta con el nombre en blanco | `ck_cuenta_nombre` | El alias de la cuenta no queda vacío |
+| 20 | Cuenta con el mismo nombre que otra abierta en la misma mesa (`novios` contra `Novios`) | `ux_cuenta_nombre_abierta` (índice único parcial) | No hay dos cuentas abiertas con el mismo nombre en una mesa, sin distinguir mayúsculas |
 
-Después de las 18 instrucciones, el conteo de filas es el mismo que dejó `datos-ejemplo.sql`: ninguna fila inválida quedó guardada.
+Después de las 20 instrucciones, el conteo de filas es el mismo que dejó `datos-ejemplo.sql`: ninguna fila inválida quedó guardada.
 
 ```
  usuarios | meseros | mesas | cuentas | comandas | pagos | productos | acuerdos | eventos | ingredientes | recetas | stock_parmesano 
@@ -329,20 +332,21 @@ Después de las 18 instrucciones, el conteo de filas es el mismo que dejó `dato
 
 ![Diagrama relacional del sistema de comandas](<../modelo/diagrama-relacional.svg>)
 
-El diagrama se generó **desde el catálogo de la base ya creada**, no a mano: se leyeron de `pg_attribute` y `pg_constraint` las 96 columnas (con su tipo, si admiten nulos y si son generadas), las claves primarias, las claves alternativas y las 25 claves foráneas, y se dibujaron en draw.io. Así, el diagrama muestra exactamente lo que el gestor tiene declarado. El SVG lleva dentro el diagrama editable, así que se puede abrir en draw.io para reacomodarlo sin volver a generarlo.
+El diagrama se diseñó a partir del [Diagrama Entidad-Relación Extendido](<../modelo/diagrama-eer-chen.png>) y del [Inventario del Modelo Entidad-Relación Extendido](<InventarioModeloEER.md>): con el análisis de ambos se determinó la estructura de cada tabla, se escribió en DBML y se dibujó con el plugin *DBML ER Diagrams*.
 
-- Cada línea une la clave primaria referenciada con la clave foránea que la usa. Del lado de la clave primaria, la doble barra indica que la FK es `NOT NULL` (mínimo 1) y el círculo con barra que admite nulos (mínimo 0). Del lado de la FK, la pata de gallo con círculo indica cero o muchos; en los tres subtipos va círculo con barra, porque cada usuario tiene a lo más una fila en su subtipo.
-- La línea continua indica que la FK forma parte de la clave primaria (relación identificadora: entidades débiles, subtipos, tablas de relaciones N:M y el atributo multivaluado). La punteada indica que la FK es una columna aparte.
-- En las FK compuestas la línea sale de la columna que las distingue: `numero_mesa` en `cuenta`, `secuencial` en `comanda` y `pago`, e `id_usuario` en los subtipos, aunque su FK sea `(id_usuario, rol)`.
-- La primera columna de cada tabla dice si la columna es `PK`, `FK` o `UQ` (clave alternativa). Como en 6.1, la clave primaria va <ins>subrayada</ins> y la clave foránea en *cursiva*.
-- `?` después del tipo marca las columnas que admiten nulos, y las columnas generadas van en cursiva sobre fondo gris con ⚙.
-- Las tablas se agrupan por área. A la izquierda están el evento con sus organizadores, anticipos y cuentas, y arriba el inventario (ingrediente y receta). Al centro, mesa, comanda, pago y acuerdo. A la derecha, el catálogo (producto y paquete) y la jerarquía de Usuario.
+- Cada línea une una clave foránea con la clave primaria que referencia y toma el color de la tabla a la que apunta. Las cardinalidades van en notación pata de gallo y salen del modelo EER (relaciones R1 a R17 del [Inventario del Modelo EER](<InventarioModeloEER.md>)): en cada extremo, la marca pegada a la tabla es el máximo (pata de gallo = muchos, barra = uno) y la que sigue es el mínimo (círculo = cero, barra = uno). Por ejemplo, entre `evento` y `mesa` va `||` junto a evento y `|<` junto a mesa: cada mesa es de un solo evento y todo evento tiene al menos una mesa. Algunos de esos mínimos de 1 no los hace cumplir el gestor; están en 6.5.
+- Cuando dos claves foráneas con cardinalidades distintas llegan a la misma columna (`mesero.id_usuario`, `cajero_admin.id_usuario` y `producto.id_producto`), cada una entra a una altura distinta de la fila para que sus marcas no se encimen.
+- 🔑 marca la clave primaria de una sola columna, 🔗 las claves foráneas y `NN` las columnas `NOT NULL`. Las claves primarias compuestas (`mesa`, `cuenta`, `receta`, `acuerdo`, `paquete_producto` y `evento_organizador`) no llevan 🔑 porque el plugin solo marca las de una columna; están en 6.1.
+- Las FK compuestas se dibujan desde la columna que las distingue: `numero_mesa` en `cuenta`, `secuencial` en `comanda` y `pago`, e `id_usuario` en los subtipos, aunque su FK sea `(id_usuario, rol)`. Las de los subtipos son uno a uno y no llevan pata de gallo.
+- Los tipos son los del esquema, salvo dos que no caben en el ancho fijo de las tablas: `producto.id_producto_principal` aparece como `int` (es `INTEGER`) y `receta.cantidad_por_porcion` como `numeric` (es `NUMERIC(10,3)`).
+- Las columnas generadas (los componentes de fecha y hora y `cuenta.folio`) aparecen como columnas normales; en 6.1 van marcadas con ⚙.
+- Las tablas se agrupan por área: arriba el catálogo y el inventario (ingrediente, receta, producto y paquete); a la izquierda el evento con sus organizadores, anticipos y cuentas; al centro mesa, acuerdo, comanda y pago; a la derecha la jerarquía de Usuario.
 
 ---
 
 ## 6.4 Diccionario de datos
 
-Está en un documento aparte por su tamaño: [Diccionario de Datos](<DiccionarioDeDatos.md>). Documenta las 96 columnas de las 17 tablas con tabla, columna, tipo, restricciones y descripción, más las columnas calculadas de las seis vistas. Se generó desde el catálogo, y las descripciones son los `COMMENT ON COLUMN` del propio `esquema.sql`, así que cualquiera puede consultarlas también desde el gestor:
+Está en un documento aparte por su tamaño: [Diccionario de Datos](<DiccionarioDeDatos.md>). Documenta las 97 columnas de las 17 tablas con tabla, columna, tipo, restricciones y descripción, más las columnas calculadas de las seis vistas. Se generó desde el catálogo, y las descripciones son los `COMMENT ON COLUMN` del propio `esquema.sql`, así que cualquiera puede consultarlas también desde el gestor:
 
 ```sql
 SELECT column_name, col_description('comanda'::regclass, ordinal_position)
@@ -388,7 +392,7 @@ En el modelo relacional la cardinalidad no se dibuja: se expresa con restriccion
 | R4 | *Tiene* | Cuenta (1,1) · Mesa (0,N) | `cuenta.numero_mesa NOT NULL`, FK compuesta → mesa | ✓ |
 | R5 | *Genera* | Comanda (1,1) · Cuenta (0,N) | `comanda.(numero_evento, secuencial) NOT NULL` → cuenta | ✓ |
 | R6 | *Levanta* | Comanda (1,1) · Mesero (0,N) | `comanda.id_mesero NOT NULL` → mesero | ✓ |
-| R7 | *Referencia* | Comanda (1,1) · Producto (1,N) | `comanda.id_producto NOT NULL` → producto | ✓ \* |
+| R7 | *Referencia* | Comanda (1,1) · Producto (0,N) | `comanda.id_producto NOT NULL` → producto | ✓ |
 | R8 | *Prepara* | Comanda (0,1) · Bar/Cocina (0,N) | `comanda.id_bar_cocina` admite `NULL` → bar_cocina | ✓ |
 | R9 | *Cancela* | Comanda (0,1) · Cajero (0,N) | `comanda.id_cajero_cancela` admite `NULL` → cajero_admin | ✓ |
 | R10 | *Recibe* | Pago (1,1) · Cuenta (0,N) | `pago.(numero_evento, secuencial) NOT NULL` → cuenta | ✓ |
@@ -402,7 +406,7 @@ En el modelo relacional la cardinalidad no se dibuja: se expresa con restriccion
 
 Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican completas: 2 de las relaciones identificadoras, 12 de las uno a muchos, 2 de *Incluye*, 2 de *Receta*, 3 de *Acuerda*, 1 del atributo multivaluado y 3 de los subtipos.
 
-\* En cuatro relaciones, el **mínimo 1 del lado uno** no se hace cumplir en el gestor: que todo evento tenga al menos una mesa, que todo producto aparezca en al menos una comanda, que todo paquete incluya al menos un producto y que todo producto lleve al menos un ingrediente. Las cuatro se dejaron fuera a propósito y la razón está en [Lo que el esquema no puede garantizar](<ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>). En la de Producto se recomienda corregir el EER a (0,N).
+\* En tres relaciones, el **mínimo 1 del lado uno** no se hace cumplir en el gestor: que todo evento tenga al menos una mesa, que todo paquete incluya al menos un producto y que todo producto lleve al menos un ingrediente. Las tres se dejaron fuera a propósito y la razón está en [Lo que el esquema no puede garantizar](<ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>).
 
 ### Atributos
 
@@ -437,6 +441,8 @@ Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican co
 | Un producto está disponible si su receta alcanza | Vista `v_producto` | Datos de ejemplo (refresco de dieta no disponible) |
 | Un ingrediente en uso no se borra | `fk_receta_ingrediente` (`RESTRICT`) | Rechazo 18 |
 | Lo ya cobrado no se pierde | `ON DELETE RESTRICT` en comanda, pago y anticipo | Rechazo 15 |
+| La cuenta tiene nombre visible | `ck_cuenta_nombre` | Rechazo 19 |
+| Una cuenta abierta no repite nombre en su mesa | Índice único parcial `ux_cuenta_nombre_abierta` | Rechazo 20 |
 
 ### Lo que no se preservó
 

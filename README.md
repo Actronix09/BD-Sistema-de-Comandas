@@ -175,10 +175,10 @@ El reporte principal de la práctica se encuentra en:
 
 ## Diagramas
 
-- [Diagrama entidad-relación](<modelo/diagrama-er.svg>)
-- [Diagrama entidad-relación extendido en notación de Peter Chen](<modelo/diagrama-eer-chen.svg>)
-- [Diagrama entidad-relación extendido en notación Crow's Foot](<modelo/diagrama-eer-crowsfeet.svg>)
-- [Diagrama relacional del sistema de comandas](<modelo/diagrama-relacional.svg>)
+- [Diagrama entidad-relación](<modelo/diagrama-er.png>)
+- [Diagrama entidad-relación extendido en notación de Peter Chen](<modelo/diagrama-eer-chen.png>)
+- [Diagrama entidad-relación extendido en notación Crow's Foot](<modelo/diagrama-eer-crowsfeet.png>)
+- [Diagrama relacional del sistema de comandas](<modelo/diagrama-relacional.png>)
 
 ## Licencia
 

@@ -66,6 +66,7 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
   - Número de mesa `(clave parcial)`
 - **Cuenta:** `(entidad débil)`
   - Secuencial `(clave parcial)`
+  - Nombre (alias de la cuenta)
   - Folio ([#Evento]-[#Mesa]-[#Secuencial]) `(derivado)`
   - Estado (abierta/cerrada)
   - Total acumulado `(derivado)`
@@ -109,7 +110,7 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
     - Año
     - Hora
   - Precio cobrado
-  - Estado
+  - Estado (pendiente/en preparación/lista/entregada/cancelada)
   - Detalles `(opcional)`
   - Precio `(derivado)`
 - **Pago:**
@@ -143,7 +144,7 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
 | **Mesa - Cuenta** | *Tiene* | Una mesa puede tener varias cuentas (grupos de invitados). Esta relación solo dice en qué mesa se abrió la cuenta; quien le da identidad a la cuenta es el evento, no la mesa. | (0,N):(1,1) |
 | **Cuenta - Comanda** | *Genera* | Una cuenta genera varias comandas (rondas) durante el evento. | (0,N):(1,1) |
 | **Mesero - Comanda** | *Levanta* | Un mesero levanta varias comandas; cada comanda la levanta un solo mesero. | (0,N):(1,1) |
-| **Comanda - Producto** | *Referencia* | Cada comanda hace referencia a un producto. | (1,1):(1,N) |
+| **Comanda - Producto** | *Referencia* | Cada comanda hace referencia a un producto. | (1,1):(0,N) |
 | **Cuenta - Pago** | *Recibe* | Una cuenta puede recibir uno o varios pagos. | (0,N):(1,1) |
 | **Evento - Anticipo** | *Recibe* | Un evento puede tener uno o varios anticipos. | (0,N):(1,1) |
 | **Paquete - Producto** | *Incluye* | Contenido base del paquete en el catálogo: qué productos trae en general, sin cantidades. Un paquete incluye uno o varios productos, y un producto puede estar en varios paquetes. No es una lista cerrada: lo que de verdad se pacta en cada evento va en la ternaria *Acuerda*, que puede agregar productos o cambiar cantidades. | (1,N):(0,N) |

@@ -8,7 +8,7 @@ En este documento se describe cada columna de las tablas resultantes de la trans
 
 **Origen:** generado desde el catálogo del gestor después de ejecutar [`sql/esquema.sql`](<../sql/esquema.sql>). Las descripciones son los `COMMENT ON` del propio esquema, así que el diccionario y la base no pueden contradecirse.
 
-**Contenido:** 17 tablas y 96 columnas.
+**Contenido:** 17 tablas y 97 columnas.
 
 ---
 
@@ -118,6 +118,7 @@ Cuenta de un grupo de invitados (entidad débil de Evento).
 | cuenta | `numero_evento` | `INTEGER` | PK<br>FK → evento · ON DELETE CASCADE · ON UPDATE CASCADE<br>FK → mesa (numero_evento, numero_mesa) · ON DELETE RESTRICT · ON UPDATE RESTRICT | Evento en el que se abrió la cuenta (parte de la clave, relación Abre). |
 | cuenta | `secuencial` | `SMALLINT` | PK<br>`ck_cuenta_secuencial`: CHECK (secuencial > 0) | Número de cuenta dentro del evento (clave parcial). |
 | cuenta | `numero_mesa` | `SMALLINT` | FK → mesa (numero_evento, numero_mesa) · ON DELETE RESTRICT · ON UPDATE RESTRICT<br>NOT NULL | Mesa en la que se abrió la cuenta (relación Tiene). |
+| cuenta | `nombre` | `VARCHAR(60)` | NOT NULL<br>`ck_cuenta_nombre`: CHECK (btrim(nombre) <> '')<br>`ux_cuenta_nombre_abierta` : UNIQUE (numero_evento, numero_mesa, lower(nombre)) WHERE estado = 'abierta' | Alias de la cuenta para distinguirla de las demás de su mesa (p. ej. «Novios»). |
 | cuenta | `folio` | `VARCHAR(30)` | GENERATED ALWAYS … STORED | Folio evento-mesa-secuencial (derivado); se calcula de la fila. |
 | cuenta | `estado` | `VARCHAR(8)` | NOT NULL<br>DEFAULT 'abierta'<br>`ck_cuenta_estado`: CHECK (estado IN ('abierta', 'cerrada')) | Estado de la cuenta: abierta o cerrada. |
 
@@ -197,9 +198,9 @@ Pedido de un producto levantado por un mesero (entidad fuerte).
 | comanda | `fecha_hora_dia` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Día; se calcula de fecha_hora en hora de la Ciudad de México. |
 | comanda | `fecha_hora_mes` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Mes; se calcula de fecha_hora. |
 | comanda | `fecha_hora_anio` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Año; se calcula de fecha_hora. |
-| comanda | `fecha_hora_hora` | `TIME(0)` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
+| comanda | `fecha_hora_hora` | `TIME` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
 | comanda | `precio_cobrado` | `NUMERIC(10,2)` | NOT NULL<br>`ck_comanda_precio`: CHECK (precio_cobrado >= 0) | Precio copiado del producto al levantar la comanda; no cambia después. |
-| comanda | `estado` | `VARCHAR(14)` | NOT NULL<br>DEFAULT 'pendiente'<br>`ck_comanda_cancelacion`: CHECK ((estado = 'cancelada') = (id_cajero_cancela IS NOT NULL))<br>`ck_comanda_estado`: CHECK (estado IN ('pendiente', 'en_preparacion', 'entregada', 'cancelada'))<br>`ck_comanda_preparacion`: CHECK (id_bar_cocina IS NOT NULL OR estado IN ('pendiente', 'cancelada')) | Estado: pendiente, en_preparacion, entregada o cancelada. |
+| comanda | `estado` | `VARCHAR(14)` | NOT NULL<br>DEFAULT 'pendiente'<br>`ck_comanda_cancelacion`: CHECK ((estado = 'cancelada') = (id_cajero_cancela IS NOT NULL))<br>`ck_comanda_estado`: CHECK (estado IN ('pendiente', 'en_preparacion', 'lista', 'entregada', 'cancelada'))<br>`ck_comanda_preparacion`: CHECK (id_bar_cocina IS NOT NULL OR estado IN ('pendiente', 'cancelada')) | Estado: pendiente, en_preparacion, lista (listo para entregar), entregada o cancelada. |
 | comanda | `detalles` | `VARCHAR(255)` | NULL | Indicaciones del cliente (opcional). |
 | comanda | `numero_evento` | `INTEGER` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Evento de la cuenta que genera la comanda (relación Genera). |
 | comanda | `secuencial` | `SMALLINT` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Secuencial de la cuenta que genera la comanda (relación Genera). |
@@ -221,7 +222,7 @@ Pago recibido sobre una cuenta (entidad fuerte).
 | pago | `fecha_hora_dia` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Día; se calcula de fecha_hora en hora de la Ciudad de México. |
 | pago | `fecha_hora_mes` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Mes; se calcula de fecha_hora. |
 | pago | `fecha_hora_anio` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Año; se calcula de fecha_hora. |
-| pago | `fecha_hora_hora` | `TIME(0)` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
+| pago | `fecha_hora_hora` | `TIME` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
 | pago | `numero_evento` | `INTEGER` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Evento de la cuenta pagada (relación Recibe). |
 | pago | `secuencial` | `SMALLINT` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Secuencial de la cuenta pagada (relación Recibe). |
 | pago | `id_cajero` | `INTEGER` | FK → cajero_admin · ON DELETE RESTRICT · ON UPDATE RESTRICT<br>NOT NULL | Cajero/administrador que manejó el pago (relación Maneja). |
