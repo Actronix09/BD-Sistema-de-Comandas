@@ -198,7 +198,7 @@ Pedido de un producto levantado por un mesero (entidad fuerte).
 | comanda | `fecha_hora_dia` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Día; se calcula de fecha_hora en hora de la Ciudad de México. |
 | comanda | `fecha_hora_mes` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Mes; se calcula de fecha_hora. |
 | comanda | `fecha_hora_anio` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Año; se calcula de fecha_hora. |
-| comanda | `fecha_hora_hora` | `TIME(0)` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
+| comanda | `fecha_hora_hora` | `TIME` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
 | comanda | `precio_cobrado` | `NUMERIC(10,2)` | NOT NULL<br>`ck_comanda_precio`: CHECK (precio_cobrado >= 0) | Precio copiado del producto al levantar la comanda; no cambia después. |
 | comanda | `estado` | `VARCHAR(14)` | NOT NULL<br>DEFAULT 'pendiente'<br>`ck_comanda_cancelacion`: CHECK ((estado = 'cancelada') = (id_cajero_cancela IS NOT NULL))<br>`ck_comanda_estado`: CHECK (estado IN ('pendiente', 'en_preparacion', 'lista', 'entregada', 'cancelada'))<br>`ck_comanda_preparacion`: CHECK (id_bar_cocina IS NOT NULL OR estado IN ('pendiente', 'cancelada')) | Estado: pendiente, en_preparacion, lista (listo para entregar), entregada o cancelada. |
 | comanda | `detalles` | `VARCHAR(255)` | NULL | Indicaciones del cliente (opcional). |
@@ -222,7 +222,7 @@ Pago recibido sobre una cuenta (entidad fuerte).
 | pago | `fecha_hora_dia` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Día; se calcula de fecha_hora en hora de la Ciudad de México. |
 | pago | `fecha_hora_mes` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Mes; se calcula de fecha_hora. |
 | pago | `fecha_hora_anio` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Año; se calcula de fecha_hora. |
-| pago | `fecha_hora_hora` | `TIME(0)` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
+| pago | `fecha_hora_hora` | `TIME` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
 | pago | `numero_evento` | `INTEGER` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Evento de la cuenta pagada (relación Recibe). |
 | pago | `secuencial` | `SMALLINT` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Secuencial de la cuenta pagada (relación Recibe). |
 | pago | `id_cajero` | `INTEGER` | FK → cajero_admin · ON DELETE RESTRICT · ON UPDATE RESTRICT<br>NOT NULL | Cajero/administrador que manejó el pago (relación Maneja). |

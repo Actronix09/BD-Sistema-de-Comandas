@@ -391,7 +391,7 @@ En el modelo relacional la cardinalidad no se dibuja: se expresa con restriccion
 | R4 | *Tiene* | Cuenta (1,1) · Mesa (0,N) | `cuenta.numero_mesa NOT NULL`, FK compuesta → mesa | ✓ |
 | R5 | *Genera* | Comanda (1,1) · Cuenta (0,N) | `comanda.(numero_evento, secuencial) NOT NULL` → cuenta | ✓ |
 | R6 | *Levanta* | Comanda (1,1) · Mesero (0,N) | `comanda.id_mesero NOT NULL` → mesero | ✓ |
-| R7 | *Referencia* | Comanda (1,1) · Producto (1,N) | `comanda.id_producto NOT NULL` → producto | ✓ \* |
+| R7 | *Referencia* | Comanda (1,1) · Producto (0,N) | `comanda.id_producto NOT NULL` → producto | ✓ |
 | R8 | *Prepara* | Comanda (0,1) · Bar/Cocina (0,N) | `comanda.id_bar_cocina` admite `NULL` → bar_cocina | ✓ |
 | R9 | *Cancela* | Comanda (0,1) · Cajero (0,N) | `comanda.id_cajero_cancela` admite `NULL` → cajero_admin | ✓ |
 | R10 | *Recibe* | Pago (1,1) · Cuenta (0,N) | `pago.(numero_evento, secuencial) NOT NULL` → cuenta | ✓ |
@@ -405,7 +405,7 @@ En el modelo relacional la cardinalidad no se dibuja: se expresa con restriccion
 
 Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican completas: 2 de las relaciones identificadoras, 12 de las uno a muchos, 2 de *Incluye*, 2 de *Receta*, 3 de *Acuerda*, 1 del atributo multivaluado y 3 de los subtipos.
 
-\* En cuatro relaciones, el **mínimo 1 del lado uno** no se hace cumplir en el gestor: que todo evento tenga al menos una mesa, que todo producto aparezca en al menos una comanda, que todo paquete incluya al menos un producto y que todo producto lleve al menos un ingrediente. Las cuatro se dejaron fuera a propósito y la razón está en [Lo que el esquema no puede garantizar](<ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>). En la de Producto se recomienda corregir el EER a (0,N).
+\* En tres relaciones, el **mínimo 1 del lado uno** no se hace cumplir en el gestor: que todo evento tenga al menos una mesa, que todo paquete incluya al menos un producto y que todo producto lleve al menos un ingrediente. Las tres se dejaron fuera a propósito y la razón está en [Lo que el esquema no puede garantizar](<ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>).
 
 ### Atributos
 
