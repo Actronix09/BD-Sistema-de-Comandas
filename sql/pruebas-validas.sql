@@ -98,9 +98,9 @@ BEGIN;
         v_ahora     NUMERIC(10,3);
     BEGIN
         -- 1) captura inicial
-        SELECT FROM stock_actual INTO v_pasta FROM ingrediente WHERE id_ingrediente = 4; 
-        SELECT FROM stock_actual INTO v_crema FROM ingrediente WHERE id_ingrediente = 5; 
-        SELECT FROM stock_actual INTO v_queso FROM ingrediente WHERE id_ingrediente = 6;
+        SELECT stock_actual INTO v_pasta FROM ingrediente WHERE id_ingrediente = 4; 
+        SELECT stock_actual INTO v_crema FROM ingrediente WHERE id_ingrediente = 5; 
+        SELECT stock_actual INTO v_queso FROM ingrediente WHERE id_ingrediente = 6;
 
         -- 2) levantar comanda
         INSERT INTO comanda (estado, id_producto, numero_evento, secuencial, id_mesero) VALUES ('pendiente', 3, 17, 1, 1)
@@ -127,7 +127,7 @@ BEGIN;
         SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 6;
         ASSERT v_ahora = v_queso, format('cancelar gastó queso parmesano: %s -> %s', v_queso, v_ahora);
         
-    END $$;
+    END $$; 
     
 ROLLBACK;
 
