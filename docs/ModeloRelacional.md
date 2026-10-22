@@ -17,7 +17,7 @@ En este documento se presenta el resultado de la transformación del modelo EER 
 | [`sql/esquema.sql`](<../sql/esquema.sql>) | `CREATE TABLE` de las 17 tablas, disparadores, índices, vistas y comentarios |
 | [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) | Datos válidos mínimos (un evento con mesas, cuentas, comandas y un pago, y el inventario con las recetas) |
 | [`sql/inserts-rechazados.sql`](<../sql/inserts-rechazados.sql>) | 20 instrucciones que violan una restricción cada una |
-| [`modelo/diagrama-relacional.svg`](<../modelo/diagrama-relacional.svg>) | Diagrama relacional generado con *DBML ER Diagrams* |
+| [`modelo/diagrama-relacional.png`](<../modelo/diagrama-relacional.png>) | Diagrama relacional generado con *DBML ER Diagrams* |
 | [`evidencias/practica3/parte6/`](<../evidencias/practica3/parte6>) | Capturas de cada ejecución |
 
 ---
@@ -332,7 +332,7 @@ Después de las 20 instrucciones, el conteo de filas es el mismo que dejó `dato
 
 ![Diagrama relacional del sistema de comandas](<../modelo/diagrama-relacional.svg>)
 
-El diagrama se diseñó a partir del [Diagrama Entidad-Relación Extendido](<../modelo/diagrama-eer-chen.svg>) y del [Inventario del Modelo Entidad-Relación Extendido](<InventarioModeloEER.md>): con el análisis de ambos se determinó la estructura de cada tabla, se escribió en DBML y se dibujó con el plugin *DBML ER Diagrams*.
+El diagrama se diseñó a partir del [Diagrama Entidad-Relación Extendido](<../modelo/diagrama-eer-chen.png>) y del [Inventario del Modelo Entidad-Relación Extendido](<InventarioModeloEER.md>): con el análisis de ambos se determinó la estructura de cada tabla, se escribió en DBML y se dibujó con el plugin *DBML ER Diagrams*.
 
 - Cada línea une una clave foránea con la clave primaria que referencia y toma el color de la tabla a la que apunta. Las cardinalidades van en notación pata de gallo y salen del modelo EER (relaciones R1 a R17 del [Inventario del Modelo EER](<InventarioModeloEER.md>)): en cada extremo, la marca pegada a la tabla es el máximo (pata de gallo = muchos, barra = uno) y la que sigue es el mínimo (círculo = cero, barra = uno). Por ejemplo, entre `evento` y `mesa` va `||` junto a evento y `|<` junto a mesa: cada mesa es de un solo evento y todo evento tiene al menos una mesa. Algunos de esos mínimos de 1 no los hace cumplir el gestor; están en 6.5.
 - Cuando dos claves foráneas con cardinalidades distintas llegan a la misma columna (`mesero.id_usuario`, `cajero_admin.id_usuario` y `producto.id_producto`), cada una entra a una altura distinta de la fila para que sus marcas no se encimen.
