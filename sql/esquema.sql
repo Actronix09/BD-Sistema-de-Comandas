@@ -198,6 +198,7 @@ CREATE TABLE cuenta (
     numero_evento  INTEGER      NOT NULL,
     secuencial     SMALLINT     NOT NULL,
     numero_mesa    SMALLINT     NOT NULL,
+    nombre         VARCHAR(60)  NOT NULL,
     folio          VARCHAR(30)  GENERATED ALWAYS AS (
                        numero_evento::TEXT || '-' || numero_mesa::TEXT || '-' || secuencial::TEXT
                    ) STORED,
@@ -205,6 +206,7 @@ CREATE TABLE cuenta (
     CONSTRAINT pk_cuenta PRIMARY KEY (numero_evento, secuencial),
     CONSTRAINT ck_cuenta_secuencial CHECK (secuencial > 0),
     CONSTRAINT ck_cuenta_estado CHECK (estado IN ('abierta', 'cerrada')),
+    CONSTRAINT ck_cuenta_nombre CHECK (btrim(nombre) <> ''),
     CONSTRAINT fk_cuenta_evento FOREIGN KEY (numero_evento)
         REFERENCES evento (numero_evento)
         ON DELETE CASCADE
@@ -381,7 +383,7 @@ CREATE TABLE comanda (
     id_cajero_cancela  INTEGER        NULL,
     CONSTRAINT pk_comanda PRIMARY KEY (id_comanda),
     CONSTRAINT ck_comanda_precio CHECK (precio_cobrado >= 0),
-    CONSTRAINT ck_comanda_estado CHECK (estado IN ('pendiente', 'en_preparacion', 'entregada', 'cancelada')),
+    CONSTRAINT ck_comanda_estado CHECK (estado IN ('pendiente', 'en_preparacion', 'lista', 'entregada', 'cancelada')),
     -- Solo está cancelada si un cajero/administrador la canceló, y viceversa.
     CONSTRAINT ck_comanda_cancelacion CHECK ((estado = 'cancelada') = (id_cajero_cancela IS NOT NULL)),
     -- Sin estación solo si sigue pendiente o se canceló antes de prepararse.
@@ -442,10 +444,10 @@ LANGUAGE plpgsql AS $$
 DECLARE
     faltante  RECORD;
 BEGIN
-    IF NEW.estado NOT IN ('en_preparacion', 'entregada') THEN
+    IF NEW.estado NOT IN ('en_preparacion', 'lista', 'entregada') THEN
         RETURN NEW;
     END IF;
-    IF TG_OP = 'UPDATE' AND OLD.estado IN ('en_preparacion', 'entregada') THEN
+    IF TG_OP = 'UPDATE' AND OLD.estado IN ('en_preparacion', 'lista', 'entregada') THEN
         RETURN NEW;
     END IF;
 
@@ -557,6 +559,9 @@ CREATE INDEX ix_pago_cuenta              ON pago (numero_evento, secuencial);
 CREATE INDEX ix_pago_cajero              ON pago (id_cajero);
 CREATE INDEX ix_pago_mesero_propina      ON pago (id_mesero_propina);
 CREATE INDEX ix_anticipo_evento          ON anticipo (numero_evento);
+CREATE UNIQUE INDEX ux_cuenta_nombre_abierta
+    ON cuenta (numero_evento, numero_mesa, lower(nombre))
+    WHERE estado = 'abierta';
 
 -- =====================================================================
 --  7. ATRIBUTOS DERIVADOS
@@ -673,6 +678,7 @@ COMMENT ON TABLE cuenta                IS 'Cuenta de un grupo de invitados (enti
 COMMENT ON COLUMN cuenta.numero_evento IS 'Evento en el que se abrió la cuenta (parte de la clave, relación Abre).';
 COMMENT ON COLUMN cuenta.secuencial    IS 'Número de cuenta dentro del evento (clave parcial).';
 COMMENT ON COLUMN cuenta.numero_mesa   IS 'Mesa en la que se abrió la cuenta (relación Tiene).';
+COMMENT ON COLUMN cuenta.nombre        IS 'Alias de la cuenta para distinguirla de las demás de su mesa (p. ej. «Novios»).';
 COMMENT ON COLUMN cuenta.folio         IS 'Folio evento-mesa-secuencial (derivado); se calcula de la fila.';
 COMMENT ON COLUMN cuenta.estado        IS 'Estado de la cuenta: abierta o cerrada.';
 
@@ -719,7 +725,7 @@ COMMENT ON COLUMN comanda.fecha_hora_mes    IS 'Componente Mes; se calcula de fe
 COMMENT ON COLUMN comanda.fecha_hora_anio   IS 'Componente Año; se calcula de fecha_hora.';
 COMMENT ON COLUMN comanda.fecha_hora_hora   IS 'Componente Hora; se calcula de fecha_hora.';
 COMMENT ON COLUMN comanda.precio_cobrado    IS 'Precio copiado del producto al levantar la comanda; no cambia después.';
-COMMENT ON COLUMN comanda.estado            IS 'Estado: pendiente, en_preparacion, entregada o cancelada.';
+COMMENT ON COLUMN comanda.estado            IS 'Estado: pendiente, en_preparacion, lista (listo para entregar), entregada o cancelada.';
 COMMENT ON COLUMN comanda.detalles          IS 'Indicaciones del cliente (opcional).';
 COMMENT ON COLUMN comanda.numero_evento     IS 'Evento de la cuenta que genera la comanda (relación Genera).';
 COMMENT ON COLUMN comanda.secuencial        IS 'Secuencial de la cuenta que genera la comanda (relación Genera).';
