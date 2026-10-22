@@ -237,7 +237,7 @@ El modelo entidad-relación de la Figura~\ref{fig:diagrama-er} se construyó a p
 
     \item \textbf{Ingrediente}: el cliente pidió saber cuánto queda de cada ingrediente y cuándo resurtir. Se modela como entidad, y no como un atributo de Producto, porque tiene datos propios (\emph{unidad de medida}, \emph{stock actual} y \emph{stock mínimo}) y porque un mismo ingrediente, como el hielo, se usa en muchos productos: como atributo se repetiría en cada uno y no habría un solo stock del cual descontar.
 
-    \item \textbf{Comanda}: es la entidad central del sistema y sustituye a la comanda de papel que hoy se entrega en caja. Registra \emph{fecha}, \emph{hora}, \emph{cantidad}, \emph{detalles} (las notas especiales que el cliente pidió conservar) y \emph{estado}, con el cual se da seguimiento al ciclo pendiente, en preparación, lista, entregada o cancelada. Además guarda el \emph{precio} al momento del pedido: como los precios cambian por temporada, conservarlo en la comanda evita que un cambio posterior en el catálogo altere los totales de eventos ya cobrados, se ah de aclarar que el sistema va a manejar cada producto de pedido como una comanda individual para mejorar el flujo de trabajo del sistema.
+    \item \textbf{Comanda}: es la entidad central del sistema y sustituye a la comanda de papel que hoy se entrega en caja. Registra \emph{fecha}, \emph{hora}, \emph{detalles} (las notas especiales que el cliente pidió conservar) y \emph{estado}, con el cual se da seguimiento al ciclo pendiente, en preparación, lista, entregada o cancelada. Además guarda el \emph{precio} al momento del pedido: como los precios cambian por temporada, conservarlo en la comanda evita que un cambio posterior en el catálogo altere los totales de eventos ya cobrados, se ah de aclarar que el sistema va a manejar cada producto de pedido como una comanda individual para mejorar el flujo de trabajo del sistema.
 
     \item \textbf{Pago}: el cliente acepta efectivo, transferencia y tarjeta, y necesita que quede registrado. La entidad guarda \emph{monto}, \emph{método de pago}, \emph{fecha} y \emph{hora}, lo que permite saber cómo y cuándo se liquidó cada cuenta. No se incluyen datos fiscales porque el cliente indicó que no requiere factura (CFDI).
 
@@ -259,7 +259,7 @@ En todas las entidades se definió un identificador (código, número o identifi
 
     \item \textbf{Usuario --- Atiende --- Comanda} (M:N): en una comanda intervienen varios usuarios (el mesero que la levanta, el cajero que la recibe y la cocina o el bar que la preparan), y cada usuario participa en muchas comandas. Esta relación responde a la necesidad expresa del cliente de saber qué mesero hizo cada orden.
 
-    \item \textbf{Comanda --- Referencia --- Producto} (M:1): cada comanda hace referencia a un producto del catálogo, y la cantidad y el precio pedidos quedan registrados en la propia comanda. Con ello se evita escribir a mano el nombre y el precio del producto en cada pedido.
+    \item \textbf{Comanda --- Referencia --- Producto} (M:1): cada comanda hace referencia a un producto del catálogo y el precio pedidos quedan registrados en la propia comanda. Con ello se evita escribir a mano el nombre y el precio del producto en cada pedido.
 
     \item \textbf{Cuenta --- Recibe --- Pago} (1:N): una cuenta puede liquidarse con uno o varios pagos, por ejemplo cuando parte se paga en efectivo y parte con tarjeta; cada pago corresponde a una sola cuenta.
 
