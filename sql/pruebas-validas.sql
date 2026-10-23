@@ -45,17 +45,17 @@ BEGIN;
 
         -- 5) Producto sin id_producto
         INSERT INTO producto (nombre, categoria, precio)
-        VALUES ('Sandwich', 'alimentos', '50.00')
+        VALUES ('Sandwich', 'alimentos', 50.00)
         RETURNING id_producto INTO v_id;
         ASSERT v_id > 4, format('la secuencia de producto dio %s, que ya existía', v_id);
 
-        -- 4) Paquete sin numero_paquete
+        -- 6) Paquete sin numero_paquete
         INSERT INTO paquete (monto, detalles)
         VALUES (20000.00, 'Paquete Mis Quince: ¡El paquete perfecto para tus quince años!')
         RETURNING numero_paquete INTO v_id;
         ASSERT v_id > 2, format('la secuencia de paquetes dio %s, que ya existía', v_id);
 
-        -- 5) Evento sin numero_evento
+        -- 7) Evento sin numero_evento
         INSERT INTO evento (fecha, tipo_evento,  numero_asistentes)
         VALUES (DATE '2026-10-22', 'quince años', 3000)
         RETURNING numero_evento INTO v_id;
@@ -152,7 +152,71 @@ BEGIN;
         SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 6;
         ASSERT v_ahora = v_queso, format('cancelar gastó queso parmesano: %s -> %s', v_queso, v_ahora);
         
-    END $$; 
+    END $$;
+
+    \warn '=== 5. Total de una cuenta no considera las comandas canceladas'
+    DO $$
+    DECLARE
+        v_id                INTEGER;
+        v_secuencial        SMALLINT;
+        v_total             NUMERIC(10,2);
+        v_precio_refresco   NUMERIC(10,2);
+        v_precio_pasta      NUMERIC(10,2);
+        v_precio_pastel     NUMERIC(10,2);
+    BEGIN
+        -- 1) Se crea una cuenta nueva
+        SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
+
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 2, 'Ato Mico');
+
+        SELECT total_acumulado INTO v_total FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
+        ASSERT v_total = 0, format('la cuenta no inicia en ceros, total cuenta: %s', v_total);
+
+        -- 2) Se levantan 3 comandas a la cuenta
+        INSERT INTO comanda (estado, id_producto, numero_evento, secuencial, id_mesero) VALUES ('pendiente', 1, 17, v_secuencial, 1)
+        RETURNING precio_cobrado INTO v_precio_refresco;
+        
+        INSERT INTO comanda (estado, id_producto, numero_evento, secuencial, id_mesero) VALUES ('pendiente', 3, 17, v_secuencial, 1)
+        RETURNING precio_cobrado INTO v_precio_pasta;
+
+        INSERT INTO comanda (estado, id_producto, numero_evento, secuencial, id_mesero) VALUES ('pendiente', 4, 17, v_secuencial, 1)
+        RETURNING id_comanda, precio_cobrado INTO v_id, v_precio_pastel;
+
+        SELECT total_acumulado INTO v_total FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
+        ASSERT v_total = v_precio_refresco + v_precio_pasta + v_precio_pastel, format('la cuenta no tiene el valor esperado de %s despues de levantar comandas, total cuenta: %s', v_precio_refresco + v_precio_pasta + v_precio_pastel, v_total);
+        
+        UPDATE comanda SET estado = 'cancelada', id_cajero_cancela = 5 where id_comanda = v_id;
+
+        SELECT total_acumulado INTO v_total FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
+        ASSERT v_total = v_precio_refresco + v_precio_pasta, format('la cuenta no tiene el valor esperado de %s despues de cancelar comanda, total cuenta: %s', v_precio_refresco + v_precio_pasta, v_total);
+        
+    END $$;
+
+    \warn '=== 6. Reusar el nombre de una cuenta en una mesa distinta y de una cuenta cerrada'
+    DO $$
+    DECLARE
+        v_secuencial    SMALLINT;
+        v_secuencial_1  SMALLINT;
+    BEGIN
+        -- 1) Se crea una cuenta en la mesa 1
+        SELECT max(secuencial) + 1 INTO v_secuencial_1 FROM cuenta WHERE numero_evento = 17;
+
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial_1, 1, 'Paco');
+
+        -- 2) Se crea una cuenta en el mismo nombre en la mesa 2
+        SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
+
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 2, 'Paco');
+
+        -- 3) Se cierra la cuenta de la mesa 1 y se crea una nueva con el mismo nombre
+        UPDATE cuenta SET estado = 'cerrada' WHERE secuencial = v_secuencial_1 AND numero_evento = 17;
+        ASSERT FOUND, 'no se encontró la cuenta para cerrarla';
+
+        SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
+
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 1, 'Paco');
+        
+    END $$;
     
 ROLLBACK;
 
