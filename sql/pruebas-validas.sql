@@ -20,6 +20,7 @@ BEGIN;
         ASSERT v_precio = 180.00, format('el precio cambio a %s al subir el catálogo', v_precio);
 
     END $$;
+    \warn '✓ 1 de 9'
 
     \warn '=== 2. Altas sin id o numero: las secuencias no chocan'
     DO $$
@@ -63,6 +64,7 @@ BEGIN;
         ASSERT v_id > 17, format('la secuencia de evento dio %s, que ya existía', v_id);
 
     END $$;
+    \warn '✓ 2 de 9'
 
     \warn '=== 3. Flujo completo de un producto: el stock se toca una sola vez'
     DO $$
@@ -114,6 +116,7 @@ BEGIN;
         ASSERT v_ahora = v_cacao - 20, format('entregada se mantiene cacao: %s = %s', v_ahora, v_cacao - 20);
 
     END $$;
+    \warn '✓ 3 de 9'
 
     \warn '=== 4. Cancelar una comanda pendiente: el stock no cambia'
     DO $$
@@ -155,6 +158,7 @@ BEGIN;
         ASSERT v_ahora = v_queso, format('cancelar gastó queso parmesano: %s -> %s', v_queso, v_ahora);
         
     END $$;
+    \warn '✓ 4 de 9'
 
     \warn '=== 5. Total de una cuenta no considera las comandas canceladas'
     DO $$
@@ -193,6 +197,7 @@ BEGIN;
         ASSERT v_total = v_precio_refresco + v_precio_pasta, format('la cuenta no tiene el valor esperado de %s despues de cancelar comanda, total cuenta: %s', v_precio_refresco + v_precio_pasta, v_total);
         
     END $$;
+    \warn '✓ 5 de 9'
 
     \warn '=== 6. Nombre de cuenta repetido: otra mesa o cuenta cerrada'
     DO $$
@@ -219,6 +224,7 @@ BEGIN;
         INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 1, 'Paco');
         
     END $$;
+    \warn '✓ 6 de 9'
 
     \warn '=== 7. Disponibilidad del producto según el stock'
     DO $$
@@ -257,6 +263,51 @@ BEGIN;
         ASSERT v_disponible = true, 'el producto no se encuentra disponible con stock disponible';
         
     END $$;
+    \warn '✓ 7 de 9'
+
+    \warn '=== 8. Las propinas se acumulan al mesero'
+    DO $$
+    DECLARE
+        v_id            INTEGER;
+        v_propina       NUMERIC(10,2);
+        v_acumuladas    NUMERIC(10,2);
+        v_secuencial    SMALLINT;
+    BEGIN
+        -- 1) Propinas acumuladas actuales
+        SELECT propinas_acumuladas INTO v_acumuladas FROM v_mesero WHERE id_usuario = 1;
+
+        -- 2) Registrar pago con propina
+        SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 1, 'Juancho');
+        
+        INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
+        VALUES (500, 'tarjeta', 17, v_secuencial, 5, 1, 50);
+
+        -- 3) Verificar acumulación de propina
+        SELECT propinas_acumuladas INTO v_propina FROM v_mesero WHERE id_usuario = 1;
+        
+        ASSERT v_propina = v_acumuladas + 50, format('la propina acumulada final no fue la esperada de %s, la propina acumulada fue de %s', v_acumuladas + 50, v_propina);
+    END $$;
+    \warn '✓ 8 de 9'
+
+    \warn '=== 9. Crear una variante de un producto principal'
+    DO $$
+    DECLARE
+        v_id            INTEGER;
+        v_principal     INTEGER;
+        v_secuencial    SMALLINT;
+    BEGIN
+        -- 1) Crear variante del producto
+
+        INSERT INTO producto (nombre, categoria, precio, id_producto_principal) 
+        VALUES ('Pasta Alfredo con Pollo', 'alimentos', 230, 3)
+        RETURNING id_producto INTO v_id;
+
+        -- 2) Verificar que la variante exista
+        SELECT id_producto_principal INTO v_principal FROM producto WHERE id_producto = v_id;
+        ASSERT v_principal = 3, format('la variante quedó ligada al producto %s y no al 3', v_principal);
+    END $$;
+    \warn '✓ 9 de 9'
     
 ROLLBACK;
 

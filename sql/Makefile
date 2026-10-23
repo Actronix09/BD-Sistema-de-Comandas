@@ -106,10 +106,26 @@ define correr_rechazados
 	}'
 endef
 
+# Con ON_ERROR_STOP: el primer ASSERT que falla detiene el archivo. Cada caso
+# empieza con un \warn '=== N. …'; un caso pasó si se llegó al siguiente
+# marcador (o al final) sin un ERROR. El total se cuenta en el archivo, así
+# que los casos que no alcanzaron a correr también cuentan como faltantes.
 define correr_validas
 @if [ -f "$(SQL_DIR)/pruebas-validas.sql" ]; then \
 	echo "==> pruebas-validas.sql"; \
-	$(PSQL) -v ON_ERROR_STOP=1 -d $(BASE_PRUEBAS) < "$(SQL_DIR)/pruebas-validas.sql"; \
+	total=$$(grep -cE "^[[:space:]]*.warn '=== [0-9]+\." "$(SQL_DIR)/pruebas-validas.sql" || true); \
+	$(PSQL) -v ON_ERROR_STOP=1 -d $(BASE_PRUEBAS) < "$(SQL_DIR)/pruebas-validas.sql" 2>&1 >/dev/null | awk -v total="$$total" ' \
+		function cerrar() { \
+			if (caso != "" && !hubo_error) { print "      ✓ pasó"; bien++ } \
+		} \
+		/^=== [0-9]+\./ { cerrar(); caso = $$0; print "  " caso; next } \
+		/ERROR:/ { hubo_error = 1; sub(/^.*ERROR: */, ""); print "      ✗ " $$0; next } \
+		hubo_error { print "        " $$0 } \
+		END { \
+			cerrar(); \
+			printf "==> Válidas: %d de %d\n", bien, total; \
+			exit (hubo_error || bien != total) \
+		}'; \
 else \
 	echo "==> pruebas-validas.sql no existe todavía; se omite"; \
 fi
