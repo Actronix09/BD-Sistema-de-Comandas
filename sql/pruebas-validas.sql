@@ -18,6 +18,7 @@ BEGIN;
         UPDATE producto SET precio = 200.00 WHERE id_producto = 3;
         SELECT precio_cobrado INTO v_precio FROM comanda WHERE id_comanda = v_id;
         ASSERT v_precio = 180.00, format('el precio cambio a %s al subir el catálogo', v_precio);
+
     END $$;
 
     \warn '=== 2. Altas sin id o numero: las secuencias no chocan'
@@ -39,13 +40,13 @@ BEGIN;
 
         -- 4) Ingrediente sin id_ingrediente
         INSERT INTO ingrediente (nombre, unidad_medida)
-        VALUES ('Jamon', 'g')
+        VALUES ('Papas de Bolsa', 'g')
         RETURNING id_ingrediente INTO v_id;
         ASSERT v_id > 8, format('la secuencia de ingrediente dio %s, que ya existía', v_id);
 
         -- 5) Producto sin id_producto
         INSERT INTO producto (nombre, categoria, precio)
-        VALUES ('Sandwich', 'alimentos', 50.00)
+        VALUES ('Papas de Bolsa', 'alimentos', 50.00)
         RETURNING id_producto INTO v_id;
         ASSERT v_id > 4, format('la secuencia de producto dio %s, que ya existía', v_id);
 
@@ -111,6 +112,7 @@ BEGIN;
 
         SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 8;
         ASSERT v_ahora = v_cacao - 20, format('entregada se mantiene cacao: %s = %s', v_ahora, v_cacao - 20);
+
     END $$;
 
     \warn '=== 4. Cancelar una comanda pendiente: el stock no cambia'
@@ -192,7 +194,7 @@ BEGIN;
         
     END $$;
 
-    \warn '=== 6. Reusar el nombre de una cuenta en una mesa distinta y de una cuenta cerrada'
+    \warn '=== 6. Nombre de cuenta repetido: otra mesa o cuenta cerrada'
     DO $$
     DECLARE
         v_secuencial    SMALLINT;
@@ -215,6 +217,44 @@ BEGIN;
         SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
 
         INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 1, 'Paco');
+        
+    END $$;
+
+    \warn '=== 7. Disponibilidad del producto según el stock'
+    DO $$
+    DECLARE
+        v_id_sandwich   INTEGER;
+        v_id_queso      INTEGER;
+        v_id_mayonesa   INTEGER;
+        v_id_jamon      INTEGER;
+        v_disponible    BOOLEAN;
+    BEGIN
+        -- 1) Crear ingredientes y producto
+        INSERT INTO producto (nombre, categoria, precio) VALUES ('Sandwich', 'alimentos', 25.00)
+        RETURNING id_producto INTO v_id_sandwich;
+
+        INSERT INTO ingrediente (nombre, unidad_medida, stock_actual, stock_minimo) VALUES ('Queso Manchego', 'pieza', 20, 20)
+        RETURNING id_ingrediente INTO v_id_queso;
+        INSERT INTO ingrediente (nombre, unidad_medida, stock_actual, stock_minimo) VALUES ('Mayonesa', 'g', 50, 60)
+        RETURNING id_ingrediente INTO v_id_mayonesa;
+        INSERT INTO ingrediente (nombre, unidad_medida, stock_actual, stock_minimo) VALUES ('Jamon', 'g', 0, 20)
+        RETURNING id_ingrediente INTO v_id_jamon;
+        
+        -- 2) Crear receta para el producto
+        INSERT INTO receta (id_producto, id_ingrediente, cantidad_por_porcion) VALUES
+        (v_id_sandwich, v_id_queso, 2),
+        (v_id_sandwich, v_id_mayonesa, 15),
+        (v_id_sandwich, v_id_jamon, 2);
+
+        -- 3) Verificar si se puede preparar
+        SELECT disponible INTO v_disponible FROM v_producto WHERE id_producto = v_id_sandwich;
+        ASSERT v_disponible = false, 'el producto se encuentra disponible con un stock de cero de un ingrediente';
+
+        -- 4) Aumentar stock y verificar si ahora se puede preparar
+        UPDATE ingrediente SET stock_actual = 50 WHERE id_ingrediente = v_id_jamon;
+
+        SELECT disponible INTO v_disponible FROM v_producto WHERE id_producto = v_id_sandwich;
+        ASSERT v_disponible = true, 'el producto no se encuentra disponible con stock disponible';
         
     END $$;
     
