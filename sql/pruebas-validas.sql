@@ -309,6 +309,51 @@ BEGIN;
     END $$;
     \warn '✓ 9 de 9'
     
+    \warn '=== 10. Cancelar una comanda preparada: el stock queda descontado y no se cobra'
+    DO $$
+    DECLARE
+        v_id            INTEGER;
+        v_secuencial    SMALLINT;
+        v_total         NUMERIC(10,2);
+        v_pasta         NUMERIC(10,3);
+        v_crema         NUMERIC(10,3);
+        v_queso         NUMERIC(10,3);
+        v_ahora         NUMERIC(10,3);
+    BEGIN
+        -- 1) Cuenta propia, para revisar su total sin depender de los datos de ejemplo
+        SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
+
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 2, 'Lupita');
+
+        -- 2) captura inicial
+        SELECT stock_actual INTO v_pasta FROM ingrediente WHERE id_ingrediente = 4;
+        SELECT stock_actual INTO v_crema FROM ingrediente WHERE id_ingrediente = 5;
+        SELECT stock_actual INTO v_queso FROM ingrediente WHERE id_ingrediente = 6;
+
+        -- 3) levantar la comanda y empezar a prepararla
+        INSERT INTO comanda (estado, id_producto, numero_evento, secuencial, id_mesero) VALUES ('pendiente', 3, 17, v_secuencial, 1)
+        RETURNING id_comanda INTO v_id;
+
+        UPDATE comanda SET estado = 'en_preparacion', id_bar_cocina = 3 WHERE id_comanda = v_id;
+
+        -- 4) cancelar comanda
+        UPDATE comanda SET estado = 'cancelada', id_cajero_cancela = 5 WHERE id_comanda = v_id;
+
+        -- 5) los ingredientes se perdieron: el stock sigue descontado una sola vez
+        SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 4;
+        ASSERT v_ahora = v_pasta - 120, format('al cancelar, la pasta quedó en %s y se esperaba %s', v_ahora, v_pasta - 120);
+
+        SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 5;
+        ASSERT v_ahora = v_crema - 100, format('al cancelar, la crema quedó en %s y se esperaba %s', v_ahora, v_crema - 100);
+
+        SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 6;
+        ASSERT v_ahora = v_queso - 30, format('al cancelar, el queso parmesano quedó en %s y se esperaba %s', v_ahora, v_queso - 30);
+
+        -- 6) no se cobra: la cuenta no suma la comanda cancelada
+        SELECT total_acumulado INTO v_total FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
+        ASSERT v_total = 0, format('la comanda cancelada se sigue cobrando, total cuenta: %s', v_total);
+    END $$;
+
 ROLLBACK;
 
 
