@@ -91,7 +91,8 @@ INSERT INTO comanda (fecha_hora, estado, numero_evento, secuencial, id_mesero, i
     (TIMESTAMPTZ '2026-10-17 21:05:00-06', 'entregada',      17, 1, 1, 1, 4, NULL, NULL),
     (TIMESTAMPTZ '2026-10-17 21:20:00-06', 'en_preparacion', 17, 1, 1, 3, 3, NULL, 'sin queso'),
     (TIMESTAMPTZ '2026-10-17 21:30:00-06', 'pendiente',      17, 2, 1, 4, NULL, NULL, NULL),
-    (TIMESTAMPTZ '2026-10-17 21:35:00-06', 'cancelada',      17, 3, 2, 2, NULL, 5, NULL);
+    (TIMESTAMPTZ '2026-10-17 21:35:00-06', 'cancelada',      17, 3, 2, 2, NULL, 5, NULL),
+    (TIMESTAMPTZ '2026-10-17 21:35:00-06', 'lista',          17, 3, 2, 4, 3, NULL, NULL);
 
 INSERT INTO pago (monto, forma_pago, fecha_hora, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina) VALUES
     (250.00, 'tarjeta', TIMESTAMPTZ '2026-10-17 23:40:00-06', 17, 1, 5, 1, 35.00);

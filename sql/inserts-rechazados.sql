@@ -81,3 +81,12 @@ INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, 
 
 \warn '--- 20. Nombre repetido en una cuenta abierta de la misma mesa (índice único parcial)'
 INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, 6, 1, 'novios');
+
+\warn '--- 21. Regresar de entregada a pendiente (disparador: los estados solo avanzan)'
+UPDATE comanda SET estado = 'pendiente' WHERE id_comanda = 1;
+
+\warn '--- 22. Regresar de lista a en_preparacion (disparador: los estados solo avanzan)'
+UPDATE comanda SET estado = 'en_preparacion' WHERE id_comanda = 5;
+
+\warn '--- 23. Descancelar una comanda (disparador: de cancelada no se sale)'
+UPDATE comanda SET estado = 'pendiente', id_cajero_cancela = NULL WHERE id_comanda = 4;
