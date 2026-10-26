@@ -480,6 +480,40 @@ CREATE TRIGGER tg_comanda_stock
     AFTER INSERT OR UPDATE OF estado ON comanda
     FOR EACH ROW EXECUTE FUNCTION descontar_stock();
 
+-- Una comanda solo puede avanzar de estados (pendiente -> en_preparacion
+-- -> lista -> entregada) y desde cualquier estado puede cambiar a
+-- cancelada pero de cancelada no puede regresar.
+CREATE FUNCTION validar_cambio_estado() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_orden TEXT[] := ARRAY['pendiente', 'en_preparacion', 'lista', 'entregada'];
+BEGIN
+    IF NEW.estado = OLD.estado THEN
+        RETURN NEW;
+    END IF;
+
+    IF OLD.estado = 'cancelada' THEN
+        RAISE EXCEPTION 'la comanda % está cancelada y no puede pasar a "%"', OLD.id_comanda, NEW.estado
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    IF NEW.estado = 'cancelada' THEN
+        RETURN NEW;
+    END IF;
+
+    IF array_position(v_orden, NEW.estado) < array_position(v_orden, OLD.estado) THEN
+        RAISE EXCEPTION 'la comanda % no puede pasar del estado "%" al estado "%"', OLD.id_comanda, OLD.estado, NEW.estado
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER tg_comanda_estado
+    BEFORE UPDATE OF estado ON comanda
+    FOR EACH ROW EXECUTE FUNCTION validar_cambio_estado();
+
 -- Regla 1 + Regla 2 (Time Stamp) + tres relaciones 1:N por Regla 4:
 --   *Recibe*         cuenta → pago        (1,1) → NOT NULL
 --   *Maneja*         cajero_admin → pago  (1,1) → NOT NULL
