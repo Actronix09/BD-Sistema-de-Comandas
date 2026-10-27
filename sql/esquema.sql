@@ -611,15 +611,26 @@ SELECT e.*,
        (SELECT COUNT(*) FROM mesa m WHERE m.numero_evento = e.numero_evento) AS numero_mesas
 FROM evento e;
 
--- Cuenta: Total acumulado = suma de sus comandas no canceladas.
+-- Cuenta:
+-- Total acumulado = suma de sus comandas no canceladas,
+-- Total pagado = suma de pagos sin la propina,
+-- saldo = diferencia de total acumulado - total pagado.
 CREATE VIEW v_cuenta AS
-SELECT c.*,
-       COALESCE((SELECT SUM(co.precio_cobrado)
-                 FROM comanda co
-                 WHERE co.numero_evento = c.numero_evento
-                   AND co.secuencial    = c.secuencial
-                   AND co.estado       <> 'cancelada'), 0)::NUMERIC(10,2) AS total_acumulado
-FROM cuenta c;
+SELECT t.*,
+       (t.total_acumulado - t.total_pagado)::NUMERIC(10,2) AS saldo
+FROM (
+    SELECT c.*,
+        COALESCE((SELECT SUM(co.precio_cobrado)
+                FROM comanda co
+                WHERE co.numero_evento = c.numero_evento
+                  AND co.secuencial    = c.secuencial
+                  AND co.estado       <> 'cancelada'), 0)::NUMERIC(10,2) AS total_acumulado,
+        COALESCE((SELECT SUM(p.monto - COALESCE(p.monto_propina, 0))
+                FROM pago p
+                WHERE p.numero_evento = c.numero_evento
+                  AND p.secuencial    = c.secuencial), 0)::NUMERIC(10,2) AS total_pagado
+    FROM cuenta c
+) t;
 
 -- Usuario: Edad.
 CREATE VIEW v_usuario AS

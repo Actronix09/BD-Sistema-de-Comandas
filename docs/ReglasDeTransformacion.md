@@ -129,6 +129,7 @@ Las reglas no dicen qué hacer con los atributos derivados, así que se tomó un
 | :-- | :-- | :-- |
 | Evento | Número de mesas | Vista `v_evento` |
 | Cuenta | Total acumulado | Vista `v_cuenta` |
+| Cuenta | Saldo | Vista `v_cuenta` |
 | Usuario | Edad | Vista `v_usuario` |
 | Mesero | Propinas acumuladas | Vista `v_mesero` |
 | Comanda | Precio | Vista `v_comanda`, como `precio_catalogo` |
