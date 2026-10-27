@@ -218,7 +218,7 @@ docker exec practica1-postgres psql -U pg-practica1 -d comandas -c '\dt' -c '\dv
 
 ### Datos de ejemplo
 
-Para que los rechazos se puedan probar hacen falta filas válidas contra las cuales chocar. [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) carga el evento 17 (una boda de 180 invitados) con dos organizadores, tres mesas, tres cuentas, dos paquetes acordados, cuatro comandas en estados distintos, un pago con propina y el inventario: ocho ingredientes con su stock y la receta de cada uno de los cuatro productos. Se ejecutó también con `ON_ERROR_STOP=1` y terminó con código 0.
+Para que los rechazos se puedan probar hacen falta filas válidas contra las cuales chocar. [`sql/datos-ejemplo.sql`](<../sql/datos-ejemplo.sql>) carga el evento 17 (una boda de 180 invitados) con dos organizadores, tres mesas, tres cuentas, dos paquetes acordados, cinco comandas en estados distintos, un pago con propina y el inventario: ocho ingredientes con su stock y la receta de cada uno de los cuatro productos. Se ejecutó también con `ON_ERROR_STOP=1` y terminó con código 0.
 
 ![Carga de datos-ejemplo.sql: los INSERT dentro de la transacción, el COMMIT y el código de salida 0](<../evidencias/practica3/parte6/03 - Carga de datos de ejemplo.png>)
 
@@ -226,11 +226,11 @@ Con esos datos, las vistas calculan los atributos derivados y las columnas gener
 
 | Consulta | Resultado |
 | :-- | :-- |
-| `SELECT folio, nombre, total_acumulado FROM v_cuenta` | `17-1-1` Novios → 215.00 · `17-1-2` Padrinos → 95.00 · `17-3-3` Familia Torres → 0.00 (su única comanda está cancelada) |
+| `SELECT folio, nombre, total_acumulado, total_pagado, saldo FROM v_cuenta` | `17-1-1` Novios → 215.00 · 215.00 · 0.00 (el pago de 250.00 trae 35.00 de propina, que no cuenta) · `17-1-2` Padrinos → 95.00 · 0.00 · 95.00 · `17-3-3` Familia Torres → 95.00 · 0.00 · 95.00 (el refresco cancelado no suma; solo el pastel) |
 | `SELECT numero_mesas FROM v_evento` | 3 |
 | `SELECT propinas_acumuladas FROM v_mesero` | Laura Méndez 35.00 · Óscar Pérez 0.00 |
 | `SELECT nombre, disponible FROM v_producto` | Refresco, Pasta Alfredo y Pastel de chocolate → `true` · Refresco de dieta → `false` (su refresco light está en 0) |
-| `SELECT nombre, stock_actual FROM ingrediente` | Refresco de cola 48 → 47 · Hielo 20000 → 19850 · Pasta 5000 → 4880 · Crema 3000 → 2900 · Queso parmesano 800 → 770: solo descontaron las dos comandas que entraron preparadas (refresco y pasta); la pendiente y la cancelada no tocaron el inventario |
+| `SELECT nombre, stock_actual FROM ingrediente` | Refresco de cola 48 → 47 · Hielo 20000 → 19850 · Pasta 5000 → 4880 · Crema 3000 → 2900 · Queso parmesano 800 → 770 · Harina 10000 → 9940 · Cacao 2000 → 1980: solo descontaron las tres comandas que entraron preparadas (el refresco, la pasta y el pastel de la cuenta 17-3); la pendiente y la cancelada no tocaron el inventario |
 | `SELECT nombre FROM ingrediente WHERE stock_actual < stock_minimo` | Refresco de cola light 355 ml · Queso parmesano: los dos que hay que resurtir |
 | `SELECT fecha_hora_dia, fecha_hora_hora FROM comanda` | 17 · 21:05:00 (la comanda se insertó como `2026-10-17 21:05:00-06`) |
 

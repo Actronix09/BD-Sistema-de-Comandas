@@ -253,6 +253,8 @@ Los atributos derivados no son columnas de ninguna tabla; se consultan en estas 
 | :-- | :-- | :-- | :-- | :-- |
 | v_evento | `numero_mesas` | `BIGINT` | `COUNT(*)` de mesa por evento | Número de mesas del evento |
 | v_cuenta | `total_acumulado` | `NUMERIC(10,2)` | `SUM(precio_cobrado)` de sus comandas no canceladas | Total acumulado de la cuenta |
+| v_cuenta | `total_pagado` | `NUMERIC(10,2)` | `SUM(monto - COALESCE(monto_propina, 0))` de sus pagos | Lo que se ha pagado del consumo, sin propinas |
+| v_cuenta | `saldo` | `NUMERIC(10,2)` | `total_acumulado - total_pagado` | Lo que falta por pagar |
 | v_usuario | `edad` | `SMALLINT` | Años de `age(CURRENT_DATE, fecha_nacimiento)` | Edad del usuario |
 | v_mesero | `propinas_acumuladas` | `NUMERIC(10,2)` | `SUM(monto_propina)` de sus pagos | Propinas acumuladas del mesero |
 | v_producto | `disponible` | `BOOLEAN` | `NOT EXISTS` un ingrediente de su receta con `stock_actual < cantidad_por_porcion` | Si el producto se puede preparar con el stock actual |
