@@ -20,7 +20,7 @@ BEGIN;
         ASSERT v_precio = 180.00, format('el precio cambio a %s al subir el catálogo', v_precio);
 
     END $$;
-    \warn '✓ 1 de 11'
+    \warn '✓ 1 de 12'
 
     \warn '=== 2. Altas sin id o numero: las secuencias no chocan'
     DO $$
@@ -64,7 +64,7 @@ BEGIN;
         ASSERT v_id > 17, format('la secuencia de evento dio %s, que ya existía', v_id);
 
     END $$;
-    \warn '✓ 2 de 11'
+    \warn '✓ 2 de 12'
 
     \warn '=== 3. Flujo completo de un producto: el stock se toca una sola vez'
     DO $$
@@ -116,7 +116,7 @@ BEGIN;
         ASSERT v_ahora = v_cacao - 20, format('entregada se mantiene cacao: %s = %s', v_ahora, v_cacao - 20);
 
     END $$;
-    \warn '✓ 3 de 11'
+    \warn '✓ 3 de 12'
 
     \warn '=== 4. Cancelar una comanda pendiente: el stock no cambia'
     DO $$
@@ -158,7 +158,7 @@ BEGIN;
         ASSERT v_ahora = v_queso, format('cancelar gastó queso parmesano: %s -> %s', v_queso, v_ahora);
         
     END $$;
-    \warn '✓ 4 de 11'
+    \warn '✓ 4 de 12'
 
     \warn '=== 5. Total de una cuenta no considera las comandas canceladas'
     DO $$
@@ -197,7 +197,7 @@ BEGIN;
         ASSERT v_total = v_precio_refresco + v_precio_pasta, format('la cuenta no tiene el valor esperado de %s despues de cancelar comanda, total cuenta: %s', v_precio_refresco + v_precio_pasta, v_total);
         
     END $$;
-    \warn '✓ 5 de 11'
+    \warn '✓ 5 de 12'
 
     \warn '=== 6. Nombre de cuenta repetido: otra mesa o cuenta cerrada'
     DO $$
@@ -224,7 +224,7 @@ BEGIN;
         INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 1, 'Paco');
         
     END $$;
-    \warn '✓ 6 de 11'
+    \warn '✓ 6 de 12'
 
     \warn '=== 7. Disponibilidad del producto según el stock'
     DO $$
@@ -263,7 +263,7 @@ BEGIN;
         ASSERT v_disponible = true, 'el producto no se encuentra disponible con stock disponible';
         
     END $$;
-    \warn '✓ 7 de 11'
+    \warn '✓ 7 de 12'
 
     \warn '=== 8. Las propinas se acumulan al mesero'
     DO $$
@@ -288,7 +288,7 @@ BEGIN;
         
         ASSERT v_propina = v_acumuladas + 50, format('la propina acumulada final no fue la esperada de %s, la propina acumulada fue de %s', v_acumuladas + 50, v_propina);
     END $$;
-    \warn '✓ 8 de 11'
+    \warn '✓ 8 de 12'
 
     \warn '=== 9. Crear una variante de un producto principal'
     DO $$
@@ -307,7 +307,7 @@ BEGIN;
         SELECT id_producto_principal INTO v_principal FROM producto WHERE id_producto = v_id;
         ASSERT v_principal = 3, format('la variante quedó ligada al producto %s y no al 3', v_principal);
     END $$;
-    \warn '✓ 9 de 11'
+    \warn '✓ 9 de 12'
     
     \warn '=== 10. Cancelar una comanda preparada: el stock se descuenta y no se cobra'
     DO $$
@@ -353,7 +353,7 @@ BEGIN;
         SELECT total_acumulado INTO v_total FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
         ASSERT v_total = 0, format('la comanda cancelada se sigue cobrando, total cuenta: %s', v_total);
     END $$; 
-    \warn '✓ 10 de 11'
+    \warn '✓ 10 de 12'
 
     \warn '=== 11. Saltar de pendiente a lista y el stock baja una sola vez'
     DO $$
@@ -395,6 +395,39 @@ BEGIN;
         SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 8;
         ASSERT v_ahora = v_cacao - 20, 'El cacao redujo despues de entregar';
     END $$;
-    \warn '✓ 11 de 11'
-    
+    \warn '✓ 11 de 12'
+
+    \warn '=== 12. Pagos parciales: el saldo baja con cada pago y no cuenta la propina'
+    DO $$
+    DECLARE
+        v_secuencial    SMALLINT;
+        v_saldo         NUMERIC(10,2);
+        v_pagado        NUMERIC(10,2);
+    BEGIN
+        -- 1) Cuenta propia, para revisar su saldo sin depender de los datos de ejemplo
+        SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
+
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 2, 'Juan');
+
+        -- 2) consumo de 130: un refresco (35) y un pastel (95). La pasta no sirve aquí
+        --    porque el caso 1 le subió el precio. En pendiente no tocan el stock
+        INSERT INTO comanda (estado, id_producto, numero_evento, secuencial, id_mesero) VALUES ('pendiente', 1, 17, v_secuencial, 1);
+        INSERT INTO comanda (estado, id_producto, numero_evento, secuencial, id_mesero) VALUES ('pendiente', 4, 17, v_secuencial, 1);
+
+        -- 3) primer pago de 100, sin propina: quedan 30
+        INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero) VALUES (100, 'efectivo', 17, v_secuencial, 5);
+
+        SELECT saldo INTO v_saldo FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
+        ASSERT v_saldo = 30, format('después del primer pago el saldo quedó en %s y se esperaba 30', v_saldo);
+
+        -- 4) segundo pago de 65 con 35 de propina al mesero 1: solo 30 pagan el consumo
+        INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
+        VALUES (65, 'tarjeta', 17, v_secuencial, 5, 1, 35);
+
+        SELECT saldo, total_pagado INTO v_saldo, v_pagado FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
+        ASSERT v_saldo = 0, format('después del segundo pago el saldo quedó en %s y se esperaba 0', v_saldo);
+        ASSERT v_pagado = 130, format('el total pagado quedó en %s y se esperaba 130: la propina no debe contar', v_pagado);
+    END $$;
+    \warn '✓ 12 de 12'
+
 ROLLBACK;
