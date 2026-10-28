@@ -70,6 +70,7 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
   - Folio ([#Evento]-[#Mesa]-[#Secuencial]) `(derivado)`
   - Estado (abierta/cerrada)
   - Total acumulado `(derivado)`
+  - Saldo `(derivado)`
 - **Usuario:**
   - ID `(PK)`
   - Nombre

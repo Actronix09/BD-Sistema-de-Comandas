@@ -38,7 +38,7 @@ Los tres subtipos de Usuario (Mesero, Bar/Cocina y Cajero/Administrador) no se c
 | 9 | **Mesa** | Número de mesa | Evento | *Pertenece* | Identificación | (Número de evento, Número de mesa) |
 | 10 | **Cuenta** | Secuencial | Evento | *Abre* | Identificación | (Número de evento, Secuencial) |
 
-Cuenta tiene además cuatro atributos propios: Nombre (alias que la distingue de las demás cuentas de su mesa), Folio `(derivado: [#Evento]-[#Mesa]-[#Secuencial])`, Estado (abierta/cerrada) y Total acumulado `(derivado)`. Mesa no tiene más atributos que su clave parcial.
+Cuenta tiene además cinco atributos propios: Nombre (alias que la distingue de las demás cuentas de su mesa), Folio `(derivado: [#Evento]-[#Mesa]-[#Secuencial])`, Estado (abierta/cerrada), Total acumulado `(derivado)` y Saldo `(derivado)`. Mesa no tiene más atributos que su clave parcial.
 
 Las dos dependencias son **de identificación**: el número de mesa y el secuencial de la cuenta se reinician en cada evento, así que por sí solos no distinguen nada. Cuenta se identifica por Evento y no por Mesa; la relación con la mesa (*Tiene*) solo registra dónde se abrió.
 
@@ -110,6 +110,7 @@ Es la única jerarquía del modelo. Es **disjunta** porque una persona tiene un 
 | Evento | Número de mesas | Conteo de las mesas del evento |
 | Cuenta | Folio | Número de evento, número de mesa y secuencial de la propia cuenta |
 | Cuenta | Total acumulado | Suma del precio cobrado de sus comandas no canceladas |
+| Cuenta | Saldo | Total acumulado menos lo pagado en sus pagos, sin contar la propina |
 | Usuario | Edad | Fecha de nacimiento contra la fecha actual |
 | Mesero | Propinas acumuladas | Suma del Monto de propina de sus pagos |
 | Comanda | Precio | Precio vigente del producto al que hace referencia |

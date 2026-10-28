@@ -480,6 +480,40 @@ CREATE TRIGGER tg_comanda_stock
     AFTER INSERT OR UPDATE OF estado ON comanda
     FOR EACH ROW EXECUTE FUNCTION descontar_stock();
 
+-- Una comanda solo puede avanzar de estados (pendiente -> en_preparacion
+-- -> lista -> entregada) y desde cualquier estado puede cambiar a
+-- cancelada pero de cancelada no puede regresar.
+CREATE FUNCTION validar_cambio_estado() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_orden TEXT[] := ARRAY['pendiente', 'en_preparacion', 'lista', 'entregada'];
+BEGIN
+    IF NEW.estado = OLD.estado THEN
+        RETURN NEW;
+    END IF;
+
+    IF OLD.estado = 'cancelada' THEN
+        RAISE EXCEPTION 'la comanda % está cancelada y no puede pasar a "%"', OLD.id_comanda, NEW.estado
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    IF NEW.estado = 'cancelada' THEN
+        RETURN NEW;
+    END IF;
+
+    IF array_position(v_orden, NEW.estado) < array_position(v_orden, OLD.estado) THEN
+        RAISE EXCEPTION 'la comanda % no puede pasar del estado "%" al estado "%"', OLD.id_comanda, OLD.estado, NEW.estado
+            USING ERRCODE = 'check_violation';
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER tg_comanda_estado
+    BEFORE UPDATE OF estado ON comanda
+    FOR EACH ROW EXECUTE FUNCTION validar_cambio_estado();
+
 -- Regla 1 + Regla 2 (Time Stamp) + tres relaciones 1:N por Regla 4:
 --   *Recibe*         cuenta → pago        (1,1) → NOT NULL
 --   *Maneja*         cajero_admin → pago  (1,1) → NOT NULL
@@ -577,15 +611,26 @@ SELECT e.*,
        (SELECT COUNT(*) FROM mesa m WHERE m.numero_evento = e.numero_evento) AS numero_mesas
 FROM evento e;
 
--- Cuenta: Total acumulado = suma de sus comandas no canceladas.
+-- Cuenta:
+-- Total acumulado = suma de sus comandas no canceladas,
+-- Total pagado = suma de pagos sin la propina,
+-- saldo = diferencia de total acumulado - total pagado.
 CREATE VIEW v_cuenta AS
-SELECT c.*,
-       COALESCE((SELECT SUM(co.precio_cobrado)
-                 FROM comanda co
-                 WHERE co.numero_evento = c.numero_evento
-                   AND co.secuencial    = c.secuencial
-                   AND co.estado       <> 'cancelada'), 0)::NUMERIC(10,2) AS total_acumulado
-FROM cuenta c;
+SELECT t.*,
+       (t.total_acumulado - t.total_pagado)::NUMERIC(10,2) AS saldo
+FROM (
+    SELECT c.*,
+        COALESCE((SELECT SUM(co.precio_cobrado)
+                FROM comanda co
+                WHERE co.numero_evento = c.numero_evento
+                  AND co.secuencial    = c.secuencial
+                  AND co.estado       <> 'cancelada'), 0)::NUMERIC(10,2) AS total_acumulado,
+        COALESCE((SELECT SUM(p.monto - COALESCE(p.monto_propina, 0))
+                FROM pago p
+                WHERE p.numero_evento = c.numero_evento
+                  AND p.secuencial    = c.secuencial), 0)::NUMERIC(10,2) AS total_pagado
+    FROM cuenta c
+) t;
 
 -- Usuario: Edad.
 CREATE VIEW v_usuario AS
