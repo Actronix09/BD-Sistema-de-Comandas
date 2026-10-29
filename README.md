@@ -1,4 +1,4 @@
-# Práctica 2
+# Práctica 3
 
 **Sitio del proyecto:** <https://actronix09.github.io/Desarrollo-Proyecto-Final-BD/>
 
