@@ -1,8 +1,8 @@
 # Pendientes del Sistema de Comandas
 
-Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** para llenarla juntos, y una casilla para marcarla cuando esté lista.
+Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** y una casilla para marcarla cuando esté lista.
 
-**Actualizado:** 28 de octubre de 2026
+**Actualizado:** 29 de octubre de 2026
 
 **Hacia dónde va:** el programa en C (memoria compartida, ncurses y archivos de texto) pasa a ser una aplicación con interfaz gráfica para Windows, Linux y Android, **toda en C++ con Qt**.
 
@@ -47,6 +47,21 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 - Numeración: el siguiente rechazo es el **24** y el siguiente caso válido es el **13**.
 - Los disparadores lanzan `RAISE EXCEPTION … USING ERRCODE = 'check_violation'`, igual que `fijar_precio_cobrado()`.
 
+## Reparto
+
+| Quién | Qué | Partes |
+| :-- | :-- | :-- |
+| @Akiodev | Terminar las pruebas de la base: cada regla con su disparador, sus rechazos, su caso válido y su documentación | Fase 2 completa; 3.1, 3.2, 3.4, 3.8 y la regla de 3.3 |
+| @Actronix09 | La interfaz y el sistema en QML: el proyecto del cliente, la `Api` simulada y las pantallas | 4.1 y Fase 7 completa |
+| Ambos | Lo que afecta a la base y a las pantallas a la vez | Decisiones 3.3, 3.5, 3.6 y 3.7; contrato 4.4–4.7 |
+
+Las fases 5, 6, 8 y 9 se reparten cuando terminen las anteriores.
+
+Para no estorbarnos:
+- **Cada quien en su carpeta y en su rama.** @Akiodev trabaja en `sql/` y `docs/`; @Actronix09, en el cliente. Los cambios entran a `main` por PR.
+- **Los números de los casos son de @Akiodev.** Como solo una persona agrega rechazos y casos válidos, no hay choques en la numeración.
+- **Cada regla nueva se avisa con su mensaje de error.** Cuando una regla de la Fase 2 quede lista (pago mayor que el saldo, cerrar con adeudo, pedir en una cuenta cerrada), @Akiodev pasa el texto del error y @Actronix09 lo agrega a la `Api` simulada. Así la pantalla Caja ya muestra esos errores antes de que exista el servidor, y de ahí salen los códigos de 4.6.
+
 ---
 
 ## Fase 1: Cerrar lo que está en curso
@@ -59,7 +74,7 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 | 1.1 | - [x] Caso válido 12: pagos parciales | Cuenta propia con Refresco y Pastel (130; la Pasta no sirve porque el caso 1 le sube el precio). Paga 100 → saldo 30; paga 65 con 35 de propina al mesero 1 → saldo 0 y `total_pagado` 130 | `Válidas: 12 de 12` ✓ | |
 | 1.2 | - [x] Contadores de los `\warn` | Los `✓ N de 11` pasaron a `de 12` | La salida dice `de 12` ✓ | |
 | 1.3 | - [x] Comprobar que el caso detecta el error | Sin la resta de la propina en `v_cuenta`, el caso falla con saldo −35.00 | Comprobado ✓ | |
-| 1.4 | - [ ] Commit | Caso 12 + contadores | `git status` limpio | |
+| 1.4 | - [x] Commit | Caso 12 + contadores | Subido en `e90730e` ✓ | |
 
 ---
 
@@ -74,11 +89,11 @@ Decisiones que ya están tomadas:
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 2.1 | - [ ] **B:** un pago no excede el saldo | Disparador `BEFORE INSERT` en `pago`: compara `monto − propina` contra el `saldo` de la cuenta. Además, `CHECK (monto_propina <= monto)`. **Rompe el caso válido 8**, que paga 500 en la cuenta "Juancho" sin comandas: hay que agregarle comandas y ajustar el monto | Rechazos: pago mayor que el saldo y propina mayor que el monto. Caso válido: pagar exactamente el saldo | |
-| 2.2 | - [ ] **C:** cerrar una cuenta | Disparador en `cuenta` al pasar a `cerrada`: todas sus comandas deben estar en `entregada` o `cancelada`, y su `saldo` debe ser 0. **Por decidir: quién cierra.** Sugerencia: el cajero, a mano, cuando el saldo llega a 0 | Rechazos: cerrar con comandas pendientes y cerrar con saldo. Caso válido: cerrar "Novios" y abrir otra "Novios" en la misma mesa | |
-| 2.3 | - [ ] **D:** no pedir en una cuenta cerrada | Disparador en `comanda` (`BEFORE INSERT`): la cuenta debe estar `abierta` | Rechazo: comanda en una cuenta cerrada | |
-| 2.4 | - [ ] Documentación | `DiccionarioDeDatos.md`: que `pago.monto` incluye la propina. `ModeloRelacional.md` 6.5 "Reglas del modelo EER": una fila por regla con su rechazo. `ReglasDeTransformacion.md`: sacar estas reglas de "lo que el esquema no puede garantizar" si aparecen ahí | Los documentos coinciden con el esquema | |
-| 2.5 | - [ ] Commit | Una regla por commit | `Rechazados: 28 de 28` aprox. | |
+| 2.1 | - [ ] **B:** un pago no excede el saldo | Disparador `BEFORE INSERT` en `pago`: compara `monto − propina` contra el `saldo` de la cuenta. Además, `CHECK (monto_propina <= monto)`. **Rompe el caso válido 8**, que paga 500 en la cuenta "Juancho" sin comandas: hay que agregarle comandas y ajustar el monto | Rechazos: pago mayor que el saldo y propina mayor que el monto. Caso válido: pagar exactamente el saldo |  @Akiodev |
+| 2.2 | - [ ] **C:** cerrar una cuenta | Disparador en `cuenta` al pasar a `cerrada`: todas sus comandas deben estar en `entregada` o `cancelada`, y su `saldo` debe ser 0. **Por decidir: quién cierra.** Sugerencia: el cajero, a mano, cuando el saldo llega a 0 | Rechazos: cerrar con comandas pendientes y cerrar con saldo. Caso válido: cerrar "Novios" y abrir otra "Novios" en la misma mesa |  @Akiodev |
+| 2.3 | - [ ] **D:** no pedir en una cuenta cerrada | Disparador en `comanda` (`BEFORE INSERT`): la cuenta debe estar `abierta` | Rechazo: comanda en una cuenta cerrada |  @Akiodev |
+| 2.4 | - [ ] Documentación | `DiccionarioDeDatos.md`: que `pago.monto` incluye la propina. `ModeloRelacional.md` 6.5 "Reglas del modelo EER": una fila por regla con su rechazo. `ReglasDeTransformacion.md`: sacar estas reglas de "lo que el esquema no puede garantizar" si aparecen ahí | Los documentos coinciden con el esquema |  @Akiodev |
+| 2.5 | - [ ] Commit | Una regla por commit | `Rechazados: 28 de 28` aprox. |  @Akiodev |
 
 ---
 
@@ -89,14 +104,14 @@ Decisiones que ya están tomadas:
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 3.1 | - [ ] `precio_cobrado` siempre del catálogo | Hoy un `INSERT` puede mandar su propio precio. El disparador debe ignorarlo y copiar `producto.precio` | Rechazo o caso válido: el precio enviado se descarta | |
-| 3.2 | - [ ] Nombres únicos sin importar mayúsculas | `LMendez` y `lmendez`, o "Crema" y "crema", hoy pueden existir a la vez. Índice único con `lower()` en `usuario.usuario` e `ingrediente.nombre` | Rechazos con mayúsculas distintas | |
-| 3.3 | - [ ] **Decidir:** estación de cada producto | ¿Sale de `producto.categoria` (alimentos → cocina, bebidas → bar; falta decidir a dónde va `dulceria`) o va en una columna nueva? Después: que el bar no prepare alimentos | Decisión escrita y regla con su rechazo | |
-| 3.4 | - [ ] Evento finalizado | Un evento `finalizado` sigue aceptando comandas. Bloquearlo | Rechazo: comanda en un evento finalizado | |
-| 3.5 | - [ ] **Decidir:** rondas para cocina | ¿Cocina agrupa por cuenta + `fecha_hora` o se crea una entidad `ronda`? | Decisión escrita; si es entidad, tabla y diagramas | |
-| 3.6 | - [ ] **Decidir:** dónde viven los logs | ¿Tabla de bitácora en la base o archivos en un volumen? | Decisión escrita | |
-| 3.7 | - [ ] Mínimos que el SQL no hace cumplir | Todo evento con al menos una mesa (*Pertenece*) y todo producto con al menos un ingrediente (*Receta*). ¿Se hacen cumplir en la base o los valida la aplicación? | Decisión anotada en `ReglasDeTransformacion.md` | |
-| 3.8 | - [ ] *(Opcional)* Capturas de `ModeloRelacional.md` | Las capturas todavía dicen 20 rechazos y 4 comandas. Si el documento es el reporte de la Práctica 3 como se entregó, mejor dejarlo así | Decisión tomada | |
+| 3.1 | - [ ] `precio_cobrado` siempre del catálogo | Hoy un `INSERT` puede mandar su propio precio. El disparador debe ignorarlo y copiar `producto.precio` | Rechazo o caso válido: el precio enviado se descarta |  @Akiodev |
+| 3.2 | - [ ] Nombres únicos sin importar mayúsculas | `LMendez` y `lmendez`, o "Crema" y "crema", hoy pueden existir a la vez. Índice único con `lower()` en `usuario.usuario` e `ingrediente.nombre` | Rechazos con mayúsculas distintas |  @Akiodev |
+| 3.3 | - [ ] **Decidir:** estación de cada producto | ¿Sale de `producto.categoria` (alimentos → cocina, bebidas → bar; falta decidir a dónde va `dulceria`) o va en una columna nueva? Después: que el bar no prepare alimentos | Decisión escrita y regla con su rechazo |  Ambos deciden; la regla, @Akiodev |
+| 3.4 | - [ ] Evento finalizado | Un evento `finalizado` sigue aceptando comandas. Bloquearlo | Rechazo: comanda en un evento finalizado |  @Akiodev |
+| 3.5 | - [ ] **Decidir:** rondas para cocina | ¿Cocina agrupa por cuenta + `fecha_hora` o se crea una entidad `ronda`? | Decisión escrita; si es entidad, tabla y diagramas |  Ambos |
+| 3.6 | - [ ] **Decidir:** dónde viven los logs | ¿Tabla de bitácora en la base o archivos en un volumen? | Decisión escrita |  Ambos |
+| 3.7 | - [ ] Mínimos que el SQL no hace cumplir | Todo evento con al menos una mesa (*Pertenece*) y todo producto con al menos un ingrediente (*Receta*). ¿Se hacen cumplir en la base o los valida la aplicación? | Decisión anotada en `ReglasDeTransformacion.md` |  Ambos |
+| 3.8 | - [ ] *(Opcional)* Capturas de `ModeloRelacional.md` | Las capturas todavía dicen 20 rechazos y 4 comandas. Si el documento es el reporte de la Práctica 3 como se entregó, mejor dejarlo así | Decisión tomada |  @Akiodev |
 
 ---
 
@@ -107,13 +122,13 @@ Decisiones que ya están tomadas:
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 4.1 | - [ ] **D1:** estilo visual | Probar el prototipo con `./ejecutar.sh Material`, `FluentWinUI3`, `Universal` y `Fusion`, en claro y oscuro | Estilo elegido | |
+| 4.1 | - [ ] **D1:** estilo visual | Probar el prototipo con `./ejecutar.sh Material`, `FluentWinUI3`, `Universal` y `Fusion`, en claro y oscuro | Estilo elegido |  @Actronix09 |
 | 4.2 | - [x] **D2:** lenguaje del cliente | **C++ con Qt en todas las plataformas.** Las pantallas en QML; la conexión y el arranque en C++ | Decidido ✓ | |
 | 4.3 | - [x] Servidor | **C++ con Qt**, en la PC de caja: `QWebSocketServer` con mensajes JSON, `QtSql` con el driver `QPSQL` y la lógica que ya está en C | Decidido ✓ | |
-| 4.4 | - [ ] Contrato de mensajes | Para cada operación (tabla abajo): qué `datos` recibe, qué devuelve, qué errores puede dar y qué rol la puede usar | Documento del contrato en el repo | |
-| 4.5 | - [ ] Roles y permisos | Mesero → `mesero`. Cocina → `bar_cocina` con estación. Admin → `cajero_admin`: con nivel `cajero` solo cobra y cierra cuentas; con nivel `administrador`, además maneja el catálogo y los usuarios y cancela comandas | Tabla de permisos por operación | |
-| 4.6 | - [ ] Códigos de error | Cómo se traduce cada error de la base a un código claro. Ejemplo: el `check_violation` de stock → `SIN_STOCK`; una violación de clave única → `YA_EXISTE` | Lista de códigos | |
-| 4.7 | - [ ] Operaciones nuevas | Las que el sistema en C no tenía y piden el modelo y el prototipo: mesas y cuentas (C5), cobro (C4) y avisos (C11). Ver la segunda tabla | Agregadas al contrato | |
+| 4.4 | - [ ] Contrato de mensajes | Para cada operación (tabla abajo): qué `datos` recibe, qué devuelve, qué errores puede dar y qué rol la puede usar | Documento del contrato en el repo |  Ambos |
+| 4.5 | - [ ] Roles y permisos | Mesero → `mesero`. Cocina → `bar_cocina` con estación. Admin → `cajero_admin`: con nivel `cajero` solo cobra y cierra cuentas; con nivel `administrador`, además maneja el catálogo y los usuarios y cancela comandas | Tabla de permisos por operación |  Ambos |
+| 4.6 | - [ ] Códigos de error | Cómo se traduce cada error de la base a un código claro. Ejemplo: el `check_violation` de stock → `SIN_STOCK`; una violación de clave única → `YA_EXISTE` | Lista de códigos |  Ambos |
+| 4.7 | - [ ] Operaciones nuevas | Las que el sistema en C no tenía y piden el modelo y el prototipo: mesas y cuentas (C5), cobro (C4) y avisos (C11). Ver la segunda tabla | Agregadas al contrato |  Ambos |
 
 **Formato de los mensajes.** Todo viaja como JSON por un solo WebSocket. Cada petición lleva un `id` para emparejarla con su respuesta, y `op` con el nombre de `protocolo.h`:
 
@@ -209,18 +224,18 @@ Errores del sistema en C que **no** se deben repetir:
 ## Fase 7: Cliente real (Qt Quick)
 
 **Objetivo:** la aplicación que usan meseros, cocina/bar y caja.
-**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. Mientras no esté el servidor, se puede trabajar con la `Api` simulada del prototipo.
+**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. No hay que esperar a las fases 2 y 3: mientras no esté el servidor, se trabaja con la `Api` simulada del prototipo. La pantalla Caja (7.4) se termina de ajustar cuando estén las reglas 2.1–2.3.
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 7.1 | - [ ] Proyecto `cliente/` | CMake + Qt 6 en C++ (`main.cpp` carga el QML; el prototipo ya trae uno en `prototipos/qml/anfitrion/cpp/`). Pasar las pantallas del prototipo que se conserven; el prototipo no se modifica | Arranca en escritorio | |
-| 7.2 | - [ ] `Api` real | Una clase C++ con `QWebSocket`, registrada como singleton de QML, con la misma interfaz que `ApiSimulada.qml`. Arma los mensajes con `id` y `op`, empareja cada respuesta con su petición y convierte los avisos en señales para las pantallas. La dirección del servidor se guarda con `QSettings` | Las pantallas funcionan contra el servidor sin cambios | |
-| 7.3 | - [ ] Correcciones del prototipo | Ver la tabla C1–C11 abajo | Cada corrección revisada | |
-| 7.4 | - [ ] Pantalla **Caja** | Cuentas abiertas → detalle → pagar (forma de pago, monto y propina) → saldo → cerrar cuenta | Cobro completo de una cuenta | |
-| 7.5 | - [ ] Pantallas adaptables | `readonly property bool compacta: width < 700`. Probar con la ventana en 400×800 | Se usa bien en tamaño de teléfono | |
-| 7.6 | - [ ] Pantallas pendientes | En orden: 1. Ver logs · 2. Recuperar contraseña · 3. Crear usuario · 4. Admin › Usuarios · 5. Admin › Productos con receta | Las cinco funcionan | |
-| 7.7 | - [ ] Android | El botón Atrás regresa de pantalla (`pila.pop()`). Al bloquear el teléfono se cae el WebSocket: reconectar y repetir el login al volver (`Qt.application.state`). Hace falta Qt para Android, el SDK, el NDK y el JDK (los paquetes de Arch no compilan para Android) | La app corre en un teléfono conectado al servidor de la PC | |
-| 7.8 | - [ ] **Decidir:** teclado en pantalla | En escritorio táctil sin teclado. Qt Virtual Keyboard es GPLv3 o comercial, no LGPL; la otra opción es un teclado propio en QML | Decisión tomada | |
+| 7.1 | - [ ] Proyecto `cliente/` | CMake + Qt 6 en C++ (`main.cpp` carga el QML; el prototipo ya trae uno en `prototipos/qml/anfitrion/cpp/`). Pasar las pantallas del prototipo que se conserven; el prototipo no se modifica | Arranca en escritorio |  @Actronix09 |
+| 7.2 | - [ ] `Api` real | Una clase C++ con `QWebSocket`, registrada como singleton de QML, con la misma interfaz que `ApiSimulada.qml`. Arma los mensajes con `id` y `op`, empareja cada respuesta con su petición y convierte los avisos en señales para las pantallas. La dirección del servidor se guarda con `QSettings` | Las pantallas funcionan contra el servidor sin cambios |  @Actronix09 |
+| 7.3 | - [ ] Correcciones del prototipo | Ver la tabla C1–C11 abajo | Cada corrección revisada |  @Actronix09 |
+| 7.4 | - [ ] Pantalla **Caja** | Cuentas abiertas → detalle → pagar (forma de pago, monto y propina) → saldo → cerrar cuenta | Cobro completo de una cuenta |  @Actronix09 |
+| 7.5 | - [ ] Pantallas adaptables | `readonly property bool compacta: width < 700`. Probar con la ventana en 400×800 | Se usa bien en tamaño de teléfono |  @Actronix09 |
+| 7.6 | - [ ] Pantallas pendientes | En orden: 1. Ver logs · 2. Recuperar contraseña · 3. Crear usuario · 4. Admin › Usuarios · 5. Admin › Productos con receta | Las cinco funcionan |  @Actronix09 |
+| 7.7 | - [ ] Android | El botón Atrás regresa de pantalla (`pila.pop()`). Al bloquear el teléfono se cae el WebSocket: reconectar y repetir el login al volver (`Qt.application.state`). Hace falta Qt para Android, el SDK, el NDK y el JDK (los paquetes de Arch no compilan para Android) | La app corre en un teléfono conectado al servidor de la PC |  @Actronix09 |
+| 7.8 | - [ ] **Decidir:** teclado en pantalla | En escritorio táctil sin teclado. Qt Virtual Keyboard es GPLv3 o comercial, no LGPL; la otra opción es un teclado propio en QML | Decisión tomada |  @Actronix09 |
 
 | # | Corrección del prototipo |
 | :--: | :-- |
