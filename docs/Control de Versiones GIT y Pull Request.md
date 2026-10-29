@@ -41,7 +41,7 @@ Integra el contenedor de PostgresSQl integrado por: el archivo [compose.yml](<..
 
 ### Pull Request #3 — Caso-de-Estudio
 
-Integra el desarrollo del caso de estudio consistiendo de: el archivo markdown [Entrevista.md](./Entrevista.md), el archivo [CasoDeEstudio.tex](<./LaTeX/Secciones/CasoDeEstudio.tex>), el diagrama [diagrama-er.png](../modelo/diagrama-er.png) y [Practica 1.pdf](./LaTeX/Practica 1.pdf) siendo el archivo completo donde se incluye la Seccion 5.
+Integra el desarrollo del caso de estudio consistiendo de: el archivo markdown [Entrevista.md](./Entrevista.md), el archivo [CasoDeEstudio.tex](<./LaTeX/Secciones/CasoDeEstudio.tex>), el diagrama `diagrama-er.png` (hoy [diagrama-er.png](../modelo/diagrama-er.png)) y [Practica 1.pdf](./LaTeX/Practica 1.pdf) siendo el archivo completo donde se incluye la Seccion 5.
 
 ![Pull Request #3 fusionado en GitHub, mostrando la rama Caso-de-Estudio integrada a main](<../evidencias/git/Pull Request Fusionado del Caso de Estudio.png>)
 

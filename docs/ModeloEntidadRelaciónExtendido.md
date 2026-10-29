@@ -6,7 +6,7 @@ En este documento se encuentra documentado el proceso para el desarrollo del mod
 
 **Cliente:** Salón de eventos — sistema de comandas
 
-**Contenido:** Requisitos ampliados del caso, entidades y atributos revisados, tabla de relaciones con cardinalidades `(mín,máx)`, entidades débiles, jerarquía de Usuario y restricciones del modelo.
+**Contenido:** Requisitos ampliados del caso, entidades y atributos revisados, tabla de relaciones con cardinalidades `(mín,máx)`, inventario de ingredientes con recetas, entidades débiles, jerarquía de Usuario y restricciones del modelo.
 
 ---
 
@@ -22,12 +22,13 @@ El problema del negocio es el mismo de la Práctica 1: digitalizar el flujo de c
 | Mesero, cocina/bar y cajero guardan datos distintos y hacen cosas distintas | Un solo atributo `Rol` dentro de Usuario | Jerarquía de especialización, con atributos y relaciones propias por subtipo |
 | Ninguna mesa se queda sin mesero, pero un mesero puede no traer mesas | Solo `1:N`, sin decir qué es obligatorio | Cardinalidades con mínimo y máximo `(mín,máx)` |
 | Lo acordado de cada producto cambia de un evento a otro, aunque sea el mismo paquete | Solo se podía decir qué trae el paquete en general | Relación ternaria *Acuerda*, con `Cantidad acordada` |
-| Un evento puede tener varios organizadores; un producto, varios ingredientes | Un solo valor por campo | Atributos multivaluados |
+| Un evento puede tener varios organizadores | Un solo valor por campo | Atributo multivaluado |
+| Cada producto tiene una receta y hay que saber cuánto queda de cada ingrediente | `Ingredientes` como un campo de Producto | Entidad *Ingrediente* con su stock y relación muchos a muchos *Receta* con `Cantidad por porción` |
 | La fecha y la hora se consultan por día, mes y año por separado | Campos sueltos | Atributos compuestos |
 
 El modelo del que se parte es el de la práctica anterior:
 
-![Diagrama Entidad-Relación de la Práctica 1](<../modelo/diagrama-er.png>)
+![Diagrama Entidad-Relación de la Práctica 1](<../modelo/diagrama-er.svg>)
 
 ---
 
@@ -65,9 +66,11 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
   - Número de mesa `(clave parcial)`
 - **Cuenta:** `(entidad débil)`
   - Secuencial `(clave parcial)`
+  - Nombre (alias de la cuenta)
   - Folio ([#Evento]-[#Mesa]-[#Secuencial]) `(derivado)`
   - Estado (abierta/cerrada)
   - Total acumulado `(derivado)`
+  - Saldo `(derivado)`
 - **Usuario:**
   - ID `(PK)`
   - Nombre
@@ -90,9 +93,16 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
 - **Producto:**
   - ID `(PK)`
   - Nombre
+  - Descripción `(opcional)`
   - Categoría
   - Precio
-  - Ingredientes `(multivaluado)`
+  - Disponible `(derivado)`
+- **Ingrediente:**
+  - ID `(PK)`
+  - Nombre `(AK)`
+  - Unidad de medida
+  - Stock actual
+  - Stock mínimo
 - **Comanda:**
   - ID `(PK)`
   - Time Stamp
@@ -101,7 +111,7 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
     - Año
     - Hora
   - Precio cobrado
-  - Estado
+  - Estado (pendiente/en preparación/lista/entregada/cancelada)
   - Detalles `(opcional)`
   - Precio `(derivado)`
 - **Pago:**
@@ -135,10 +145,11 @@ En el diagrama cada marca se dibuja con un color distinto. Aquí se expresa con 
 | **Mesa - Cuenta** | *Tiene* | Una mesa puede tener varias cuentas (grupos de invitados). Esta relación solo dice en qué mesa se abrió la cuenta; quien le da identidad a la cuenta es el evento, no la mesa. | (0,N):(1,1) |
 | **Cuenta - Comanda** | *Genera* | Una cuenta genera varias comandas (rondas) durante el evento. | (0,N):(1,1) |
 | **Mesero - Comanda** | *Levanta* | Un mesero levanta varias comandas; cada comanda la levanta un solo mesero. | (0,N):(1,1) |
-| **Comanda - Producto** | *Referencia* | Cada comanda hace referencia a un producto. | (1,1):(1,N) |
+| **Comanda - Producto** | *Referencia* | Cada comanda hace referencia a un producto. | (1,1):(0,N) |
 | **Cuenta - Pago** | *Recibe* | Una cuenta puede recibir uno o varios pagos. | (0,N):(1,1) |
 | **Evento - Anticipo** | *Recibe* | Un evento puede tener uno o varios anticipos. | (0,N):(1,1) |
 | **Paquete - Producto** | *Incluye* | Contenido base del paquete en el catálogo: qué productos trae en general, sin cantidades. Un paquete incluye uno o varios productos, y un producto puede estar en varios paquetes. No es una lista cerrada: lo que de verdad se pacta en cada evento va en la ternaria *Acuerda*, que puede agregar productos o cambiar cantidades. | (1,N):(0,N) |
+| **Producto - Ingrediente** | *Receta* | Qué ingredientes lleva cada producto y cuánto de cada uno. Todo producto lleva al menos un ingrediente (una bebida embotellada es su propio ingrediente); un ingrediente puede estar en inventario sin usarse todavía en ningún producto, o usarse en muchos. | (1,N):(0,N) |
 | **Producto - Producto** | *Variante* | Un producto principal puede o no tener una o más variantes; una variante no puede tener más variantes ni tampoco tener más de un producto principal. | (0,N):(0,1)<br>Principal / Variante |
 | **Cajero / Administrador - Pago** | *Maneja* | Un cajero maneja múltiples pagos; un pago solo es manejado por un cajero. | (0,N):(1,1) |
 | **Mesero - Pago** | *Recibe Propina* | Un mesero recibe una propina a partir de un pago, un mesero puede recibir múltiples propinas. | (0,N):(0,1) |
@@ -155,6 +166,18 @@ Una relación entre tres entidades se justifica solo si el trío **no se puede r
 - *Acuerda* **sí** la necesita: si el evento 17 contrata dos paquetes y los dos incluyen refresco, saber el evento y el producto no te dice cuántos refrescos van por cada paquete. Hacen falta los tres.
 - *Prepara* **no**: cada comanda apunta a un solo producto, así que el producto queda determinado por la comanda y se obtiene navegando hasta ella. Meterlo en la relación no agregaba información, por eso quedó binaria.
 
+### Por qué Ingrediente es entidad y no atributo
+
+En la Práctica 1 `Ingredientes` era un atributo de Producto, y la primera versión de este modelo lo dejó como **multivaluado**. Eso alcanza para listar qué lleva un platillo, pero no para llevar el inventario que pidió el cliente:
+
+- Un atributo multivaluado solo guarda **valores sueltos**. El ingrediente necesita datos propios (`Stock actual`, `Stock mínimo`, `Unidad de medida`), y un atributo no puede tener atributos.
+- El mismo ingrediente se usa en muchos productos. Como atributo, "hielo" se repetiría una vez por cada bebida y no habría **un solo stock** del cual descontar.
+- La cantidad que lleva cada producto (`Cantidad por porción`) no es del producto ni del ingrediente, sino de la pareja, así que tiene que ser un atributo de **relación**.
+
+Tampoco es **derivado**: un derivado se calcula a partir de otros datos guardados (como `Edad` desde la fecha de nacimiento), y la receta es un dato que alguien captura. Lo que sí sale derivado de este cambio es `Disponible` de Producto: un producto está disponible si todos los ingredientes de su receta alcanzan para una porción.
+
+Las variantes no necesitan nada extra: cada variante es un Producto, así que tiene su propia receta (el refresco de dieta usa refresco light, no el normal).
+
 ### Atributos de relación
 
 Hay datos que no pertenecen a ninguna de las entidades que la relación conecta, sino a la relación misma. En Chen se dibujan como óvalos colgados del rombo.
@@ -162,6 +185,7 @@ Hay datos que no pertenecen a ninguna de las entidades que la relación conecta,
 | Relación | Atributo | Por qué va ahí |
 | :-- | :-- | :-- |
 | *Evento-Acuerda-Paquete-Producto* | `Cantidad acordada` | No es un dato del paquete (el catálogo no trae cantidades) ni del evento ni del producto por separado: solo tiene sentido con los tres juntos. Es la base del reporte de presupuestado contra real |
+| *Producto-Receta-Ingrediente* | `Cantidad por porción` | No es del producto (cada ingrediente lleva una cantidad distinta) ni del ingrediente (el mismo hielo va en cantidades distintas en cada bebida): es de la pareja. Con ella se descuenta el stock al preparar una comanda |
 | *Mesero-Recibe Propina-Pago* | `Monto de propina` | No es el `Monto` del pago (eso es lo que pagó el cliente) ni un dato fijo del mesero: es cuánto le tocó de ese cobro en concreto. Se registra al cerrar la cuenta y el cajero lo verifica. De aquí se calcula `Propinas acumuladas` |
 
 ---
@@ -217,6 +241,8 @@ Las dos son **de identificación**: el número se reinicia en cada evento, así 
 - Que el rol que guardamos es el de ahora, no el historial. Si un mesero se pasa a caja, las comandas y los pagos que ya registró se quedan a su nombre aunque ya no sea mesero.
 - Que el `Precio cobrado` de una comanda se copia del producto al momento de levantarla y ya no cambia, aunque después suba el precio del catálogo.
 - Que la propina siempre la tiene que verificar el cajero antes de quedar registrada.
+- Que al preparar una comanda se descuenta del `Stock actual` de cada ingrediente la `Cantidad por porción` de la receta, y que el stock nunca puede quedar negativo.
+- Que un producto deja de estar `Disponible` en cuanto alguno de sus ingredientes ya no alcanza para una porción.
 - Que el contenido de catálogo de un paquete es una base y no una lista cerrada: en un evento se pueden acordar productos que el paquete no traía, o cantidades distintas a las de catálogo. El diagrama no puede obligar a que lo acordado salga del catálogo, justo porque no debe.
 
 ---
@@ -243,7 +269,7 @@ No se ocupa en este caso. Conviene confirmar con el profesor la definición exac
 
 ## Modelo en notación de Peter Chen
 
-![Diagrama entidad-relación extendido en notación de Peter Chen](<../modelo/diagrama-eer.png>)
+![Diagrama entidad-relación extendido en notación de Peter Chen](<../modelo/diagrama-eer-chen.svg>)
 
 ---
 
