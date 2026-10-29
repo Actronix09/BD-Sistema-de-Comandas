@@ -30,7 +30,13 @@ Documento de trabajo para levantar los requerimientos del primer cliente del sis
 - ¿Se manejan variantes de platillos?
   - **R:** Si, algunas bebidas o platillos tienen tamaños distintos o preparación distintas
 - ¿Se necesitan registrar ingredientes o alérgenos por producto, o solo nombre y precio?
-  - **R:** Únicamente manejamos nombre y precio.
+  - **R:** Nombre, precio e ingredientes.
+- ¿Les sirve una descripción corta de cada producto para mostrar en la carta?
+  - **R:** Si, una descripción breve de qué lleva o cómo se prepara.
+- ¿Llevan control del inventario de ingredientes? ¿Necesitan saber cuánto se gasta de cada uno por platillo?
+  - **R:** Si, cada platillo o bebida tiene su receta con las cantidades, y queremos saber cuánto queda de cada ingrediente y cuándo hay que resurtir.
+- ¿Un mismo ingrediente se usa en varios productos?
+  - **R:** Si, por ejemplo el tomate o el hielo se usan en muchos platillos y bebidas.
 - ¿El menú cambia por temporada o es fijo todo el año?
   - **R:** Tenemos un menu fijo. 
 

@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sistema de Comandas Profesional — Práctica 3</title>
+<meta name="description" content="Sitio del proyecto Sistema de Comandas Profesional: base de datos para la gestión de comandas, cuentas y cobros de un salón de eventos. Bases de Datos, ESCOM-IPN.">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<a class="salto" href="#contenido">Saltar al contenido</a>
+
+<nav class="barra">
+  <span class="barra-marca">Sistema de Comandas</span>
+  <ul class="barra-enlaces">
+    <li><a href="#problema">El problema</a></li>
+    <li><a href="#eer">Modelo EER</a></li>
+    <li><a href="#relacional">Diagrama relacional</a></li>
+    <li><a href="#repositorios">Repositorios</a></li>
+    <li><a href="#documentacion">Documentación</a></li>
+  </ul>
+</nav>
+
+<header class="portada">
+  <p class="eyebrow">Bases de Datos &middot; ESCOM-IPN &middot; Grupo 3CV4</p>
+  <h1>Sistema de Comandas Profesional</h1>
+  <p class="lead">
+    Diseño de la base de datos que sostiene la toma de comandas, las cuentas y los
+    cobros de un salón de eventos: del pedido levantado en la mesa hasta el pago
+    registrado en caja.
+  </p>
+  <p class="sello">Práctica 3 &middot; Del modelo EER al esquema relacional</p>
+</header>
+
+<main id="contenido">
+
+  <section class="seccion" id="integrantes">
+    <h2>Integrantes</h2>
+    <p class="seccion-nota">Grupo 3CV4 &middot; Ingeniería en Sistemas Computacionales</p>
+    <div class="rejilla rejilla-dos">
+      <div class="tarjeta persona">
+        <p class="persona-nombre">Damas Garnica Adrian</p>
+        <dl class="persona-datos">
+          <div><dt>Boleta</dt><dd>2034630785</dd></div>
+          <div><dt>GitHub</dt><dd><a href="https://github.com/Actronix09">Actronix09</a></dd></div>
+        </dl>
+      </div>
+      <div class="tarjeta persona">
+        <p class="persona-nombre">Esparza Ramón Fernando Adán</p>
+        <dl class="persona-datos">
+          <div><dt>Boleta</dt><dd>2025631043</dd></div>
+          <div><dt>GitHub</dt><dd><a href="https://github.com/adamighti2">adamighti2</a></dd></div>
+        </dl>
+      </div>
+      <div class="tarjeta persona">
+        <p class="persona-nombre">Ramos Padrón Jesus Emmanuel</p>
+        <dl class="persona-datos">
+          <div><dt>Boleta</dt><dd>2025630963</dd></div>
+          <div><dt>GitHub</dt><dd><a href="https://github.com/Chuchin2107">Chuchin2107</a></dd></div>
+        </dl>
+      </div>
+      <div class="tarjeta persona">
+        <p class="persona-nombre">Hernandez Barrios Samuel Rodrigo</p>
+        <dl class="persona-datos">
+          <div><dt>Boleta</dt><dd>2026630008</dd></div>
+          <div><dt>GitHub</dt><dd><a href="https://github.com/Samuel-Hdzx07">Samuel-Hdzx07</a></dd></div>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion" id="problema">
+    <h2>El problema que atiende</h2>
+    <p>
+      Los salones de eventos que ofrecen servicio de banquetes suelen gestionar la toma y
+      el seguimiento de comandas —los pedidos de alimentos y bebidas que hace cada mesa o
+      cada invitado durante un evento— de forma manual, con comandas de papel, hojas de
+      cálculo o aplicaciones genéricas que no fueron diseñadas para este giro de negocio.
+    </p>
+    <p>Esa forma de operar genera problemas concretos:</p>
+    <ul class="lista-problemas">
+      <li>La información de los pedidos se duplica o se pierde entre meseros, cocina y caja.</li>
+      <li>No hay registro histórico confiable de qué se sirvió en cada evento, a qué cliente y a qué costo.</li>
+      <li>El control de existencias de insumos se lleva de forma aproximada, lo que provoca faltantes o compras innecesarias.</li>
+      <li>La cuenta final de cada evento es lenta y propensa a errores, porque depende de conciliar a mano varias comandas en papel.</li>
+    </ul>
+    <p>
+      El caso concreto es un salón que atiende un evento a la vez, con alrededor de veinte
+      mesas, dos o tres cuentas por mesa y de uno a tres pedidos por cuenta. Se manejan
+      anticipos, paquetes contratados y consumo extra a la carta.
+    </p>
+    <p>
+      El proyecto retoma un desarrollo de un semestre anterior que estaba escrito
+      enteramente en C y guardaba todo en archivos de texto plano, con relaciones mal
+      definidas, escasa normalización y sin reglas de integridad. Por eso el problema no
+      es solo digitalizar la toma de comandas, sino <strong>rediseñar con una metodología
+      formal de modelado la base de datos que la sustenta</strong>, de modo que represente
+      correctamente eventos, mesas, cuentas, productos, paquetes, personal y pagos.
+    </p>
+  </section>
+
+  <section class="seccion" id="eer">
+    <h2>Modelo entidad-relación extendido</h2>
+    <p class="seccion-nota">Práctica 2 &middot; Notación de Peter Chen</p>
+    <p>
+      El modelo extendido expresa lo que el entidad-relación básico dejaba fuera:
+      <strong>Mesa</strong> y <strong>Cuenta</strong> como entidades débiles con dependencia
+      de identificación respecto de <strong>Evento</strong> —porque su numeración se reinicia
+      en cada evento—, la especialización <em>disjunta y total</em> de
+      <strong>Usuario</strong> en Mesero, Bar/Cocina y Cajero/Administrador, cardinalidades
+      con mínimo y máximo, la relación ternaria <em>Acuerda</em>, que registra cuánto se
+      pactó de cada producto de cada paquete para un evento concreto, y el inventario:
+      <strong>Ingrediente</strong> con su stock, ligado a Producto por la relación
+      <em>Receta</em>, que guarda cuánto lleva cada porción.
+    </p>
+
+    <figure class="figura">
+      <div class="lienzo" data-scroll>
+        <img src="imagenes/diagrama-eer-chen.svg"
+             alt="Diagrama entidad-relación extendido del Sistema de Comandas en notación de Peter Chen: las entidades Evento, Usuario, Producto, Ingrediente, Comanda, Pago, Anticipo y Paquete, las entidades débiles Mesa y Cuenta, la jerarquía de Usuario, la relación Receta y la relación ternaria Acuerda."
+             width="3672" height="1792"
+             data-completa="imagenes/diagrama-eer-chen.svg">
+      </div>
+      <figcaption>
+        <span>Diagrama EER del Sistema de Comandas. Desplácelo de lado para recorrerlo.</span>
+        <button type="button" class="boton" data-abrir="imagenes/diagrama-eer-chen.svg">
+          Ver en tamaño completo
+        </button>
+      </figcaption>
+    </figure>
+
+    <p class="pie-enlace">
+      El análisis completo —entidades, atributos, cardinalidades, restricciones y
+      justificación de cada decisión— está en
+      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloEntidadRelaci%C3%B3nExtendido.md">
+        ModeloEntidadRelaciónExtendido.md</a>.
+    </p>
+  </section>
+
+  <section class="seccion" id="relacional">
+    <h2>Diagrama relacional</h2>
+    <p class="seccion-nota">Práctica 3 &middot; PostgreSQL 16</p>
+    <p>
+      El modelo EER se transformó en un esquema relacional aplicando, una por una, las
+      nueve reglas de transformación, y se ejecutó sobre la base <code>comandas</code> en
+      un contenedor de PostgreSQL. El diagrama se diseñó <strong>a partir del modelo
+      EER y de su inventario</strong>: con el análisis de ambos se determinó la estructura
+      de cada tabla, se escribió en DBML y se dibujó con el plugin DBML ER Diagrams.
+    </p>
+
+    <ul class="cifras">
+      <li><strong>17</strong> tablas</li>
+      <li><strong>97</strong> columnas</li>
+      <li><strong>25</strong> claves foráneas</li>
+      <li><strong>6</strong> vistas</li>
+    </ul>
+
+    <figure class="figura">
+      <div class="lienzo lienzo-ajustado">
+        <img src="imagenes/diagrama-relacional.svg"
+             alt="Diagrama relacional del Sistema de Comandas con sus 17 tablas: a la izquierda el evento con evento_organizador, anticipo y cuenta, y arriba el inventario (ingrediente y receta); al centro mesa, comanda, pago y acuerdo; a la derecha el catálogo (producto, paquete y paquete_producto) y la jerarquía de Usuario (usuario, mesero, bar_cocina y cajero_admin), unidas por sus 25 claves foráneas."
+             width="2795" height="1572"
+             data-completa="imagenes/diagrama-relacional.svg" data-natural>
+      </div>
+      <figcaption>
+        <span>Clave primaria subrayada, clave foránea en cursiva, <code>?</code> admite nulos y columnas generadas en gris con ⚙. Línea continua: relación identificadora.</span>
+        <button type="button" class="boton" data-abrir="imagenes/diagrama-relacional.svg" data-natural>
+          Ver en tamaño completo
+        </button>
+      </figcaption>
+    </figure>
+
+    <h3 class="subtitulo">Decisiones de la transformación</h3>
+    <div class="rejilla rejilla-dos">
+      <div class="tarjeta decision">
+        <h3>Jerarquía de Usuario</h3>
+        <p>
+          Una tabla para el supertipo y una por subtipo. Seis relaciones solo admiten a un
+          subtipo —una propina solo puede ir a un mesero—, y eso exige que la clave foránea
+          apunte a <code>mesero</code> y no a <code>usuario</code>. El discriminador
+          <code>rol</code> mantiene la jerarquía disjunta.
+        </p>
+      </div>
+      <div class="tarjeta decision">
+        <h3>Mesa y Cuenta</h3>
+        <p>
+          Entidades débiles por identificación: su clave primaria combina el número de
+          evento con su propio número, porque la mesa 3 del evento 17 y la del evento 22
+          son mesas distintas. Se borran en cascada con el evento, salvo que este ya tenga
+          comandas, pagos o anticipos.
+        </p>
+      </div>
+      <div class="tarjeta decision">
+        <h3>Relación ternaria <em>Acuerda</em></h3>
+        <p>
+          La tabla <code>acuerdo</code> tiene como clave las tres claves foráneas, porque
+          ningún par determina al tercero. No apunta a <code>paquete_producto</code>: en un
+          evento se pueden acordar productos que el paquete no traía.
+        </p>
+      </div>
+      <div class="tarjeta decision">
+        <h3>Atributos derivados</h3>
+        <p>
+          No se guardan, se calculan en vistas: el total de la cuenta, las propinas del
+          mesero, la edad y el número de mesas. Así nunca quedan desincronizados. El precio
+          cobrado sí se guarda y un disparador impide modificarlo.
+        </p>
+      </div>
+    </div>
+
+    <p class="pie-enlace">
+      El esquema se probó con datos de ejemplo y con 20 instrucciones que violan una
+      restricción cada una, todas rechazadas por el gestor. Solo una regla del EER no se
+      preservó: cambiar el rol de un usuario conservando su historial. El detalle está en
+      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloRelacional.md">ModeloRelacional.md</a>
+      y <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ReglasDeTransformacion.md">ReglasDeTransformacion.md</a>.
+    </p>
+  </section>
+
+  <section class="seccion" id="repositorios">
+    <h2>Repositorios</h2>
+    <div class="rejilla">
+      <a class="tarjeta enlace-tarjeta" href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD">
+        <h3>Repositorio del equipo</h3>
+        <p>Todo el trabajo del curso: documentación, modelos, evidencias y este sitio.</p>
+        <span class="url">github.com/Actronix09/Desarrollo-Proyecto-Final-BD</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="seccion" id="documentacion">
+    <h2>Documentación del repositorio</h2>
+    <p>Todo el material del curso vive en el repositorio, escrito en Markdown.</p>
+
+    <h3 class="subtitulo">Proyecto propio</h3>
+    <ul class="indice">
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Entrevista.md">Entrevista con el cliente</a>
+        <span>Eventos, mesas, menú, flujo de comandas, cobros, roles y reportes.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloEntidadRelaci%C3%B3nExtendido.md">Modelo entidad-relación extendido</a>
+        <span>Entidades, relaciones con cardinalidades, entidades débiles, jerarquía y restricciones.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/LaTeX/Practica%201.pdf">Documento de la Práctica 1 (PDF)</a>
+        <span>Introducción, marco teórico y caso de estudio.</span>
+      </li>
+    </ul>
+
+    <h3 class="subtitulo">Modelo relacional</h3>
+    <ul class="indice">
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/EntornoPractica3.md">Entorno de trabajo de la Práctica 3</a>
+        <span>Ramas de trabajo, PostgreSQL levantado con el compose del repositorio y base vacía.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/InventarioModeloEER.md">Inventario del modelo EER</a>
+        <span>Entidades, relaciones, jerarquía y atributos especiales antes de la transformación.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ReglasDeTransformacion.md">Reglas de transformación</a>
+        <span>Reglas 1 a 9 aplicadas al modelo, tipos de dato y estrategia para la jerarquía de Usuario.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloRelacional.md">Esquema relacional</a>
+        <span>Esquema completo, ejecución del DDL, instrucciones rechazadas y preservación del significado.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/DiccionarioDeDatos.md">Diccionario de datos</a>
+        <span>Las 97 columnas de las 17 tablas con tipo, restricciones y descripción.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/sql/esquema.sql">Script <code>esquema.sql</code></a>
+        <span>Tablas, disparadores, índices, vistas y comentarios del esquema.</span>
+      </li>
+    </ul>
+
+    <h3 class="subtitulo">Proyecto asignado</h3>
+    <ul class="indice">
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Investigaci%C3%B3nDeArticulos.md">Análisis de los tres artículos</a>
+        <span>Sismos, datos abiertos de agua y almacén geoespacial de obra pública.</span>
+      </li>
+    </ul>
+
+    <h3 class="subtitulo">Entorno y control de versiones</h3>
+    <ul class="indice">
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Control%20de%20Versiones.md">Control de versiones (Git)</a>
+        <span>Sistema gestor de versiones, definiciones y flujo de trabajo por ramas.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Control%20de%20Versiones%20GIT%20y%20Pull%20Request.md">Evidencias de Git y pull requests</a>
+        <span>Estructura de ramas, pull requests e historial del repositorio.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Contenedores.md">Contenedores en Docker</a>
+        <span>Imagen, contenedor, volumen y puerto publicado.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Persistencia%20del%20Volumen%20de%20Docker.md">Persistencia del volumen de Docker</a>
+        <span>Prueba de que los datos sobreviven a la eliminación del contenedor.</span>
+      </li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="pie-texto">
+    <p><strong>Sistema de Comandas Profesional</strong></p>
+    <p>
+      Damas Garnica Adrian &middot; Esparza Ramón Fernando Adán &middot;
+      Ramos Padrón Jesus Emmanuel &middot; Hernandez Barrios Samuel Rodrigo
+    </p>
+    <p>Bases de Datos &middot; ESCOM-IPN &middot; 3CV4</p>
+    <p>
+      Sitio estático publicado con GitHub Pages desde
+      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/tree/main/web">
+        la carpeta <code>web/</code></a>
+      de la rama <code>main</code>.
+    </p>
+  </div>
+  <video class="pie-video" src="yipee.mp4" autoplay loop muted playsinline
+         aria-label="Video decorativo"></video>
+</footer>
+
+<div class="visor" id="visor" hidden>
+  <button type="button" class="visor-cerrar" id="visor-cerrar" aria-label="Cerrar">&times;</button>
+  <div class="visor-lienzo" id="visor-lienzo">
+    <img id="visor-imagen" src="" alt="Diagrama en tamaño completo">
+  </div>
+  <p class="visor-ayuda">Arrastre para recorrer el diagrama &middot; <kbd>Esc</kbd> para cerrar</p>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

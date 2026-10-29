@@ -4,7 +4,7 @@
 
 ## Configuración del entorno
 
-El servicio se define en el archivo [compose.yml](<../entorno/Configuracion Adrian/compose.yml>). La declaración relevante para esta práctica es el volumen nombrado, montado sobre el directorio donde PostgreSQL guarda su cluster de datos:
+El servicio se define en el archivo [compose.yml](<../entorno/compose.yml>). La declaración relevante para esta práctica es el volumen nombrado, montado sobre el directorio donde PostgreSQL guarda su cluster de datos:
 
 ```yaml
     volumes:
@@ -79,9 +79,3 @@ exit
 La base de datos `practica1`, creada en el contenedor anterior, aparece en el listado del contenedor nuevo. Cabe señalar que este contenedor es distinto del original —tiene otro identificador— y que los scripts de inicialización de la imagen no se ejecutaron, precisamente porque el volumen ya contenía un cluster inicializado.
 
 ![Salida de la terminal mostrando que la base de datos practica1 sigue existiendo en el contenedor nuevo](<../evidencias/docker/Persistencia Volumen.png>)
-
-## Anexos
-
-**Entorno Angel Gabriel Perez Angeles**
-
-- [compose.yml](../entorno/Configuracion%20Angel/compose.y)

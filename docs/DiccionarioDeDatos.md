@@ -8,7 +8,7 @@ En este documento se describe cada columna de las tablas resultantes de la trans
 
 **Origen:** generado desde el catálogo del gestor después de ejecutar [`sql/esquema.sql`](<../sql/esquema.sql>). Las descripciones son los `COMMENT ON` del propio esquema, así que el diccionario y la base no pueden contradecirse.
 
-**Contenido:** 16 tablas y 89 columnas.
+**Contenido:** 17 tablas y 97 columnas.
 
 ---
 
@@ -24,25 +24,6 @@ En este documento se describe cada columna de las tablas resultantes de la trans
 | `NULL` | Admite nulos |
 
 Los `CHECK` que involucran varias columnas aparecen en cada una de ellas.
-
-## Índice
-
-- [evento](#evento) — Evento atendido en el salón (entidad fuerte).
-- [evento_organizador](#evento_organizador) — Organizadores o clientes de un evento (atributo multivaluado de Evento).
-- [usuario](#usuario) — Personal del salón que usa el sistema (supertipo de la jerarquía).
-- [mesero](#mesero) — Subtipo Mesero de Usuario.
-- [bar_cocina](#bar_cocina) — Subtipo Bar/Cocina de Usuario.
-- [cajero_admin](#cajero_admin) — Subtipo Cajero/Administrador de Usuario.
-- [mesa](#mesa) — Mesa montada para un evento (entidad débil de Evento).
-- [cuenta](#cuenta) — Cuenta de un grupo de invitados (entidad débil de Evento).
-- [producto](#producto) — Producto del menú (entidad fuerte).
-- [producto_ingrediente](#producto_ingrediente) — Ingredientes de un producto (atributo multivaluado de Producto).
-- [paquete](#paquete) — Paquete contratable del catálogo (entidad fuerte).
-- [paquete_producto](#paquete_producto) — Contenido base de cada paquete (relación Incluye, muchos a muchos).
-- [acuerdo](#acuerdo) — Lo pactado de cada producto de cada paquete para un evento (relación ternaria Acuerda).
-- [comanda](#comanda) — Pedido de un producto levantado por un mesero (entidad fuerte).
-- [pago](#pago) — Pago recibido sobre una cuenta (entidad fuerte).
-- [anticipo](#anticipo) — Anticipo pagado a cuenta de un evento (entidad fuerte).
 
 ---
 
@@ -137,6 +118,7 @@ Cuenta de un grupo de invitados (entidad débil de Evento).
 | cuenta | `numero_evento` | `INTEGER` | PK<br>FK → evento · ON DELETE CASCADE · ON UPDATE CASCADE<br>FK → mesa (numero_evento, numero_mesa) · ON DELETE RESTRICT · ON UPDATE RESTRICT | Evento en el que se abrió la cuenta (parte de la clave, relación Abre). |
 | cuenta | `secuencial` | `SMALLINT` | PK<br>`ck_cuenta_secuencial`: CHECK (secuencial > 0) | Número de cuenta dentro del evento (clave parcial). |
 | cuenta | `numero_mesa` | `SMALLINT` | FK → mesa (numero_evento, numero_mesa) · ON DELETE RESTRICT · ON UPDATE RESTRICT<br>NOT NULL | Mesa en la que se abrió la cuenta (relación Tiene). |
+| cuenta | `nombre` | `VARCHAR(60)` | NOT NULL<br>`ck_cuenta_nombre`: CHECK (btrim(nombre) <> '')<br>`ux_cuenta_nombre_abierta` : UNIQUE (numero_evento, numero_mesa, lower(nombre)) WHERE estado = 'abierta' | Alias de la cuenta para distinguirla de las demás de su mesa (p. ej. «Novios»). |
 | cuenta | `folio` | `VARCHAR(30)` | GENERATED ALWAYS … STORED | Folio evento-mesa-secuencial (derivado); se calcula de la fila. |
 | cuenta | `estado` | `VARCHAR(8)` | NOT NULL<br>DEFAULT 'abierta'<br>`ck_cuenta_estado`: CHECK (estado IN ('abierta', 'cerrada')) | Estado de la cuenta: abierta o cerrada. |
 
@@ -148,18 +130,32 @@ Producto del menú (entidad fuerte).
 | :-- | :-- | :-- | :-- | :-- |
 | producto | `id_producto` | `INTEGER` | PK<br>IDENTITY<br>`ck_producto_no_autovariante`: CHECK (id_producto_principal <> id_producto) | Identificador del producto. |
 | producto | `nombre` | `VARCHAR(80)` | UNIQUE<br>NOT NULL | Nombre del producto. |
+| producto | `descripcion` | `VARCHAR(255)` | NULL | Descripción breve para la carta (opcional). |
 | producto | `categoria` | `VARCHAR(10)` | NOT NULL<br>`ck_producto_categoria`: CHECK (categoria IN ('alimentos', 'bebidas', 'dulceria')) | Categoría: alimentos, bebidas o dulceria. |
 | producto | `precio` | `NUMERIC(10,2)` | NOT NULL<br>`ck_producto_precio`: CHECK (precio >= 0) | Precio vigente en el catálogo. |
 | producto | `id_producto_principal` | `INTEGER` | FK → producto · ON DELETE RESTRICT · ON UPDATE RESTRICT<br>NULL<br>`ck_producto_no_autovariante`: CHECK (id_producto_principal <> id_producto) | Producto principal del que es variante (relación Variante); NULL si es principal. |
 
-## producto_ingrediente
+## ingrediente
 
-Ingredientes de un producto (atributo multivaluado de Producto).
+Insumo del inventario con su stock (entidad fuerte).
 
 | Tabla | Columna | Tipo | Restricciones | Descripción |
 | :-- | :-- | :-- | :-- | :-- |
-| producto_ingrediente | `id_producto` | `INTEGER` | PK<br>FK → producto · ON DELETE CASCADE · ON UPDATE CASCADE | Producto al que pertenece el ingrediente. |
-| producto_ingrediente | `ingrediente` | `VARCHAR(60)` | PK | Nombre del ingrediente. |
+| ingrediente | `id_ingrediente` | `INTEGER` | PK<br>IDENTITY | Identificador del ingrediente. |
+| ingrediente | `nombre` | `VARCHAR(60)` | UNIQUE<br>NOT NULL | Nombre del ingrediente. |
+| ingrediente | `unidad_medida` | `VARCHAR(5)` | NOT NULL<br>`ck_ingrediente_unidad`: CHECK (unidad_medida IN ('g', 'ml', 'pieza')) | Unidad en que se mide el stock y la receta: g, ml o pieza. |
+| ingrediente | `stock_actual` | `NUMERIC(10,3)` | NOT NULL<br>DEFAULT 0<br>`ck_ingrediente_stock`: CHECK (stock_actual >= 0) | Existencia actual; baja sola al preparar comandas y nunca es negativa. |
+| ingrediente | `stock_minimo` | `NUMERIC(10,3)` | NOT NULL<br>DEFAULT 0<br>`ck_ingrediente_minimo`: CHECK (stock_minimo >= 0) | Existencia por debajo de la cual hay que resurtir. |
+
+## receta
+
+Ingredientes de cada producto y su cantidad (relación Receta, muchos a muchos).
+
+| Tabla | Columna | Tipo | Restricciones | Descripción |
+| :-- | :-- | :-- | :-- | :-- |
+| receta | `id_producto` | `INTEGER` | PK<br>FK → producto · ON DELETE CASCADE · ON UPDATE CASCADE | Producto que lleva el ingrediente. |
+| receta | `id_ingrediente` | `INTEGER` | PK<br>FK → ingrediente · ON DELETE RESTRICT · ON UPDATE CASCADE | Ingrediente que se usa. |
+| receta | `cantidad_por_porcion` | `NUMERIC(10,3)` | NOT NULL<br>`ck_receta_cantidad`: CHECK (cantidad_por_porcion > 0) | Cantidad del ingrediente por porción, en su unidad (atributo de la relación). |
 
 ## paquete
 
@@ -202,9 +198,9 @@ Pedido de un producto levantado por un mesero (entidad fuerte).
 | comanda | `fecha_hora_dia` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Día; se calcula de fecha_hora en hora de la Ciudad de México. |
 | comanda | `fecha_hora_mes` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Mes; se calcula de fecha_hora. |
 | comanda | `fecha_hora_anio` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Año; se calcula de fecha_hora. |
-| comanda | `fecha_hora_hora` | `TIME(0)` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
+| comanda | `fecha_hora_hora` | `TIME` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
 | comanda | `precio_cobrado` | `NUMERIC(10,2)` | NOT NULL<br>`ck_comanda_precio`: CHECK (precio_cobrado >= 0) | Precio copiado del producto al levantar la comanda; no cambia después. |
-| comanda | `estado` | `VARCHAR(14)` | NOT NULL<br>DEFAULT 'pendiente'<br>`ck_comanda_cancelacion`: CHECK ((estado = 'cancelada') = (id_cajero_cancela IS NOT NULL))<br>`ck_comanda_estado`: CHECK (estado IN ('pendiente', 'en_preparacion', 'entregada', 'cancelada'))<br>`ck_comanda_preparacion`: CHECK (id_bar_cocina IS NOT NULL OR estado IN ('pendiente', 'cancelada')) | Estado: pendiente, en_preparacion, entregada o cancelada. |
+| comanda | `estado` | `VARCHAR(14)` | NOT NULL<br>DEFAULT 'pendiente'<br>`ck_comanda_cancelacion`: CHECK ((estado = 'cancelada') = (id_cajero_cancela IS NOT NULL))<br>`ck_comanda_estado`: CHECK (estado IN ('pendiente', 'en_preparacion', 'lista', 'entregada', 'cancelada'))<br>`ck_comanda_preparacion`: CHECK (id_bar_cocina IS NOT NULL OR estado IN ('pendiente', 'cancelada')) | Estado: pendiente, en_preparacion, lista (listo para entregar), entregada o cancelada. |
 | comanda | `detalles` | `VARCHAR(255)` | NULL | Indicaciones del cliente (opcional). |
 | comanda | `numero_evento` | `INTEGER` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Evento de la cuenta que genera la comanda (relación Genera). |
 | comanda | `secuencial` | `SMALLINT` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Secuencial de la cuenta que genera la comanda (relación Genera). |
@@ -226,7 +222,7 @@ Pago recibido sobre una cuenta (entidad fuerte).
 | pago | `fecha_hora_dia` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Día; se calcula de fecha_hora en hora de la Ciudad de México. |
 | pago | `fecha_hora_mes` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Mes; se calcula de fecha_hora. |
 | pago | `fecha_hora_anio` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Año; se calcula de fecha_hora. |
-| pago | `fecha_hora_hora` | `TIME(0)` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
+| pago | `fecha_hora_hora` | `TIME` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
 | pago | `numero_evento` | `INTEGER` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Evento de la cuenta pagada (relación Recibe). |
 | pago | `secuencial` | `SMALLINT` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Secuencial de la cuenta pagada (relación Recibe). |
 | pago | `id_cajero` | `INTEGER` | FK → cajero_admin · ON DELETE RESTRICT · ON UPDATE RESTRICT<br>NOT NULL | Cajero/administrador que manejó el pago (relación Maneja). |
@@ -257,6 +253,9 @@ Los atributos derivados no son columnas de ninguna tabla; se consultan en estas 
 | :-- | :-- | :-- | :-- | :-- |
 | v_evento | `numero_mesas` | `BIGINT` | `COUNT(*)` de mesa por evento | Número de mesas del evento |
 | v_cuenta | `total_acumulado` | `NUMERIC(10,2)` | `SUM(precio_cobrado)` de sus comandas no canceladas | Total acumulado de la cuenta |
+| v_cuenta | `total_pagado` | `NUMERIC(10,2)` | `SUM(monto - COALESCE(monto_propina, 0))` de sus pagos | Lo que se ha pagado del consumo, sin propinas |
+| v_cuenta | `saldo` | `NUMERIC(10,2)` | `total_acumulado - total_pagado` | Lo que falta por pagar |
 | v_usuario | `edad` | `SMALLINT` | Años de `age(CURRENT_DATE, fecha_nacimiento)` | Edad del usuario |
 | v_mesero | `propinas_acumuladas` | `NUMERIC(10,2)` | `SUM(monto_propina)` de sus pagos | Propinas acumuladas del mesero |
+| v_producto | `disponible` | `BOOLEAN` | `NOT EXISTS` un ingrediente de su receta con `stock_actual < cantidad_por_porcion` | Si el producto se puede preparar con el stock actual |
 | v_comanda | `precio_catalogo` | `NUMERIC(10,2)` | `producto.precio` | Precio vigente del producto, para compararlo con el cobrado |

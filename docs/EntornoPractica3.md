@@ -16,15 +16,17 @@ La práctica se desarrolla en la rama `practica3`, creada a partir de `main` des
 
 | Rama | Sale de | Contenido |
 | :-- | :-- | :-- |
-| `Practica3-Parte1-Entorno` | `practica3` | Este documento y las salidas del levantamiento |
+| `Practica3-Parte1-Entorno` | `practica3` | Este documento y las capturas del levantamiento |
 | `Practica3-Parte2-Inventario` | `practica3` | [Inventario del Modelo EER](<InventarioModeloEER.md>) |
 | `Practica3-Parte3a5-Transformacion` | `practica3` | [Reglas de Transformación](<ReglasDeTransformacion.md>): entidades, atributos, relaciones, entidades débiles y jerarquías |
-| `Practica3-Parte6-EsquemaRelacional` | `practica3` | [Esquema Relacional](<EsquemaRelacional.md>), `sql/esquema.sql`, diagrama y [Diccionario de Datos](<DiccionarioDeDatos.md>) |
+| `Practica3-Parte6-EsquemaRelacional` | `practica3` | [Esquema Relacional](<ModeloRelacional.md>), `sql/esquema.sql`, diagrama y [Diccionario de Datos](<DiccionarioDeDatos.md>) |
 
 ```bash
 git switch practica3
 git switch -c Practica3-Parte1-Entorno
 ```
+
+![Cambio a la rama practica3 y listado de ramas del repositorio, con las cuatro ramas de la Práctica 3](<../evidencias/practica3/parte1/01 - Rama practica3.png>)
 
 ## Levantamiento del gestor
 
@@ -44,7 +46,7 @@ NAMES                IMAGE                  STATUS         PORTS
 practica1-postgres   postgres:16.4-alpine   Up 7 minutes   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
 ```
 
-Salida completa: [`01-levantar-sgbd.txt`](<../evidencias/practica3/parte1/01-levantar-sgbd.txt>)
+![Levantamiento del contenedor practica1-postgres con docker compose y verificación con docker ps](<../evidencias/practica3/parte1/02 - Levantamiento del SGBD.png>)
 
 | Concepto | Valor |
 | :-- | :-- |
@@ -75,6 +77,6 @@ La base aparece en el listado y `\dt` confirma que no tiene ninguna tabla todav�
 Did not find any relations.
 ```
 
-Salida completa: [`02-crear-base-vacia.txt`](<../evidencias/practica3/parte1/02-crear-base-vacia.txt>)
+![Creación de la base comandas y listado que confirma que todavía no tiene tablas](<../evidencias/practica3/parte1/03 - Creación de la base vacia.png>)
 
-Sobre esta base se ejecuta `sql/esquema.sql`. La ejecución, el listado de tablas y los `INSERT` rechazados están documentados en la Parte 6, [Esquema Relacional](<EsquemaRelacional.md>).
+Sobre esta base se ejecuta `sql/esquema.sql`. La ejecución, el listado de tablas y los `INSERT` rechazados están documentados en la Parte 6, [Esquema Relacional](<ModeloRelacional.md>).
