@@ -441,6 +441,11 @@ Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican co
 | Un producto está disponible si su receta alcanza | Vista `v_producto` | Datos de ejemplo (refresco de dieta no disponible) |
 | Un ingrediente en uso no se borra | `fk_receta_ingrediente` (`RESTRICT`) | Rechazo 18 |
 | Lo ya cobrado no se pierde | `ON DELETE RESTRICT` en comanda, pago y anticipo | Rechazo 15 |
+| El abono sin propina no supera el saldo | `tg_pago_saldo` | Rechazo 24 y prueba válida 13 |
+| La propina no supera el monto del pago | `ck_pago_propina_limite` | Rechazo 25 y prueba válida 8 |
+| Solo se cierra con comandas entregadas o canceladas | `tg_cuenta_cierre` | Rechazo 26 y prueba válida 13 |
+| Solo se cierra con saldo cero | `tg_cuenta_cierre` | Rechazo 27 y prueba válida 13 |
+| No se agregan comandas a cuentas cerradas | `tg_comanda_cuenta_abierta` | Rechazo 28 |
 | La cuenta tiene nombre visible | `ck_cuenta_nombre` | Rechazo 19 |
 | Una cuenta abierta no repite nombre en su mesa | Índice único parcial `ux_cuenta_nombre_abierta` | Rechazo 20 |
 
@@ -449,3 +454,9 @@ Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican co
 Solo una regla del modelo EER se pierde en el esquema: **cambiar el rol de un usuario conservando lo que registró con el rol anterior**. La disyunción declarativa lo impide (se intentó `UPDATE usuario SET rol = 'cajero_admin' WHERE id_usuario = 2` y el gestor lo rechazó por `fk_mesero_usuario`). Se aceptó esa pérdida para conservar la separación de responsabilidades, y la alternativa, una tabla de historial de roles, quedó documentada en [Reglas de Transformación](<ReglasDeTransformacion.md#lo-que-se-sacrifica-el-cambio-de-rol>).
 
 ![Intento de cambiar el rol del usuario 2 a cajero_admin, rechazado por fk_mesero_usuario](<../evidencias/practica3/parte6/06 - Cambio de rol rechazado.png>)
+
+### Validaciones de catalogo y operacion
+
+El precio cobrado siempre se copia del catalogo, aunque el INSERT envie otro importe (prueba valida 1). Los indices `ux_usuario_usuario_minusculas` y `ux_ingrediente_nombre_minusculas` impiden duplicados sin distinguir mayusculas (rechazos 29 y 30).
+
+`tg_comanda_evento` impide insertar comandas en eventos finalizados (rechazo 31). La estacion se obtiene de la categoria: bebidas en bar; alimentos y dulceria en cocina, siguiendo los datos de ejemplo. `tg_comanda_estacion` valida la asignacion al insertar y al actualizar trabajador, producto o estado (rechazos 32 a 34).

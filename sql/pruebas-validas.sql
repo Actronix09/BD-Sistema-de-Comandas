@@ -15,12 +15,17 @@ BEGIN;
         RETURNING id_comanda, precio_cobrado INTO v_id, v_precio;
         ASSERT v_precio = 180.00, format('se esperaba 180.00 y se guardó %s', v_precio);
 
+        INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto, precio_cobrado)
+        VALUES (17, 2, 1, 3, 1.00)
+        RETURNING precio_cobrado INTO v_precio;
+        ASSERT v_precio = 180.00, 'se acepto un precio distinto al catalogo';
+
         UPDATE producto SET precio = 200.00 WHERE id_producto = 3;
         SELECT precio_cobrado INTO v_precio FROM comanda WHERE id_comanda = v_id;
         ASSERT v_precio = 180.00, format('el precio cambio a %s al subir el catálogo', v_precio);
 
     END $$;
-    \warn '✓ 1 de 12'
+    \warn '✓ 1 de 13'
 
     \warn '=== 2. Altas sin id o numero: las secuencias no chocan'
     DO $$
@@ -64,7 +69,7 @@ BEGIN;
         ASSERT v_id > 17, format('la secuencia de evento dio %s, que ya existía', v_id);
 
     END $$;
-    \warn '✓ 2 de 12'
+    \warn '✓ 2 de 13'
 
     \warn '=== 3. Flujo completo de un producto: el stock se toca una sola vez'
     DO $$
@@ -116,7 +121,7 @@ BEGIN;
         ASSERT v_ahora = v_cacao - 20, format('entregada se mantiene cacao: %s = %s', v_ahora, v_cacao - 20);
 
     END $$;
-    \warn '✓ 3 de 12'
+    \warn '✓ 3 de 13'
 
     \warn '=== 4. Cancelar una comanda pendiente: el stock no cambia'
     DO $$
@@ -158,7 +163,7 @@ BEGIN;
         ASSERT v_ahora = v_queso, format('cancelar gastó queso parmesano: %s -> %s', v_queso, v_ahora);
         
     END $$;
-    \warn '✓ 4 de 12'
+    \warn '✓ 4 de 13'
 
     \warn '=== 5. Total de una cuenta no considera las comandas canceladas'
     DO $$
@@ -197,7 +202,7 @@ BEGIN;
         ASSERT v_total = v_precio_refresco + v_precio_pasta, format('la cuenta no tiene el valor esperado de %s despues de cancelar comanda, total cuenta: %s', v_precio_refresco + v_precio_pasta, v_total);
         
     END $$;
-    \warn '✓ 5 de 12'
+    \warn '✓ 5 de 13'
 
     \warn '=== 6. Nombre de cuenta repetido: otra mesa o cuenta cerrada'
     DO $$
@@ -224,7 +229,7 @@ BEGIN;
         INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 1, 'Paco');
         
     END $$;
-    \warn '✓ 6 de 12'
+    \warn '✓ 6 de 13'
 
     \warn '=== 7. Disponibilidad del producto según el stock'
     DO $$
@@ -263,7 +268,7 @@ BEGIN;
         ASSERT v_disponible = true, 'el producto no se encuentra disponible con stock disponible';
         
     END $$;
-    \warn '✓ 7 de 12'
+    \warn '✓ 7 de 13'
 
     \warn '=== 8. Las propinas se acumulan al mesero'
     DO $$
@@ -280,15 +285,18 @@ BEGIN;
         SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
         INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, v_secuencial, 1, 'Juancho');
         
+        INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto)
+        VALUES (17, v_secuencial, 1, 4);
+
         INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
-        VALUES (500, 'tarjeta', 17, v_secuencial, 5, 1, 50);
+        VALUES (145, 'tarjeta', 17, v_secuencial, 5, 1, 50);
 
         -- 3) Verificar acumulación de propina
         SELECT propinas_acumuladas INTO v_propina FROM v_mesero WHERE id_usuario = 1;
         
         ASSERT v_propina = v_acumuladas + 50, format('la propina acumulada final no fue la esperada de %s, la propina acumulada fue de %s', v_acumuladas + 50, v_propina);
     END $$;
-    \warn '✓ 8 de 12'
+    \warn '✓ 8 de 13'
 
     \warn '=== 9. Crear una variante de un producto principal'
     DO $$
@@ -307,7 +315,7 @@ BEGIN;
         SELECT id_producto_principal INTO v_principal FROM producto WHERE id_producto = v_id;
         ASSERT v_principal = 3, format('la variante quedó ligada al producto %s y no al 3', v_principal);
     END $$;
-    \warn '✓ 9 de 12'
+    \warn '✓ 9 de 13'
     
     \warn '=== 10. Cancelar una comanda preparada: el stock se descuenta y no se cobra'
     DO $$
@@ -353,7 +361,7 @@ BEGIN;
         SELECT total_acumulado INTO v_total FROM v_cuenta WHERE numero_evento = 17 AND secuencial = v_secuencial;
         ASSERT v_total = 0, format('la comanda cancelada se sigue cobrando, total cuenta: %s', v_total);
     END $$; 
-    \warn '✓ 10 de 12'
+    \warn '✓ 10 de 13'
 
     \warn '=== 11. Saltar de pendiente a lista y el stock baja una sola vez'
     DO $$
@@ -395,7 +403,7 @@ BEGIN;
         SELECT stock_actual INTO v_ahora FROM ingrediente WHERE id_ingrediente = 8;
         ASSERT v_ahora = v_cacao - 20, 'El cacao redujo despues de entregar';
     END $$;
-    \warn '✓ 11 de 12'
+    \warn '✓ 11 de 13'
 
     \warn '=== 12. Pagos parciales: el saldo baja con cada pago y no cuenta la propina'
     DO $$
@@ -428,6 +436,29 @@ BEGIN;
         ASSERT v_saldo = 0, format('después del segundo pago el saldo quedó en %s y se esperaba 0', v_saldo);
         ASSERT v_pagado = 130, format('el total pagado quedó en %s y se esperaba 130: la propina no debe contar', v_pagado);
     END $$;
-    \warn '✓ 12 de 12'
+    \warn '✓ 12 de 13'
+
+    \warn '=== 13. Pagar el saldo exacto, cerrar Novios y reutilizar el nombre'
+    DO $$
+    DECLARE
+        v_saldo NUMERIC(10,2);
+        v_secuencial SMALLINT;
+    BEGIN
+        UPDATE comanda SET estado = 'entregada'
+        WHERE numero_evento = 17 AND secuencial = 1 AND estado <> 'cancelada';
+        SELECT saldo INTO v_saldo FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 1;
+        IF v_saldo > 0 THEN
+            INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero)
+            VALUES (v_saldo, 'transferencia', 17, 1, 5);
+        END IF;
+        UPDATE cuenta SET estado = 'cerrada' WHERE numero_evento = 17 AND secuencial = 1;
+        ASSERT (SELECT estado = 'cerrada' AND saldo = 0 FROM v_cuenta
+                WHERE numero_evento = 17 AND secuencial = 1), 'la cuenta no se cerro saldada';
+        SELECT max(secuencial) + 1 INTO v_secuencial FROM cuenta WHERE numero_evento = 17;
+        INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre)
+        VALUES (17, v_secuencial, 1, 'Novios');
+        ASSERT FOUND, 'no se pudo reutilizar el nombre';
+    END $$;
+    \warn '✓ 13 de 13'
 
 ROLLBACK;

@@ -411,15 +411,13 @@ CREATE TABLE comanda (
 );
 
 -- "El Precio cobrado se copia del producto al levantar la comanda y ya
--- no cambia aunque suba el catálogo": si no se indica, se toma el precio
+-- no cambia aunque suba el catálogo": siempre se toma el precio
 -- vigente; una vez guardado no se puede modificar.
 CREATE FUNCTION fijar_precio_cobrado() RETURNS trigger
 LANGUAGE plpgsql AS $$
 BEGIN
     IF TG_OP = 'INSERT' THEN
-        IF NEW.precio_cobrado IS NULL THEN
-            SELECT precio INTO NEW.precio_cobrado FROM producto WHERE id_producto = NEW.id_producto;
-        END IF;
+        SELECT precio INTO NEW.precio_cobrado FROM producto WHERE id_producto = NEW.id_producto;
     ELSIF NEW.precio_cobrado IS DISTINCT FROM OLD.precio_cobrado THEN
         RAISE EXCEPTION 'el precio cobrado de la comanda % ya quedó fijado y no se puede modificar', OLD.id_comanda
             USING ERRCODE = 'check_violation';
@@ -535,6 +533,7 @@ CREATE TABLE pago (
     monto_propina      NUMERIC(10,2)  NULL,
     CONSTRAINT pk_pago PRIMARY KEY (numero_pago),
     CONSTRAINT ck_pago_monto CHECK (monto > 0),
+    CONSTRAINT ck_pago_propina_limite CHECK (monto_propina IS NULL OR monto_propina <= monto),
     CONSTRAINT ck_pago_forma CHECK (forma_pago IN ('efectivo', 'tarjeta', 'transferencia')),
     -- La propina va completa o no va: mesero y monto aparecen juntos.
     CONSTRAINT ck_pago_propina_completa CHECK ((id_mesero_propina IS NULL) = (monto_propina IS NULL)),
@@ -576,6 +575,9 @@ CREATE TABLE anticipo (
 --     las que se usan para navegar del lado uno al lado muchos y las que
 --     revisa el gestor al borrar o actualizar la fila referenciada.
 -- =====================================================================
+
+CREATE UNIQUE INDEX ux_usuario_usuario_minusculas ON usuario (lower(usuario));
+CREATE UNIQUE INDEX ux_ingrediente_nombre_minusculas ON ingrediente (lower(nombre));
 
 CREATE INDEX ix_mesa_mesero              ON mesa (id_mesero);
 CREATE INDEX ix_cuenta_mesa              ON cuenta (numero_evento, numero_mesa);
@@ -632,6 +634,124 @@ FROM (
     FROM cuenta c
 ) t;
 
+-- El consumo pagado no puede superar el saldo de la cuenta.
+CREATE FUNCTION validar_pago_saldo() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_saldo NUMERIC(10,2);
+BEGIN
+    PERFORM 1 FROM cuenta
+    WHERE numero_evento = NEW.numero_evento AND secuencial = NEW.secuencial
+    FOR UPDATE;
+    SELECT saldo INTO v_saldo FROM v_cuenta
+    WHERE numero_evento = NEW.numero_evento AND secuencial = NEW.secuencial;
+    IF NEW.monto - COALESCE(NEW.monto_propina, 0) > v_saldo THEN
+        RAISE EXCEPTION 'el pago excede el saldo de la cuenta (%)', v_saldo
+            USING ERRCODE = 'check_violation';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER tg_pago_saldo
+    BEFORE INSERT ON pago
+    FOR EACH ROW EXECUTE FUNCTION validar_pago_saldo();
+
+-- Una cuenta se cierra sin adeudo y con todas sus comandas terminadas.
+CREATE FUNCTION validar_cierre_cuenta() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_saldo NUMERIC(10,2);
+BEGIN
+    IF NEW.estado = 'cerrada' AND OLD.estado IS DISTINCT FROM NEW.estado THEN
+        IF EXISTS (SELECT 1 FROM comanda
+                   WHERE numero_evento = OLD.numero_evento AND secuencial = OLD.secuencial
+                     AND estado NOT IN ('entregada', 'cancelada')) THEN
+            RAISE EXCEPTION 'la cuenta tiene comandas sin terminar'
+                USING ERRCODE = 'check_violation';
+        END IF;
+        SELECT saldo INTO v_saldo FROM v_cuenta
+        WHERE numero_evento = OLD.numero_evento AND secuencial = OLD.secuencial;
+        IF v_saldo <> 0 THEN
+            RAISE EXCEPTION 'la cuenta tiene saldo pendiente (%)', v_saldo
+                USING ERRCODE = 'check_violation';
+        END IF;
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER tg_cuenta_cierre
+    BEFORE UPDATE OF estado ON cuenta
+    FOR EACH ROW EXECUTE FUNCTION validar_cierre_cuenta();
+
+-- Solo se pueden levantar comandas en cuentas abiertas.
+CREATE FUNCTION validar_cuenta_abierta() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_estado VARCHAR(8);
+BEGIN
+    SELECT estado INTO v_estado FROM cuenta
+    WHERE numero_evento = NEW.numero_evento AND secuencial = NEW.secuencial
+    FOR UPDATE;
+    IF v_estado = 'cerrada' THEN
+        RAISE EXCEPTION 'no se pueden agregar comandas a una cuenta cerrada'
+            USING ERRCODE = 'check_violation';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER tg_comanda_cuenta_abierta
+    BEFORE INSERT ON comanda
+    FOR EACH ROW EXECUTE FUNCTION validar_cuenta_abierta();
+
+-- Los eventos finalizados no reciben comandas nuevas.
+CREATE FUNCTION validar_evento_comanda() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_estado VARCHAR(12);
+BEGIN
+    SELECT estado INTO v_estado FROM evento
+    WHERE numero_evento = NEW.numero_evento FOR SHARE;
+    IF v_estado = 'finalizado' THEN
+        RAISE EXCEPTION 'el evento % esta finalizado', NEW.numero_evento
+            USING ERRCODE = 'check_violation';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER tg_comanda_evento
+    BEFORE INSERT ON comanda
+    FOR EACH ROW EXECUTE FUNCTION validar_evento_comanda();
+
+-- Bebidas se preparan en bar; alimentos y dulceria, en cocina.
+CREATE FUNCTION validar_estacion_comanda() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_categoria VARCHAR(10);
+    v_estacion VARCHAR(6);
+    v_esperada VARCHAR(6);
+BEGIN
+    IF NEW.id_bar_cocina IS NULL THEN
+        RETURN NEW;
+    END IF;
+    SELECT categoria INTO v_categoria FROM producto WHERE id_producto = NEW.id_producto;
+    SELECT estacion_asignada INTO v_estacion FROM bar_cocina WHERE id_usuario = NEW.id_bar_cocina;
+    v_esperada := CASE WHEN v_categoria = 'bebidas' THEN 'bar' ELSE 'cocina' END;
+    IF v_estacion <> v_esperada THEN
+        RAISE EXCEPTION 'la categoria % se prepara en %, no en %', v_categoria, v_esperada, v_estacion
+            USING ERRCODE = 'check_violation';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+
+CREATE TRIGGER tg_comanda_estacion
+    BEFORE INSERT OR UPDATE OF id_bar_cocina, id_producto, estado ON comanda
+    FOR EACH ROW EXECUTE FUNCTION validar_estacion_comanda();
+
 -- Usuario: Edad.
 CREATE VIEW v_usuario AS
 SELECT u.id_usuario, u.nombre, u.usuario, u.fecha_nacimiento,
@@ -665,6 +785,10 @@ CREATE VIEW v_comanda AS
 SELECT co.*, p.precio AS precio_catalogo
 FROM comanda co
 JOIN producto p ON p.id_producto = co.id_producto;
+
+
+
+
 
 -- =====================================================================
 --  8. DICCIONARIO DE DATOS EN EL GESTOR
@@ -781,7 +905,7 @@ COMMENT ON COLUMN comanda.id_cajero_cancela IS 'Cajero/administrador que la canc
 
 COMMENT ON TABLE pago                  IS 'Pago recibido sobre una cuenta (entidad fuerte).';
 COMMENT ON COLUMN pago.numero_pago       IS 'Identificador del pago.';
-COMMENT ON COLUMN pago.monto             IS 'Importe pagado por el cliente.';
+COMMENT ON COLUMN pago.monto             IS 'Importe pagado por el cliente, incluida la propina.';
 COMMENT ON COLUMN pago.forma_pago        IS 'Forma de pago: efectivo, tarjeta o transferencia.';
 COMMENT ON COLUMN pago.fecha_hora        IS 'Momento del pago (atributo compuesto Time Stamp).';
 COMMENT ON COLUMN pago.fecha_hora_dia    IS 'Componente Día; se calcula de fecha_hora en hora de la Ciudad de México.';

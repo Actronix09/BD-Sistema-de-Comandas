@@ -216,7 +216,7 @@ Pago recibido sobre una cuenta (entidad fuerte).
 | Tabla | Columna | Tipo | Restricciones | Descripción |
 | :-- | :-- | :-- | :-- | :-- |
 | pago | `numero_pago` | `INTEGER` | PK<br>IDENTITY | Identificador del pago. |
-| pago | `monto` | `NUMERIC(10,2)` | NOT NULL<br>`ck_pago_monto`: CHECK (monto > 0) | Importe pagado por el cliente. |
+| pago | `monto` | `NUMERIC(10,2)` | NOT NULL<br>`ck_pago_monto`: CHECK (monto > 0) | Importe pagado por el cliente, incluida la propina; el consumo se abona con monto menos monto_propina. |
 | pago | `forma_pago` | `VARCHAR(13)` | NOT NULL<br>`ck_pago_forma`: CHECK (forma_pago IN ('efectivo', 'tarjeta', 'transferencia')) | Forma de pago: efectivo, tarjeta o transferencia. |
 | pago | `fecha_hora` | `TIMESTAMPTZ` | NOT NULL<br>DEFAULT now() | Momento del pago (atributo compuesto Time Stamp). |
 | pago | `fecha_hora_dia` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Día; se calcula de fecha_hora en hora de la Ciudad de México. |
@@ -259,3 +259,13 @@ Los atributos derivados no son columnas de ninguna tabla; se consultan en estas 
 | v_mesero | `propinas_acumuladas` | `NUMERIC(10,2)` | `SUM(monto_propina)` de sus pagos | Propinas acumuladas del mesero |
 | v_producto | `disponible` | `BOOLEAN` | `NOT EXISTS` un ingrediente de su receta con `stock_actual < cantidad_por_porcion` | Si el producto se puede preparar con el stock actual |
 | v_comanda | `precio_catalogo` | `NUMERIC(10,2)` | `producto.precio` | Precio vigente del producto, para compararlo con el cobrado |
+
+### Validaciones del cobro
+
+`ck_pago_propina_limite` impide que la propina supere el monto del pago. `tg_pago_saldo` compara el abono sin propina con el saldo antes de insertar un pago. `tg_cuenta_cierre` exige saldo cero y comandas entregadas o canceladas al cerrar. `tg_comanda_cuenta_abierta` impide insertar pedidos en cuentas cerradas.
+
+### Validaciones de catalogo y operacion
+
+El precio cobrado siempre se copia del catalogo, aunque el INSERT envie otro importe (prueba valida 1). Los indices `ux_usuario_usuario_minusculas` y `ux_ingrediente_nombre_minusculas` impiden duplicados sin distinguir mayusculas (rechazos 29 y 30).
+
+`tg_comanda_evento` impide insertar comandas en eventos finalizados (rechazo 31). La estacion se obtiene de la categoria: bebidas en bar; alimentos y dulceria en cocina, siguiendo los datos de ejemplo. `tg_comanda_estacion` valida la asignacion al insertar y al actualizar trabajador, producto o estado (rechazos 32 a 34).
