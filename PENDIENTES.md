@@ -2,7 +2,7 @@
 
 Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** y una casilla para marcarla cuando esté lista.
 
-**Actualizado:** 29 de octubre de 2026
+**Actualizado:** 31 de octubre de 2026
 
 **Hacia dónde va:** el programa en C (memoria compartida, ncurses y archivos de texto) pasa a ser una aplicación con interfaz gráfica para Windows, Linux y Android, **toda en C++ con Qt**.
 
@@ -32,10 +32,12 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 | Documentación del modelo (EER, reglas de transformación, modelo relacional, diccionario) y diagramas, ya con Saldo | `docs/`, `modelo/` |
 | Datos de ejemplo: evento 17 con 3 mesas, 3 cuentas, 5 comandas, un pago con propina y el inventario | `sql/datos-ejemplo.sql` |
 | `make -C sql pruebas`: recrea la base de pruebas y corre todo | `sql/Makefile` |
-| 23 inserts rechazados, todos pasan | `sql/inserts-rechazados.sql` |
-| 12 casos válidos, todos pasan | `sql/pruebas-validas.sql` |
+| 34 inserts rechazados, todos pasan | `sql/inserts-rechazados.sql` |
+| 13 casos válidos, todos pasan | `sql/pruebas-validas.sql` |
 | Máquina de estados de la comanda: solo avanza, se puede cancelar desde cualquier estado y una cancelada ya no cambia | `validar_cambio_estado()` |
 | `v_cuenta` con `total_acumulado`, `total_pagado` y `saldo` | `sql/esquema.sql` |
+| Reglas del cobro: pago ≤ saldo, propina ≤ monto, cierre sin adeudo ni comandas abiertas, no pedir en cuenta cerrada | `tg_pago_saldo`, `ck_pago_propina_limite`, `tg_cuenta_cierre`, `tg_comanda_cuenta_abierta` |
+| Precio cobrado siempre del catálogo, nombres únicos sin importar mayúsculas, sin comandas en eventos finalizados y estación por categoría | `fijar_precio_cobrado()`, índices `ux_*_minusculas`, `tg_comanda_evento`, `tg_comanda_estacion` |
 | Prototipo de la interfaz en QML (login, mesero, cocina/bar, admin e ingredientes) | Repo `Sistema-de-Comandas`, `prototipos/qml/` |
 
 ## Cómo trabajamos
@@ -44,23 +46,23 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 - **Lo que la base ya protege no se repite en el servidor.** El descuento de stock, la máquina de estados y las reglas del cobro viven en disparadores. Si el servidor también los hace, se hacen dos veces.
 - Cada regla nueva de la base lleva tres cosas: su disparador o `CHECK`, un caso en `inserts-rechazados.sql` y un caso en `pruebas-validas.sql`. **Primero el disparador** y después los casos. Si no, el Makefile marca el rechazo como fallido.
 - Antes de cada commit, `make -C sql pruebas` debe terminar en `Todas las pruebas pasaron`.
-- Numeración: el siguiente rechazo es el **24** y el siguiente caso válido es el **13**.
+- Numeración: el siguiente rechazo es el **35** y el siguiente caso válido es el **14**.
 - Los disparadores lanzan `RAISE EXCEPTION … USING ERRCODE = 'check_violation'`, igual que `fijar_precio_cobrado()`.
 
 ## Reparto
 
 | Quién | Qué | Partes |
 | :-- | :-- | :-- |
-| @Akiodev | Terminar las pruebas de la base: cada regla con su disparador, sus rechazos, su caso válido y su documentación | Fase 2 completa; 3.1, 3.2, 3.4, 3.8 y la regla de 3.3 |
+| Samy | Terminar las pruebas de la base: cada regla con su disparador, sus rechazos, su caso válido y su documentación | Correcciones de la revisión: 2.4, 2.6–2.8, 3.9–3.11; y 3.8 |
 | @Actronix09 | La interfaz y el sistema en QML: el proyecto del cliente, la `Api` simulada y las pantallas | 4.1 y Fase 7 completa |
 | Ambos | Lo que afecta a la base y a las pantallas a la vez | Decisiones 3.3, 3.5, 3.6 y 3.7; contrato 4.4–4.7 |
 
 Las fases 5, 6, 8 y 9 se reparten cuando terminen las anteriores.
 
 Para no estorbarnos:
-- **Cada quien en su carpeta y en su rama.** @Akiodev trabaja en `sql/` y `docs/`; @Actronix09, en el cliente. Los cambios entran a `main` por PR.
-- **Los números de los casos son de @Akiodev.** Como solo una persona agrega rechazos y casos válidos, no hay choques en la numeración.
-- **Cada regla nueva se avisa con su mensaje de error.** Cuando una regla de la Fase 2 quede lista (pago mayor que el saldo, cerrar con adeudo, pedir en una cuenta cerrada), @Akiodev pasa el texto del error y @Actronix09 lo agrega a la `Api` simulada. Así la pantalla Caja ya muestra esos errores antes de que exista el servidor, y de ahí salen los códigos de 4.6.
+- **Cada quien en su carpeta y en su rama.** Samy trabaja en `sql/` y `docs/`; @Actronix09, en el cliente. Los cambios entran a `main` por PR.
+- **Los números de los casos son de Samy.** Como solo una persona agrega rechazos y casos válidos, no hay choques en la numeración.
+- **Cada regla nueva se avisa con su mensaje de error.** Samy pasa el texto del error y @Actronix09 lo agrega a la `Api` simulada. Así las pantallas ya muestran esos errores antes de que exista el servidor, y de ahí salen los códigos de 4.6. Los de la Fase 2 ya están en `esquema.sql` (por ejemplo, "el pago excede el saldo de la cuenta (95.00)").
 
 ---
 
@@ -89,11 +91,14 @@ Decisiones que ya están tomadas:
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 2.1 | - [ ] **B:** un pago no excede el saldo | Disparador `BEFORE INSERT` en `pago`: compara `monto − propina` contra el `saldo` de la cuenta. Además, `CHECK (monto_propina <= monto)`. **Rompe el caso válido 8**, que paga 500 en la cuenta "Juancho" sin comandas: hay que agregarle comandas y ajustar el monto | Rechazos: pago mayor que el saldo y propina mayor que el monto. Caso válido: pagar exactamente el saldo |  @Akiodev |
-| 2.2 | - [ ] **C:** cerrar una cuenta | Disparador en `cuenta` al pasar a `cerrada`: todas sus comandas deben estar en `entregada` o `cancelada`, y su `saldo` debe ser 0. **Por decidir: quién cierra.** Sugerencia: el cajero, a mano, cuando el saldo llega a 0 | Rechazos: cerrar con comandas pendientes y cerrar con saldo. Caso válido: cerrar "Novios" y abrir otra "Novios" en la misma mesa |  @Akiodev |
-| 2.3 | - [ ] **D:** no pedir en una cuenta cerrada | Disparador en `comanda` (`BEFORE INSERT`): la cuenta debe estar `abierta` | Rechazo: comanda en una cuenta cerrada |  @Akiodev |
-| 2.4 | - [ ] Documentación | `DiccionarioDeDatos.md`: que `pago.monto` incluye la propina. `ModeloRelacional.md` 6.5 "Reglas del modelo EER": una fila por regla con su rechazo. `ReglasDeTransformacion.md`: sacar estas reglas de "lo que el esquema no puede garantizar" si aparecen ahí | Los documentos coinciden con el esquema |  @Akiodev |
-| 2.5 | - [ ] Commit | Una regla por commit | `Rechazados: 28 de 28` aprox. |  @Akiodev |
+| 2.1 | - [x] **B:** un pago no excede el saldo | `tg_pago_saldo` compara `monto − propina` contra el `saldo` y bloquea la cuenta (`FOR UPDATE`) para que dos pagos a la vez no se pasen. `ck_pago_propina_limite`. El caso válido 8 ahora paga 145 (pastel de 95 + 50 de propina) | Rechazos 24 y 25; casos válidos 8 y 13 ✓ |  Samy |
+| 2.2 | - [x] **C:** cerrar una cuenta | `tg_cuenta_cierre`: todas sus comandas en `entregada` o `cancelada` y `saldo` 0. Quién cierra lo decide el servidor (sugerencia: el cajero, a mano) | Rechazos 26 y 27; caso válido 13 ✓ |  Samy |
+| 2.3 | - [x] **D:** no pedir en una cuenta cerrada | `tg_comanda_cuenta_abierta` | Rechazo 28 ✓ |  Samy |
+| 2.4 | - [ ] Documentación | Ya están: `pago.monto` en el diccionario y las filas del cobro en `ModeloRelacional.md`. **Falta:** (1) la sección "Validaciones de catalogo y operacion" está copiada igual en `DiccionarioDeDatos.md` y `ModeloRelacional.md` y sin acentos: dejarla en un solo lugar y con acentos; (2) en `ModeloRelacional.md`, las reglas de los rechazos 29–34 van como filas de la tabla de reglas, igual que las del cobro; (3) `ReglasDeTransformacion.md` no se actualizó | Los documentos coinciden con el esquema |  Samy |
+| 2.5 | - [x] Commit | Reglas B, C y D | Subido en `d3d9de0` (PR #29) ✓ |  Samy |
+| 2.6 | - [ ] Pagos a una cuenta cerrada | Hoy se acepta un pago que es **solo propina** (monto = propina) en una cuenta cerrada, porque el consumo es 0 y 0 ≤ saldo 0. Que `validar_pago_saldo` rechace cualquier pago a una cuenta cerrada | Rechazo: pago de solo propina a una cuenta cerrada |  Samy |
+| 2.7 | - [ ] **Decidir:** ¿cerrar es definitivo? | Hoy una cuenta pasa de `cerrada` a `abierta` con un `UPDATE` y se le vuelve a pedir, lo que brinca la regla D. Si cerrar es definitivo, rechazarlo en `validar_cierre_cuenta` | Decisión escrita; si es definitivo, su rechazo |  Ambos deciden; la regla, Samy |
+| 2.8 | - [ ] Caso válido de D | La regla D no tiene caso válido. Se puede agregar al caso 13: después de abrir la nueva "Novios", levantarle una comanda | Caso válido que pide en la cuenta nueva |  Samy |
 
 ---
 
@@ -104,14 +109,17 @@ Decisiones que ya están tomadas:
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 3.1 | - [ ] `precio_cobrado` siempre del catálogo | Hoy un `INSERT` puede mandar su propio precio. El disparador debe ignorarlo y copiar `producto.precio` | Rechazo o caso válido: el precio enviado se descarta |  @Akiodev |
-| 3.2 | - [ ] Nombres únicos sin importar mayúsculas | `LMendez` y `lmendez`, o "Crema" y "crema", hoy pueden existir a la vez. Índice único con `lower()` en `usuario.usuario` e `ingrediente.nombre` | Rechazos con mayúsculas distintas |  @Akiodev |
-| 3.3 | - [ ] **Decidir:** estación de cada producto | ¿Sale de `producto.categoria` (alimentos → cocina, bebidas → bar; falta decidir a dónde va `dulceria`) o va en una columna nueva? Después: que el bar no prepare alimentos | Decisión escrita y regla con su rechazo |  Ambos deciden; la regla, @Akiodev |
-| 3.4 | - [ ] Evento finalizado | Un evento `finalizado` sigue aceptando comandas. Bloquearlo | Rechazo: comanda en un evento finalizado |  @Akiodev |
+| 3.1 | - [x] `precio_cobrado` siempre del catálogo | `fijar_precio_cobrado()` ignora el precio enviado y copia `producto.precio` | Caso válido 1 ✓ |  Samy |
+| 3.2 | - [x] Nombres únicos sin importar mayúsculas | `ux_usuario_usuario_minusculas` y `ux_ingrediente_nombre_minusculas` | Rechazos 29 y 30 ✓ |  Samy |
+| 3.3 | - [ ] **Decidir:** estación de cada producto | Regla hecha: sale de `producto.categoria`, bebidas → bar; alimentos y **dulcería → cocina** (`tg_comanda_estacion`, rechazos 32–34). Coincide con el prototipo. **Falta que @Actronix09 confirme** que la dulcería va a cocina | Decisión confirmada |  Ambos deciden; la regla, Samy |
+| 3.4 | - [x] Evento finalizado | `tg_comanda_evento` | Rechazo 31 ✓ |  Samy |
 | 3.5 | - [ ] **Decidir:** rondas para cocina | ¿Cocina agrupa por cuenta + `fecha_hora` o se crea una entidad `ronda`? | Decisión escrita; si es entidad, tabla y diagramas |  Ambos |
 | 3.6 | - [ ] **Decidir:** dónde viven los logs | ¿Tabla de bitácora en la base o archivos en un volumen? | Decisión escrita |  Ambos |
 | 3.7 | - [ ] Mínimos que el SQL no hace cumplir | Todo evento con al menos una mesa (*Pertenece*) y todo producto con al menos un ingrediente (*Receta*). ¿Se hacen cumplir en la base o los valida la aplicación? | Decisión anotada en `ReglasDeTransformacion.md` |  Ambos |
-| 3.8 | - [ ] *(Opcional)* Capturas de `ModeloRelacional.md` | Las capturas todavía dicen 20 rechazos y 4 comandas. Si el documento es el reporte de la Práctica 3 como se entregó, mejor dejarlo así | Decisión tomada |  @Akiodev |
+| 3.8 | - [ ] *(Opcional)* Capturas de `ModeloRelacional.md` | Las capturas todavía dicen 20 rechazos y 4 comandas. Si el documento es el reporte de la Práctica 3 como se entregó, mejor dejarlo así | Decisión tomada |  Samy |
+| 3.9 | - [ ] Eventos cancelados | `tg_comanda_evento` solo bloquea `finalizado`; un evento `cancelado` sigue aceptando comandas. Cambiar a `IN ('finalizado', 'cancelado')`. *(Menor)* También se pueden abrir cuentas nuevas en un evento finalizado: decidir si se bloquea | Rechazo: comanda en un evento cancelado |  Samy |
+| 3.10 | - [ ] Casos válidos que faltan | Cada regla lleva su caso válido. Faltan: **estación** (cocina prepara el pastel de dulcería y bar prepara el refresco; es el más importante, porque fija la decisión de 3.3), evento (comanda en un evento `en_curso`) y mayúsculas (un nombre distinto sí entra) | Un caso válido por regla |  Samy |
+| 3.11 | - [ ] Limpieza del esquema | Los mensajes de error van sin acentos ("el evento % esta finalizado", "la categoria %") y los demás del esquema sí los llevan. Sobran 4 líneas en blanco después de `v_comanda` | `make -C sql pruebas` sigue en verde |  Samy |
 
 ---
 
@@ -122,7 +130,7 @@ Decisiones que ya están tomadas:
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 4.1 | - [ ] **D1:** estilo visual | Probar el prototipo con `./ejecutar.sh Material`, `FluentWinUI3`, `Universal` y `Fusion`, en claro y oscuro | Estilo elegido |  @Actronix09 |
+| 4.1 | - [x] **D1:** estilo visual | **Material**, el que abre `./ejecutar.sh` sin opciones. Se fija dentro de la app (no por variable de entorno) para que se vea igual en Windows, Linux y Android | Decidido ✓ |  @Actronix09 |
 | 4.2 | - [x] **D2:** lenguaje del cliente | **C++ con Qt en todas las plataformas.** Las pantallas en QML; la conexión y el arranque en C++ | Decidido ✓ | |
 | 4.3 | - [x] Servidor | **C++ con Qt**, en la PC de caja: `QWebSocketServer` con mensajes JSON, `QtSql` con el driver `QPSQL` y la lógica que ya está en C | Decidido ✓ | |
 | 4.4 | - [ ] Contrato de mensajes | Para cada operación (tabla abajo): qué `datos` recibe, qué devuelve, qué errores puede dar y qué rol la puede usar | Documento del contrato en el repo |  Ambos |
@@ -224,7 +232,7 @@ Errores del sistema en C que **no** se deben repetir:
 ## Fase 7: Cliente real (Qt Quick)
 
 **Objetivo:** la aplicación que usan meseros, cocina/bar y caja.
-**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. No hay que esperar a las fases 2 y 3: mientras no esté el servidor, se trabaja con la `Api` simulada del prototipo. La pantalla Caja (7.4) se termina de ajustar cuando estén las reglas 2.1–2.3.
+**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. No hay que esperar a las fases 2 y 3: mientras no esté el servidor, se trabaja con la `Api` simulada del prototipo. Las reglas del cobro (2.1–2.3) ya están en la base: sus mensajes de error se pueden copiar a la `Api` simulada para la pantalla Caja (7.4).
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
