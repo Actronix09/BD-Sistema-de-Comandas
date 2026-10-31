@@ -90,3 +90,59 @@ UPDATE comanda SET estado = 'en_preparacion' WHERE id_comanda = 5;
 
 \warn '--- 23. Descancelar una comanda (disparador: de cancelada no se sale)'
 UPDATE comanda SET estado = 'pendiente', id_cajero_cancela = NULL WHERE id_comanda = 4;
+
+\warn '--- 24. Pago mayor que el saldo de la cuenta'
+INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero)
+VALUES (1000, 'efectivo', 17, 2, 5);
+
+\warn '--- 25. Propina mayor que el monto del pago'
+INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
+VALUES (10, 'efectivo', 17, 2, 5, 1, 20);
+
+\warn '--- 26. Cerrar una cuenta saldada con una comanda pendiente'
+BEGIN;
+INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero)
+SELECT saldo, 'efectivo', 17, 2, 5 FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 2;
+UPDATE cuenta SET estado = 'cerrada' WHERE numero_evento = 17 AND secuencial = 2;
+ROLLBACK;
+
+\warn '--- 27. Cerrar una cuenta con saldo y comandas terminadas'
+BEGIN;
+UPDATE comanda SET estado = 'entregada' WHERE numero_evento = 17 AND secuencial = 3 AND estado = 'lista';
+UPDATE cuenta SET estado = 'cerrada' WHERE numero_evento = 17 AND secuencial = 3;
+ROLLBACK;
+
+\warn '--- 28. Agregar una comanda a una cuenta cerrada'
+BEGIN;
+INSERT INTO cuenta (numero_evento, secuencial, numero_mesa, nombre) VALUES (17, 100, 2, 'Cuenta cerrada');
+UPDATE cuenta SET estado = 'cerrada' WHERE numero_evento = 17 AND secuencial = 100;
+INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto) VALUES (17, 100, 1, 1);
+ROLLBACK;
+
+\warn '--- 29. Usuario duplicado con otras mayusculas'
+INSERT INTO usuario (nombre, usuario, fecha_nacimiento, contrasena_hash, rol)
+VALUES ('Usuario duplicado', 'LMENDEZ', DATE '2000-01-01', 'hashDePrueba', 'mesero');
+
+\warn '--- 30. Ingrediente duplicado con otras mayusculas'
+INSERT INTO ingrediente (nombre, unidad_medida) VALUES ('CREMA', 'ml');
+
+\warn '--- 31. Comanda en un evento finalizado'
+BEGIN;
+UPDATE evento SET estado = 'finalizado' WHERE numero_evento = 17;
+INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto) VALUES (17, 2, 1, 1);
+ROLLBACK;
+
+\warn '--- 32. El bar no puede preparar alimentos'
+INSERT INTO comanda (estado, numero_evento, secuencial, id_mesero, id_producto, id_bar_cocina)
+VALUES ('en_preparacion', 17, 2, 1, 3, 4);
+
+\warn '--- 33. La cocina no puede preparar bebidas al actualizar'
+BEGIN;
+INSERT INTO comanda (id_comanda, numero_evento, secuencial, id_mesero, id_producto)
+VALUES (10000, 17, 2, 1, 1);
+UPDATE comanda SET estado = 'en_preparacion', id_bar_cocina = 3 WHERE id_comanda = 10000;
+ROLLBACK;
+
+\warn '--- 34. El bar no puede preparar dulceria'
+INSERT INTO comanda (estado, numero_evento, secuencial, id_mesero, id_producto, id_bar_cocina)
+VALUES ('en_preparacion', 17, 2, 1, 4, 4);

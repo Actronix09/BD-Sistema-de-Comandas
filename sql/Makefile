@@ -43,7 +43,7 @@ help:
 	@echo "  cargar       Recrea la base $(BASE) con esquema.sql y datos-ejemplo.sql"
 	@echo "  pruebas      Recrea $(BASE_PRUEBAS) y corre toda la secuencia de pruebas"
 	@echo "  rechazados   Corre inserts-rechazados.sql y exige que cada caso falle"
-	@echo "  validas      Corre pruebas-validas.sql (si existe)"
+	@echo "  validas      Corre pruebas-validas.sql y verifica todos sus casos"
 	@echo "  psql         Abre una consola sobre $(BASE)"
 	@echo "  limpiar      Borra la base $(BASE_PRUEBAS)"
 	@echo
@@ -127,7 +127,7 @@ define correr_validas
 			exit (hubo_error || bien != total) \
 		}'; \
 else \
-	echo "==> pruebas-validas.sql no existe todavía; se omite"; \
+	echo "==> Falta pruebas-validas.sql" >&2; exit 1; \
 fi
 endef
 
