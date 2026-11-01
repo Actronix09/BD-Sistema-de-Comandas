@@ -2,7 +2,7 @@
 
 Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** y una casilla para marcarla cuando esté lista.
 
-**Actualizado:** 31 de octubre de 2026
+**Actualizado:** 1 de noviembre de 2026
 
 **Hacia dónde va:** el programa en C (memoria compartida, ncurses y archivos de texto) pasa a ser una aplicación con interfaz gráfica para Windows, Linux y Android, **toda en C++ con Qt**.
 
@@ -39,6 +39,7 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 | Reglas del cobro: pago ≤ saldo, propina ≤ monto, cierre sin adeudo ni comandas abiertas, no pedir en cuenta cerrada | `tg_pago_saldo`, `ck_pago_propina_limite`, `tg_cuenta_cierre`, `tg_comanda_cuenta_abierta` |
 | Precio cobrado siempre del catálogo, nombres únicos sin importar mayúsculas, sin comandas en eventos finalizados y estación por categoría | `fijar_precio_cobrado()`, índices `ux_*_minusculas`, `tg_comanda_evento`, `tg_comanda_estacion` |
 | Prototipo de la interfaz en QML (login, mesero, cocina/bar, admin e ingredientes) | Repo `Sistema-de-Comandas`, `prototipos/qml/` |
+| Cliente en C++/Qt con Material, las correcciones C1–C8 y C11 del lado del cliente, la pantalla Caja y pantallas adaptables, todo sobre la `Api` simulada | Repo `Sistema-de-Comandas`, `cliente/` (rama `Interfaz-grafica-profesional-V1`) |
 
 ## Cómo trabajamos
 
@@ -232,32 +233,34 @@ Errores del sistema en C que **no** se deben repetir:
 ## Fase 7: Cliente real (Qt Quick)
 
 **Objetivo:** la aplicación que usan meseros, cocina/bar y caja.
-**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. No hay que esperar a las fases 2 y 3: mientras no esté el servidor, se trabaja con la `Api` simulada del prototipo. Las reglas del cobro (2.1–2.3) ya están en la base: sus mensajes de error se pueden copiar a la `Api` simulada para la pantalla Caja (7.4).
+**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. No hay que esperar a las fases 2 y 3: mientras no esté el servidor, se trabaja con la `Api` simulada (`cliente/Comandas/Api.qml`). La Caja ya usa las reglas del cobro de la base (2.1–2.3) con sus mismos mensajes.
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 7.1 | - [ ] Proyecto `cliente/` | CMake + Qt 6 en C++ (`main.cpp` carga el QML; el prototipo ya trae uno en `prototipos/qml/anfitrion/cpp/`). Pasar las pantallas del prototipo que se conserven; el prototipo no se modifica | Arranca en escritorio |  @Actronix09 |
+| 7.1 | - [x] Proyecto `cliente/` | CMake + Qt 6.8 en C++ con `qt_add_qml_module`; el estilo Material va en `qtquickcontrols2.conf` dentro del ejecutable | Arranca en escritorio ✓ (`2134f6e`) |  @Actronix09 |
 | 7.2 | - [ ] `Api` real | Una clase C++ con `QWebSocket`, registrada como singleton de QML, con la misma interfaz que `ApiSimulada.qml`. Arma los mensajes con `id` y `op`, empareja cada respuesta con su petición y convierte los avisos en señales para las pantallas. La dirección del servidor se guarda con `QSettings` | Las pantallas funcionan contra el servidor sin cambios |  @Actronix09 |
-| 7.3 | - [ ] Correcciones del prototipo | Ver la tabla C1–C11 abajo | Cada corrección revisada |  @Actronix09 |
-| 7.4 | - [ ] Pantalla **Caja** | Cuentas abiertas → detalle → pagar (forma de pago, monto y propina) → saldo → cerrar cuenta | Cobro completo de una cuenta |  @Actronix09 |
-| 7.5 | - [ ] Pantallas adaptables | `readonly property bool compacta: width < 700`. Probar con la ventana en 400×800 | Se usa bien en tamaño de teléfono |  @Actronix09 |
+| 7.3 | - [x] Correcciones del prototipo | Ver la tabla C1–C11 abajo. Hechas las del cliente; C9 y C10 dependen de otras partes | Cada corrección revisada ✓ |  @Actronix09 |
+| 7.4 | - [x] Pantalla **Caja** | Cuentas abiertas → detalle → pagar (forma de pago, monto y propina) → saldo → cerrar cuenta. Está en el menú de administración. Falta conectarla al servidor (7.2) | Cobro completo de una cuenta ✓ (`7c2a24d`) |  @Actronix09 |
+| 7.5 | - [x] Pantallas adaptables | Cada pantalla tiene su `compacta` (700–760 px). Probado a 1280, 943 y 400 px | Se usa bien en tamaño de teléfono ✓ (`7ab1a8e`) |  @Actronix09 |
 | 7.6 | - [ ] Pantallas pendientes | En orden: 1. Ver logs · 2. Recuperar contraseña · 3. Crear usuario · 4. Admin › Usuarios · 5. Admin › Productos con receta | Las cinco funcionan |  @Actronix09 |
 | 7.7 | - [ ] Android | El botón Atrás regresa de pantalla (`pila.pop()`). Al bloquear el teléfono se cae el WebSocket: reconectar y repetir el login al volver (`Qt.application.state`). Hace falta Qt para Android, el SDK, el NDK y el JDK (los paquetes de Arch no compilan para Android) | La app corre en un teléfono conectado al servidor de la PC |  @Actronix09 |
 | 7.8 | - [ ] **Decidir:** teclado en pantalla | En escritorio táctil sin teclado. Qt Virtual Keyboard es GPLv3 o comercial, no LGPL; la otra opción es un teclado propio en QML | Decisión tomada |  @Actronix09 |
 
-| # | Corrección del prototipo |
-| :--: | :-- |
-| C1 | Las órdenes del mesero en tarjetas, no en lista |
-| C2 | Lo que está listo para entregar va primero |
-| C3 | Tres formas de agrupar: por tiempo, por mesa y cuenta, y por mesero (en mesero, cocina/bar y caja) |
-| C4 | Cobro del cajero/administrador (es la pantalla Caja, 7.4) |
-| C5 | Primero la mesa, luego la cuenta y al final los productos |
-| C6 | La cuenta se muestra con su nombre y el folio al final: "Novios · 17-1-1" |
-| C7 | El texto que se sale de algunas tarjetas de producto |
-| C8 | Sin atajos de teclado: interfaz táctil o con mouse, botones de 48 px como mínimo |
-| C9 | Contenedores con Podman (Fase 5) |
-| C10 | La interfaz también en Android (7.7) |
-| C11 | Avisar al mesero cuando su orden esté lista (6.8) |
+Las correcciones salen de las notas que tomamos al revisar el prototipo (el antiguo `Notas.md`, ya integrado aquí y en la nota de Obsidian "Objetivos del Sistema de Comandas"). Las del cliente se aplicaron el 1 de noviembre, una por commit, en la rama `Interfaz-grafica-profesional-V1` de `Sistema-de-Comandas`.
+
+| # | Corrección del prototipo | Qué se pidió en las notas | Dónde | Estado |
+| :--: | :-- | :-- | :-- | :-- |
+| C1 | Pedidos activos en tarjetas | Los pedidos activos del mesero se ven en forma de tarjeta, no de lista | `VistaMisOrdenes.qml` | ✓ `efcbad4` |
+| C2 | Lo listo va primero | Si una orden ya está lista para entregar, se muestra antes que las que todavía no lo están | `VistaMisOrdenes.qml` | ✓ `c316759`, resaltadas con "Para entregar" |
+| C3 | Tres formas de organizar | Por tiempo, por cuenta y mesa, y por mesero. En mesero, cocina/bar y caja | `VistaMisOrdenes.qml`, `PantallaCocina.qml`, Caja | ✓ `7d1ac3a`; en Caja agrupa por mesa o mesero |
+| C4 | Sistema de cobro | El cobro lo maneja el cajero/administrador | Pantalla Caja (7.4) | ✓ `7c2a24d` |
+| C5 | **Mesa → cuenta → productos** | Al tomar la orden se elige primero la mesa, después la cuenta y al final los productos, no al revés | `VistaTomarOrden.qml`, `DialogoConfirmarOrden.qml` | ✓ `d81be05`; ahora el paso nuevo es `ElegirCuenta.qml` |
+| C6 | Nombre de la cuenta | La cuenta lleva un nombre que guíe al mesero; el folio se conserva, pero al final: "Novios · 17-1-1" | Todas las tarjetas que muestran la cuenta | ✓ `f1e22ee`; las cuentas nuevas piden nombre |
+| C7 | Texto que se sale de las cajas | Corregir el texto que se sale de algunas tarjetas de producto. Revisado el 1 de noviembre: con la ventana angosta, el panel "Orden actual" (370 px fijos) y el buscador (280 px) se cortan; la cuadrícula no baja a 1 columna; en cocina se corta "Cerrar sesión" y los nombres se recortan con "…" ("Pastel de choc…"). Va junto con 7.5 | `TarjetaProducto.qml`, `VistaTomarOrden.qml`, `TarjetaRonda.qml`, `PantallaCocina.qml` | ✓ `7ab1a8e` |
+| C8 | Sin teclado | Quitar los números y las acciones con el teclado: la interfaz es táctil o con mouse. Botones de 48 px como mínimo | Mesero, cocina/bar y admin | ✓ `df9da85` |
+| C9 | Contenedores | El sistema en contenedores; mejor Podman que Docker | Fase 5 | Pendiente (Fase 5) |
+| C10 | Android | La interfaz también funciona en Android | 7.7 | Pantallas listas para teléfono; falta compilar para Android (7.7) |
+| C11 | Aviso al mesero | Notificar al mesero cuando su orden está lista | 6.8 (servidor) y el cliente | ✓ en el cliente (`217c35a`, con una cocina simulada); falta el aviso real del servidor (6.8) y la notificación de Android |
 
 ---
 
