@@ -54,9 +54,9 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 
 | Quién | Qué | Partes |
 | :-- | :-- | :-- |
-| Samy | Terminar las pruebas de la base: cada regla con su disparador, sus rechazos, su caso válido y su documentación | Correcciones de la revisión: 2.4, 2.6–2.8, 3.9–3.11; y 3.8 |
+| Samy | Terminar las pruebas de la base: cada regla con su disparador, sus rechazos, su caso válido y su documentación | Correcciones de la revisión: 2.4, 2.6–2.8, 3.9–3.11; y 3.8. Para los perfiles y las cancelaciones del cliente: 3.12 y 3.13 |
 | @Actronix09 | La interfaz y el sistema en QML: el proyecto del cliente, la `Api` simulada y las pantallas | 4.1 y Fase 7 completa |
-| Ambos | Lo que afecta a la base y a las pantallas a la vez | Decisiones 3.3, 3.5, 3.6 y 3.7; contrato 4.4–4.7 |
+| Ambos | Lo que afecta a la base y a las pantallas a la vez | Decisiones 3.3, 3.5, 3.6, 3.7 y 3.14; contrato 4.4–4.7 |
 
 Las fases 5, 6, 8 y 9 se reparten cuando terminen las anteriores.
 
@@ -121,6 +121,9 @@ Decisiones que ya están tomadas:
 | 3.9 | - [ ] Eventos cancelados | `tg_comanda_evento` solo bloquea `finalizado`; un evento `cancelado` sigue aceptando comandas. Cambiar a `IN ('finalizado', 'cancelado')`. *(Menor)* También se pueden abrir cuentas nuevas en un evento finalizado: decidir si se bloquea | Rechazo: comanda en un evento cancelado |  Samy |
 | 3.10 | - [ ] Casos válidos que faltan | Cada regla lleva su caso válido. Faltan: **estación** (cocina prepara el pastel de dulcería y bar prepara el refresco; es el más importante, porque fija la decisión de 3.3), evento (comanda en un evento `en_curso`) y mayúsculas (un nombre distinto sí entra) | Un caso válido por regla |  Samy |
 | 3.11 | - [ ] Limpieza del esquema | Los mensajes de error van sin acentos ("el evento % esta finalizado", "la categoria %") y los demás del esquema sí los llevan. Sobran 4 líneas en blanco después de `v_comanda` | `make -C sql pruebas` sigue en verde |  Samy |
+| 3.12 | - [ ] Perfiles en `datos-ejemplo.sql` | El cliente ya separa los niveles de 4.5: `mrivas` es `cajero` y hay una administradora nueva, `dcampos` (id 6, "Daniela Campos Vega", nacida el 1982-03-15, caja 2). En `datos-ejemplo.sql`, `mrivas` sigue como `administrador` y no existe `dcampos`. La comanda cancelada de ejemplo la cancela el usuario 5; en el cliente ya la cancela el 6 | Los datos coinciden con el cliente y `make -C sql pruebas` sigue en verde |  Samy |
+| 3.13 | - [ ] Reglas para cancelar comandas | La `Api` simulada las revisa, pero la base no: (1) cancelar una comanda de una cuenta cerrada; (2) cancelar de más en una cuenta con pagos: el `saldo` queda negativo y `tg_cuenta_cierre` ya no deja cerrarla. Mensajes del cliente: "La cuenta está cerrada; sus comandas ya no se pueden cancelar" y "No se puede cancelar: el consumo que queda sería menor que lo ya pagado (35.00)". *(Revisar)* `tg_comanda_estacion` también corre al cambiar `estado`: si a un cocinero le cambian la estación, ya no se pueden cancelar ni avanzar las comandas que preparó, y el cliente permite ese cambio | Un rechazo por regla y un caso válido: cancelar sin pasarse del saldo |  Samy |
+| 3.14 | - [ ] **Decidir:** estado de una cuenta cancelada | `ck_cuenta_estado` solo admite `abierta` y `cerrada`. Hoy el cliente cancela todas las comandas, cierra la cuenta y la muestra como "Cancelada" si quedó sin pagos y sin comandas activas, así que una cuenta vacía cerrada normalmente también sale como cancelada. La otra opción es agregar el estado `cancelada`: hay que ampliar `cuenta.estado`, que es `VARCHAR(8)`, y actualizar `tg_cuenta_cierre` y la documentación. En ambos casos, una cuenta con pagos no se cancela mientras no se puedan registrar devoluciones | Decisión escrita; si se agrega el estado, su regla y sus casos |  Ambos deciden; la regla, Samy |
 
 ---
 
@@ -242,7 +245,7 @@ Errores del sistema en C que **no** se deben repetir:
 | 7.3 | - [x] Correcciones del prototipo | Ver la tabla C1–C11 abajo. Hechas las del cliente; C9 y C10 dependen de otras partes | Cada corrección revisada ✓ |  @Actronix09 |
 | 7.4 | - [x] Pantalla **Caja** | Cuentas abiertas → detalle → pagar (forma de pago, monto y propina) → saldo → cerrar cuenta. Está en el menú de administración. Falta conectarla al servidor (7.2) | Cobro completo de una cuenta ✓ (`7c2a24d`) |  @Actronix09 |
 | 7.5 | - [x] Pantallas adaptables | Cada pantalla tiene su `compacta` (700–760 px). Probado a 1280, 943 y 400 px | Se usa bien en tamaño de teléfono ✓ (`7ab1a8e`) |  @Actronix09 |
-| 7.6 | - [ ] Pantallas pendientes | En orden: 1. Ver logs · 2. Recuperar contraseña · 3. Crear usuario · 4. Admin › Usuarios · 5. Admin › Productos con receta | Las cinco funcionan |  @Actronix09 |
+| 7.6 | - [ ] Pantallas pendientes | En orden: 1. Ver logs · 2. Recuperar contraseña · 3. Crear usuario · 4. Admin › Usuarios ✓ (`5c16b68`, sobre la `Api` simulada) · 5. Admin › Productos con receta | Las cinco funcionan |  @Actronix09 |
 | 7.7 | - [ ] Android | El botón Atrás regresa de pantalla (`pila.pop()`). Al bloquear el teléfono se cae el WebSocket: reconectar y repetir el login al volver (`Qt.application.state`). Hace falta Qt para Android, el SDK, el NDK y el JDK (los paquetes de Arch no compilan para Android) | La app corre en un teléfono conectado al servidor de la PC |  @Actronix09 |
 | 7.8 | - [ ] **Decidir:** teclado en pantalla | En escritorio táctil sin teclado. Qt Virtual Keyboard es GPLv3 o comercial, no LGPL; la otra opción es un teclado propio en QML | Decisión tomada |  @Actronix09 |
 
@@ -288,7 +291,7 @@ Las correcciones salen de las notas que tomamos al revisar el prototipo (el anti
 | :--: | :-- | :-- | :-- | :-- |
 | 9.1 | - [ ] Eventos y mesas | Alta de eventos y de sus mesas con su mesero | | |
 | 9.2 | - [ ] Cuentas y folios | Consulta de cuentas por evento y por mesa | | |
-| 9.3 | - [ ] Cancelación de comandas | Pantalla del administrador | | |
+| 9.3 | - [x] Cancelación de comandas | Pantalla del administrador, dentro de la Caja; también cancela cuentas. Está sobre la `Api` simulada: falta conectarla al servidor (7.2) y las reglas de la base (3.13) | ✓ (`9df24aa`) |  @Actronix09 |
 | 9.4 | - [ ] Anticipos, paquetes y acuerdos | Registro y consulta | | |
 | 9.5 | - [ ] Reportes | Ventas por evento, y consumo real contra lo acordado en el paquete | | |
 
