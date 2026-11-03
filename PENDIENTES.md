@@ -57,7 +57,7 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Al menos diez `CHECK` o `UNIQUE`: hay 35 `CHECK` y 4 `UNIQUE`.
     - [ ] La regla del dominio al lado de cada restricción (en `dominios.md`). **Hay:** parte en `docs/ReglasDeTransformacion.md`, sección "Restricciones por tabla". **Falta:** todas las restricciones, una regla en una línea por cada una.
   - [ ] **Ejercicio 1.3. Fuente de datos** (`fuente.md`) · @Actronix09
-    - [x] Buscar un conjunto publicado y decidir (`practica4/fuente.md`): menú real del salón de eventos, recetas estimadas con FNDDS y operación sintética.
+    - [x] Buscar un conjunto publicado y decidir (`practica4/fuente.md`): menú real del salón de eventos, recetas estimadas con FNDDS, operación sintética, y productos e ingredientes inventados hasta pasar de 200.
     - [ ] Referencia en APA 7 con su licencia y lo que permite hacer con los datos. **Hay:** las dos referencias y la licencia CC0 de FNDDS. **Falta:** confirmar con el salón de eventos que su menú se puede publicar.
     - [x] Formato original, tamaño, número de registros y campos.
     - [x] Tabla de correspondencia: cada campo contra su tabla y columna, incluidos los que no se usan y por qué.

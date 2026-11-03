@@ -6,7 +6,7 @@ En este documento se registra de dónde salen los datos con los que se puebla la
 
 **Proyecto:** Sistema de Comandas Profesional
 
-**Contenido:** Búsqueda de conjuntos de datos publicados, decisión tomada, catálogo del salón de eventos, recetas estimadas con FNDDS y datos sintéticos.
+**Contenido:** Búsqueda de conjuntos de datos publicados, decisión tomada, catálogo del salón de eventos, recetas estimadas con FNDDS, y datos sintéticos e inventados.
 
 **Fecha de consulta:** 3 de noviembre de 2026
 
@@ -62,8 +62,9 @@ Los datos se buscaron primero en el propio caso de estudio, como pide la prácti
 
 | Tablas | De dónde salen | Tipo |
 | :-- | :-- | :-- |
-| `producto` | Menú del salón de eventos y variantes conocidas por un integrante que trabajó ahí | Real |
-| `ingrediente`, `receta` | Estimadas a partir del menú, con los gramos de FNDDS donde el platillo coincide | Estimadas |
+| `producto` (122 de 214) | Menú del salón de eventos y variantes conocidas por un integrante que trabajó ahí | Real |
+| `producto` (92 de 214), `ingrediente` (123 de 208) | Script de generación, para pasar de 200 renglones | **Inventados** |
+| `ingrediente` (85 de 208), `receta` (292 de 681) | Estimadas a partir del menú, con los gramos de FNDDS donde el platillo coincide | Estimadas |
 | `usuario` y sus subtipos, `evento`, `mesa`, `cuenta`, `comanda`, `pago`, `anticipo`, `paquete` y el resto | Script de generación, con semilla fija | **Sintéticas** |
 
 ## Catálogo del salón de eventos
@@ -112,7 +113,7 @@ Las conoce un integrante que trabajó en el salón:
 - Micheladas con Clamato, por `$10` más.
 - Caguama preparada, con salsas y Clamato.
 
-El catálogo tiene menos de 200 renglones porque ese es el tamaño real del menú. Inflarlo con productos inventados haría falsa la fuente.
+Estos 122 productos son los únicos reales. Los demás del catálogo son inventados y se explican en [Productos e ingredientes inventados](#productos-e-ingredientes-inventados).
 
 ## Recetas e ingredientes
 
@@ -171,32 +172,44 @@ El conjunto no se carga a la base. Solo se usan sus proporciones en las filas ma
 | 1 alimento no tiene ingredientes | No se usa |
 | Los alimentos son de la dieta de Estados Unidos | Se usa la composición aproximada; `jitomate`, `queso` y demás son el equivalente local |
 
-### Lo que el menú no alcanza a cubrir
-
-`producto` (122) e `ingrediente` (85) tienen menos de 200 renglones porque son el tamaño real del menú y de lo que lleva. No se agregaron renglones para llegar a esa cifra.
-
 ## Datos sintéticos
 
-Los datos de operación **son sintéticos**. Se generan porque, como consta en [Dónde se buscó](#dónde-se-buscó), no existe un conjunto publicado con comandas de un salón de eventos, y el salón no tiene registros que compartir. Se generan con un solo comando y una semilla fija, así que dos corridas producen los mismos archivos:
+Los datos de operación y una parte del catálogo **son sintéticos**. Se generan porque, como consta en [Dónde se buscó](#dónde-se-buscó), no existe un conjunto publicado con comandas de un salón de eventos, y el salón no tiene registros que compartir. Se generan con un solo comando y una semilla fija, así que dos corridas producen los mismos archivos:
 
 ```bash
 python3 practica4/poblar/generar_datos.py
 ```
 
-Las **tablas principales** son las que registran a las personas y la operación. Todas superan los 200 renglones. Las demás acompañan a estas, o, como `producto` e `ingrediente`, salen del menú y conservan su tamaño real.
+Las **tablas principales** son las que registran el catálogo, a las personas y la operación. Todas superan los 200 renglones. Las demás acompañan a estas.
 
 | Tabla | Renglones | Principal |
 | :-- | :--: | :-- |
+| `producto` | 214 (122 reales y 92 inventados) | Sí |
+| `ingrediente` | 208 (85 del menú y 123 inventados) | Sí |
+| `receta` | 681 (292 del menú y 389 inventadas) | Sí |
 | `usuario` | 200 | Sí |
 | `evento` | 240 | Sí |
-| `anticipo` | 359 | Sí |
-| `mesa` | 3,788 | Sí |
-| `cuenta` | 7,321 | Sí |
-| `comanda` | 36,689 | Sí |
-| `pago` | 9,293 | Sí |
+| `anticipo` | 343 | Sí |
+| `mesa` | 3,943 | Sí |
+| `cuenta` | 7,515 | Sí |
+| `comanda` | 37,528 | Sí |
+| `pago` | 9,640 | Sí |
 | `mesero`, `bar_cocina`, `cajero_admin` | 130, 45 y 25 | Subtipos de `usuario` |
-| `evento_organizador`, `acuerdo` | 367 y 706 | Dependen de `evento` |
-| `paquete`, `paquete_producto` | 12 y 111 | Catálogo de paquetes |
+| `evento_organizador`, `acuerdo` | 360 y 625 | Dependen de `evento` |
+| `paquete`, `paquete_producto` | 12 y 100 | Catálogo de paquetes |
+
+### Productos e ingredientes inventados
+
+El menú real tiene 122 productos y sus recetas llegan a 85 ingredientes. Para pasar de 200 renglones en esas tablas, el generador agrega **92 productos y 123 ingredientes inventados, que no existen en el salón de eventos**. Sus recetas también son inventadas: sirven para probar la base, no describen ningún platillo real.
+
+| Cómo distinguirlos | Dónde |
+| :-- | :-- |
+| Columna `origen`: `salon` o `inventado` | `datos/generados/producto.csv` e `ingrediente.csv` |
+| Columna `origen`: `inventada` | `datos/generados/receta.csv` |
+| Texto "Producto inventado, no está en el menú del salón" | `producto.descripcion`, ya dentro de la base |
+| Número de identificador: los productos inventados van del 123 al 214, y los ingredientes, del 86 al 208 | `id_producto`, `id_ingrediente` |
+
+Los ingredientes no tienen columna de descripción en el esquema, así que dentro de la base solo se distinguen por su identificador. De los productos inventados, 60 son alimentos, 20 son bebidas y 12 son de dulcería. En la generación, los productos reales se piden el doble: 26,933 de las 37,528 comandas son de productos reales.
 
 Para que las restricciones los acepten y una consulta devuelva algo interesante, el generador cuida lo siguiente:
 
@@ -206,11 +219,11 @@ Para que las restricciones los acepten y una consulta devuelva algo interesante,
 | `tg_pago_saldo`, `tg_cuenta_cierre` | Cada cuenta de un evento finalizado se paga exacta, en uno o dos pagos, y queda en saldo 0 |
 | `ck_pago_propina_limite`, `ck_pago_propina_completa` | La mitad de los pagos lleva una propina de 5 % a 15 %, con su mesero |
 | `ck_comanda_cancelacion`, `ck_comanda_preparacion` | El 3 % de las comandas se cancela, con su cajero; solo una parte llegó a prepararse |
-| `tg_comanda_stock`, `ck_ingrediente_stock` | El stock inicial es lo que se consume más un remanente; 25 ingredientes terminan por debajo de su mínimo |
+| `tg_comanda_stock`, `ck_ingrediente_stock` | El stock inicial es lo que se consume más un remanente; 67 ingredientes terminan por debajo de su mínimo |
 | `ux_cuenta_nombre_abierta` | Las cuentas de una mesa tienen nombres distintos |
 | `ct_usuario_total` | Cada usuario tiene su fila en el subtipo de su rol |
 
-Los eventos van de enero de 2023 a diciembre de 2026, tomando como hoy el 3 de noviembre de 2026: 222 finalizados, 8 cancelados, 1 en curso y 9 programados. Los nombres de personas se forman al azar con listas comunes y **no corresponden a personas reales**. Las contraseñas tampoco: el campo `contrasena_hash` lleva un texto fijo, así que estos usuarios no pueden entrar al sistema.
+Los eventos van de enero de 2023 a diciembre de 2026, tomando como hoy el 3 de noviembre de 2026: 224 finalizados, 6 cancelados, 1 en curso y 9 programados. Los nombres de personas se forman al azar con listas comunes y **no corresponden a personas reales**. Las contraseñas tampoco: el campo `contrasena_hash` lleva un texto fijo, así que estos usuarios no pueden entrar al sistema.
 
 ### Comprobación
 
@@ -221,5 +234,5 @@ Los archivos se cargaron con los disparadores activos en una base temporal, con 
 | Ingredientes con stock negativo | 0 |
 | Cuentas cerradas con saldo distinto de 0 | 0 |
 | Comandas con un precio distinto al del catálogo | 0 |
-| Ingredientes por debajo de su mínimo | 25 |
-| Pagos con propina | 4,625 |
+| Ingredientes por debajo de su mínimo | 67 |
+| Pagos con propina | 4,823 |
