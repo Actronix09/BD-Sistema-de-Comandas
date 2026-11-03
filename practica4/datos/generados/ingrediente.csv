@@ -1,0 +1,86 @@
+id_ingrediente,nombre,unidad_medida,stock_actual,stock_minimo
+1,Aceite vegetal,ml,10955.360,210.680
+2,Aderezo para ensalada,ml,30558.000,1389.000
+3,Adobo en polvo,g,1409.400,52.200
+4,Agua embotellada de 1 L,pieza,833.160,23.580
+5,Agua mineral Tehuacán para preparar,ml,580509.000,10953.000
+6,Agua mineral de 2 L,pieza,421.830,11.610
+7,Arrachera,g,44388.000,1644.000
+8,Bacardí Blanco,ml,19318.500,364.500
+9,Bistec de res,g,292485.250,12716.750
+10,Bolillo,pieza,2560.360,148.120
+11,Bolsita de té,pieza,497.960,25.320
+12,Brandy Torres 10,ml,22869.000,1323.000
+13,Brandy Torres 5,ml,21117.600,754.200
+14,Café molido,g,4166.400,148.800
+15,Caguama Corona,pieza,902.720,32.240
+16,Caguama León,pieza,911.760,62.880
+17,Caguama Modelo,pieza,888.350,24.450
+18,Caguama Modelo Especial,pieza,895.320,33.160
+19,Caguama Victoria,pieza,866.160,32.080
+20,Catsup,g,5596.500,273.000
+21,Cebolla,g,49509.200,952.100
+22,Cerveza de barril,ml,2332940.500,134963.500
+23,Chicharrón de cerdo,g,28156.800,1005.600
+24,Chile en polvo,g,2761.380,186.760
+25,Chorizo argentino,g,31641.600,1843.200
+26,Churritos de maíz,g,60264.000,2232.000
+27,Clamato,ml,530296.000,40792.000
+28,Coca de 3 L,pieza,839.405,24.810
+29,Coca de 600 ml,pieza,969.450,42.150
+30,Corona de 355 ml,pieza,3025.715,89.430
+31,Crema,g,27466.400,528.200
+32,Frijol refrito,g,64170.000,2790.000
+33,Fritura de harina,g,16605.000,810.000
+34,Ginger Ale de 1 L,pieza,428.760,15.880
+35,Hielo,g,517645.500,25251.000
+36,Jalapeño,g,5678.400,436.800
+37,Jamón,g,91499.600,5903.200
+38,Jitomate,g,112517.200,6554.400
+39,Jugo de limón,ml,231709.500,10532.250
+40,Jugo del Valle de durazno de 413 ml,pieza,436.720,25.440
+41,Jugo del Valle de mango de 413 ml,pieza,443.630,12.210
+42,Jugo del Valle de manzana de 413 ml,pieza,488.560,31.520
+43,Lechuga,g,141086.900,2793.800
+44,Longaniza,g,68746.150,3977.050
+45,Maruchan de camarón,pieza,274.400,14.700
+46,Maruchan de habanero,pieza,304.750,13.250
+47,Maruchan de piquín,pieza,289.380,5.460
+48,Modelo Especial de 355 ml,pieza,413.100,16.200
+49,Morrón,g,46066.000,2972.000
+50,Negra Modelo de 355 ml,pieza,426.220,8.440
+51,Palomitas para microondas,pieza,313.920,8.640
+52,Pan para hamburguesa,pieza,279.480,10.960
+53,Pan para hot dog,pieza,930.720,49.860
+54,Pan para pambazo,pieza,284.960,5.480
+55,Papa,g,25865.600,1315.200
+56,Papas fritas,g,106812.000,7224.000
+57,Pechuga de pollo,g,90625.600,6971.200
+58,Pepino,g,70666.400,3785.700
+59,Pollo empanizado,g,59598.000,2709.000
+60,Queso,g,166935.020,4934.040
+61,Queso amarillo líquido,g,60812.190,1673.730
+62,Repollo,g,20279.600,1173.200
+63,Sal,g,19049.680,366.340
+64,Salchicha,pieza,947.340,58.170
+65,Salsa guajillo,ml,9535.200,657.600
+66,Salsa inglesa,ml,49960.900,2890.300
+67,Salsa picante,ml,25897.725,765.450
+68,Sangría de 3 L,pieza,877.690,17.380
+69,Sangría para preparar,ml,686614.500,39721.500
+70,Sidral de 3 L,pieza,841.360,64.720
+71,Sidral de 600 ml,pieza,870.100,39.550
+72,Squirt de 3 L,pieza,969.960,49.320
+73,Squirt de 600 ml,pieza,865.280,16.640
+74,Tehuacán de 600 ml,pieza,897.820,16.940
+75,Tequila José Cuervo,ml,18111.600,1393.200
+76,Tequila Tradicional,ml,19718.100,542.700
+77,Tocino,g,32394.800,891.600
+78,Tortilla de harina,g,34941.170,2021.390
+79,Tortilla de maíz,g,215843.040,13253.520
+80,Totopos,g,22885.590,453.180
+81,Ultra de 355 ml,pieza,488.520,24.840
+82,Victoria de 355 ml,pieza,405.960,15.920
+83,Whisky Johnnie Walker Etiqueta Roja,ml,21427.200,1382.400
+84,Whisky Label 5,ml,18497.700,725.400
+85,Zanahoria,g,50243.550,1382.850
