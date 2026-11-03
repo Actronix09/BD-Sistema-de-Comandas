@@ -6,7 +6,7 @@ En este documento se registra de dónde salen los datos con los que se puebla la
 
 **Proyecto:** Sistema de Comandas Profesional
 
-**Contenido:** Búsqueda de conjuntos de datos publicados, decisión tomada, catálogo del salón de eventos y recetas estimadas con FNDDS.
+**Contenido:** Búsqueda de conjuntos de datos publicados, decisión tomada, catálogo del salón de eventos, recetas estimadas con FNDDS y datos sintéticos.
 
 **Fecha de consulta:** 3 de noviembre de 2026
 
@@ -133,7 +133,7 @@ Las medias órdenes llevan la mitad de cada ingrediente. Los 20 productos que so
 | :-- | :-- |
 | Referencia (APA 7) | U.S. Department of Agriculture, Agricultural Research Service. (2024). *FoodData Central: Food and Nutrient Database for Dietary Studies 2021-2023* (versión de octubre de 2024) [Conjunto de datos]. Consultado el 3 de noviembre de 2026, de <https://fdc.nal.usda.gov/download-datasets/> |
 | Licencia | CC0 1.0: "USDA FoodData Central data are in the public domain and they are not copyrighted". No hace falta permiso, pero se pide citar la fuente |
-| Formato original | ZIP con 13 archivos CSV y 1 XLSX |
+| Formato original | ZIP con 12 archivos CSV y 1 XLSX |
 | Tamaño | 3.3 MB comprimido y 25.5 MB sin comprimir: [`datos/fndds/`](<datos/fndds/>) |
 | Registros | 5,432 alimentos, 18,584 renglones de ingredientes y 22,046 porciones |
 
@@ -175,3 +175,52 @@ El conjunto no se carga a la base. Solo se usan sus proporciones en las filas ma
 ### Lo que el menú no alcanza a cubrir
 
 `producto` (122) e `ingrediente` (85) tienen menos de 200 renglones porque son el tamaño real del menú y de lo que lleva. No se agregaron renglones para llegar a esa cifra.
+
+## Datos sintéticos
+
+Los datos de operación **son sintéticos**. Se generan porque, como consta en [Dónde se buscó](#dónde-se-buscó), no existe un conjunto publicado con comandas de un salón de eventos, y el salón no tiene registros que compartir. Se generan con un solo comando y una semilla fija, así que dos corridas producen los mismos archivos:
+
+```bash
+python3 practica4/poblar/generar_datos.py
+```
+
+Las **tablas principales** son las que registran a las personas y la operación. Todas superan los 200 renglones. Las demás acompañan a estas, o, como `producto` e `ingrediente`, salen del menú y conservan su tamaño real.
+
+| Tabla | Renglones | Principal |
+| :-- | :--: | :-- |
+| `usuario` | 200 | Sí |
+| `evento` | 240 | Sí |
+| `anticipo` | 359 | Sí |
+| `mesa` | 3,788 | Sí |
+| `cuenta` | 7,321 | Sí |
+| `comanda` | 36,689 | Sí |
+| `pago` | 9,293 | Sí |
+| `mesero`, `bar_cocina`, `cajero_admin` | 130, 45 y 25 | Subtipos de `usuario` |
+| `evento_organizador`, `acuerdo` | 367 y 706 | Dependen de `evento` |
+| `paquete`, `paquete_producto` | 12 y 111 | Catálogo de paquetes |
+
+Para que las restricciones los acepten y una consulta devuelva algo interesante, el generador cuida lo siguiente:
+
+| Regla del esquema | Qué hace el generador |
+| :-- | :-- |
+| `tg_comanda_estacion` | Las bebidas las prepara el bar; los alimentos y la dulcería, la cocina |
+| `tg_pago_saldo`, `tg_cuenta_cierre` | Cada cuenta de un evento finalizado se paga exacta, en uno o dos pagos, y queda en saldo 0 |
+| `ck_pago_propina_limite`, `ck_pago_propina_completa` | La mitad de los pagos lleva una propina de 5 % a 15 %, con su mesero |
+| `ck_comanda_cancelacion`, `ck_comanda_preparacion` | El 3 % de las comandas se cancela, con su cajero; solo una parte llegó a prepararse |
+| `tg_comanda_stock`, `ck_ingrediente_stock` | El stock inicial es lo que se consume más un remanente; 25 ingredientes terminan por debajo de su mínimo |
+| `ux_cuenta_nombre_abierta` | Las cuentas de una mesa tienen nombres distintos |
+| `ct_usuario_total` | Cada usuario tiene su fila en el subtipo de su rol |
+
+Los eventos van de enero de 2023 a diciembre de 2026, tomando como hoy el 3 de noviembre de 2026: 222 finalizados, 8 cancelados, 1 en curso y 9 programados. Los nombres de personas se forman al azar con listas comunes y **no corresponden a personas reales**. Las contraseñas tampoco: el campo `contrasena_hash` lleva un texto fijo, así que estos usuarios no pueden entrar al sistema.
+
+### Comprobación
+
+Los archivos se cargaron con los disparadores activos en una base temporal, con `sql/esquema.sql` recién ejecutado y una sola transacción. Se aceptaron todos los renglones:
+
+| Comprobación | Resultado |
+| :-- | :--: |
+| Ingredientes con stock negativo | 0 |
+| Cuentas cerradas con saldo distinto de 0 | 0 |
+| Comandas con un precio distinto al del catálogo | 0 |
+| Ingredientes por debajo de su mínimo | 25 |
+| Pagos con propina | 4,625 |
