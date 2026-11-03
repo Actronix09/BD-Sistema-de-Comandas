@@ -1,241 +1,241 @@
 numero_evento,fecha,tipo_evento,numero_asistentes,estado
-1,2023-01-08,Baile,132,finalizado
-2,2023-01-15,Posada,131,finalizado
-3,2023-01-22,Boda,186,finalizado
-4,2023-01-28,Posada,82,finalizado
-5,2023-02-02,Empresarial,135,finalizado
-6,2023-02-07,Boda,45,finalizado
-7,2023-02-12,Cumpleaños,230,finalizado
-8,2023-02-19,Boda,81,finalizado
-9,2023-02-26,Baile,48,finalizado
-10,2023-03-04,Empresarial,135,finalizado
-11,2023-03-11,Empresarial,241,finalizado
-12,2023-03-17,Graduación,63,finalizado
-13,2023-03-21,Graduación,150,finalizado
-14,2023-03-28,Graduación,242,finalizado
-15,2023-04-02,Graduación,258,finalizado
-16,2023-04-10,Posada,266,finalizado
-17,2023-04-13,Boda,204,finalizado
-18,2023-04-20,Posada,293,finalizado
-19,2023-04-26,Baile,71,finalizado
-20,2023-05-04,Graduación,288,cancelado
-21,2023-05-09,Baile,285,finalizado
-22,2023-05-15,Boda,85,finalizado
-23,2023-05-23,XV años,249,finalizado
-24,2023-05-26,XV años,243,finalizado
-25,2023-06-02,Graduación,284,finalizado
-26,2023-06-07,Empresarial,100,finalizado
-27,2023-06-13,Cumpleaños,269,finalizado
-28,2023-06-19,Empresarial,92,finalizado
-29,2023-06-25,Empresarial,218,finalizado
-30,2023-07-04,Boda,119,finalizado
-31,2023-07-07,Bautizo,66,finalizado
-32,2023-07-13,Empresarial,96,finalizado
-33,2023-07-19,Empresarial,209,finalizado
-34,2023-07-27,Posada,45,finalizado
-35,2023-08-03,Graduación,297,finalizado
-36,2023-08-07,Bautizo,195,finalizado
-37,2023-08-15,Baile,271,finalizado
-38,2023-08-21,Posada,143,finalizado
-39,2023-08-28,Graduación,64,finalizado
-40,2023-09-01,Cumpleaños,166,finalizado
-41,2023-09-06,Boda,280,finalizado
-42,2023-09-12,Boda,44,finalizado
-43,2023-09-18,Baile,77,finalizado
-44,2023-09-27,XV años,253,finalizado
-45,2023-09-30,Empresarial,83,finalizado
-46,2023-10-07,Empresarial,277,finalizado
-47,2023-10-13,XV años,115,finalizado
-48,2023-10-21,Posada,99,finalizado
-49,2023-10-25,Graduación,112,finalizado
-50,2023-11-02,XV años,274,finalizado
-51,2023-11-06,Graduación,144,finalizado
-52,2023-11-14,Boda,229,finalizado
-53,2023-11-18,Graduación,291,finalizado
-54,2023-11-25,Posada,141,finalizado
-55,2023-12-02,Boda,105,finalizado
-56,2023-12-07,Empresarial,48,finalizado
-57,2023-12-15,Baile,78,finalizado
-58,2023-12-21,Baile,126,finalizado
-59,2023-12-27,Baile,265,finalizado
-60,2024-01-02,Boda,247,finalizado
-61,2024-01-07,Boda,82,finalizado
-62,2024-01-13,Cumpleaños,123,finalizado
-63,2024-01-17,Boda,206,finalizado
-64,2024-01-24,Empresarial,219,finalizado
-65,2024-01-31,Boda,92,finalizado
-66,2024-02-04,Baile,115,finalizado
-67,2024-02-11,Boda,43,finalizado
-68,2024-02-17,Boda,275,finalizado
-69,2024-02-23,Empresarial,84,finalizado
-70,2024-03-02,Cumpleaños,171,finalizado
-71,2024-03-09,Posada,62,finalizado
-72,2024-03-13,Boda,287,finalizado
-73,2024-03-18,Boda,168,finalizado
-74,2024-03-24,Posada,138,finalizado
-75,2024-03-31,XV años,283,finalizado
-76,2024-04-06,Graduación,54,finalizado
-77,2024-04-14,XV años,142,finalizado
-78,2024-04-17,Posada,211,finalizado
-79,2024-04-26,Bautizo,122,finalizado
-80,2024-04-29,Cumpleaños,54,finalizado
-81,2024-05-05,Baile,157,finalizado
-82,2024-05-14,Posada,260,finalizado
-83,2024-05-19,Baile,214,finalizado
-84,2024-05-24,Posada,177,cancelado
-85,2024-05-30,Baile,232,finalizado
-86,2024-06-04,XV años,86,finalizado
-87,2024-06-12,Boda,194,finalizado
-88,2024-06-18,Cumpleaños,258,finalizado
-89,2024-06-24,Baile,211,cancelado
-90,2024-06-30,Bautizo,159,finalizado
-91,2024-07-08,XV años,290,finalizado
-92,2024-07-13,Graduación,60,finalizado
-93,2024-07-20,XV años,120,finalizado
-94,2024-07-23,XV años,78,finalizado
-95,2024-07-29,Posada,70,finalizado
-96,2024-08-04,Boda,251,finalizado
-97,2024-08-12,Empresarial,194,finalizado
-98,2024-08-17,Empresarial,253,finalizado
-99,2024-08-25,Boda,91,finalizado
-100,2024-08-30,Cumpleaños,254,finalizado
-101,2024-09-04,Bautizo,129,finalizado
-102,2024-09-11,Baile,264,finalizado
-103,2024-09-15,Cumpleaños,168,finalizado
-104,2024-09-25,Posada,280,finalizado
-105,2024-09-28,Bautizo,276,finalizado
-106,2024-10-04,Bautizo,151,finalizado
-107,2024-10-12,Empresarial,293,finalizado
-108,2024-10-17,Empresarial,91,finalizado
-109,2024-10-23,Graduación,58,finalizado
-110,2024-10-29,Empresarial,113,finalizado
-111,2024-11-03,Posada,247,finalizado
-112,2024-11-12,Bautizo,158,finalizado
-113,2024-11-15,Cumpleaños,183,finalizado
-114,2024-11-24,Graduación,56,finalizado
-115,2024-11-29,Posada,282,finalizado
-116,2024-12-03,Baile,173,finalizado
-117,2024-12-11,Boda,69,finalizado
-118,2024-12-18,Cumpleaños,74,finalizado
-119,2024-12-23,Posada,101,finalizado
-120,2024-12-30,Boda,214,finalizado
-121,2025-01-03,Bautizo,265,finalizado
-122,2025-01-12,Baile,283,finalizado
-123,2025-01-18,XV años,272,finalizado
-124,2025-01-21,Empresarial,277,finalizado
-125,2025-01-29,Posada,67,finalizado
-126,2025-02-02,Boda,205,finalizado
-127,2025-02-08,Boda,156,finalizado
-128,2025-02-15,Boda,153,finalizado
-129,2025-02-22,Graduación,113,finalizado
-130,2025-03-01,Boda,43,finalizado
-131,2025-03-06,Posada,48,finalizado
-132,2025-03-10,Posada,168,finalizado
-133,2025-03-18,Graduación,201,finalizado
-134,2025-03-23,Graduación,299,finalizado
-135,2025-03-30,Graduación,264,finalizado
-136,2025-04-06,Posada,101,finalizado
-137,2025-04-12,Cumpleaños,51,finalizado
-138,2025-04-15,Bautizo,119,finalizado
-139,2025-04-24,Baile,74,finalizado
-140,2025-05-01,Bautizo,219,finalizado
-141,2025-05-05,Baile,299,finalizado
-142,2025-05-12,Cumpleaños,155,finalizado
-143,2025-05-18,Bautizo,271,finalizado
-144,2025-05-24,Baile,230,finalizado
-145,2025-05-29,XV años,299,finalizado
-146,2025-06-05,Boda,227,finalizado
-147,2025-06-09,Bautizo,263,finalizado
-148,2025-06-15,Graduación,102,finalizado
-149,2025-06-23,Bautizo,168,finalizado
-150,2025-06-30,XV años,298,finalizado
-151,2025-07-05,Posada,104,finalizado
-152,2025-07-10,Posada,114,finalizado
-153,2025-07-18,Posada,298,finalizado
-154,2025-07-23,Empresarial,190,finalizado
-155,2025-07-28,Cumpleaños,275,finalizado
-156,2025-08-03,Empresarial,145,finalizado
-157,2025-08-09,Posada,238,finalizado
-158,2025-08-17,Bautizo,245,finalizado
-159,2025-08-22,XV años,172,finalizado
-160,2025-08-28,Graduación,62,finalizado
-161,2025-09-04,Baile,42,finalizado
-162,2025-09-08,Baile,298,finalizado
-163,2025-09-15,XV años,224,finalizado
-164,2025-09-22,Bautizo,235,finalizado
-165,2025-09-29,Graduación,218,cancelado
-166,2025-10-04,Graduación,129,finalizado
-167,2025-10-10,Cumpleaños,189,finalizado
-168,2025-10-16,Posada,164,finalizado
-169,2025-10-20,Graduación,300,finalizado
-170,2025-10-29,Bautizo,126,finalizado
-171,2025-11-03,Posada,181,finalizado
-172,2025-11-08,Bautizo,227,finalizado
-173,2025-11-17,Baile,169,finalizado
-174,2025-11-22,Bautizo,103,finalizado
-175,2025-11-29,Posada,58,finalizado
-176,2025-12-03,Graduación,191,finalizado
-177,2025-12-09,Cumpleaños,170,finalizado
-178,2025-12-16,Posada,162,finalizado
-179,2025-12-21,XV años,284,finalizado
-180,2025-12-26,Posada,67,finalizado
-181,2026-01-03,Boda,59,finalizado
-182,2026-01-10,Cumpleaños,194,finalizado
-183,2026-01-16,Posada,97,finalizado
-184,2026-01-19,Cumpleaños,105,finalizado
-185,2026-01-26,Graduación,135,finalizado
-186,2026-02-01,Bautizo,136,finalizado
-187,2026-02-06,Bautizo,255,finalizado
-188,2026-02-13,Boda,91,finalizado
-189,2026-02-20,Graduación,266,finalizado
-190,2026-02-28,Posada,243,finalizado
-191,2026-03-05,Graduación,169,finalizado
-192,2026-03-12,Bautizo,199,finalizado
-193,2026-03-15,XV años,155,finalizado
-194,2026-03-23,XV años,272,finalizado
-195,2026-03-28,XV años,73,finalizado
-196,2026-04-02,Boda,128,finalizado
-197,2026-04-10,Posada,115,finalizado
-198,2026-04-14,XV años,70,cancelado
-199,2026-04-22,Empresarial,269,finalizado
-200,2026-04-26,Empresarial,130,finalizado
-201,2026-05-03,Baile,270,finalizado
-202,2026-05-08,Baile,221,finalizado
-203,2026-05-16,Graduación,134,finalizado
-204,2026-05-23,Empresarial,90,finalizado
-205,2026-05-26,Bautizo,80,finalizado
-206,2026-06-03,Empresarial,80,finalizado
-207,2026-06-08,Bautizo,161,cancelado
-208,2026-06-15,Baile,184,finalizado
-209,2026-06-21,Bautizo,190,finalizado
-210,2026-06-28,Cumpleaños,192,finalizado
-211,2026-07-02,Bautizo,124,finalizado
-212,2026-07-09,Boda,217,finalizado
-213,2026-07-14,Boda,182,finalizado
-214,2026-07-23,Bautizo,49,finalizado
-215,2026-07-29,Empresarial,75,cancelado
-216,2026-08-03,XV años,144,finalizado
-217,2026-08-08,Cumpleaños,267,finalizado
-218,2026-08-13,XV años,162,finalizado
-219,2026-08-21,Graduación,144,finalizado
-220,2026-08-26,XV años,81,finalizado
-221,2026-09-02,XV años,113,finalizado
-222,2026-09-06,Bautizo,277,finalizado
-223,2026-09-14,Empresarial,220,finalizado
-224,2026-09-20,Boda,159,finalizado
-225,2026-09-26,Baile,169,finalizado
-226,2026-10-02,Baile,224,finalizado
-227,2026-10-07,Cumpleaños,212,cancelado
-228,2026-10-16,Baile,45,finalizado
-229,2026-10-22,XV años,58,finalizado
-230,2026-10-28,Posada,71,finalizado
-231,2026-11-03,Cumpleaños,202,en_curso
-232,2026-11-07,Posada,157,programado
-233,2026-11-13,Baile,46,programado
-234,2026-11-19,Empresarial,84,programado
-235,2026-11-24,Bautizo,127,programado
-236,2026-12-01,Baile,70,programado
-237,2026-12-06,Baile,247,programado
-238,2026-12-13,Boda,103,programado
-239,2026-12-18,Boda,225,programado
-240,2026-12-27,Posada,240,programado
+1,2023-01-07,XV años,285,finalizado
+2,2023-01-16,XV años,213,finalizado
+3,2023-01-21,Posada,257,finalizado
+4,2023-01-25,Cumpleaños,263,finalizado
+5,2023-02-01,Baile,294,finalizado
+6,2023-02-07,Boda,94,finalizado
+7,2023-02-13,Posada,102,finalizado
+8,2023-02-20,XV años,230,finalizado
+9,2023-02-26,Baile,115,finalizado
+10,2023-03-05,Posada,299,finalizado
+11,2023-03-10,Boda,197,finalizado
+12,2023-03-15,Graduación,129,finalizado
+13,2023-03-22,Posada,199,finalizado
+14,2023-03-28,XV años,226,finalizado
+15,2023-04-02,Graduación,119,finalizado
+16,2023-04-07,Graduación,217,finalizado
+17,2023-04-15,Boda,119,finalizado
+18,2023-04-20,XV años,79,finalizado
+19,2023-04-29,Boda,229,finalizado
+20,2023-05-03,XV años,116,finalizado
+21,2023-05-09,XV años,149,cancelado
+22,2023-05-15,Empresarial,286,finalizado
+23,2023-05-22,Bautizo,272,finalizado
+24,2023-05-26,Empresarial,213,finalizado
+25,2023-06-04,Cumpleaños,232,finalizado
+26,2023-06-08,Baile,184,finalizado
+27,2023-06-13,Empresarial,225,finalizado
+28,2023-06-21,Graduación,52,finalizado
+29,2023-06-28,Baile,107,finalizado
+30,2023-07-03,Empresarial,263,finalizado
+31,2023-07-07,Posada,194,finalizado
+32,2023-07-15,Boda,227,finalizado
+33,2023-07-19,Boda,156,finalizado
+34,2023-07-28,Baile,189,finalizado
+35,2023-08-03,Boda,218,finalizado
+36,2023-08-10,Graduación,135,finalizado
+37,2023-08-14,Bautizo,202,finalizado
+38,2023-08-21,Cumpleaños,257,cancelado
+39,2023-08-25,Baile,77,finalizado
+40,2023-09-02,Bautizo,186,finalizado
+41,2023-09-07,Baile,79,finalizado
+42,2023-09-15,Bautizo,241,finalizado
+43,2023-09-18,Boda,58,finalizado
+44,2023-09-27,Cumpleaños,164,finalizado
+45,2023-10-02,Cumpleaños,70,finalizado
+46,2023-10-09,Posada,291,finalizado
+47,2023-10-13,Bautizo,133,finalizado
+48,2023-10-18,Graduación,223,finalizado
+49,2023-10-27,Posada,138,finalizado
+50,2023-11-02,Graduación,180,finalizado
+51,2023-11-06,Empresarial,207,finalizado
+52,2023-11-13,Bautizo,162,finalizado
+53,2023-11-20,Boda,167,finalizado
+54,2023-11-27,Cumpleaños,164,finalizado
+55,2023-11-30,Boda,77,finalizado
+56,2023-12-09,Bautizo,270,finalizado
+57,2023-12-13,Graduación,94,finalizado
+58,2023-12-18,Baile,299,finalizado
+59,2023-12-25,Bautizo,280,finalizado
+60,2023-12-31,Bautizo,244,finalizado
+61,2024-01-08,Bautizo,186,finalizado
+62,2024-01-14,Cumpleaños,267,finalizado
+63,2024-01-18,Empresarial,254,finalizado
+64,2024-01-25,XV años,45,finalizado
+65,2024-01-30,Bautizo,48,finalizado
+66,2024-02-04,Empresarial,260,finalizado
+67,2024-02-10,Posada,210,finalizado
+68,2024-02-19,Empresarial,204,finalizado
+69,2024-02-24,Graduación,146,finalizado
+70,2024-03-03,Boda,104,finalizado
+71,2024-03-09,Posada,61,finalizado
+72,2024-03-12,Graduación,94,finalizado
+73,2024-03-21,Baile,122,finalizado
+74,2024-03-27,Bautizo,226,finalizado
+75,2024-03-31,Bautizo,300,finalizado
+76,2024-04-06,Bautizo,228,finalizado
+77,2024-04-12,XV años,70,finalizado
+78,2024-04-18,Posada,158,finalizado
+79,2024-04-24,XV años,176,finalizado
+80,2024-05-01,Posada,182,finalizado
+81,2024-05-07,Bautizo,178,finalizado
+82,2024-05-14,Baile,224,finalizado
+83,2024-05-19,Baile,150,cancelado
+84,2024-05-26,XV años,118,finalizado
+85,2024-05-31,Posada,97,finalizado
+86,2024-06-04,Cumpleaños,137,finalizado
+87,2024-06-13,Cumpleaños,70,finalizado
+88,2024-06-17,Cumpleaños,253,finalizado
+89,2024-06-26,XV años,101,finalizado
+90,2024-06-29,Boda,297,finalizado
+91,2024-07-06,Cumpleaños,159,finalizado
+92,2024-07-11,Cumpleaños,47,finalizado
+93,2024-07-20,Baile,207,finalizado
+94,2024-07-23,Bautizo,193,finalizado
+95,2024-08-01,Cumpleaños,138,finalizado
+96,2024-08-07,Bautizo,246,finalizado
+97,2024-08-11,Boda,108,finalizado
+98,2024-08-16,XV años,69,finalizado
+99,2024-08-25,Posada,112,finalizado
+100,2024-08-30,Baile,282,finalizado
+101,2024-09-03,Cumpleaños,167,finalizado
+102,2024-09-12,Boda,183,finalizado
+103,2024-09-17,Empresarial,106,finalizado
+104,2024-09-24,Empresarial,74,finalizado
+105,2024-09-29,Bautizo,177,finalizado
+106,2024-10-06,Empresarial,284,finalizado
+107,2024-10-12,Cumpleaños,172,finalizado
+108,2024-10-18,Posada,182,finalizado
+109,2024-10-25,Boda,223,finalizado
+110,2024-10-29,Baile,276,finalizado
+111,2024-11-04,Bautizo,171,finalizado
+112,2024-11-09,Bautizo,241,finalizado
+113,2024-11-18,Posada,77,finalizado
+114,2024-11-23,Empresarial,86,finalizado
+115,2024-11-30,Boda,88,finalizado
+116,2024-12-04,Cumpleaños,100,finalizado
+117,2024-12-12,Baile,113,finalizado
+118,2024-12-15,XV años,78,finalizado
+119,2024-12-23,Bautizo,60,finalizado
+120,2024-12-27,Boda,297,finalizado
+121,2025-01-05,Graduación,96,finalizado
+122,2025-01-10,Baile,192,finalizado
+123,2025-01-15,Empresarial,277,finalizado
+124,2025-01-21,Posada,160,finalizado
+125,2025-01-28,Posada,131,finalizado
+126,2025-02-03,XV años,120,finalizado
+127,2025-02-10,XV años,295,finalizado
+128,2025-02-17,Baile,177,finalizado
+129,2025-02-22,Posada,270,finalizado
+130,2025-02-26,Boda,280,finalizado
+131,2025-03-05,Graduación,222,cancelado
+132,2025-03-11,Cumpleaños,40,finalizado
+133,2025-03-17,Posada,188,finalizado
+134,2025-03-25,XV años,246,finalizado
+135,2025-03-28,Boda,45,finalizado
+136,2025-04-04,Bautizo,102,finalizado
+137,2025-04-09,Graduación,280,finalizado
+138,2025-04-17,Graduación,222,finalizado
+139,2025-04-22,Graduación,280,finalizado
+140,2025-05-01,XV años,123,finalizado
+141,2025-05-06,Posada,297,finalizado
+142,2025-05-13,Empresarial,276,finalizado
+143,2025-05-18,XV años,78,finalizado
+144,2025-05-22,Cumpleaños,142,finalizado
+145,2025-05-29,Baile,232,finalizado
+146,2025-06-06,Posada,101,finalizado
+147,2025-06-12,Posada,143,finalizado
+148,2025-06-17,Empresarial,89,finalizado
+149,2025-06-21,Cumpleaños,65,finalizado
+150,2025-06-27,Graduación,268,finalizado
+151,2025-07-03,Cumpleaños,270,finalizado
+152,2025-07-10,Baile,109,finalizado
+153,2025-07-16,Bautizo,126,finalizado
+154,2025-07-21,Bautizo,254,finalizado
+155,2025-07-30,Bautizo,136,finalizado
+156,2025-08-03,Posada,262,finalizado
+157,2025-08-12,Posada,180,finalizado
+158,2025-08-17,Empresarial,114,finalizado
+159,2025-08-23,Baile,95,finalizado
+160,2025-08-30,XV años,285,finalizado
+161,2025-09-03,Empresarial,269,finalizado
+162,2025-09-09,Cumpleaños,161,finalizado
+163,2025-09-14,Graduación,61,finalizado
+164,2025-09-23,Bautizo,63,finalizado
+165,2025-09-28,Graduación,206,finalizado
+166,2025-10-05,Bautizo,59,finalizado
+167,2025-10-11,Bautizo,240,finalizado
+168,2025-10-16,Baile,132,finalizado
+169,2025-10-23,Bautizo,159,finalizado
+170,2025-10-29,Cumpleaños,108,finalizado
+171,2025-11-02,Empresarial,281,finalizado
+172,2025-11-07,XV años,151,finalizado
+173,2025-11-14,Boda,42,finalizado
+174,2025-11-20,Boda,157,finalizado
+175,2025-11-28,Graduación,62,finalizado
+176,2025-12-04,Posada,264,finalizado
+177,2025-12-11,Empresarial,51,finalizado
+178,2025-12-14,Graduación,169,finalizado
+179,2025-12-22,Posada,120,finalizado
+180,2025-12-26,Graduación,77,finalizado
+181,2026-01-02,XV años,103,finalizado
+182,2026-01-07,Baile,112,finalizado
+183,2026-01-16,Cumpleaños,114,finalizado
+184,2026-01-21,Baile,260,finalizado
+185,2026-01-25,Bautizo,210,finalizado
+186,2026-02-02,XV años,300,finalizado
+187,2026-02-07,Empresarial,56,finalizado
+188,2026-02-14,Empresarial,203,finalizado
+189,2026-02-20,Empresarial,184,finalizado
+190,2026-02-28,Graduación,126,finalizado
+191,2026-03-06,Boda,43,finalizado
+192,2026-03-11,Graduación,186,finalizado
+193,2026-03-15,Cumpleaños,278,finalizado
+194,2026-03-23,Posada,174,finalizado
+195,2026-03-29,Empresarial,160,finalizado
+196,2026-04-05,XV años,283,finalizado
+197,2026-04-08,Bautizo,145,finalizado
+198,2026-04-15,XV años,155,finalizado
+199,2026-04-23,Posada,116,cancelado
+200,2026-04-27,Baile,242,finalizado
+201,2026-05-04,XV años,240,finalizado
+202,2026-05-09,XV años,92,finalizado
+203,2026-05-16,Baile,183,finalizado
+204,2026-05-20,Graduación,233,finalizado
+205,2026-05-29,Cumpleaños,60,finalizado
+206,2026-06-03,Cumpleaños,207,finalizado
+207,2026-06-11,Boda,236,finalizado
+208,2026-06-16,Cumpleaños,112,finalizado
+209,2026-06-20,Graduación,116,finalizado
+210,2026-06-27,Posada,263,cancelado
+211,2026-07-05,XV años,293,finalizado
+212,2026-07-10,Empresarial,231,finalizado
+213,2026-07-14,Empresarial,227,finalizado
+214,2026-07-21,Bautizo,170,finalizado
+215,2026-07-26,Empresarial,280,finalizado
+216,2026-08-02,Posada,169,finalizado
+217,2026-08-09,Posada,189,finalizado
+218,2026-08-13,Posada,220,finalizado
+219,2026-08-21,Graduación,281,finalizado
+220,2026-08-26,Posada,238,finalizado
+221,2026-09-02,Posada,60,finalizado
+222,2026-09-07,Cumpleaños,78,finalizado
+223,2026-09-13,Bautizo,127,finalizado
+224,2026-09-19,Bautizo,60,finalizado
+225,2026-09-25,Empresarial,257,finalizado
+226,2026-10-03,Baile,123,finalizado
+227,2026-10-10,Graduación,206,finalizado
+228,2026-10-14,Posada,258,finalizado
+229,2026-10-19,Empresarial,87,finalizado
+230,2026-10-28,Boda,259,finalizado
+231,2026-11-03,Posada,164,en_curso
+232,2026-11-08,Boda,271,programado
+233,2026-11-15,Posada,237,programado
+234,2026-11-18,Baile,84,programado
+235,2026-11-25,Cumpleaños,162,programado
+236,2026-12-01,Boda,259,programado
+237,2026-12-09,XV años,175,programado
+238,2026-12-14,Baile,57,programado
+239,2026-12-20,Baile,119,programado
+240,2026-12-26,XV años,156,programado

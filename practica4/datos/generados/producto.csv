@@ -1,0 +1,215 @@
+id_producto,nombre,descripcion,categoria,precio,id_producto_principal,origen
+1,Tacos,,alimentos,30.00,,salon
+2,Tacos de bistec,,alimentos,30.00,1,salon
+3,Tacos de longaniza,,alimentos,30.00,1,salon
+4,Tacos campechanos,,alimentos,30.00,1,salon
+5,Tacos de bistec con queso,,alimentos,35.00,1,salon
+6,Tacos de longaniza con queso,,alimentos,35.00,1,salon
+7,Tacos campechanos con queso,,alimentos,35.00,1,salon
+8,Hamburguesa de arrachera,Arrachera de 150 g,alimentos,80.00,,salon
+9,Hot dog,3 piezas,alimentos,60.00,,salon
+10,Maruchan,,alimentos,35.00,,salon
+11,Maruchan de camarón,,alimentos,35.00,10,salon
+12,Maruchan de habanero,,alimentos,35.00,10,salon
+13,Maruchan de piquín,,alimentos,35.00,10,salon
+14,Sincronizadas,Con ensalada mixta,alimentos,40.00,,salon
+15,"Sincronizadas, media orden",,alimentos,25.00,14,salon
+16,Choripán,Chorizo argentino,alimentos,50.00,,salon
+17,Tortas,,alimentos,50.00,,salon
+18,Torta de bistec,,alimentos,50.00,17,salon
+19,Torta de pollo,,alimentos,50.00,17,salon
+20,Torta de jamón,,alimentos,50.00,17,salon
+21,Torta de queso,,alimentos,50.00,17,salon
+22,Torta de bistec con queso,,alimentos,60.00,17,salon
+23,Torta de pollo con queso,,alimentos,60.00,17,salon
+24,Torta de jamón con queso,,alimentos,60.00,17,salon
+25,Pambazos,,alimentos,35.00,,salon
+26,Chilaquiles con bistec,,alimentos,80.00,,salon
+27,"Chilaquiles con bistec, media orden",,alimentos,50.00,26,salon
+28,Mini ensalada,Zanahoria y pepino,alimentos,40.00,,salon
+29,"Mini ensalada, media orden",,alimentos,25.00,28,salon
+30,Tenders de pollo con ensalada,,alimentos,80.00,,salon
+31,"Tenders de pollo con ensalada, media orden",,alimentos,50.00,30,salon
+32,Ensalada,,alimentos,80.00,,salon
+33,Ensalada con queso,,alimentos,80.00,32,salon
+34,Ensalada con pollo,,alimentos,80.00,32,salon
+35,Alambre,"Bistec, tocino, jamón, cebolla, morrón y queso",alimentos,200.00,,salon
+36,"Alambre, media orden",,alimentos,120.00,35,salon
+37,Plato botana de fritura,,dulceria,15.00,,salon
+38,Nachos,"Con queso, catsup, crema y jalapeño",alimentos,50.00,,salon
+39,Papas,,dulceria,30.00,,salon
+40,Papas naturales,,dulceria,30.00,39,salon
+41,Papas adobadas,,dulceria,30.00,39,salon
+42,Papas con queso,,dulceria,30.00,39,salon
+43,Papas con limón,,dulceria,30.00,39,salon
+44,Churritos,,dulceria,25.00,,salon
+45,Churritos naturales,,dulceria,25.00,44,salon
+46,Churritos con chile,,dulceria,25.00,44,salon
+47,Palomitas de microondas,,dulceria,50.00,,salon
+48,Chicharrón preparado,,alimentos,50.00,,salon
+49,"Chicharrón preparado, mitad",,alimentos,30.00,48,salon
+50,Agua de 1 L,,bebidas,30.00,,salon
+51,Agua de 1 L fría,,bebidas,30.00,50,salon
+52,Agua de 1 L al tiempo,,bebidas,30.00,50,salon
+53,Jugo del Valle de 413 ml,,bebidas,35.00,,salon
+54,Jugo del Valle de manzana,,bebidas,35.00,53,salon
+55,Jugo del Valle de mango,,bebidas,35.00,53,salon
+56,Jugo del Valle de durazno,,bebidas,35.00,53,salon
+57,Refresco de 600 ml,,bebidas,35.00,,salon
+58,Coca de 600 ml fría,,bebidas,35.00,57,salon
+59,Coca de 600 ml al tiempo,,bebidas,35.00,57,salon
+60,Sidral de 600 ml fría,,bebidas,35.00,57,salon
+61,Sidral de 600 ml al tiempo,,bebidas,35.00,57,salon
+62,Squirt de 600 ml fría,,bebidas,35.00,57,salon
+63,Squirt de 600 ml al tiempo,,bebidas,35.00,57,salon
+64,Tehuacán de 600 ml fría,,bebidas,35.00,57,salon
+65,Tehuacán de 600 ml al tiempo,,bebidas,35.00,57,salon
+66,Refresco de 3 L,,bebidas,100.00,,salon
+67,Coca de 3 L fría,,bebidas,100.00,66,salon
+68,Coca de 3 L al tiempo,,bebidas,100.00,66,salon
+69,Squirt de 3 L fría,,bebidas,100.00,66,salon
+70,Squirt de 3 L al tiempo,,bebidas,100.00,66,salon
+71,Sidral de 3 L fría,,bebidas,100.00,66,salon
+72,Sidral de 3 L al tiempo,,bebidas,100.00,66,salon
+73,Sangría de 3 L fría,,bebidas,100.00,66,salon
+74,Sangría de 3 L al tiempo,,bebidas,100.00,66,salon
+75,Agua mineral de 2 L,,bebidas,70.00,,salon
+76,Ginger Ale de 1 L,,bebidas,50.00,,salon
+77,Preparada de 1/2 L,,bebidas,45.00,,salon
+78,Tehuacán preparado de 1/2 L,,bebidas,45.00,77,salon
+79,Sangría preparada de 1/2 L,,bebidas,45.00,77,salon
+80,Preparada de 1 L,,bebidas,70.00,,salon
+81,Tehuacán preparado de 1 L,,bebidas,70.00,80,salon
+82,Sangría preparada de 1 L,,bebidas,70.00,80,salon
+83,Café o té,,bebidas,20.00,,salon
+84,Café,,bebidas,20.00,83,salon
+85,Té,,bebidas,20.00,83,salon
+86,Michelada de 1/2 L,,bebidas,50.00,,salon
+87,Michelada de 1/2 L con Clamato,,bebidas,60.00,86,salon
+88,Michelada de 1 L,,bebidas,80.00,,salon
+89,Michelada de 1 L con Clamato,,bebidas,90.00,88,salon
+90,Cerveza en bola o yarda,,bebidas,60.00,,salon
+91,Cerveza en bola,,bebidas,60.00,90,salon
+92,Cerveza en yarda,,bebidas,60.00,90,salon
+93,Cubetazo de 6 cervezas,,bebidas,180.00,,salon
+94,Cerveza de 355 ml,,bebidas,35.00,,salon
+95,Corona de 355 ml,,bebidas,35.00,94,salon
+96,Victoria de 355 ml,,bebidas,35.00,94,salon
+97,Ultra de 355 ml,,bebidas,35.00,94,salon
+98,Cerveza Modelo,,bebidas,40.00,,salon
+99,Negra Modelo,,bebidas,40.00,98,salon
+100,Modelo Especial,,bebidas,40.00,98,salon
+101,Caguama,,bebidas,90.00,,salon
+102,Caguama Corona,,bebidas,90.00,101,salon
+103,Caguama Corona preparada,,bebidas,100.00,101,salon
+104,Caguama Victoria,,bebidas,90.00,101,salon
+105,Caguama Victoria preparada,,bebidas,100.00,101,salon
+106,Caguama León,,bebidas,90.00,101,salon
+107,Caguama León preparada,,bebidas,100.00,101,salon
+108,Caguama de la marca Modelo,,bebidas,100.00,,salon
+109,Caguama Modelo,,bebidas,100.00,108,salon
+110,Caguama Modelo preparada,,bebidas,110.00,108,salon
+111,Caguama Modelo Especial,,bebidas,100.00,108,salon
+112,Caguama Modelo Especial preparada,,bebidas,110.00,108,salon
+113,Copa de 60 pesos,,bebidas,60.00,,salon
+114,Copa de Bacardí Blanco,,bebidas,60.00,113,salon
+115,Copa de Brandy Torres 5,,bebidas,60.00,113,salon
+116,Copa de Whisky Label 5,,bebidas,60.00,113,salon
+117,Copa de Tequila José Cuervo,,bebidas,60.00,113,salon
+118,Copa de 70 pesos,,bebidas,70.00,,salon
+119,Copa de Torres 10,,bebidas,70.00,118,salon
+120,Copa de Tequila Tradicional,,bebidas,70.00,118,salon
+121,Copa de Whisky Johnnie Walker ER,,bebidas,70.00,118,salon
+122,Vaso escarchado,,bebidas,5.00,,salon
+123,Enchiladas de pollo,"Producto inventado, no está en el menú del salón",alimentos,40.00,,inventado
+124,Enchiladas de res,"Producto inventado, no está en el menú del salón",alimentos,100.00,,inventado
+125,Enchiladas de cerdo,"Producto inventado, no está en el menú del salón",alimentos,70.00,,inventado
+126,Enchiladas de frijol,"Producto inventado, no está en el menú del salón",alimentos,70.00,,inventado
+127,Enchiladas de champiñones,"Producto inventado, no está en el menú del salón",alimentos,55.00,,inventado
+128,Enchiladas de nopales,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+129,Tostadas de pollo,"Producto inventado, no está en el menú del salón",alimentos,95.00,,inventado
+130,Tostadas de res,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+131,Tostadas de cerdo,"Producto inventado, no está en el menú del salón",alimentos,105.00,,inventado
+132,Tostadas de frijol,"Producto inventado, no está en el menú del salón",alimentos,70.00,,inventado
+133,Tostadas de champiñones,"Producto inventado, no está en el menú del salón",alimentos,50.00,,inventado
+134,Tostadas de nopales,"Producto inventado, no está en el menú del salón",alimentos,115.00,,inventado
+135,Flautas de pollo,"Producto inventado, no está en el menú del salón",alimentos,45.00,,inventado
+136,Flautas de res,"Producto inventado, no está en el menú del salón",alimentos,115.00,,inventado
+137,Flautas de cerdo,"Producto inventado, no está en el menú del salón",alimentos,80.00,,inventado
+138,Flautas de frijol,"Producto inventado, no está en el menú del salón",alimentos,50.00,,inventado
+139,Flautas de champiñones,"Producto inventado, no está en el menú del salón",alimentos,40.00,,inventado
+140,Flautas de nopales,"Producto inventado, no está en el menú del salón",alimentos,115.00,,inventado
+141,Sopes de pollo,"Producto inventado, no está en el menú del salón",alimentos,75.00,,inventado
+142,Sopes de res,"Producto inventado, no está en el menú del salón",alimentos,80.00,,inventado
+143,Sopes de cerdo,"Producto inventado, no está en el menú del salón",alimentos,80.00,,inventado
+144,Sopes de frijol,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+145,Sopes de champiñones,"Producto inventado, no está en el menú del salón",alimentos,70.00,,inventado
+146,Sopes de nopales,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+147,Gorditas de pollo,"Producto inventado, no está en el menú del salón",alimentos,90.00,,inventado
+148,Gorditas de res,"Producto inventado, no está en el menú del salón",alimentos,95.00,,inventado
+149,Gorditas de cerdo,"Producto inventado, no está en el menú del salón",alimentos,50.00,,inventado
+150,Gorditas de frijol,"Producto inventado, no está en el menú del salón",alimentos,90.00,,inventado
+151,Gorditas de champiñones,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+152,Gorditas de nopales,"Producto inventado, no está en el menú del salón",alimentos,45.00,,inventado
+153,Tlacoyos de pollo,"Producto inventado, no está en el menú del salón",alimentos,55.00,,inventado
+154,Tlacoyos de res,"Producto inventado, no está en el menú del salón",alimentos,115.00,,inventado
+155,Tlacoyos de cerdo,"Producto inventado, no está en el menú del salón",alimentos,100.00,,inventado
+156,Tlacoyos de frijol,"Producto inventado, no está en el menú del salón",alimentos,45.00,,inventado
+157,Tlacoyos de champiñones,"Producto inventado, no está en el menú del salón",alimentos,75.00,,inventado
+158,Tlacoyos de nopales,"Producto inventado, no está en el menú del salón",alimentos,75.00,,inventado
+159,Tamales de pollo,"Producto inventado, no está en el menú del salón",alimentos,65.00,,inventado
+160,Tamales de res,"Producto inventado, no está en el menú del salón",alimentos,100.00,,inventado
+161,Tamales de cerdo,"Producto inventado, no está en el menú del salón",alimentos,110.00,,inventado
+162,Tamales de frijol,"Producto inventado, no está en el menú del salón",alimentos,50.00,,inventado
+163,Tamales de champiñones,"Producto inventado, no está en el menú del salón",alimentos,70.00,,inventado
+164,Tamales de nopales,"Producto inventado, no está en el menú del salón",alimentos,85.00,,inventado
+165,Quesadillas de pollo,"Producto inventado, no está en el menú del salón",alimentos,65.00,,inventado
+166,Quesadillas de res,"Producto inventado, no está en el menú del salón",alimentos,75.00,,inventado
+167,Quesadillas de cerdo,"Producto inventado, no está en el menú del salón",alimentos,75.00,,inventado
+168,Quesadillas de frijol,"Producto inventado, no está en el menú del salón",alimentos,95.00,,inventado
+169,Quesadillas de champiñones,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+170,Quesadillas de nopales,"Producto inventado, no está en el menú del salón",alimentos,60.00,,inventado
+171,Burritos de pollo,"Producto inventado, no está en el menú del salón",alimentos,65.00,,inventado
+172,Burritos de res,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+173,Burritos de cerdo,"Producto inventado, no está en el menú del salón",alimentos,115.00,,inventado
+174,Burritos de frijol,"Producto inventado, no está en el menú del salón",alimentos,110.00,,inventado
+175,Burritos de champiñones,"Producto inventado, no está en el menú del salón",alimentos,45.00,,inventado
+176,Burritos de nopales,"Producto inventado, no está en el menú del salón",alimentos,90.00,,inventado
+177,Molletes de pollo,"Producto inventado, no está en el menú del salón",alimentos,45.00,,inventado
+178,Molletes de res,"Producto inventado, no está en el menú del salón",alimentos,120.00,,inventado
+179,Molletes de cerdo,"Producto inventado, no está en el menú del salón",alimentos,65.00,,inventado
+180,Molletes de frijol,"Producto inventado, no está en el menú del salón",alimentos,105.00,,inventado
+181,Molletes de champiñones,"Producto inventado, no está en el menú del salón",alimentos,70.00,,inventado
+182,Molletes de nopales,"Producto inventado, no está en el menú del salón",alimentos,55.00,,inventado
+183,Agua fresca de jamaica,"Producto inventado, no está en el menú del salón",bebidas,50.00,,inventado
+184,Agua fresca de horchata,"Producto inventado, no está en el menú del salón",bebidas,35.00,,inventado
+185,Agua fresca de tamarindo,"Producto inventado, no está en el menú del salón",bebidas,65.00,,inventado
+186,Agua fresca de limón,"Producto inventado, no está en el menú del salón",bebidas,70.00,,inventado
+187,Agua fresca de piña,"Producto inventado, no está en el menú del salón",bebidas,70.00,,inventado
+188,Agua fresca de melón,"Producto inventado, no está en el menú del salón",bebidas,45.00,,inventado
+189,Agua fresca de sandía,"Producto inventado, no está en el menú del salón",bebidas,45.00,,inventado
+190,Agua fresca de naranja,"Producto inventado, no está en el menú del salón",bebidas,25.00,,inventado
+191,Licuado de fresa,"Producto inventado, no está en el menú del salón",bebidas,25.00,,inventado
+192,Licuado de plátano,"Producto inventado, no está en el menú del salón",bebidas,30.00,,inventado
+193,Licuado de mango,"Producto inventado, no está en el menú del salón",bebidas,110.00,,inventado
+194,Licuado de papaya,"Producto inventado, no está en el menú del salón",bebidas,60.00,,inventado
+195,Mojito,"Producto inventado, no está en el menú del salón",bebidas,45.00,,inventado
+196,Piña colada,"Producto inventado, no está en el menú del salón",bebidas,90.00,,inventado
+197,Paloma,"Producto inventado, no está en el menú del salón",bebidas,65.00,,inventado
+198,Cuba libre,"Producto inventado, no está en el menú del salón",bebidas,60.00,,inventado
+199,Desarmador,"Producto inventado, no está en el menú del salón",bebidas,35.00,,inventado
+200,Margarita,"Producto inventado, no está en el menú del salón",bebidas,55.00,,inventado
+201,Clericot,"Producto inventado, no está en el menú del salón",bebidas,75.00,,inventado
+202,Tinto de verano,"Producto inventado, no está en el menú del salón",bebidas,60.00,,inventado
+203,Bolsa de gomitas,"Producto inventado, no está en el menú del salón",dulceria,10.00,,inventado
+204,Paleta de caramelo,"Producto inventado, no está en el menú del salón",dulceria,10.00,,inventado
+205,Barra de chocolate,"Producto inventado, no está en el menú del salón",dulceria,35.00,,inventado
+206,Cacahuates salados,"Producto inventado, no está en el menú del salón",dulceria,35.00,,inventado
+207,Cacahuates japoneses,"Producto inventado, no está en el menú del salón",dulceria,40.00,,inventado
+208,Pepitas saladas,"Producto inventado, no está en el menú del salón",dulceria,30.00,,inventado
+209,Obleas con cajeta,"Producto inventado, no está en el menú del salón",dulceria,40.00,,inventado
+210,Alegrías,"Producto inventado, no está en el menú del salón",dulceria,15.00,,inventado
+211,Mazapán de cacahuate,"Producto inventado, no está en el menú del salón",dulceria,10.00,,inventado
+212,Tamarindos enchilados,"Producto inventado, no está en el menú del salón",dulceria,10.00,,inventado
+213,Palanquetas,"Producto inventado, no está en el menú del salón",dulceria,15.00,,inventado
+214,Malvaviscos con chocolate,"Producto inventado, no está en el menú del salón",dulceria,15.00,,inventado

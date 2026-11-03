@@ -1,86 +1,209 @@
-id_ingrediente,nombre,unidad_medida,stock_actual,stock_minimo
-1,Aceite vegetal,ml,10955.360,210.680
-2,Aderezo para ensalada,ml,30558.000,1389.000
-3,Adobo en polvo,g,1409.400,52.200
-4,Agua embotellada de 1 L,pieza,833.160,23.580
-5,Agua mineral Tehuacán para preparar,ml,580509.000,10953.000
-6,Agua mineral de 2 L,pieza,421.830,11.610
-7,Arrachera,g,44388.000,1644.000
-8,Bacardí Blanco,ml,19318.500,364.500
-9,Bistec de res,g,292485.250,12716.750
-10,Bolillo,pieza,2560.360,148.120
-11,Bolsita de té,pieza,497.960,25.320
-12,Brandy Torres 10,ml,22869.000,1323.000
-13,Brandy Torres 5,ml,21117.600,754.200
-14,Café molido,g,4166.400,148.800
-15,Caguama Corona,pieza,902.720,32.240
-16,Caguama León,pieza,911.760,62.880
-17,Caguama Modelo,pieza,888.350,24.450
-18,Caguama Modelo Especial,pieza,895.320,33.160
-19,Caguama Victoria,pieza,866.160,32.080
-20,Catsup,g,5596.500,273.000
-21,Cebolla,g,49509.200,952.100
-22,Cerveza de barril,ml,2332940.500,134963.500
-23,Chicharrón de cerdo,g,28156.800,1005.600
-24,Chile en polvo,g,2761.380,186.760
-25,Chorizo argentino,g,31641.600,1843.200
-26,Churritos de maíz,g,60264.000,2232.000
-27,Clamato,ml,530296.000,40792.000
-28,Coca de 3 L,pieza,839.405,24.810
-29,Coca de 600 ml,pieza,969.450,42.150
-30,Corona de 355 ml,pieza,3025.715,89.430
-31,Crema,g,27466.400,528.200
-32,Frijol refrito,g,64170.000,2790.000
-33,Fritura de harina,g,16605.000,810.000
-34,Ginger Ale de 1 L,pieza,428.760,15.880
-35,Hielo,g,517645.500,25251.000
-36,Jalapeño,g,5678.400,436.800
-37,Jamón,g,91499.600,5903.200
-38,Jitomate,g,112517.200,6554.400
-39,Jugo de limón,ml,231709.500,10532.250
-40,Jugo del Valle de durazno de 413 ml,pieza,436.720,25.440
-41,Jugo del Valle de mango de 413 ml,pieza,443.630,12.210
-42,Jugo del Valle de manzana de 413 ml,pieza,488.560,31.520
-43,Lechuga,g,141086.900,2793.800
-44,Longaniza,g,68746.150,3977.050
-45,Maruchan de camarón,pieza,274.400,14.700
-46,Maruchan de habanero,pieza,304.750,13.250
-47,Maruchan de piquín,pieza,289.380,5.460
-48,Modelo Especial de 355 ml,pieza,413.100,16.200
-49,Morrón,g,46066.000,2972.000
-50,Negra Modelo de 355 ml,pieza,426.220,8.440
-51,Palomitas para microondas,pieza,313.920,8.640
-52,Pan para hamburguesa,pieza,279.480,10.960
-53,Pan para hot dog,pieza,930.720,49.860
-54,Pan para pambazo,pieza,284.960,5.480
-55,Papa,g,25865.600,1315.200
-56,Papas fritas,g,106812.000,7224.000
-57,Pechuga de pollo,g,90625.600,6971.200
-58,Pepino,g,70666.400,3785.700
-59,Pollo empanizado,g,59598.000,2709.000
-60,Queso,g,166935.020,4934.040
-61,Queso amarillo líquido,g,60812.190,1673.730
-62,Repollo,g,20279.600,1173.200
-63,Sal,g,19049.680,366.340
-64,Salchicha,pieza,947.340,58.170
-65,Salsa guajillo,ml,9535.200,657.600
-66,Salsa inglesa,ml,49960.900,2890.300
-67,Salsa picante,ml,25897.725,765.450
-68,Sangría de 3 L,pieza,877.690,17.380
-69,Sangría para preparar,ml,686614.500,39721.500
-70,Sidral de 3 L,pieza,841.360,64.720
-71,Sidral de 600 ml,pieza,870.100,39.550
-72,Squirt de 3 L,pieza,969.960,49.320
-73,Squirt de 600 ml,pieza,865.280,16.640
-74,Tehuacán de 600 ml,pieza,897.820,16.940
-75,Tequila José Cuervo,ml,18111.600,1393.200
-76,Tequila Tradicional,ml,19718.100,542.700
-77,Tocino,g,32394.800,891.600
-78,Tortilla de harina,g,34941.170,2021.390
-79,Tortilla de maíz,g,215843.040,13253.520
-80,Totopos,g,22885.590,453.180
-81,Ultra de 355 ml,pieza,488.520,24.840
-82,Victoria de 355 ml,pieza,405.960,15.920
-83,Whisky Johnnie Walker Etiqueta Roja,ml,21427.200,1382.400
-84,Whisky Label 5,ml,18497.700,725.400
-85,Zanahoria,g,50243.550,1382.850
+id_ingrediente,nombre,unidad_medida,stock_actual,stock_minimo,origen
+1,Aceite vegetal,ml,8462.720,302.240,salon
+2,Aderezo para ensalada,ml,19975.200,590.400,salon
+3,Adobo en polvo,g,876.375,42.750,salon
+4,Agua embotellada de 1 L,pieza,721.050,31.350,salon
+5,Agua mineral Tehuacán para preparar,ml,446823.000,27436.500,salon
+6,Agua mineral de 2 L,pieza,309.575,9.150,salon
+7,Arrachera,g,30600.000,1200.000,salon
+8,Bacardí Blanco,ml,15791.400,1018.800,salon
+9,Bistec de res,g,211988.650,5834.550,salon
+10,Bolillo,pieza,2659.720,135.240,salon
+11,Bolsita de té,pieza,300.440,8.880,salon
+12,Brandy Torres 10,ml,15454.800,437.400,salon
+13,Brandy Torres 5,ml,14824.800,1022.400,salon
+14,Café molido,g,2972.500,145.000,salon
+15,Caguama Corona,pieza,602.370,40.740,salon
+16,Caguama León,pieza,698.880,24.960,salon
+17,Caguama Modelo,pieza,641.690,37.380,salon
+18,Caguama Modelo Especial,pieza,599.760,23.520,salon
+19,Caguama Victoria,pieza,603.840,23.680,salon
+20,Catsup,g,3816.000,108.000,salon
+21,Cebolla,g,41162.000,1871.000,salon
+22,Cerveza de barril,ml,1366833.000,27066.000,salon
+23,Chicharrón de cerdo,g,19965.000,907.500,salon
+24,Chile en polvo,g,2689.560,173.520,salon
+25,Chorizo argentino,g,30506.400,1873.200,salon
+26,Churritos de maíz,g,43848.000,1624.000,salon
+27,Clamato,ml,413612.000,11706.000,salon
+28,Coca de 3 L,pieza,656.240,50.480,salon
+29,Coca de 600 ml,pieza,623.070,42.140,salon
+30,Corona de 355 ml,pieza,2697.000,174.000,salon
+31,Crema,g,19899.000,737.000,salon
+32,Frijol refrito,g,42834.750,2089.500,salon
+33,Fritura de harina,g,11332.200,224.400,salon
+34,Ginger Ale de 1 L,pieza,333.960,19.320,salon
+35,Hielo,g,373365.900,25251.800,salon
+36,Jalapeño,g,3816.000,108.000,salon
+37,Jamón,g,65307.200,2332.400,salon
+38,Jitomate,g,90568.250,3937.750,salon
+39,Jugo de limón,ml,174725.250,7596.750,salon
+40,Jugo del Valle de durazno de 413 ml,pieza,313.100,6.200,salon
+41,Jugo del Valle de mango de 413 ml,pieza,323.680,17.340,salon
+42,Jugo del Valle de manzana de 413 ml,pieza,283.560,11.120,salon
+43,Lechuga,g,103485.200,7960.400,salon
+44,Longaniza,g,45218.650,1244.550,salon
+45,Maruchan de camarón,pieza,220.640,7.880,salon
+46,Maruchan de habanero,pieza,199.680,3.840,salon
+47,Maruchan de piquín,pieza,197.925,5.850,salon
+48,Modelo Especial de 355 ml,pieza,387.520,20.760,salon
+49,Morrón,g,33712.000,1204.000,salon
+50,Negra Modelo de 355 ml,pieza,385.640,24.880,salon
+51,Palomitas para microondas,pieza,221.760,11.880,salon
+52,Pan para hamburguesa,pieza,228.000,14.000,salon
+53,Pan para hot dog,pieza,695.640,44.880,salon
+54,Pan para pambazo,pieza,217.080,8.040,salon
+55,Papa,g,16642.800,1125.600,salon
+56,Papas fritas,g,96679.000,5593.000,salon
+57,Pechuga de pollo,g,62727.000,1854.000,salon
+58,Pepino,g,46481.925,1373.850,salon
+59,Pollo empanizado,g,40323.500,1967.000,salon
+60,Queso,g,125760.780,8505.560,salon
+61,Queso amarillo líquido,g,39066.000,1532.000,salon
+62,Repollo,g,12342.000,484.000,salon
+63,Sal,g,14682.080,524.360,salon
+64,Salchicha,pieza,569.415,16.830,salon
+65,Salsa guajillo,ml,6994.800,482.400,salon
+66,Salsa inglesa,ml,34977.600,1249.200,salon
+67,Salsa picante,ml,22318.350,1370.425,salon
+68,Sangría de 3 L,pieza,676.500,30.750,salon
+69,Sangría para preparar,ml,395460.000,30420.000,salon
+70,Sidral de 3 L,pieza,728.420,42.140,salon
+71,Sidral de 600 ml,pieza,638.280,23.640,salon
+72,Squirt de 3 L,pieza,686.700,18.900,salon
+73,Squirt de 600 ml,pieza,668.640,35.820,salon
+74,Tehuacán de 600 ml,pieza,627.120,12.060,salon
+75,Tequila José Cuervo,ml,13494.600,529.200,salon
+76,Tequila Tradicional,ml,15338.700,941.850,salon
+77,Tocino,g,26006.400,963.200,salon
+78,Tortilla de harina,g,75688.080,1455.540,salon
+79,Tortilla de maíz,g,311869.080,12230.160,salon
+80,Totopos,g,17629.200,896.400,salon
+81,Ultra de 355 ml,pieza,340.400,14.800,salon
+82,Victoria de 355 ml,pieza,303.680,5.840,salon
+83,Whisky Johnnie Walker Etiqueta Roja,ml,13678.200,536.400,salon
+84,Whisky Label 5,ml,13909.500,632.250,salon
+85,Zanahoria,g,34455.375,1680.750,salon
+86,Pollo deshebrado,g,87068.800,1674.400,inventado
+87,Salsa roja,ml,11176.000,508.000,inventado
+88,Epazote,g,9905.700,280.350,inventado
+89,Queso Oaxaca,g,3258.150,96.300,inventado
+90,Carne de res deshebrada,g,71170.875,3471.750,inventado
+91,Chile poblano,g,9232.300,254.100,inventado
+92,Cebolla morada,g,8034.000,468.000,inventado
+93,Carne de cerdo,g,95659.200,7358.400,inventado
+94,Calabaza,g,9040.725,611.450,inventado
+95,Orégano,g,8404.000,382.000,inventado
+96,Frijol negro,g,80522.250,1594.500,inventado
+97,Harina de maíz,g,6996.600,473.200,inventado
+98,Cilantro,g,8479.600,584.800,inventado
+99,Champiñones,g,93814.200,3474.600,inventado
+100,Pipián,g,10962.000,756.000,inventado
+101,Huevo,g,4800.600,177.800,inventado
+102,Mayonesa,g,7121.300,362.100,inventado
+103,Chile chipotle,g,11382.900,698.950,inventado
+104,Nopales,g,69165.950,1903.650,inventado
+105,Tomate verde,g,4296.600,277.200,inventado
+106,Queso cotija,g,7123.750,347.500,inventado
+107,Chile guajillo,g,8346.000,642.000,inventado
+108,Mantequilla,g,3105.900,91.800,inventado
+109,Apio,g,7551.600,520.800,inventado
+110,Vinagre,ml,5902.400,380.800,inventado
+111,Acelga,g,4709.600,252.300,inventado
+112,Elote,g,5350.950,361.900,inventado
+113,Piloncillo,g,5497.200,203.600,inventado
+114,Brócoli,g,6118.300,311.100,inventado
+115,Salsa verde,ml,5994.400,304.800,inventado
+116,Queso panela,g,7805.375,380.750,inventado
+117,Crema ácida,g,4099.200,146.400,inventado
+118,Lenteja,g,3725.900,70.300,inventado
+119,Pimienta,g,3593.200,69.100,inventado
+120,Pan molido,g,7441.500,430.500,inventado
+121,Cecina,g,7297.850,215.700,inventado
+122,Queso manchego,g,8999.400,169.800,inventado
+123,Harina de trigo,g,7022.400,250.800,inventado
+124,Mostaza,g,5070.000,97.500,inventado
+125,Arroz,g,7934.100,149.700,inventado
+126,Ejote,g,5910.850,341.950,inventado
+127,Coliflor,g,5409.600,289.800,inventado
+128,Chorizo mexicano,g,3886.425,262.850,inventado
+129,Comino,g,7412.400,511.200,inventado
+130,Salchichón,g,6919.000,314.500,inventado
+131,Consomé de pollo,ml,6987.600,258.800,inventado
+132,Salsa de chipotle,ml,6368.400,439.200,inventado
+133,Pasta de achiote,g,3308.150,91.050,inventado
+134,Rábano,g,9001.600,620.800,inventado
+135,Ajo,g,8712.000,396.000,inventado
+136,Chayote,g,3111.100,58.700,inventado
+137,Chile ancho,g,9146.800,175.900,inventado
+138,Salsa de habanero,ml,7060.650,411.300,inventado
+139,Laurel,g,6004.900,349.800,inventado
+140,Pulpa de res,g,4843.900,246.300,inventado
+141,Manteca,g,9191.000,182.000,inventado
+142,Masa de maíz,g,401346.400,30872.800,inventado
+143,Chile serrano,g,8461.375,412.750,inventado
+144,Chile de árbol,g,9922.000,574.000,inventado
+145,Aguacate,g,6908.500,337.000,inventado
+146,Cebollín,g,8288.000,444.000,inventado
+147,Espinaca,g,12789.700,739.900,inventado
+148,Atún,g,4172.600,269.200,inventado
+149,Caldo de res,ml,8398.000,646.000,inventado
+150,Betabel,g,7940.650,218.550,inventado
+151,Mole poblano,g,8043.875,237.750,inventado
+152,Frijol bayo,g,6789.300,192.150,inventado
+153,Papa cambray,g,7292.200,144.400,inventado
+154,Flor de jamaica,g,35529.250,1544.750,inventado
+155,Granadina,ml,17869.075,528.150,inventado
+156,Leche,ml,11463.900,216.300,inventado
+157,Canela,g,7564.500,369.000,inventado
+158,Leche evaporada,ml,12703.950,349.650,inventado
+159,Agua purificada,ml,21919.150,1268.050,inventado
+160,Tamarindo,g,25105.600,1931.200,inventado
+161,Leche condensada,ml,15649.200,579.600,inventado
+162,Mezcal,ml,15554.000,707.000,inventado
+163,Limón,g,25425.750,751.500,inventado
+164,Azúcar,g,16111.150,932.050,inventado
+165,Jerez,ml,14903.200,286.600,inventado
+166,Piña,g,8403.200,166.400,inventado
+167,Cerveza oscura de barril,ml,11546.400,452.800,inventado
+168,Hierbabuena,g,11295.350,653.450,inventado
+169,Melón,g,17556.000,1078.000,inventado
+170,Jarabe natural,ml,13680.800,488.600,inventado
+171,Sandía,g,11606.400,748.800,inventado
+172,Naranja,g,28475.200,547.600,inventado
+173,Fresa,g,20073.900,1161.300,inventado
+174,Plátano,g,6692.400,128.700,inventado
+175,Mango,g,25410.000,1470.000,inventado
+176,Papaya,g,26235.000,495.000,inventado
+177,Ron,ml,21216.000,408.000,inventado
+178,Crema de coco,ml,13764.000,888.000,inventado
+179,Refresco de toronja,ml,12211.200,345.600,inventado
+180,Refresco de cola para preparar,ml,24804.000,477.000,inventado
+181,Vodka,ml,25319.250,1464.750,inventado
+182,Licor de naranja,ml,14899.500,677.250,inventado
+183,Vino tinto,ml,18950.400,1015.200,inventado
+184,Vino blanco,ml,8332.500,165.000,inventado
+185,Gomitas,g,3586.275,242.550,inventado
+186,Cajeta,ml,3672.900,103.950,inventado
+187,Paletas de caramelo,g,9635.400,181.800,inventado
+188,Miguelito,g,512.575,15.150,inventado
+189,Chocolate en barra,g,9145.150,270.300,inventado
+190,Galletas,g,551.200,42.400,inventado
+191,Cacahuate,g,9836.800,678.400,inventado
+192,Coco rallado,g,4621.600,127.200,inventado
+193,Cacahuate japonés,g,6286.800,120.900,inventado
+194,Caramelo suave,g,3547.950,97.650,inventado
+195,Pepitas,g,8640.000,320.000,inventado
+196,Pasas,g,1710.000,105.000,inventado
+197,Obleas,g,7939.400,224.700,inventado
+198,Chile piquín,g,2332.600,64.200,inventado
+199,Alegría de amaranto,g,6388.800,369.600,inventado
+200,Nuez,g,2976.000,192.000,inventado
+201,Mazapán,g,7638.400,492.800,inventado
+202,Semilla de girasol,g,1780.800,33.600,inventado
+203,Tamarindo enchilado,g,3663.000,166.500,inventado
+204,Jarabe de chocolate,ml,4884.000,222.000,inventado
+205,Palanqueta,g,10483.200,374.400,inventado
+206,Chamoy,ml,3494.400,124.800,inventado
+207,Malvaviscos,g,5208.000,336.000,inventado
+208,Almendra,g,2782.500,78.750,inventado
