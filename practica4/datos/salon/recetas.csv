@@ -1,0 +1,293 @@
+id_producto,producto,id_ingrediente,ingrediente,cantidad_por_porcion,unidad,origen
+2,Tacos de bistec,1,Aceite vegetal,4.000,ml,fndds:58102010
+2,Tacos de bistec,9,Bistec de res,50.000,g,fndds:58102010
+2,Tacos de bistec,63,Sal,1.000,g,fndds:58102010
+2,Tacos de bistec,79,Tortilla de maíz,36.000,g,fndds:58102010
+3,Tacos de longaniza,1,Aceite vegetal,4.000,ml,fndds:58102010
+3,Tacos de longaniza,44,Longaniza,50.000,g,fndds:58102030
+3,Tacos de longaniza,63,Sal,1.000,g,fndds:58102010
+3,Tacos de longaniza,79,Tortilla de maíz,36.000,g,fndds:58102010
+4,Tacos campechanos,1,Aceite vegetal,4.000,ml,fndds:58102010
+4,Tacos campechanos,9,Bistec de res,25.000,g,estimada
+4,Tacos campechanos,44,Longaniza,25.000,g,estimada
+4,Tacos campechanos,63,Sal,1.000,g,fndds:58102010
+4,Tacos campechanos,79,Tortilla de maíz,36.000,g,fndds:58102010
+5,Tacos de bistec con queso,1,Aceite vegetal,4.000,ml,fndds:58102010
+5,Tacos de bistec con queso,9,Bistec de res,50.000,g,fndds:58102010
+5,Tacos de bistec con queso,60,Queso,5.000,g,fndds:58102010
+5,Tacos de bistec con queso,63,Sal,1.000,g,fndds:58102010
+5,Tacos de bistec con queso,79,Tortilla de maíz,36.000,g,fndds:58102010
+6,Tacos de longaniza con queso,1,Aceite vegetal,4.000,ml,fndds:58102010
+6,Tacos de longaniza con queso,44,Longaniza,50.000,g,fndds:58102030
+6,Tacos de longaniza con queso,60,Queso,5.000,g,fndds:58102010
+6,Tacos de longaniza con queso,63,Sal,1.000,g,fndds:58102010
+6,Tacos de longaniza con queso,79,Tortilla de maíz,36.000,g,fndds:58102010
+7,Tacos campechanos con queso,1,Aceite vegetal,4.000,ml,fndds:58102010
+7,Tacos campechanos con queso,9,Bistec de res,25.000,g,estimada
+7,Tacos campechanos con queso,44,Longaniza,25.000,g,estimada
+7,Tacos campechanos con queso,60,Queso,5.000,g,fndds:58102010
+7,Tacos campechanos con queso,63,Sal,1.000,g,fndds:58102010
+7,Tacos campechanos con queso,79,Tortilla de maíz,36.000,g,fndds:58102010
+8,Hamburguesa de arrachera,7,Arrachera,150.000,g,menu
+8,Hamburguesa de arrachera,21,Cebolla,15.000,g,estimada
+8,Hamburguesa de arrachera,38,Jitomate,30.000,g,estimada
+8,Hamburguesa de arrachera,43,Lechuga,20.000,g,estimada
+8,Hamburguesa de arrachera,52,Pan para hamburguesa,1.000,pieza,estimada
+9,Hot dog,53,Pan para hot dog,3.000,pieza,menu
+9,Hot dog,64,Salchicha,3.000,pieza,menu
+11,Maruchan de camarón,45,Maruchan de camarón,1.000,pieza,menu
+12,Maruchan de habanero,46,Maruchan de habanero,1.000,pieza,menu
+13,Maruchan de piquín,47,Maruchan de piquín,1.000,pieza,menu
+14,Sincronizadas,37,Jamón,30.000,g,estimada
+14,Sincronizadas,43,Lechuga,30.000,g,estimada
+14,Sincronizadas,58,Pepino,15.000,g,estimada
+14,Sincronizadas,60,Queso,48.000,g,fndds:58104710
+14,Sincronizadas,78,Tortilla de harina,67.000,g,fndds:58104710
+14,Sincronizadas,85,Zanahoria,15.000,g,estimada
+15,"Sincronizadas, media orden",37,Jamón,15.000,g,estimada
+15,"Sincronizadas, media orden",43,Lechuga,15.000,g,estimada
+15,"Sincronizadas, media orden",58,Pepino,7.500,g,estimada
+15,"Sincronizadas, media orden",60,Queso,24.000,g,fndds:58104710
+15,"Sincronizadas, media orden",78,Tortilla de harina,33.500,g,fndds:58104710
+15,"Sincronizadas, media orden",85,Zanahoria,7.500,g,estimada
+16,Choripán,10,Bolillo,1.000,pieza,estimada
+16,Choripán,25,Chorizo argentino,120.000,g,estimada
+18,Torta de bistec,9,Bistec de res,100.000,g,estimada
+18,Torta de bistec,10,Bolillo,1.000,pieza,estimada
+18,Torta de bistec,32,Frijol refrito,30.000,g,estimada
+18,Torta de bistec,38,Jitomate,20.000,g,estimada
+18,Torta de bistec,43,Lechuga,15.000,g,estimada
+19,Torta de pollo,10,Bolillo,1.000,pieza,estimada
+19,Torta de pollo,32,Frijol refrito,30.000,g,estimada
+19,Torta de pollo,38,Jitomate,20.000,g,estimada
+19,Torta de pollo,43,Lechuga,15.000,g,estimada
+19,Torta de pollo,57,Pechuga de pollo,100.000,g,estimada
+20,Torta de jamón,10,Bolillo,1.000,pieza,estimada
+20,Torta de jamón,32,Frijol refrito,30.000,g,estimada
+20,Torta de jamón,37,Jamón,60.000,g,estimada
+20,Torta de jamón,38,Jitomate,20.000,g,estimada
+20,Torta de jamón,43,Lechuga,15.000,g,estimada
+21,Torta de queso,10,Bolillo,1.000,pieza,estimada
+21,Torta de queso,32,Frijol refrito,30.000,g,estimada
+21,Torta de queso,38,Jitomate,20.000,g,estimada
+21,Torta de queso,43,Lechuga,15.000,g,estimada
+21,Torta de queso,60,Queso,60.000,g,estimada
+22,Torta de bistec con queso,9,Bistec de res,100.000,g,estimada
+22,Torta de bistec con queso,10,Bolillo,1.000,pieza,estimada
+22,Torta de bistec con queso,32,Frijol refrito,30.000,g,estimada
+22,Torta de bistec con queso,38,Jitomate,20.000,g,estimada
+22,Torta de bistec con queso,43,Lechuga,15.000,g,estimada
+22,Torta de bistec con queso,60,Queso,40.000,g,estimada
+23,Torta de pollo con queso,10,Bolillo,1.000,pieza,estimada
+23,Torta de pollo con queso,32,Frijol refrito,30.000,g,estimada
+23,Torta de pollo con queso,38,Jitomate,20.000,g,estimada
+23,Torta de pollo con queso,43,Lechuga,15.000,g,estimada
+23,Torta de pollo con queso,57,Pechuga de pollo,100.000,g,estimada
+23,Torta de pollo con queso,60,Queso,40.000,g,estimada
+24,Torta de jamón con queso,10,Bolillo,1.000,pieza,estimada
+24,Torta de jamón con queso,32,Frijol refrito,30.000,g,estimada
+24,Torta de jamón con queso,37,Jamón,60.000,g,estimada
+24,Torta de jamón con queso,38,Jitomate,20.000,g,estimada
+24,Torta de jamón con queso,43,Lechuga,15.000,g,estimada
+24,Torta de jamón con queso,60,Queso,40.000,g,estimada
+25,Pambazos,31,Crema,15.000,g,estimada
+25,Pambazos,43,Lechuga,20.000,g,estimada
+25,Pambazos,44,Longaniza,60.000,g,estimada
+25,Pambazos,54,Pan para pambazo,1.000,pieza,estimada
+25,Pambazos,55,Papa,80.000,g,estimada
+25,Pambazos,60,Queso,15.000,g,estimada
+25,Pambazos,65,Salsa guajillo,30.000,ml,estimada
+26,Chilaquiles con bistec,1,Aceite vegetal,10.000,ml,estimada
+26,Chilaquiles con bistec,9,Bistec de res,120.000,g,estimada
+26,Chilaquiles con bistec,21,Cebolla,15.000,g,estimada
+26,Chilaquiles con bistec,31,Crema,20.000,g,estimada
+26,Chilaquiles con bistec,38,Jitomate,30.000,g,fndds:58100360
+26,Chilaquiles con bistec,60,Queso,40.000,g,fndds:58100360
+26,Chilaquiles con bistec,79,Tortilla de maíz,50.000,g,fndds:58100360
+27,"Chilaquiles con bistec, media orden",1,Aceite vegetal,5.000,ml,estimada
+27,"Chilaquiles con bistec, media orden",9,Bistec de res,60.000,g,estimada
+27,"Chilaquiles con bistec, media orden",21,Cebolla,7.500,g,estimada
+27,"Chilaquiles con bistec, media orden",31,Crema,10.000,g,estimada
+27,"Chilaquiles con bistec, media orden",38,Jitomate,15.000,g,fndds:58100360
+27,"Chilaquiles con bistec, media orden",60,Queso,20.000,g,fndds:58100360
+27,"Chilaquiles con bistec, media orden",79,Tortilla de maíz,25.000,g,fndds:58100360
+28,Mini ensalada,58,Pepino,60.000,g,menu
+28,Mini ensalada,85,Zanahoria,60.000,g,menu
+29,"Mini ensalada, media orden",58,Pepino,30.000,g,menu
+29,"Mini ensalada, media orden",85,Zanahoria,30.000,g,menu
+30,Tenders de pollo con ensalada,2,Aderezo para ensalada,30.000,ml,estimada
+30,Tenders de pollo con ensalada,38,Jitomate,30.000,g,estimada
+30,Tenders de pollo con ensalada,43,Lechuga,60.000,g,estimada
+30,Tenders de pollo con ensalada,58,Pepino,30.000,g,estimada
+30,Tenders de pollo con ensalada,59,Pollo empanizado,140.000,g,fndds:24198731
+31,"Tenders de pollo con ensalada, media orden",2,Aderezo para ensalada,15.000,ml,estimada
+31,"Tenders de pollo con ensalada, media orden",38,Jitomate,15.000,g,estimada
+31,"Tenders de pollo con ensalada, media orden",43,Lechuga,30.000,g,estimada
+31,"Tenders de pollo con ensalada, media orden",58,Pepino,15.000,g,estimada
+31,"Tenders de pollo con ensalada, media orden",59,Pollo empanizado,70.000,g,fndds:24198731
+33,Ensalada con queso,2,Aderezo para ensalada,30.000,ml,estimada
+33,Ensalada con queso,38,Jitomate,50.000,g,estimada
+33,Ensalada con queso,43,Lechuga,120.000,g,estimada
+33,Ensalada con queso,58,Pepino,40.000,g,estimada
+33,Ensalada con queso,60,Queso,60.000,g,menu
+33,Ensalada con queso,85,Zanahoria,30.000,g,estimada
+34,Ensalada con pollo,2,Aderezo para ensalada,30.000,ml,estimada
+34,Ensalada con pollo,38,Jitomate,50.000,g,estimada
+34,Ensalada con pollo,43,Lechuga,120.000,g,estimada
+34,Ensalada con pollo,57,Pechuga de pollo,120.000,g,menu
+34,Ensalada con pollo,58,Pepino,40.000,g,estimada
+34,Ensalada con pollo,85,Zanahoria,30.000,g,estimada
+35,Alambre,9,Bistec de res,300.000,g,menu
+35,Alambre,21,Cebolla,100.000,g,menu
+35,Alambre,37,Jamón,80.000,g,menu
+35,Alambre,49,Morrón,100.000,g,menu
+35,Alambre,60,Queso,150.000,g,menu
+35,Alambre,77,Tocino,80.000,g,menu
+35,Alambre,79,Tortilla de maíz,300.000,g,estimada
+36,"Alambre, media orden",9,Bistec de res,150.000,g,menu
+36,"Alambre, media orden",21,Cebolla,50.000,g,menu
+36,"Alambre, media orden",37,Jamón,40.000,g,menu
+36,"Alambre, media orden",49,Morrón,50.000,g,menu
+36,"Alambre, media orden",60,Queso,75.000,g,menu
+36,"Alambre, media orden",77,Tocino,40.000,g,menu
+36,"Alambre, media orden",79,Tortilla de maíz,150.000,g,estimada
+37,Plato botana de fritura,33,Fritura de harina,60.000,g,estimada
+38,Nachos,20,Catsup,20.000,g,menu
+38,Nachos,31,Crema,20.000,g,menu
+38,Nachos,36,Jalapeño,20.000,g,menu
+38,Nachos,61,Queso amarillo líquido,167.000,g,fndds:58104120
+38,Nachos,80,Totopos,83.000,g,fndds:58104120
+40,Papas naturales,56,Papas fritas,100.000,g,estimada
+41,Papas adobadas,3,Adobo en polvo,5.000,g,estimada
+41,Papas adobadas,56,Papas fritas,100.000,g,estimada
+42,Papas con queso,56,Papas fritas,100.000,g,estimada
+42,Papas con queso,61,Queso amarillo líquido,40.000,g,estimada
+43,Papas con limón,39,Jugo de limón,15.000,ml,estimada
+43,Papas con limón,56,Papas fritas,100.000,g,estimada
+45,Churritos naturales,26,Churritos de maíz,100.000,g,estimada
+46,Churritos con chile,24,Chile en polvo,3.000,g,estimada
+46,Churritos con chile,26,Churritos de maíz,100.000,g,estimada
+47,Palomitas de microondas,51,Palomitas para microondas,1.000,pieza,menu
+48,Chicharrón preparado,23,Chicharrón de cerdo,60.000,g,fndds:22709010
+48,Chicharrón preparado,31,Crema,20.000,g,estimada
+48,Chicharrón preparado,38,Jitomate,30.000,g,estimada
+48,Chicharrón preparado,62,Repollo,40.000,g,estimada
+48,Chicharrón preparado,67,Salsa picante,15.000,ml,estimada
+49,"Chicharrón preparado, mitad",23,Chicharrón de cerdo,30.000,g,fndds:22709010
+49,"Chicharrón preparado, mitad",31,Crema,10.000,g,estimada
+49,"Chicharrón preparado, mitad",38,Jitomate,15.000,g,estimada
+49,"Chicharrón preparado, mitad",62,Repollo,20.000,g,estimada
+49,"Chicharrón preparado, mitad",67,Salsa picante,7.500,ml,estimada
+51,Agua de 1 L fría,4,Agua embotellada de 1 L,1.000,pieza,menu
+52,Agua de 1 L al tiempo,4,Agua embotellada de 1 L,1.000,pieza,menu
+54,Jugo del Valle de manzana,42,Jugo del Valle de manzana de 413 ml,1.000,pieza,menu
+55,Jugo del Valle de mango,41,Jugo del Valle de mango de 413 ml,1.000,pieza,menu
+56,Jugo del Valle de durazno,40,Jugo del Valle de durazno de 413 ml,1.000,pieza,menu
+58,Coca de 600 ml fría,29,Coca de 600 ml,1.000,pieza,menu
+59,Coca de 600 ml al tiempo,29,Coca de 600 ml,1.000,pieza,menu
+60,Sidral de 600 ml fría,71,Sidral de 600 ml,1.000,pieza,menu
+61,Sidral de 600 ml al tiempo,71,Sidral de 600 ml,1.000,pieza,menu
+62,Squirt de 600 ml fría,73,Squirt de 600 ml,1.000,pieza,menu
+63,Squirt de 600 ml al tiempo,73,Squirt de 600 ml,1.000,pieza,menu
+64,Tehuacán de 600 ml fría,74,Tehuacán de 600 ml,1.000,pieza,menu
+65,Tehuacán de 600 ml al tiempo,74,Tehuacán de 600 ml,1.000,pieza,menu
+67,Coca de 3 L fría,28,Coca de 3 L,1.000,pieza,menu
+68,Coca de 3 L al tiempo,28,Coca de 3 L,1.000,pieza,menu
+69,Squirt de 3 L fría,72,Squirt de 3 L,1.000,pieza,menu
+70,Squirt de 3 L al tiempo,72,Squirt de 3 L,1.000,pieza,menu
+71,Sidral de 3 L fría,70,Sidral de 3 L,1.000,pieza,menu
+72,Sidral de 3 L al tiempo,70,Sidral de 3 L,1.000,pieza,menu
+73,Sangría de 3 L fría,68,Sangría de 3 L,1.000,pieza,menu
+74,Sangría de 3 L al tiempo,68,Sangría de 3 L,1.000,pieza,menu
+75,Agua mineral de 2 L,6,Agua mineral de 2 L,1.000,pieza,menu
+76,Ginger Ale de 1 L,34,Ginger Ale de 1 L,1.000,pieza,menu
+78,Tehuacán preparado de 1/2 L,5,Agua mineral Tehuacán para preparar,450.000,ml,menu
+78,Tehuacán preparado de 1/2 L,35,Hielo,90.000,g,estimada
+78,Tehuacán preparado de 1/2 L,39,Jugo de limón,30.000,ml,estimada
+78,Tehuacán preparado de 1/2 L,63,Sal,3.000,g,estimada
+79,Sangría preparada de 1/2 L,35,Hielo,90.000,g,estimada
+79,Sangría preparada de 1/2 L,39,Jugo de limón,30.000,ml,estimada
+79,Sangría preparada de 1/2 L,63,Sal,3.000,g,estimada
+79,Sangría preparada de 1/2 L,69,Sangría para preparar,450.000,ml,menu
+81,Tehuacán preparado de 1 L,5,Agua mineral Tehuacán para preparar,900.000,ml,menu
+81,Tehuacán preparado de 1 L,35,Hielo,180.000,g,estimada
+81,Tehuacán preparado de 1 L,39,Jugo de limón,60.000,ml,estimada
+81,Tehuacán preparado de 1 L,63,Sal,6.000,g,estimada
+82,Sangría preparada de 1 L,35,Hielo,180.000,g,estimada
+82,Sangría preparada de 1 L,39,Jugo de limón,60.000,ml,estimada
+82,Sangría preparada de 1 L,63,Sal,6.000,g,estimada
+82,Sangría preparada de 1 L,69,Sangría para preparar,900.000,ml,menu
+84,Café,14,Café molido,10.000,g,estimada
+85,Té,11,Bolsita de té,1.000,pieza,menu
+86,Michelada de 1/2 L,22,Cerveza de barril,450.000,ml,menu
+86,Michelada de 1/2 L,39,Jugo de limón,30.000,ml,estimada
+86,Michelada de 1/2 L,63,Sal,3.000,g,estimada
+86,Michelada de 1/2 L,66,Salsa inglesa,5.000,ml,estimada
+87,Michelada de 1/2 L con Clamato,22,Cerveza de barril,450.000,ml,menu
+87,Michelada de 1/2 L con Clamato,27,Clamato,100.000,ml,estimada
+87,Michelada de 1/2 L con Clamato,39,Jugo de limón,30.000,ml,estimada
+87,Michelada de 1/2 L con Clamato,63,Sal,3.000,g,estimada
+87,Michelada de 1/2 L con Clamato,66,Salsa inglesa,5.000,ml,estimada
+88,Michelada de 1 L,22,Cerveza de barril,900.000,ml,menu
+88,Michelada de 1 L,39,Jugo de limón,60.000,ml,estimada
+88,Michelada de 1 L,63,Sal,6.000,g,estimada
+88,Michelada de 1 L,66,Salsa inglesa,10.000,ml,estimada
+89,Michelada de 1 L con Clamato,22,Cerveza de barril,900.000,ml,menu
+89,Michelada de 1 L con Clamato,27,Clamato,200.000,ml,estimada
+89,Michelada de 1 L con Clamato,39,Jugo de limón,60.000,ml,estimada
+89,Michelada de 1 L con Clamato,63,Sal,6.000,g,estimada
+89,Michelada de 1 L con Clamato,66,Salsa inglesa,10.000,ml,estimada
+91,Cerveza en bola,22,Cerveza de barril,1000.000,ml,estimada
+92,Cerveza en yarda,22,Cerveza de barril,1000.000,ml,estimada
+93,Cubetazo de 6 cervezas,30,Corona de 355 ml,6.000,pieza,menu
+95,Corona de 355 ml,30,Corona de 355 ml,1.000,pieza,menu
+96,Victoria de 355 ml,82,Victoria de 355 ml,1.000,pieza,menu
+97,Ultra de 355 ml,81,Ultra de 355 ml,1.000,pieza,menu
+99,Negra Modelo,50,Negra Modelo de 355 ml,1.000,pieza,menu
+100,Modelo Especial,48,Modelo Especial de 355 ml,1.000,pieza,menu
+102,Caguama Corona,15,Caguama Corona,1.000,pieza,menu
+103,Caguama Corona preparada,15,Caguama Corona,1.000,pieza,menu
+103,Caguama Corona preparada,27,Clamato,200.000,ml,menu
+103,Caguama Corona preparada,39,Jugo de limón,30.000,ml,estimada
+103,Caguama Corona preparada,66,Salsa inglesa,15.000,ml,estimada
+103,Caguama Corona preparada,67,Salsa picante,10.000,ml,estimada
+104,Caguama Victoria,19,Caguama Victoria,1.000,pieza,menu
+105,Caguama Victoria preparada,19,Caguama Victoria,1.000,pieza,menu
+105,Caguama Victoria preparada,27,Clamato,200.000,ml,menu
+105,Caguama Victoria preparada,39,Jugo de limón,30.000,ml,estimada
+105,Caguama Victoria preparada,66,Salsa inglesa,15.000,ml,estimada
+105,Caguama Victoria preparada,67,Salsa picante,10.000,ml,estimada
+106,Caguama León,16,Caguama León,1.000,pieza,menu
+107,Caguama León preparada,16,Caguama León,1.000,pieza,menu
+107,Caguama León preparada,27,Clamato,200.000,ml,menu
+107,Caguama León preparada,39,Jugo de limón,30.000,ml,estimada
+107,Caguama León preparada,66,Salsa inglesa,15.000,ml,estimada
+107,Caguama León preparada,67,Salsa picante,10.000,ml,estimada
+109,Caguama Modelo,17,Caguama Modelo,1.000,pieza,menu
+110,Caguama Modelo preparada,17,Caguama Modelo,1.000,pieza,menu
+110,Caguama Modelo preparada,27,Clamato,200.000,ml,menu
+110,Caguama Modelo preparada,39,Jugo de limón,30.000,ml,estimada
+110,Caguama Modelo preparada,66,Salsa inglesa,15.000,ml,estimada
+110,Caguama Modelo preparada,67,Salsa picante,10.000,ml,estimada
+111,Caguama Modelo Especial,18,Caguama Modelo Especial,1.000,pieza,menu
+112,Caguama Modelo Especial preparada,18,Caguama Modelo Especial,1.000,pieza,menu
+112,Caguama Modelo Especial preparada,27,Clamato,200.000,ml,menu
+112,Caguama Modelo Especial preparada,39,Jugo de limón,30.000,ml,estimada
+112,Caguama Modelo Especial preparada,66,Salsa inglesa,15.000,ml,estimada
+112,Caguama Modelo Especial preparada,67,Salsa picante,10.000,ml,estimada
+114,Copa de Bacardí Blanco,8,Bacardí Blanco,45.000,ml,estimada
+114,Copa de Bacardí Blanco,35,Hielo,100.000,g,estimada
+115,Copa de Brandy Torres 5,13,Brandy Torres 5,45.000,ml,estimada
+115,Copa de Brandy Torres 5,35,Hielo,100.000,g,estimada
+116,Copa de Whisky Label 5,35,Hielo,100.000,g,estimada
+116,Copa de Whisky Label 5,84,Whisky Label 5,45.000,ml,estimada
+117,Copa de Tequila José Cuervo,35,Hielo,100.000,g,estimada
+117,Copa de Tequila José Cuervo,75,Tequila José Cuervo,45.000,ml,estimada
+119,Copa de Torres 10,12,Brandy Torres 10,45.000,ml,estimada
+119,Copa de Torres 10,35,Hielo,100.000,g,estimada
+120,Copa de Tequila Tradicional,35,Hielo,100.000,g,estimada
+120,Copa de Tequila Tradicional,76,Tequila Tradicional,45.000,ml,estimada
+121,Copa de Whisky Johnnie Walker ER,35,Hielo,100.000,g,estimada
+121,Copa de Whisky Johnnie Walker ER,83,Whisky Johnnie Walker Etiqueta Roja,45.000,ml,estimada
+122,Vaso escarchado,24,Chile en polvo,5.000,g,estimada
+122,Vaso escarchado,63,Sal,5.000,g,estimada

@@ -6,7 +6,7 @@ En este documento se registra de dónde salen los datos con los que se puebla la
 
 **Proyecto:** Sistema de Comandas Profesional
 
-**Contenido:** Búsqueda de conjuntos de datos publicados, decisión tomada y el catálogo del salón de eventos.
+**Contenido:** Búsqueda de conjuntos de datos publicados, decisión tomada, catálogo del salón de eventos y recetas estimadas con FNDDS.
 
 **Fecha de consulta:** 3 de noviembre de 2026
 
@@ -73,8 +73,8 @@ Los datos se buscaron primero en el propio caso de estudio, como pide la prácti
 | Referencia (APA 7) | salón de eventos. (2026). *Menú de alimentos y bebidas* [Fotografías]. Fotografías tomadas el 3 de noviembre de 2026 |
 | Permiso | El menú no publica una licencia. **Falta confirmar con el salón** que se puede publicar en este repositorio |
 | Formato original | 2 fotografías JPG: [alimentos](<datos/salon/menu-alimentos.jpg>) y [bebidas](<datos/salon/menu-bebidas.jpg>), 354 KB en total |
-| Transcripción | [`datos/salon/productos.csv`](<datos/salon/productos.csv>): 122 renglones, de los que 28 son productos principales con variantes |
-| Campos | `id_producto`, `nombre`, `descripcion`, `categoria`, `precio`, `id_producto_principal`, `origen_precio` |
+| Transcripción | [`datos/salon/productos.csv`](<datos/salon/productos.csv>): 122 renglones: 102 se piden y 20 solo agrupan variantes |
+| Campos | `id_producto`, `nombre`, `descripcion`, `categoria`, `precio`, `id_producto_principal`, `origen_precio`, `se_pide` |
 
 Ningún renglón trae datos personales. La línea de contacto de las fotografías es la del negocio.
 
@@ -102,7 +102,7 @@ Ningún renglón trae datos personales. La línea de contacto de las fotografía
 | Los extras, como "Queso + $5", no son productos | Cada combinación es una variante con el precio ya sumado |
 | El menú no indica el precio de las medias órdenes, salvo la mitad de chicharrón (`$30` de `$50`) | Se estiman con esa misma proporción, 60 %, redondeada a múltiplos de 5, y se marcan como `estimado` |
 | No se recuerda el precio extra de la caguama preparada | Se estima en `$10`, igual que el Clamato de la michelada, y se marca como `estimado` |
-| Los productos principales, como "Tacos", no se piden como tales | Se conservan para agrupar variantes; la generación solo pide productos sin variantes |
+| Algunos productos principales, como "Tacos", no se piden como tales | Se conservan para agrupar variantes, con `se_pide = no`, y no llevan receta. Los que tienen una media orden o Clamato, como "Alambre", sí se piden |
 
 ### Variantes que no aparecen en el menú
 
@@ -114,3 +114,64 @@ Las conoce un integrante que trabajó en el salón:
 - Caguama preparada, con salsas y Clamato.
 
 El catálogo tiene menos de 200 renglones porque ese es el tamaño real del menú. Inflarlo con productos inventados haría falsa la fuente.
+
+## Recetas e ingredientes
+
+El salón no tiene recetas fijas, así que las 292 filas de [`datos/salon/recetas.csv`](<datos/salon/recetas.csv>) y los 85 renglones de [`datos/salon/ingredientes.csv`](<datos/salon/ingredientes.csv>) **son una estimación**, no las recetas reales del salón. La columna `origen` dice de dónde sale cada fila:
+
+| `origen` | Qué significa | Filas |
+| :-- | :-- | :--: |
+| `menu` | El menú o la variante nombra el ingrediente o da la cantidad (arrachera de 150 g, 3 piezas de hot dog, una botella de 355 ml). Si el menú solo nombra el ingrediente, la cantidad se estimó | 81 |
+| `fndds:<código>` | La cantidad sale de la composición y la porción de ese alimento en FNDDS | 41 |
+| `estimada` | Cantidad razonable para el platillo, sin una fuente publicada | 170 |
+
+Las medias órdenes llevan la mitad de cada ingrediente. Los 20 productos que solo agrupan variantes no tienen receta. Los nombres de los ingredientes están en español para que coincidan con el menú.
+
+### Conjunto de referencia: FNDDS
+
+| Concepto | Valor |
+| :-- | :-- |
+| Referencia (APA 7) | U.S. Department of Agriculture, Agricultural Research Service. (2024). *FoodData Central: Food and Nutrient Database for Dietary Studies 2021-2023* (versión de octubre de 2024) [Conjunto de datos]. Consultado el 3 de noviembre de 2026, de <https://fdc.nal.usda.gov/download-datasets/> |
+| Licencia | CC0 1.0: "USDA FoodData Central data are in the public domain and they are not copyrighted". No hace falta permiso, pero se pide citar la fuente |
+| Formato original | ZIP con 13 archivos CSV y 1 XLSX |
+| Tamaño | 3.3 MB comprimido y 25.5 MB sin comprimir: [`datos/fndds/`](<datos/fndds/>) |
+| Registros | 5,432 alimentos, 18,584 renglones de ingredientes y 22,046 porciones |
+
+### Correspondencia con el esquema
+
+El conjunto no se carga a la base. Solo se usan sus proporciones en las filas marcadas con `fndds:`.
+
+| Archivo y campo | Tabla y columna | Cómo se usa |
+| :-- | :-- | :-- |
+| `food.description` | Ninguna | Para encontrar el platillo equivalente |
+| `survey_fndds_food.food_code` | `recetas.csv`, columna `origen` | Es el código que se cita |
+| `input_food.sr_description` | `ingrediente.nombre` | Se traduce a mano al ingrediente equivalente |
+| `input_food.gram_weight` | `receta.cantidad_por_porcion` | Da el porcentaje de cada ingrediente en el platillo |
+| `food_portion.gram_weight` | `receta.cantidad_por_porcion` | Da el peso de una porción; se multiplica por el porcentaje |
+| `input_food.amount`, `unit`, `portion_code`, `portion_description` | Ninguna | No se usan: `gram_weight` ya trae la cantidad en gramos |
+| `input_food.retention_code`, `food_nutrient`, `nutrient` y demás archivos | Ninguna | No se usan: son datos de nutrición |
+
+| Platillo del menú | Código FNDDS | Alimento | Porción usada |
+| :-- | :-- | :-- | :-- |
+| Tacos de bistec y con queso | 58102010 | Taco, corn tortilla, beef, cheese | 105 g |
+| Tacos de longaniza | 58102030 | Taco, corn tortilla, pork, cheese | 105 g |
+| Sincronizadas | 58104710 | Quesadilla, cheese only | 120 g |
+| Chilaquiles con bistec | 58100360 | Chilaquiles | 170 g, sin el huevo |
+| Tenders de pollo | 24198731 | Chicken nuggets, from fast food | 140 g |
+| Nachos | 58104120 | Nachos, cheese only | 250 g |
+| Chicharrón preparado | 22709010 | Pork skin rinds | 2 tazas de 30 g |
+
+### Qué venía mal y qué se decidió
+
+| Problema | Decisión |
+| :-- | :-- |
+| Las cantidades vienen en varias unidades: 14,137 renglones en gramos, el resto en tazas, cucharadas, libras y otras, o sin unidad (1,125) | Se usa `gram_weight`, que no tiene vacíos ni valores menores o iguales a 0 |
+| La suma de gramos de una receta va de 3 a 7,729 g porque unas son por tanda | Se convierte a porcentaje y se multiplica por la porción |
+| 1,602 alimentos tienen un solo ingrediente, a veces otro alimento preparado | Solo se eligieron alimentos con su composición completa, salvo tenders y chicharrón, que se toman como ingrediente único |
+| 38 pares de alimento e ingrediente se repiten | No afecta: ninguno está entre los 7 códigos usados |
+| 1 alimento no tiene ingredientes | No se usa |
+| Los alimentos son de la dieta de Estados Unidos | Se usa la composición aproximada; `jitomate`, `queso` y demás son el equivalente local |
+
+### Lo que el menú no alcanza a cubrir
+
+`producto` (122) e `ingrediente` (85) tienen menos de 200 renglones porque son el tamaño real del menú y de lo que lleva. No se agregaron renglones para llegar a esa cifra.
