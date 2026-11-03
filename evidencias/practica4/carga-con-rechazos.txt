@@ -1,0 +1,75 @@
+==> Borrando la base comandas_carga_rechazos
+==> Creando la base comandas_carga_rechazos con el esquema y las migraciones
+==> Base comandas_carga_rechazos, usuario pg-practica1
+==> Leyendo los CSV con \copy
+==> Cargando las tablas
+
+==> Renglones por tabla
+       tabla        | leidos | insertados | ya_existian | rechazados 
+--------------------+--------+------------+-------------+------------
+ ingrediente        |    209 |        208 |           0 |          1
+ producto           |    218 |        214 |           0 |          4
+ receta             |    681 |        681 |           0 |          0
+ usuario            |    202 |        200 |           0 |          2
+ mesero             |    130 |        130 |           0 |          0
+ bar_cocina         |     45 |         45 |           0 |          0
+ cajero_admin       |     25 |         25 |           0 |          0
+ paquete            |     12 |         12 |           0 |          0
+ paquete_producto   |    100 |        100 |           0 |          0
+ evento             |    241 |        240 |           0 |          1
+ evento_organizador |    360 |        360 |           0 |          0
+ acuerdo            |    625 |        625 |           0 |          0
+ anticipo           |    343 |        343 |           0 |          0
+ mesa               |   3944 |       3943 |           0 |          1
+ cuenta             |   7515 |       7515 |           0 |          0
+ comanda            |  37529 |      37528 |           0 |          1
+ pago               |   9641 |       9640 |           0 |          1
+
+ leidos | insertados | ya_existian | rechazados 
+--------+------------+-------------+------------
+  61820 |      61809 |           0 |         11
+
+
+==> Rechazos por restricción
+    tabla    |          restriccion          | renglones 
+-------------+-------------------------------+-----------
+ comanda     | fk_comanda_bar_cocina         |         1
+ evento      | ck_evento_asistentes          |         1
+ ingrediente | ck_ingrediente_unidad         |         1
+ mesa        | fk_mesa_evento                |         1
+ pago        | disparador                    |         1
+ producto    | NOT NULL                      |         1
+ producto    | ck_producto_categoria         |         1
+ producto    | ck_producto_precio            |         1
+ producto    | uq_producto_nombre            |         1
+ usuario     | ck_usuario_rol                |         1
+ usuario     | tipo de dato (SQLSTATE 22008) |         1
+
+
+==> Primeros renglones rechazados
+    tabla    | renglon |      restriccion      |                                           mensaje                                           
+-------------+---------+-----------------------+---------------------------------------------------------------------------------------------
+ comanda     |   37529 | fk_comanda_bar_cocina | insert or update on table "comanda" violates foreign key constraint "fk_comanda_bar_cocina"
+ evento      |     241 | ck_evento_asistentes  | new row for relation "evento" violates check constraint "ck_evento_asistentes"
+ ingrediente |     209 | ck_ingrediente_unidad | new row for relation "ingrediente" violates check constraint "ck_ingrediente_unidad"
+ mesa        |    3944 | fk_mesa_evento        | insert or update on table "mesa" violates foreign key constraint "fk_mesa_evento"
+ pago        |    9641 | disparador            | el pago excede el saldo de la cuenta (0.00)
+ producto    |     215 | ck_producto_precio    | new row for relation "producto" violates check constraint "ck_producto_precio"
+ producto    |     216 | ck_producto_categoria | new row for relation "producto" violates check constraint "ck_producto_categoria"
+ producto    |     217 | uq_producto_nombre    | duplicate key value violates unique constraint "uq_producto_nombre"
+ producto    |     218 | NOT NULL              | null value in column "precio" of relation "producto" violates not-null constraint
+ usuario     |     201 | ck_usuario_rol        | new row for relation "usuario" violates check constraint "ck_usuario_rol"
+
+
+==> CARGA REVERTIDA: la base quedó como estaba
+==> Tiempo total: 155 s
+==> Ver los rechazos en practica4/poblar/rechazos.csv
+
+==> Renglones que quedaron en la base después de revertir
+ingrediente  0
+producto     0
+usuario      0
+evento       0
+mesa         0
+comanda      0
+pago         0
