@@ -36,7 +36,7 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
 ### Lista de requisitos
 
 - [ ] **Continuidad del entorno de trabajo** · @Actronix09
-  - [ ] Rama `practica4-5` creada desde `main`. **Falta:** no existe.
+  - [x] Rama `practica4-5` creada desde `main`, con una rama por sección (`docs/EntornoPractica4y5.md`).
   - [x] Gestor levantado y `esquema.sql` ejecutado sobre una base limpia: `entorno/compose.yml` y `make -C sql pruebas`.
   - [ ] Base de Sismos levantada desde el fork (Samy). **Hay:** `levantamiento.md` del fork, de prácticas anteriores. **Falta:** levantarla para esta práctica, con su evidencia.
   - [ ] Migraciones numeradas con `ALTER TABLE` (Samy). **Hay:** nada; hoy los cambios se hacen editando `sql/esquema.sql`. **Falta:** `practica4/migraciones/` y que `make cargar` y `make pruebas` las apliquen después del esquema.
