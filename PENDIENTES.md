@@ -2,7 +2,7 @@
 
 Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** y una casilla para marcarla cuando esté lista.
 
-**Actualizado:** 31 de octubre de 2026
+**Actualizado:** 2 de noviembre de 2026
 
 **Hacia dónde va:** el programa en C (memoria compartida, ncurses y archivos de texto) pasa a ser una aplicación con interfaz gráfica para Windows, Linux y Android, **toda en C++ con Qt**.
 
@@ -39,6 +39,9 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 | Reglas del cobro: pago ≤ saldo, propina ≤ monto, cierre sin adeudo ni comandas abiertas, no pedir en cuenta cerrada | `tg_pago_saldo`, `ck_pago_propina_limite`, `tg_cuenta_cierre`, `tg_comanda_cuenta_abierta` |
 | Precio cobrado siempre del catálogo, nombres únicos sin importar mayúsculas, sin comandas en eventos finalizados y estación por categoría | `fijar_precio_cobrado()`, índices `ux_*_minusculas`, `tg_comanda_evento`, `tg_comanda_estacion` |
 | Prototipo de la interfaz en QML (login, mesero, cocina/bar, admin e ingredientes) | Repo `Sistema-de-Comandas`, `prototipos/qml/` |
+| Cliente en C++/Qt con Material, las correcciones C1–C8 y C11 del lado del cliente, la pantalla Caja y pantallas adaptables, todo sobre la `Api` simulada | Repo `Sistema-de-Comandas`, `cliente/` (rama `Interfaz-grafica-profesional-V1`) |
+| Servidor en C++/Qt conectado a la base: login, logout y lista de productos. Usa `validar_password` y `protocolo.h` del sistema en C | Repo `Sistema-de-Comandas`, `servidor/` |
+| Base, servidor, cliente y pruebas de Android, cada uno en su contenedor de Podman | Repo `Sistema-de-Comandas`, `compose.yaml` y `android/` |
 
 ## Cómo trabajamos
 
@@ -53,9 +56,9 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 
 | Quién | Qué | Partes |
 | :-- | :-- | :-- |
-| Samy | Terminar las pruebas de la base: cada regla con su disparador, sus rechazos, su caso válido y su documentación | Correcciones de la revisión: 2.4, 2.6–2.8, 3.9–3.11; y 3.8 |
+| Samy | Terminar las pruebas de la base: cada regla con su disparador, sus rechazos, su caso válido y su documentación | Correcciones de la revisión: 2.4, 2.6–2.8, 3.9–3.11; y 3.8. Para los perfiles y las cancelaciones del cliente: 3.12 y 3.13 |
 | @Actronix09 | La interfaz y el sistema en QML: el proyecto del cliente, la `Api` simulada y las pantallas | 4.1 y Fase 7 completa |
-| Ambos | Lo que afecta a la base y a las pantallas a la vez | Decisiones 3.3, 3.5, 3.6 y 3.7; contrato 4.4–4.7 |
+| Ambos | Lo que afecta a la base y a las pantallas a la vez | Decisiones 3.3, 3.5, 3.6, 3.7 y 3.14; contrato 4.4–4.7 |
 
 Las fases 5, 6, 8 y 9 se reparten cuando terminen las anteriores.
 
@@ -120,6 +123,9 @@ Decisiones que ya están tomadas:
 | 3.9 | - [ ] Eventos cancelados | `tg_comanda_evento` solo bloquea `finalizado`; un evento `cancelado` sigue aceptando comandas. Cambiar a `IN ('finalizado', 'cancelado')`. *(Menor)* También se pueden abrir cuentas nuevas en un evento finalizado: decidir si se bloquea | Rechazo: comanda en un evento cancelado |  Samy |
 | 3.10 | - [ ] Casos válidos que faltan | Cada regla lleva su caso válido. Faltan: **estación** (cocina prepara el pastel de dulcería y bar prepara el refresco; es el más importante, porque fija la decisión de 3.3), evento (comanda en un evento `en_curso`) y mayúsculas (un nombre distinto sí entra) | Un caso válido por regla |  Samy |
 | 3.11 | - [ ] Limpieza del esquema | Los mensajes de error van sin acentos ("el evento % esta finalizado", "la categoria %") y los demás del esquema sí los llevan. Sobran 4 líneas en blanco después de `v_comanda` | `make -C sql pruebas` sigue en verde |  Samy |
+| 3.12 | - [ ] Perfiles en `datos-ejemplo.sql` | El cliente ya separa los niveles de 4.5: `mrivas` es `cajero` y hay una administradora nueva, `dcampos` (id 6, "Daniela Campos Vega", nacida el 1982-03-15, caja 2). En `datos-ejemplo.sql`, `mrivas` sigue como `administrador` y no existe `dcampos`. La comanda cancelada de ejemplo la cancela el usuario 5; en el cliente ya la cancela el 6. Los hashes de ejemplo (`$2b$12$hashDeEjemplo…`) tampoco sirven para entrar, porque el servidor usa Argon2id: mientras tanto, `db/init/03-contrasenas-desarrollo.sql` del repo `Sistema-de-Comandas` pone a todos la contraseña de desarrollo `Demo_123.` | Los datos coinciden con el cliente y `make -C sql pruebas` sigue en verde |  Samy |
+| 3.13 | - [ ] Reglas para cancelar comandas | La `Api` simulada las revisa, pero la base no: (1) cancelar una comanda de una cuenta cerrada; (2) cancelar de más en una cuenta con pagos: el `saldo` queda negativo y `tg_cuenta_cierre` ya no deja cerrarla. Mensajes del cliente: "La cuenta está cerrada; sus comandas ya no se pueden cancelar" y "No se puede cancelar: el consumo que queda sería menor que lo ya pagado (35.00)". *(Revisar)* `tg_comanda_estacion` también corre al cambiar `estado`: si a un cocinero le cambian la estación, ya no se pueden cancelar ni avanzar las comandas que preparó, y el cliente permite ese cambio | Un rechazo por regla y un caso válido: cancelar sin pasarse del saldo |  Samy |
+| 3.14 | - [ ] **Decidir:** estado de una cuenta cancelada | `ck_cuenta_estado` solo admite `abierta` y `cerrada`. Hoy el cliente cancela todas las comandas, cierra la cuenta y la muestra como "Cancelada" si quedó sin pagos y sin comandas activas, así que una cuenta vacía cerrada normalmente también sale como cancelada. La otra opción es agregar el estado `cancelada`: hay que ampliar `cuenta.estado`, que es `VARCHAR(8)`, y actualizar `tg_cuenta_cierre` y la documentación. En ambos casos, una cuenta con pagos no se cancela mientras no se puedan registrar devoluciones | Decisión escrita; si se agrega el estado, su regla y sus casos |  Ambos deciden; la regla, Samy |
 
 ---
 
@@ -178,11 +184,11 @@ Decisiones que ya están tomadas:
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 5.1 | - [ ] Instalar Podman | `sudo pacman -S podman podman-compose`. Puede convivir con Docker | `podman --version` | |
-| 5.2 | - [ ] `compose.yaml` con el servicio `db` | Imagen `docker.io/library/postgres:16.4-alpine`. Proyecto `comandas`, volumen `comandas-pgdata` y puerto `5433:5432`, para no chocar con `practica1-postgres`. `healthcheck` con `pg_isready` | `podman compose up -d` y la base responde en el 5433 | |
-| 5.3 | - [ ] Carga inicial | `db/init/` con `esquema.sql` y `datos-ejemplo.sql`, montada en `/docker-entrypoint-initdb.d`. Solo corre con el volumen vacío | La base arranca con datos | |
-| 5.4 | - [ ] Credenciales | `.env` fuera de git y `.env.example` de muestra | `.env` en `.gitignore` | |
-| 5.5 | - [ ] Pruebas con Podman | `make -C sql pruebas MOTOR=podman` | Todas pasan | |
+| 5.1 | - [x] Instalar Podman | `sudo pacman -S podman`; convive con Docker. `podman compose` usa el `docker-compose` que ya estaba instalado y necesita `systemctl --user enable --now podman.socket` | `podman --version` ✓ (6.1.4) |  @Actronix09 |
+| 5.2 | - [x] `compose.yaml` con el servicio `db` | En la raíz del repo `Sistema-de-Comandas`. Imagen `docker.io/library/postgres:16.4-alpine`. Proyecto `comandas`, volumen `comandas-pgdata` y puerto `5433:5432`, para no chocar con `practica1-postgres`. `healthcheck` con `pg_isready` | `podman compose up -d` y la base responde en el 5433 ✓ (`618acc6`) |  @Actronix09 |
+| 5.3 | - [x] Carga inicial | `esquema.sql` y `datos-ejemplo.sql` se montan desde la carpeta `sql/` de este repo (`COMANDAS_SQL` en `.env`) en `/docker-entrypoint-initdb.d`, para no tener dos copias. Solo corre con el volumen vacío | La base arranca con datos ✓ (`618acc6`) |  @Actronix09 |
+| 5.4 | - [x] Credenciales | `.env` fuera de git y `.env.example` de muestra | `.env` en `.gitignore` ✓ (`618acc6`) |  @Actronix09 |
+| 5.5 | - [ ] Pruebas con Podman | `make -C sql pruebas MOTOR=podman`. Sin correr: el Makefile usa `entorno/compose.yml` y su contenedor `practica1-postgres`, que hoy corre en Docker con el mismo nombre y puerto | Todas pasan | |
 | 5.6 | - [ ] Arranque automático | Quadlet (systemd) en la PC de caja con Linux, o Podman Desktop en Windows | La base arranca al prender la PC | |
 
 Ojo: `podman compose down -v` borra el volumen con todos los datos.
@@ -196,16 +202,17 @@ Ojo: `podman compose down -v` borra el volumen con todos los datos.
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 6.1 | - [ ] Proyecto | `servidor/` con CMake y Qt 6 (`Core`, `WebSockets`, `Sql`). Los archivos `.c` que se conserven se compilan dentro del proyecto (con `extern "C"` en sus `.h`) | Compila y arranca | |
-| 6.2 | - [ ] Conexión con la base | `QSqlDatabase` con el driver `QPSQL` hacia el contenedor (puerto 5433). Datos de conexión desde el `.env` o un archivo de configuración, no en el código | El servidor consulta `v_cuenta` | |
-| 6.3 | - [ ] `QWebSocketServer` | Escucha en la red local (`QHostAddress::Any`). Por cada mensaje: leer el JSON, revisar el rol de la conexión y mandarlo a la función de su `op`. Es el `switch` de `Servidor.c`, pero leyendo JSON en lugar de la memoria compartida | Un cliente de prueba hace login y lista productos | |
+| 6.1 | - [x] Proyecto | `servidor/` con CMake y Qt 6 (`Core`, `WebSockets`, `Sql`) y su contenedor. Compila `validaciones.c` y usa `protocolo.h` del sistema en C | Compila y arranca ✓ (`e230562`) |  @Actronix09 |
+| 6.2 | - [x] Conexión con la base | `QSqlDatabase` con el driver `QPSQL`. Los datos de conexión van en variables de entorno, no en el código. Al arrancar consulta `v_cuenta`, y si la base se reinicia se reconecta. Fuera del contenedor, este equipo aún no carga el driver | El servidor consulta `v_cuenta` ✓ (`e230562`) |  @Actronix09 |
+| 6.3 | - [x] `QWebSocketServer` | Escucha en la red local (`QHostAddress::Any`), puerto 9000. Por cada mensaje: leer el JSON, revisar la sesión de la conexión y mandarlo a la función de su `op`. Es el `switch` de `Servidor.c`, pero leyendo JSON en lugar de la memoria compartida. Por ahora: `OP_LOGIN`, `OP_LOGOUT` y `OP_LISTAR_PRODUCTOS`; las demás responden `NO_IMPLEMENTADA` | Un cliente de prueba hace login y lista productos ✓ (`e230562`) |  @Actronix09 |
 | 6.4 | - [ ] Lógica en C → PostgreSQL | Pasar cada módulo según la tabla de abajo: lo que leía o escribía archivos ahora hace consultas | Cada operación del contrato funciona | |
-| 6.5 | - [ ] Sesión y permisos | Usuario y rol guardados por conexión después de `OP_LOGIN`, **revisados en cada operación**. Contraseñas con Argon2id o bcrypt (por ejemplo con libsodium) en lugar de SHA-256 sin sal; nunca se devuelven al cliente | Un mesero no puede crear usuarios | |
+| 6.5 | - [ ] Sesión y permisos | Usuario y rol guardados por conexión después de `OP_LOGIN`, **revisados en cada operación**. Contraseñas con Argon2id o bcrypt (por ejemplo con libsodium) en lugar de SHA-256 sin sal; nunca se devuelven al cliente. Ya está la sesión por conexión y Argon2id con libsodium (`e230562`); falta revisar el rol en cada operación (4.5) | Un mesero no puede crear usuarios | |
 | 6.6 | - [ ] Transacciones y errores | `OP_CREAR_PEDIDO` dentro de `transaction()` / `commit()`, con `rollback()` si falla una comanda. El `SQLSTATE` del error de la base (`QSqlError::nativeErrorCode()`) se traduce a los códigos de la Fase 4 | Pedido con un producto sin stock: no se guarda ninguna comanda y llega `SIN_STOCK` | |
 | 6.7 | - [ ] Dinero | Nada de `float`: hoy `productos_agregar` recibe el precio como `float`. Usar texto o centavos enteros (`qint64`) entre la base y el JSON | Precios exactos en todas las respuestas | |
 | 6.8 | - [ ] Avisos | Al cambiar una comanda, mandar `COMANDA_CAMBIO` a cocina/bar y caja, y `COMANDA_LISTA` solo a la conexión del mesero que la levantó (C11) | El mesero recibe el aviso en el celular | |
 | 6.9 | - [ ] Pruebas | Qt Test contra la base de prueba (`comandas_pruebas`) | Todas pasan | |
 | 6.10 | - [ ] Arranque en la PC de caja | Que el servidor arranque solo, después de la base: un servicio de systemd en Linux, o una tarea al iniciar sesión en Windows | Al prender la PC, los celulares se pueden conectar | |
+| 6.11 | - [ ] Cifrar la conexión | Hoy el servidor usa `ws://`, así que las contraseñas viajan sin cifrar por la WiFi. Pasar a `wss://` con un certificado que acepten los clientes | Un cliente se conecta con `wss://` y `ws://` queda rechazado | |
 
 Qué pasa con cada parte del sistema en C:
 
@@ -213,7 +220,7 @@ Qué pasa con cada parte del sistema en C:
 | :-- | :-- | :-- |
 | `Servidor.c` | Memoria compartida, semáforos, hilos y un `switch` por `OP_*` | **Se conserva el `switch`** como despachador. La memoria compartida y los semáforos se reemplazan por `QWebSocketServer` |
 | `protocolo.h` | Los `OP_*` y los `struct` que viajan por memoria compartida | **Se conservan los nombres `OP_*`**. Los `struct` se reemplazan por JSON |
-| `usuario.c`, `usuarios.c` | Usuarios en archivo; `validar_password`; SHA-256 | **Se conserva `validar_password`**. Se quitan `validar_email` y `validar_telefono` (ya no hay correo ni teléfono). Cargar y guardar → SQL. SHA-256 → Argon2id o bcrypt |
+| `usuario.c`, `usuarios.c` | Usuarios en archivo; `validar_password`; SHA-256 | **Se conserva `validar_password`**, ya en `validaciones.c` (`1a89621`): la usan el sistema en C, el cliente (`1bf7aee`) y el servidor (`e230562`). Se quitan `validar_email` y `validar_telefono` (ya no hay correo ni teléfono). Cargar y guardar → SQL. SHA-256 → Argon2id o bcrypt |
 | `recuperar_password.c` | Verifica el usuario y aplica la contraseña nueva | Se conserva la lógica, pero el cambio lo autoriza un administrador |
 | `productos.c` | Catálogo en archivo; verifica disponibilidad | Consultas a `producto` y `receta`. La disponibilidad sale de `v_producto` |
 | `inventario.c` | Stock en archivo; `inventario_actualizar_stock` | Consultas a `ingrediente`. **Se quita el descuento de stock**: lo hace el disparador de `comanda` |
@@ -232,32 +239,34 @@ Errores del sistema en C que **no** se deben repetir:
 ## Fase 7: Cliente real (Qt Quick)
 
 **Objetivo:** la aplicación que usan meseros, cocina/bar y caja.
-**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. No hay que esperar a las fases 2 y 3: mientras no esté el servidor, se trabaja con la `Api` simulada del prototipo. Las reglas del cobro (2.1–2.3) ya están en la base: sus mensajes de error se pueden copiar a la `Api` simulada para la pantalla Caja (7.4).
+**Depende de:** las decisiones 4.1 y 4.2 y el contrato 4.4. No hay que esperar a las fases 2 y 3: mientras no esté el servidor, se trabaja con la `Api` simulada (`cliente/Comandas/Api.qml`). La Caja ya usa las reglas del cobro de la base (2.1–2.3) con sus mismos mensajes.
 
 | # | Parte | Qué hay que concretar | Hecho cuando | Responsable |
 | :--: | :-- | :-- | :-- | :-- |
-| 7.1 | - [ ] Proyecto `cliente/` | CMake + Qt 6 en C++ (`main.cpp` carga el QML; el prototipo ya trae uno en `prototipos/qml/anfitrion/cpp/`). Pasar las pantallas del prototipo que se conserven; el prototipo no se modifica | Arranca en escritorio |  @Actronix09 |
-| 7.2 | - [ ] `Api` real | Una clase C++ con `QWebSocket`, registrada como singleton de QML, con la misma interfaz que `ApiSimulada.qml`. Arma los mensajes con `id` y `op`, empareja cada respuesta con su petición y convierte los avisos en señales para las pantallas. La dirección del servidor se guarda con `QSettings` | Las pantallas funcionan contra el servidor sin cambios |  @Actronix09 |
-| 7.3 | - [ ] Correcciones del prototipo | Ver la tabla C1–C11 abajo | Cada corrección revisada |  @Actronix09 |
-| 7.4 | - [ ] Pantalla **Caja** | Cuentas abiertas → detalle → pagar (forma de pago, monto y propina) → saldo → cerrar cuenta | Cobro completo de una cuenta |  @Actronix09 |
-| 7.5 | - [ ] Pantallas adaptables | `readonly property bool compacta: width < 700`. Probar con la ventana en 400×800 | Se usa bien en tamaño de teléfono |  @Actronix09 |
-| 7.6 | - [ ] Pantallas pendientes | En orden: 1. Ver logs · 2. Recuperar contraseña · 3. Crear usuario · 4. Admin › Usuarios · 5. Admin › Productos con receta | Las cinco funcionan |  @Actronix09 |
-| 7.7 | - [ ] Android | El botón Atrás regresa de pantalla (`pila.pop()`). Al bloquear el teléfono se cae el WebSocket: reconectar y repetir el login al volver (`Qt.application.state`). Hace falta Qt para Android, el SDK, el NDK y el JDK (los paquetes de Arch no compilan para Android) | La app corre en un teléfono conectado al servidor de la PC |  @Actronix09 |
+| 7.1 | - [x] Proyecto `cliente/` | CMake + Qt 6.8 en C++ con `qt_add_qml_module`; el estilo Material va en `qtquickcontrols2.conf` dentro del ejecutable | Arranca en escritorio ✓ (`2134f6e`) |  @Actronix09 |
+| 7.2 | - [ ] `Api` real | Una clase C++ con `QWebSocket`, registrada como singleton de QML, con la misma interfaz que `Api.qml`. Arma los mensajes con `id` y `op`, empareja cada respuesta con su petición y convierte los avisos en señales para las pantallas. La dirección del servidor se guarda con `QSettings` | Las pantallas funcionan contra el servidor sin cambios |  @Actronix09 |
+| 7.3 | - [x] Correcciones del prototipo | Ver la tabla C1–C11 abajo. Hechas las del cliente; C9 y C10 dependen de otras partes | Cada corrección revisada ✓ |  @Actronix09 |
+| 7.4 | - [x] Pantalla **Caja** | Cuentas abiertas → detalle → pagar (forma de pago, monto y propina) → saldo → cerrar cuenta. El cajero entra directo a ella; el administrador la abre desde su menú, junto con las demás secciones. Falta conectarla al servidor (7.2) | Cobro completo de una cuenta ✓ (`7c2a24d`) |  @Actronix09 |
+| 7.5 | - [x] Pantallas adaptables | Cada pantalla tiene su `compacta` (700–760 px). Probado a 1280, 943 y 400 px. En teléfono, la orden actual del mesero es un botón desplegable (`51866e4`) y el teclado ya no se abre solo en el login (`ee96323`). *(Falta)* Al tocar un campo del login, el teclado tapa el acceso rápido y no se puede desplazar | Se usa bien en tamaño de teléfono ✓ (`7ab1a8e`) |  @Actronix09 |
+| 7.6 | - [ ] Pantallas pendientes | En orden: 1. Ver logs · 2. Recuperar contraseña · 3. Crear usuario · 4. Admin › Usuarios ✓ (`5c16b68`, sobre la `Api` simulada) · 5. Admin › Productos con receta | Las cinco funcionan |  @Actronix09 |
+| 7.7 | - [ ] Android | Compila para ARM64 en el contenedor `android/` (`47ca72b`, `b964a9a`) y el botón Atrás regresa de pantalla (`ee96323`). En una PC x86 el emulador no arranca imágenes ARM64, así que la app corre como ARM64 con la traducción de `google_apis`; el APK ya se probó en un teléfono. Falta: al bloquear el teléfono se cae el WebSocket, hay que reconectar y repetir el login al volver (`Qt.application.state`), junto con 7.2 | La app corre en un teléfono conectado al servidor de la PC |  @Actronix09 |
 | 7.8 | - [ ] **Decidir:** teclado en pantalla | En escritorio táctil sin teclado. Qt Virtual Keyboard es GPLv3 o comercial, no LGPL; la otra opción es un teclado propio en QML | Decisión tomada |  @Actronix09 |
 
-| # | Corrección del prototipo |
-| :--: | :-- |
-| C1 | Las órdenes del mesero en tarjetas, no en lista |
-| C2 | Lo que está listo para entregar va primero |
-| C3 | Tres formas de agrupar: por tiempo, por mesa y cuenta, y por mesero (en mesero, cocina/bar y caja) |
-| C4 | Cobro del cajero/administrador (es la pantalla Caja, 7.4) |
-| C5 | Primero la mesa, luego la cuenta y al final los productos |
-| C6 | La cuenta se muestra con su nombre y el folio al final: "Novios · 17-1-1" |
-| C7 | El texto que se sale de algunas tarjetas de producto |
-| C8 | Sin atajos de teclado: interfaz táctil o con mouse, botones de 48 px como mínimo |
-| C9 | Contenedores con Podman (Fase 5) |
-| C10 | La interfaz también en Android (7.7) |
-| C11 | Avisar al mesero cuando su orden esté lista (6.8) |
+Las correcciones salen de las notas que tomamos al revisar el prototipo (el antiguo `Notas.md`, ya integrado aquí y en la nota de Obsidian "Objetivos del Sistema de Comandas"). Las del cliente se aplicaron el 1 de noviembre, una por commit, en la rama `Interfaz-grafica-profesional-V1` de `Sistema-de-Comandas`.
+
+| # | Corrección del prototipo | Qué se pidió en las notas | Dónde | Estado |
+| :--: | :-- | :-- | :-- | :-- |
+| C1 | Pedidos activos en tarjetas | Los pedidos activos del mesero se ven en forma de tarjeta, no de lista | `VistaMisOrdenes.qml` | ✓ `efcbad4` |
+| C2 | Lo listo va primero | Si una orden ya está lista para entregar, se muestra antes que las que todavía no lo están | `VistaMisOrdenes.qml` | ✓ `c316759`, resaltadas con "Para entregar" |
+| C3 | Tres formas de organizar | Por tiempo, por cuenta y mesa, y por mesero. En mesero, cocina/bar y caja | `VistaMisOrdenes.qml`, `PantallaCocina.qml`, Caja | ✓ `7d1ac3a`; en Caja agrupa por mesa o mesero |
+| C4 | Sistema de cobro | El cobro lo maneja el cajero/administrador | Pantalla Caja (7.4) | ✓ `7c2a24d` |
+| C5 | **Mesa → cuenta → productos** | Al tomar la orden se elige primero la mesa, después la cuenta y al final los productos, no al revés | `VistaTomarOrden.qml`, `DialogoConfirmarOrden.qml` | ✓ `d81be05`; ahora el paso nuevo es `ElegirCuenta.qml` |
+| C6 | Nombre de la cuenta | La cuenta lleva un nombre que guíe al mesero; el folio se conserva, pero al final: "Novios · 17-1-1" | Todas las tarjetas que muestran la cuenta | ✓ `f1e22ee`; las cuentas nuevas piden nombre |
+| C7 | Texto que se sale de las cajas | Corregir el texto que se sale de algunas tarjetas de producto. Revisado el 1 de noviembre: con la ventana angosta, el panel "Orden actual" (370 px fijos) y el buscador (280 px) se cortan; la cuadrícula no baja a 1 columna; en cocina se corta "Cerrar sesión" y los nombres se recortan con "…" ("Pastel de choc…"). Va junto con 7.5 | `TarjetaProducto.qml`, `VistaTomarOrden.qml`, `TarjetaRonda.qml`, `PantallaCocina.qml` | ✓ `7ab1a8e` |
+| C8 | Sin teclado | Quitar los números y las acciones con el teclado: la interfaz es táctil o con mouse. Botones de 48 px como mínimo | Mesero, cocina/bar y admin | ✓ `df9da85` |
+| C9 | Contenedores | El sistema en contenedores; mejor Podman que Docker | Fase 5 | Pendiente (Fase 5) |
+| C10 | Android | La interfaz también funciona en Android | 7.7 | APK para ARM64 ya probado en un teléfono (`b964a9a`); falta conectarlo al servidor (7.7) |
+| C11 | Aviso al mesero | Notificar al mesero cuando su orden está lista | 6.8 (servidor) y el cliente | ✓ en el cliente (`217c35a`, con una cocina simulada); falta el aviso real del servidor (6.8) y la notificación de Android |
 
 ---
 
@@ -285,7 +294,7 @@ Errores del sistema en C que **no** se deben repetir:
 | :--: | :-- | :-- | :-- | :-- |
 | 9.1 | - [ ] Eventos y mesas | Alta de eventos y de sus mesas con su mesero | | |
 | 9.2 | - [ ] Cuentas y folios | Consulta de cuentas por evento y por mesa | | |
-| 9.3 | - [ ] Cancelación de comandas | Pantalla del administrador | | |
+| 9.3 | - [x] Cancelación de comandas | Pantalla del administrador, dentro de la Caja; también cancela cuentas. Está sobre la `Api` simulada: falta conectarla al servidor (7.2) y las reglas de la base (3.13) | ✓ (`9df24aa`) |  @Actronix09 |
 | 9.4 | - [ ] Anticipos, paquetes y acuerdos | Registro y consulta | | |
 | 9.5 | - [ ] Reportes | Ventas por evento, y consumo real contra lo acordado en el paquete | | |
 
