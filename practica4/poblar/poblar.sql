@@ -6,9 +6,9 @@
 --  /tmp/poblar/datos dentro del contenedor.
 --
 --  Todo va en una transacción. Los CSV entran con \copy a tablas temporales
---  y de ahí pasan a las tablas reales en una sola sentencia por tabla. Si
---  esa sentencia falla, se repite renglón por renglón solo para anotar
---  cuáles rechazó el gestor y por qué. Con un solo rechazo, se revierte todo.
+--  y de ahí pasan a las tablas reales en tandas de 1000 renglones. Si una
+--  tanda falla, se repite renglón por renglón solo para anotar cuáles rechazó
+--  el gestor y por qué. Con un solo rechazo, se revierte todo.
 -- =====================================================================
 
 \set ON_ERROR_STOP on
@@ -44,7 +44,7 @@ CREATE TEMP TABLE resumen (
 CREATE FUNCTION pg_temp.preparar(p_tabla TEXT, p_columnas TEXT) RETURNS void
 LANGUAGE plpgsql AS $$
 BEGIN
-    EXECUTE format('CREATE TEMP TABLE %I (renglon BIGSERIAL, %s)', 'st_' || p_tabla,
+    EXECUTE format('CREATE TEMP TABLE %I (renglon BIGSERIAL PRIMARY KEY, %s)', 'st_' || p_tabla,
                    (SELECT string_agg(format('%I TEXT', c), ', ') FROM unnest(string_to_array(p_columnas, ',')) AS c));
 END;
 $$;
@@ -62,7 +62,7 @@ $$;
 CREATE FUNCTION pg_temp.anotar(p_tabla TEXT, p_renglon BIGINT, p_restriccion TEXT, p_estado TEXT, p_mensaje TEXT) RETURNS void
 LANGUAGE sql AS $$
     INSERT INTO rechazos VALUES (p_tabla, p_renglon,
-        COALESCE(NULLIF(p_restriccion, ''), CASE WHEN p_estado = '23514' THEN 'disparador' ELSE 'SQLSTATE ' || p_estado END),
+        COALESCE(NULLIF(p_restriccion, ''), CASE p_estado WHEN '23514' THEN 'disparador' WHEN '23502' THEN 'NOT NULL' ELSE 'tipo de dato (SQLSTATE ' || p_estado || ')' END),
         p_mensaje);
 $$;
 
@@ -78,6 +78,8 @@ DECLARE
     v_valores      TEXT;
     v_sentencia    TEXT;
     v_renglon      BIGINT;
+    v_desde        BIGINT;
+    v_tanda        CONSTANT BIGINT := 1000;
     v_leidos       BIGINT;
     v_insertados   BIGINT := 0;
     v_rechazados   BIGINT := 0;
@@ -102,22 +104,26 @@ BEGIN
                           p_tabla, v_columnas, v_valores, v_temporal, p_tabla, pg_temp.misma_clave(p_tabla));
     EXECUTE format('SELECT count(*) FROM %I', v_temporal) INTO v_leidos;
 
-    BEGIN
-        EXECUTE v_sentencia || ' ORDER BY t.renglon';
-        GET DIAGNOSTICS v_insertados = ROW_COUNT;
-    EXCEPTION WHEN OTHERS THEN
-        FOR v_renglon IN EXECUTE format('SELECT renglon FROM %I ORDER BY renglon', v_temporal) LOOP
-            BEGIN
-                EXECUTE v_sentencia || ' AND t.renglon = $1' USING v_renglon;
-                GET DIAGNOSTICS v_cuantos = ROW_COUNT;
-                v_insertados := v_insertados + v_cuantos;
-            EXCEPTION WHEN OTHERS THEN
-                GET STACKED DIAGNOSTICS v_restriccion = CONSTRAINT_NAME, v_estado = RETURNED_SQLSTATE, v_mensaje = MESSAGE_TEXT;
-                PERFORM pg_temp.anotar(p_tabla, v_renglon, v_restriccion, v_estado, v_mensaje);
-                v_rechazados := v_rechazados + 1;
-            END;
-        END LOOP;
-    END;
+    -- `renglon` no tiene huecos porque sale de la secuencia de la temporal.
+    FOR v_desde IN 1..v_leidos BY v_tanda LOOP
+        BEGIN
+            EXECUTE v_sentencia || ' AND t.renglon BETWEEN $1 AND $2 ORDER BY t.renglon' USING v_desde, v_desde + v_tanda - 1;
+            GET DIAGNOSTICS v_cuantos = ROW_COUNT;
+            v_insertados := v_insertados + v_cuantos;
+        EXCEPTION WHEN OTHERS THEN
+            FOR v_renglon IN v_desde..LEAST(v_desde + v_tanda - 1, v_leidos) LOOP
+                BEGIN
+                    EXECUTE v_sentencia || ' AND t.renglon = $1' USING v_renglon;
+                    GET DIAGNOSTICS v_cuantos = ROW_COUNT;
+                    v_insertados := v_insertados + v_cuantos;
+                EXCEPTION WHEN OTHERS THEN
+                    GET STACKED DIAGNOSTICS v_restriccion = CONSTRAINT_NAME, v_estado = RETURNED_SQLSTATE, v_mensaje = MESSAGE_TEXT;
+                    PERFORM pg_temp.anotar(p_tabla, v_renglon, v_restriccion, v_estado, v_mensaje);
+                    v_rechazados := v_rechazados + 1;
+                END;
+            END LOOP;
+        END;
+    END LOOP;
 
     INSERT INTO resumen (tabla, leidos, insertados, ya_existian, rechazados)
     VALUES (p_tabla, v_leidos, v_insertados, v_leidos - v_insertados - v_rechazados, v_rechazados);
