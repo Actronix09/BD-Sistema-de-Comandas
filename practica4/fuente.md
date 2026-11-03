@@ -62,7 +62,7 @@ Los datos se buscaron primero en el propio caso de estudio, como pide la prácti
 
 | Tablas | De dónde salen | Tipo |
 | :-- | :-- | :-- |
-| `producto` | Menú del salón de eventos y variantes conocidas por un integrante que trabajó ahí | Real, con 10 precios estimados |
+| `producto` | Menú del salón de eventos y variantes conocidas por un integrante que trabajó ahí | Real |
 | `ingrediente`, `receta` | Estimadas a partir del menú, con los gramos de FNDDS donde el platillo coincide | Estimadas |
 | `usuario` y sus subtipos, `evento`, `mesa`, `cuenta`, `comanda`, `pago`, `anticipo`, `paquete` y el resto | Script de generación, con semilla fija | **Sintéticas** |
 
@@ -86,7 +86,7 @@ Ningún renglón trae datos personales. La línea de contacto de las fotografía
 | Texto entre paréntesis | `producto.descripcion` | Solo si describe el producto y no lista sus variantes |
 | Sección *Alimentos* | `producto.categoria = 'alimentos'` | Botanas de la sección pasan a `dulceria`: papas, churritos, palomitas y fritura |
 | Sección *Bebidas* | `producto.categoria = 'bebidas'` | Se transcribe |
-| Precio | `producto.precio` | Se transcribe; `origen_precio` indica si viene del menú o se estimó |
+| Precio | `producto.precio` | Se transcribe; `origen_precio` indica si viene del menú o lo confirmó un integrante |
 | Agrupación por sabor, marca o tamaño | `producto.id_producto_principal` | Apunta al producto principal, con un solo nivel, como exige `tg_producto_variante` |
 | "Aceptamos todas las tarjetas" | Ninguna | No se usa: `pago.forma_pago` ya admite `tarjeta` |
 | "Recargas telefónicas $2" | Ninguna | No se usa: no es un producto de la carta |
@@ -98,10 +98,9 @@ Ningún renglón trae datos personales. La línea de contacto de las fotografía
 | :-- | :-- |
 | Las fotografías no son datos estructurados | Se transcribieron a mano a un CSV |
 | Un mismo renglón agrupa varios productos, como "Tacos (Bistec, Longaniza, Campechanos)" | Un producto principal y una variante por cada opción |
-| El precio de `$35` queda entre "Jugos del Valle" y "Refrescos de 600 ml" | Se toma como el precio de los dos renglones |
+| El precio de `$35` queda entre "Jugos del Valle" y "Refrescos de 600 ml" | Son productos distintos con el mismo precio, según confirmó un integrante que trabajó en el salón |
 | Los extras, como "Queso + $5", no son productos | Cada combinación es una variante con el precio ya sumado |
-| El menú no indica el precio de las medias órdenes, salvo la mitad de chicharrón (`$30` de `$50`) | Se estiman con esa misma proporción, 60 %, redondeada a múltiplos de 5, y se marcan como `estimado` |
-| No se recuerda el precio extra de la caguama preparada | Se estima en `$10`, igual que el Clamato de la michelada, y se marca como `estimado` |
+| El menú no indica el precio de las medias órdenes, salvo la mitad de chicharrón, ni el de la caguama preparada | Los confirmó un integrante que trabajó en el salón; `origen_precio` vale `integrante` |
 | Algunos productos principales, como "Tacos", no se piden como tales | Se conservan para agrupar variantes, con `se_pide = no`, y no llevan receta. Los que tienen una media orden o Clamato, como "Alambre", sí se piden |
 
 ### Variantes que no aparecen en el menú

@@ -13,7 +13,7 @@ id_producto,nombre,descripcion,categoria,precio,id_producto_principal,origen_pre
 12,Maruchan de habanero,,alimentos,35.00,10,menu,si
 13,Maruchan de piquín,,alimentos,35.00,10,menu,si
 14,Sincronizadas,Con ensalada mixta,alimentos,40.00,,menu,si
-15,"Sincronizadas, media orden",,alimentos,25.00,14,estimado,si
+15,"Sincronizadas, media orden",,alimentos,25.00,14,integrante,si
 16,Choripán,Chorizo argentino,alimentos,50.00,,menu,si
 17,Tortas,,alimentos,50.00,,menu,no
 18,Torta de bistec,,alimentos,50.00,17,menu,si
@@ -25,16 +25,16 @@ id_producto,nombre,descripcion,categoria,precio,id_producto_principal,origen_pre
 24,Torta de jamón con queso,,alimentos,60.00,17,menu,si
 25,Pambazos,,alimentos,35.00,,menu,si
 26,Chilaquiles con bistec,,alimentos,80.00,,menu,si
-27,"Chilaquiles con bistec, media orden",,alimentos,50.00,26,estimado,si
+27,"Chilaquiles con bistec, media orden",,alimentos,50.00,26,integrante,si
 28,Mini ensalada,Zanahoria y pepino,alimentos,40.00,,menu,si
-29,"Mini ensalada, media orden",,alimentos,25.00,28,estimado,si
+29,"Mini ensalada, media orden",,alimentos,25.00,28,integrante,si
 30,Tenders de pollo con ensalada,,alimentos,80.00,,menu,si
-31,"Tenders de pollo con ensalada, media orden",,alimentos,50.00,30,estimado,si
+31,"Tenders de pollo con ensalada, media orden",,alimentos,50.00,30,integrante,si
 32,Ensalada,,alimentos,80.00,,menu,no
 33,Ensalada con queso,,alimentos,80.00,32,menu,si
 34,Ensalada con pollo,,alimentos,80.00,32,menu,si
 35,Alambre,"Bistec, tocino, jamón, cebolla, morrón y queso",alimentos,200.00,,menu,si
-36,"Alambre, media orden",,alimentos,120.00,35,estimado,si
+36,"Alambre, media orden",,alimentos,120.00,35,integrante,si
 37,Plato botana de fritura,,dulceria,15.00,,menu,si
 38,Nachos,"Con queso, catsup, crema y jalapeño",alimentos,50.00,,menu,si
 39,Papas,,dulceria,30.00,,menu,no
@@ -101,16 +101,16 @@ id_producto,nombre,descripcion,categoria,precio,id_producto_principal,origen_pre
 100,Modelo Especial,,bebidas,40.00,98,menu,si
 101,Caguama,,bebidas,90.00,,menu,no
 102,Caguama Corona,,bebidas,90.00,101,menu,si
-103,Caguama Corona preparada,,bebidas,100.00,101,estimado,si
+103,Caguama Corona preparada,,bebidas,100.00,101,integrante,si
 104,Caguama Victoria,,bebidas,90.00,101,menu,si
-105,Caguama Victoria preparada,,bebidas,100.00,101,estimado,si
+105,Caguama Victoria preparada,,bebidas,100.00,101,integrante,si
 106,Caguama León,,bebidas,90.00,101,menu,si
-107,Caguama León preparada,,bebidas,100.00,101,estimado,si
+107,Caguama León preparada,,bebidas,100.00,101,integrante,si
 108,Caguama de la marca Modelo,,bebidas,100.00,,menu,no
 109,Caguama Modelo,,bebidas,100.00,108,menu,si
-110,Caguama Modelo preparada,,bebidas,110.00,108,estimado,si
+110,Caguama Modelo preparada,,bebidas,110.00,108,integrante,si
 111,Caguama Modelo Especial,,bebidas,100.00,108,menu,si
-112,Caguama Modelo Especial preparada,,bebidas,110.00,108,estimado,si
+112,Caguama Modelo Especial preparada,,bebidas,110.00,108,integrante,si
 113,Copa de 60 pesos,,bebidas,60.00,,menu,no
 114,Copa de Bacardí Blanco,,bebidas,60.00,113,menu,si
 115,Copa de Brandy Torres 5,,bebidas,60.00,113,menu,si
