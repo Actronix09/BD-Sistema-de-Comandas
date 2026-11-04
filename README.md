@@ -177,6 +177,10 @@ El reporte principal de la práctica se encuentra en:
 - [Diagrama entidad-relación extendido en notación Crow's Foot](<modelo/diagrama-eer-crowsfeet.png>)
 - [Diagrama relacional del sistema de comandas](<modelo/diagrama-relacional.png>)
 
+## Datos
+
+La base se puebla con el menú real del salón de eventos, con recetas estimadas y con datos **sintéticos**: usuarios, eventos, mesas, cuentas, comandas, pagos y anticipos. Además, **92 de los 214 productos y 123 de los 208 ingredientes son inventados** y no existen en el salón. El detalle y las referencias están en [Fuente de Datos](<practica4/fuente.md>).
+
 ## Licencia
 
 Este proyecto se distribuye bajo la [Licencia MIT](<LICENSE>).
