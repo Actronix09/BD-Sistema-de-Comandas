@@ -181,6 +181,14 @@ El reporte principal de la práctica se encuentra en:
 
 La base se puebla con el menú real del salón de eventos, con recetas estimadas y con datos **sintéticos**: usuarios, eventos, mesas, cuentas, comandas, pagos y anticipos. Además, **92 de los 214 productos y 123 de los 208 ingredientes son inventados** y no existen en el salón. El detalle y las referencias están en [Fuente de Datos](<practica4/fuente.md>).
 
+Se puebla con un solo comando, después de copiar `practica4/poblar/.env.example` a `practica4/poblar/.env` y llenar sus valores:
+
+```bash
+practica4/poblar/poblar.sh
+```
+
+Los datos sintéticos se vuelven a generar con `python3 practica4/poblar/generar_datos.py`. Más detalles en [Script de Carga](<practica4/carga.md>).
+
 ## Licencia
 
 Este proyecto se distribuye bajo la [Licencia MIT](<LICENSE>).
