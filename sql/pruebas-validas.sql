@@ -461,4 +461,26 @@ BEGIN;
     END $$;
     \warn '✓ 13 de 13'
 
+    \warn '=== 14. Nombre de usuario válido según el formato permitido'
+    DO $$
+    DECLARE
+        v_id INTEGER;
+    BEGIN
+        -- El caso 2 dejó diferidas las restricciones en modo inmediato.
+        -- Diferirlas aquí permite insertar usuario y subtipo en la misma transacción.
+        SET CONSTRAINTS ALL DEFERRED;
+
+        INSERT INTO usuario (nombre, usuario, fecha_nacimiento, contrasena_hash, rol)
+        VALUES ('Ana María Prueba', 'amaria14', DATE '2000-01-01', 'hashDePrueba', 'mesero')
+        RETURNING id_usuario INTO v_id;
+        INSERT INTO mesero (id_usuario, turno_asignado) VALUES (v_id, 'matutino');
+        SET CONSTRAINTS ALL IMMEDIATE;
+
+        ASSERT EXISTS (
+            SELECT 1 FROM usuario
+            WHERE id_usuario = v_id AND usuario = 'amaria14'
+        ), 'no se guardó el nombre de usuario válido';
+    END $$;
+    \warn '✓ 14 de 14'
+
 ROLLBACK;

@@ -2,7 +2,7 @@
 
 Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** y una casilla para marcarla cuando esté lista.
 
-**Actualizado:** 3 de noviembre de 2026
+**Actualizado:** 4 de noviembre de 2026
 
 ---
 
@@ -13,7 +13,7 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 - `[x]`: el requisito ya se cumple y solo hay que citarlo en el entregable.
 - `[ ]`: falta algo. **Hay** dice lo que ya existe y **Falta**, lo que queda.
 - Los números de ejercicio son los del documento de la práctica, no los de las fases.
-- Estado revisado el 3 de noviembre contra el repo, la base de pruebas (`make -C sql pruebas`: 34 rechazos y 13 válidas, todas pasan) y el fork de Sismos.
+- Estado revisado el 4 de noviembre contra el repo, la base de pruebas (`make -C sql pruebas`: 35 rechazos y 14 válidas, todas pasan) y el fork de Sismos.
 
 ### Quién hace qué
 
@@ -39,23 +39,23 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
   - [x] Rama `practica4-5` creada desde `main`, con una rama por sección (`docs/EntornoPractica4y5.md`).
   - [x] Gestor levantado y `esquema.sql` ejecutado sobre una base limpia: `entorno/compose.yml` y `make -C sql pruebas`.
   - [ ] Base de Sismos levantada desde el fork (Samy). **Hay:** `levantamiento.md` del fork, de prácticas anteriores. **Falta:** levantarla para esta práctica, con su evidencia.
-  - [ ] Migraciones numeradas con `ALTER TABLE` (Samy). **Hay:** nada; hoy los cambios se hacen editando `sql/esquema.sql`. **Falta:** `practica4/migraciones/` y que `make cargar` y `make pruebas` las apliquen después del esquema.
+  - [x] Migraciones numeradas con `ALTER TABLE` (Samy): `001-dominios.sql` y `002-formato-usuario.sql`; `make cargar` y `make pruebas` las aplican después del esquema.
   - [ ] Confirmaciones propias en días distintos (ambos). **Hay:** @Actronix09 tiene muchas y Samy tiene 1 (30 de octubre). **Falta:** que cada quien confirme en al menos dos días, entre hoy y el jueves.
   - [ ] PR revisado por otro integrante y fusionado. Lo abre @Actronix09 y lo revisa Samy. **Falta:** todo.
 
 - [ ] **Práctica 4: DDL, permisos y restricciones de dominio**
-  - [ ] **Ejercicio 1.1. Tipos de dato y dominios** (`dominios.md`) · Samy
-    - [ ] Tabla con las 97 columnas: tipo, longitud o precisión y por qué. **Hay:** los tipos en `docs/DiccionarioDeDatos.md` y el criterio por clase de atributo en `docs/ReglasDeTransformacion.md`. **Falta:** la tabla, con el porqué de cada columna.
+  - [x] **Ejercicio 1.1. Tipos de dato y dominios** (`practica4/dominios.md`) · Samy
+    - [x] Tabla con las 97 columnas: tipo, longitud o precisión y por qué.
     - [x] Montos, fechas, identificadores y textos con el tipo correcto: `NUMERIC(10,2)`, `DATE`, `TIMESTAMPTZ` e `INTEGER` con identidad. Ninguna columna usa punto flotante.
-    - [ ] `CREATE DOMAIN` o tipos enumerados para lo que se repite, explicando qué se gana (`001-dominios.sql`). **Hay:** nada. **Propuesta:** `dinero` (6 columnas) y `cantidad` (3). **Ojo, comprobado:** `ALTER COLUMN TYPE` falla en las columnas que usan una vista o un disparador, como `pago.monto_propina` (`v_cuenta`) y `comanda.precio_cobrado` (`tg_comanda_precio`). La migración debe quitarlos y volver a crearlos.
-  - [ ] **Ejercicio 1.2. Restricciones de columna** · Samy
+    - [x] `CREATE DOMAIN` para `dinero` (6 columnas) y `cantidad` (3), con su beneficio explicado en `practica4/dominios.md` y los objetos dependientes recreados en `001-dominios.sql`.
+  - [x] **Ejercicio 1.2. Restricciones de columna** · Samy
     - [x] `NOT NULL` donde hace falta: 21 de las 25 claves foráneas. Las otras 4 tienen cardinalidad mínima 0.
     - [x] `DEFAULT` con valor inicial natural: 13 columnas (estados iniciales, `now()`, stock en 0).
     - [x] `UNIQUE` simples y compuestas: 4 `UNIQUE` y 3 índices únicos (por ejemplo, `uq_usuario_id_rol` y `ux_cuenta_nombre_abierta`).
     - [x] `CHECK` de rango, de lista de valores y entre columnas (por ejemplo, `ck_pago_monto`, `ck_comanda_estado` y `ck_pago_propina_limite`).
-    - [ ] `CHECK` de formato. **Hay:** solo `ck_cuenta_nombre`, que revisa que no esté en blanco. **Falta:** uno real, por ejemplo `usuario.usuario` con una expresión regular, en una migración y con su rechazo.
-    - [x] Al menos diez `CHECK` o `UNIQUE`: hay 35 `CHECK` y 4 `UNIQUE`.
-    - [ ] La regla del dominio al lado de cada restricción (en `dominios.md`). **Hay:** parte en `docs/ReglasDeTransformacion.md`, sección "Restricciones por tabla". **Falta:** todas las restricciones, una regla en una línea por cada una.
+    - [x] `CHECK` de formato en `usuario.usuario`, con rechazo 35, caso válido 14 y migración `002-formato-usuario.sql`.
+    - [x] Al menos diez `CHECK` o `UNIQUE`: hay 36 `CHECK` y 4 `UNIQUE`.
+    - [x] Regla del dominio junto a las restricciones en `practica4/dominios.md`.
   - [x] **Ejercicio 1.3. Fuente de datos** (`fuente.md`) · @Actronix09
     - [x] Buscar un conjunto publicado y decidir (`practica4/fuente.md`): menú real del salón de eventos, recetas estimadas con FNDDS, operación sintética, y productos e ingredientes inventados hasta pasar de 200.
     - [x] Referencia en APA 7 con su licencia y lo que permite hacer con los datos: CC0 en FNDDS y permiso del salón para publicar su menú, sin sus datos.
@@ -75,10 +75,10 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Registro de lo que rechazó cada restricción, con la decisión de cada caso (`practica4/carga.md`).
     - [x] Salida de la terminal de la primera y la segunda ejecución (`evidencias/practica4/`).
   - [ ] **Ejercicio 1.5. Pruebas de dominio** (`pruebas-dominio.md`) · Samy
-    - [ ] Diez casos con operación, resultado esperado, mensaje del gestor y regla protegida. **Hay:** 34 rechazos en `sql/inserts-rechazados.sql`, de donde salen casi todos. **Falta:** escribir el documento.
+    - [ ] Diez casos con operación, resultado esperado, mensaje del gestor y regla protegida. **Hay:** 35 rechazos en `sql/inserts-rechazados.sql` y 14 casos válidos en `sql/pruebas-validas.sql`. **Falta:** escribir el documento.
     - [x] Casos de `NOT NULL` (3), `UNIQUE` simple (8), `UNIQUE` compuesta (2, 13 y 20), `CHECK` de rango (9 y 17) y entre columnas (10 y 25).
     - [ ] Caso de `DEFAULT`. **Falta:** no hay; por ejemplo, un evento sin `estado` queda `programado` y uno con `estado` nulo se rechaza.
-    - [ ] Caso de `CHECK` de formato. **Hay:** el rechazo 19 (nombre en blanco). **Falta:** el del formato real de 1.2.
+    - [ ] Caso de `CHECK` de formato. **Hay:** rechazo 35 y caso válido 14 para el formato de usuario. **Falta:** documentarlos en `pruebas-dominio.md`.
   - [x] **Ejercicio 1.6. Usuarios y permisos** (`practica4/permisos.md`) · @Actronix09
     - [x] Tres roles (aplicación, consulta y administración), diciendo para qué existe cada uno: `migraciones/099-permisos.sql`.
     - [x] `GRANT` con mínimo privilegio y un usuario por rol, con las contraseñas en variables de entorno. Los disparadores corren con los permisos de quien opera; se concedieron en lugar de usar `SECURITY DEFINER`.
@@ -182,7 +182,7 @@ El programa en C (memoria compartida, ncurses y archivos de texto) pasa a ser un
 - **Lo que la base ya protege no se repite en el servidor.** El descuento de stock, la máquina de estados y las reglas del cobro viven en disparadores. Si el servidor también los hace, se hacen dos veces.
 - Cada regla nueva de la base lleva tres cosas: su disparador o `CHECK` en una migración numerada de `practica4/migraciones/`, un caso en `inserts-rechazados.sql` y un caso en `pruebas-validas.sql`. **Primero el disparador** y después los casos. Si no, el Makefile marca el rechazo como fallido.
 - Antes de cada commit, `make -C sql pruebas` debe terminar en `Todas las pruebas pasaron`.
-- Numeración: el siguiente rechazo es el **35** y el siguiente caso válido es el **14**.
+- Numeración: el siguiente rechazo es el **36** y el siguiente caso válido es el **15**.
 - Los disparadores lanzan `RAISE EXCEPTION … USING ERRCODE = 'check_violation'`, igual que `fijar_precio_cobrado()`.
 
 ## Reparto

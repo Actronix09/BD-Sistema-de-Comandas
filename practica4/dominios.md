@@ -126,6 +126,154 @@ Los dominios fijan el tipo y la precisión comunes. Las reglas de negocio (por e
 | anticipo | `fecha_anio` | `SMALLINT` | 2 bytes | Componente generado; cubre los años de operación previstos. |
 | anticipo | `numero_evento` | `INTEGER` | 4 bytes | Clave foránea compatible con el evento al que se aplica. |
 
+## Restricciones y reglas del dominio
+
+Las reglas siguientes explican por qué se exige cada `NOT NULL`, valor inicial, unicidad y `CHECK` del esquema. Las claves foráneas se documentan por separado en el ejercicio 2.1.
+
+### `NOT NULL`
+
+| Columna | Regla del dominio |
+| :-- | :-- |
+| `evento.fecha` | Todo evento debe tener fecha para poder programarlo. |
+| `evento.tipo_evento` | Todo evento debe indicar qué tipo de celebración se atenderá. |
+| `evento.numero_asistentes` | Todo evento debe tener un número esperado de asistentes. |
+| `evento.estado` | Todo evento debe tener un estado para saber si está programado, en curso o terminado. |
+| `evento_organizador.numero_evento` | Todo organizador registrado debe pertenecer a un evento. |
+| `evento_organizador.organizador` | La relación debe identificar a la persona u organización registrada. |
+| `usuario.nombre` | El personal debe tener un nombre para identificarlo en la operación. |
+| `usuario.usuario` | Todo usuario debe tener un nombre de acceso para iniciar sesión. |
+| `usuario.fecha_nacimiento` | La fecha de nacimiento permite identificar al usuario y calcular su edad. |
+| `usuario.contrasena_hash` | Toda cuenta debe guardar el hash necesario para verificar el acceso. |
+| `usuario.rol` | Todo usuario debe pertenecer a un rol del sistema. |
+| `mesero.id_usuario` | Toda fila de mesero debe corresponder a un usuario. |
+| `mesero.rol` | El subtipo debe conservar el discriminador que acredita que la persona es mesero. |
+| `mesero.turno_asignado` | El salón debe saber en qué turno trabaja cada mesero. |
+| `bar_cocina.id_usuario` | Toda fila de bar/cocina debe corresponder a un usuario. |
+| `bar_cocina.rol` | El subtipo debe conservar el discriminador de bar/cocina. |
+| `bar_cocina.estado` | La estación debe indicar si está ocupada o disponible. |
+| `bar_cocina.estacion_asignada` | Cada integrante debe tener asignada una estación de trabajo. |
+| `cajero_admin.id_usuario` | Toda fila de caja debe corresponder a un usuario. |
+| `cajero_admin.rol` | El subtipo debe conservar el discriminador de cajero/administrador. |
+| `cajero_admin.nivel_acceso` | El sistema debe saber qué permisos tiene el usuario de caja. |
+| `cajero_admin.caja_asignada` | Cada cajero debe tener una caja identificada. |
+| `mesa.numero_evento` | Toda mesa debe pertenecer a un evento. |
+| `mesa.numero_mesa` | Toda mesa debe tener número dentro de su evento. |
+| `mesa.id_mesero` | Toda mesa debe tener un mesero responsable. |
+| `cuenta.numero_evento` | Toda cuenta debe pertenecer a un evento. |
+| `cuenta.secuencial` | Toda cuenta debe tener su número dentro del evento. |
+| `cuenta.numero_mesa` | Toda cuenta debe estar asociada a una mesa. |
+| `cuenta.nombre` | El personal necesita identificar la cuenta con un nombre. |
+| `cuenta.estado` | Toda cuenta debe indicar si sigue abierta o ya se cerró. |
+| `producto.nombre` | Todo producto debe tener un nombre para aparecer en el catálogo. |
+| `producto.categoria` | Todo producto debe pertenecer a una categoría para enviarse a bar o cocina. |
+| `producto.precio` | El catálogo debe indicar el precio, aunque sea cero para una cortesía. |
+| `ingrediente.nombre` | Todo ingrediente debe poder identificarse en inventario. |
+| `ingrediente.unidad_medida` | El stock debe declarar la unidad en que se mide. |
+| `ingrediente.stock_actual` | El inventario debe conocer la existencia, aunque sea cero. |
+| `ingrediente.stock_minimo` | El inventario debe conocer el umbral de resurtido, aunque sea cero. |
+| `receta.id_producto` | Toda receta debe corresponder a un producto. |
+| `receta.id_ingrediente` | Toda receta debe identificar el ingrediente que consume. |
+| `receta.cantidad_por_porcion` | La receta debe indicar cuánto ingrediente requiere cada porción. |
+| `paquete.monto` | Todo paquete debe tener un precio, aunque sea gratuito. |
+| `paquete.detalles` | Todo paquete debe describir qué incluye. |
+| `paquete_producto.numero_paquete` | Toda asociación debe identificar el paquete. |
+| `paquete_producto.id_producto` | Toda asociación debe identificar el producto incluido. |
+| `acuerdo.numero_evento` | Todo acuerdo debe corresponder a un evento. |
+| `acuerdo.numero_paquete` | Todo acuerdo debe identificar el paquete pactado. |
+| `acuerdo.id_producto` | Todo acuerdo debe identificar el producto pactado. |
+| `acuerdo.cantidad_acordada` | Todo acuerdo debe indicar cuántas unidades se pactaron. |
+| `comanda.fecha_hora` | Toda comanda debe quedar fechada para ordenar y auditar la atención. |
+| `comanda.precio_cobrado` | Toda comanda debe conservar el precio aplicado al pedir el producto. |
+| `comanda.estado` | Toda comanda debe tener estado para controlar su preparación y entrega. |
+| `comanda.numero_evento` | Toda comanda debe pertenecer a una cuenta de un evento. |
+| `comanda.secuencial` | Toda comanda debe identificar la cuenta dentro del evento. |
+| `comanda.id_mesero` | Toda comanda debe registrar qué mesero la levantó. |
+| `comanda.id_producto` | Toda comanda debe indicar qué producto se pidió. |
+| `pago.monto` | Todo pago debe registrar cuánto dinero se recibió. |
+| `pago.forma_pago` | Todo pago debe indicar cómo se recibió el dinero. |
+| `pago.fecha_hora` | Todo pago debe quedar fechado para el historial de caja. |
+| `pago.numero_evento` | Todo pago debe aplicarse a una cuenta de un evento. |
+| `pago.secuencial` | Todo pago debe identificar la cuenta dentro del evento. |
+| `pago.id_cajero` | Todo pago debe registrar quién lo recibió. |
+| `anticipo.monto` | Todo anticipo debe indicar cuánto dinero se recibió. |
+| `anticipo.fecha` | Todo anticipo debe registrar el día en que se recibió. |
+| `anticipo.numero_evento` | Todo anticipo debe aplicarse a un evento. |
+
+Las columnas que no aparecen en esta tabla admiten `NULL` porque el dato es opcional en el modelo (por ejemplo, descripción, detalles o la persona y el monto de una propina). Las claves primarias son `NOT NULL` por definición del gestor.
+
+### Valores iniciales (`DEFAULT`)
+
+| Columna | Valor inicial | Regla del dominio |
+| :-- | :-- | :-- |
+| `evento.estado` | `'programado'` | Un evento nuevo todavía no ha comenzado. |
+| `mesero.rol` | `'mesero'` | Una fila creada en el subtipo mesero debe llevar ese discriminador. |
+| `bar_cocina.rol` | `'bar_cocina'` | Una fila creada en el subtipo bar/cocina debe llevar ese discriminador. |
+| `bar_cocina.estado` | `'desocupado'` | Una estación nueva inicia disponible hasta que una comanda la ocupe. |
+| `cajero_admin.rol` | `'cajero_admin'` | Una fila del subtipo de caja debe llevar ese discriminador. |
+| `cajero_admin.nivel_acceso` | `'cajero'` | Se concede el acceso mínimo de caja por defecto. |
+| `cuenta.estado` | `'abierta'` | Una cuenta nueva recibe pedidos hasta que se cierre. |
+| `ingrediente.stock_actual` | `0` | Un ingrediente nuevo no debe suponerse disponible si no se capturó existencia. |
+| `ingrediente.stock_minimo` | `0` | Si no se define umbral de resurtido, se inicia en cero. |
+| `comanda.fecha_hora` | `now()` | Se registra el instante de creación si el cliente no lo envía. |
+| `comanda.estado` | `'pendiente'` | Una comanda nueva todavía no ha empezado a prepararse. |
+| `pago.fecha_hora` | `now()` | Se registra el instante del cobro si no se envía uno. |
+| `anticipo.fecha` | `CURRENT_DATE` | Si no se indica el día, se usa el día de registro. |
+
+Los identificadores `IDENTITY` se generan con una secuencia para que cada alta reciba un número nuevo; se permite insertar números conocidos durante la carga inicial.
+
+### Unicidad (`UNIQUE` e índices únicos)
+
+| Restricción | Regla del dominio |
+| :-- | :-- |
+| `uq_usuario_usuario` | Dos personas no pueden iniciar sesión con el mismo nombre de acceso. |
+| `uq_usuario_id_rol` | El par identificador/rol debe ser único para que las claves de los subtipos señalen un solo usuario con ese rol. |
+| `uq_producto_nombre` | El nombre del producto debe identificar una sola opción del catálogo. |
+| `uq_ingrediente_nombre` | Un ingrediente debe tener una sola fila de inventario; duplicarlo dividiría el stock. |
+| `ux_usuario_usuario_minusculas` | El mismo nombre de acceso no puede repetirse cambiando mayúsculas y minúsculas. |
+| `ux_ingrediente_nombre_minusculas` | El mismo ingrediente no puede duplicarse cambiando mayúsculas y minúsculas. |
+| `ux_cuenta_nombre_abierta` | En una mesa y evento no puede haber dos cuentas abiertas con el mismo nombre; al cerrar una, el nombre se puede reutilizar. |
+
+### Reglas `CHECK`
+
+| Restricción | Regla del dominio |
+| :-- | :-- |
+| `ck_evento_asistentes` | Un evento debe esperar al menos un asistente. |
+| `ck_evento_estado` | El evento solo puede estar programado, en curso, finalizado o cancelado. |
+| `ck_usuario_rol` | El usuario debe pertenecer a uno de los tres subtipos definidos. |
+| `ck_usuario_nacimiento` | Se rechazan fechas de nacimiento anteriores a 1900 para evitar capturas evidentemente erróneas. |
+| `ck_usuario_formato` | El nombre de acceso debe tener de 3 a 40 caracteres, empezar con una letra ASCII y continuar solo con letras ASCII o números; así se evita guardar accesos con espacios o signos. Se implementa en [`002-formato-usuario.sql`](migraciones/002-formato-usuario.sql), con rechazo 35 y caso válido 14. |
+| `ck_mesero_rol` | Una fila de `mesero` solo puede tener el rol `mesero`. |
+| `ck_mesero_turno` | El turno debe ser matutino, vespertino o nocturno. |
+| `ck_bar_cocina_rol` | Una fila de `bar_cocina` solo puede tener el rol `bar_cocina`. |
+| `ck_bar_cocina_estado` | La estación solo puede estar ocupada o desocupada. |
+| `ck_bar_cocina_estacion` | La persona debe estar asignada a bar o cocina. |
+| `ck_cajero_admin_rol` | Una fila de `cajero_admin` solo puede tener el rol `cajero_admin`. |
+| `ck_cajero_admin_nivel` | El acceso de caja solo puede ser cajero o administrador. |
+| `ck_cajero_admin_caja` | El número de caja debe ser positivo. |
+| `ck_mesa_numero` | Los números de mesa comienzan en uno. |
+| `ck_cuenta_secuencial` | El secuencial de cuenta debe ser positivo. |
+| `ck_cuenta_estado` | La cuenta solo puede estar abierta o cerrada. |
+| `ck_cuenta_nombre` | El nombre de cuenta no puede estar vacío ni contener solo espacios. |
+| `ck_producto_categoria` | Cada producto pertenece a alimentos, bebidas o dulcería. |
+| `ck_producto_precio` | Un producto no puede tener precio negativo; cero permite cortesías. |
+| `ck_producto_no_autovariante` | Un producto no puede ser su propia variante. |
+| `ck_ingrediente_unidad` | La unidad debe ser gramos, mililitros o piezas para que stock y receta sean comparables. |
+| `ck_ingrediente_stock` | La existencia nunca puede quedar por debajo de cero. |
+| `ck_ingrediente_minimo` | El mínimo de resurtido nunca puede ser negativo. |
+| `ck_receta_cantidad` | Cada receta debe consumir una cantidad positiva del ingrediente. |
+| `ck_paquete_monto` | El monto del paquete no puede ser negativo; cero permite un paquete de cortesía. |
+| `ck_acuerdo_cantidad` | Un acuerdo debe incluir al menos una unidad del producto. |
+| `ck_comanda_precio` | El precio cobrado no puede ser negativo. |
+| `ck_comanda_estado` | La comanda solo puede recorrer los estados definidos para su preparación y entrega. |
+| `ck_comanda_cancelacion` | Una comanda cancelada debe indicar el cajero que la canceló, y una comanda activa no debe indicar uno. |
+| `ck_comanda_preparacion` | Las comandas en preparación, listas o entregadas deben tener una estación asignada; las pendientes o canceladas pueden no tenerla. |
+| `ck_pago_monto` | Un pago debe ser mayor que cero. |
+| `ck_pago_propina_limite` | La propina no puede ser mayor que el importe total del pago. |
+| `ck_pago_forma` | La forma de pago debe ser efectivo, tarjeta o transferencia. |
+| `ck_pago_propina_completa` | La propina debe registrar juntos el monto y el mesero, o dejar ambos vacíos. |
+| `ck_pago_propina_monto` | La propina no puede ser negativa. |
+| `ck_anticipo_monto` | Un anticipo debe ser mayor que cero. |
+
 ## Alcance y correspondencia con el esquema
 
 Las seis columnas monetarias y las tres cantidades repetidas se definen primero como `NUMERIC` en el esquema original de la Práctica 3. Al reconstruir la base, `001-dominios.sql` cambia esas columnas a `dinero` y `cantidad` mediante `ALTER TABLE`; el tipo base y la precisión no cambian. Por eso aquí se muestra el tipo reutilizable que queda aplicado después de la migración.

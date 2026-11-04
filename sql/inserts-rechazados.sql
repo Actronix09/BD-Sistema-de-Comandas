@@ -146,3 +146,7 @@ ROLLBACK;
 \warn '--- 34. El bar no puede preparar dulceria'
 INSERT INTO comanda (estado, numero_evento, secuencial, id_mesero, id_producto, id_bar_cocina)
 VALUES ('en_preparacion', 17, 2, 1, 4, 4);
+
+\warn '--- 35. Nombre de usuario con espacios (CHECK de formato)'
+INSERT INTO usuario (nombre, usuario, fecha_nacimiento, contrasena_hash, rol)
+VALUES ('Usuario formato inválido', 'ana maria', DATE '2000-01-01', 'hashDePrueba', 'mesero');
