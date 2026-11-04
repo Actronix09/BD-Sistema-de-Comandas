@@ -1,7 +1,8 @@
 # Práctica 3
 
 **Sitio del proyecto:** <https://actronix09.github.io/BD-Sistema-de-Comandas/>
-
+**Aplicación del sistema de comandas:** <https://github.com/Actronix09/Sistema-de-Comandas>
+ 
 ---
 
 |Alumnos|Boleta|@GitHub|
