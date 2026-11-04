@@ -34,7 +34,7 @@ COMPOSE := $(MOTOR) compose -f "$(COMPOSE_FILE)"
 PSQL    := $(MOTOR) exec -i $(CONTENEDOR) psql -X -q -U $(USUARIO)
 
 .DEFAULT_GOAL := help
-.PHONY: help levantar detener estado cargar pruebas rechazados validas psql limpiar
+.PHONY: help levantar detener estado cargar pruebas rechazados validas referenciales experimento-samy psql limpiar
 
 help:
 	@echo "Objetivos:"
@@ -45,6 +45,8 @@ help:
 	@echo "  pruebas      Recrea $(BASE_PRUEBAS) y corre toda la secuencia de pruebas"
 	@echo "  rechazados   Corre inserts-rechazados.sql y exige que cada caso falle"
 	@echo "  validas      Corre pruebas-validas.sql y verifica todos sus casos"
+	@echo "  referenciales Corre pruebas-referenciales.sql sobre $(BASE_PRUEBAS)"
+	@echo "  experimento-samy Recrea una copia y prueba el caso 2.6 de receta/ingrediente"
 	@echo "  psql         Abre una consola sobre $(BASE)"
 	@echo "  limpiar      Borra la base $(BASE_PRUEBAS)"
 	@echo
@@ -94,6 +96,11 @@ done; \
 if [ "$$hay_migraciones" -eq 0 ]; then echo "==> Sin migraciones numeradas"; fi
 @echo "==> datos-ejemplo.sql"
 @$(PSQL) -v ON_ERROR_STOP=1 -d $(1) < "$(SQL_DIR)/datos-ejemplo.sql" > /dev/null
+endef
+
+define correr_referenciales
+@echo "==> pruebas-referenciales.sql"
+@$(PSQL) -v ON_ERROR_STOP=1 -d $(BASE_PRUEBAS) < "$(SQL_DIR)/../practica5/sql/pruebas-referenciales.sql"
 endef
 
 # Sin ON_ERROR_STOP: cada INSERT debe fallar y seguir con el siguiente.
@@ -148,6 +155,7 @@ pruebas: levantar
 	$(call cargar_base,$(BASE_PRUEBAS))
 	$(correr_rechazados)
 	$(correr_validas)
+	$(correr_referenciales)
 	@echo
 	@echo "==> Todas las pruebas pasaron sobre $(BASE_PRUEBAS)"
 
@@ -156,6 +164,17 @@ rechazados:
 
 validas:
 	$(correr_validas)
+
+referenciales:
+	$(correr_referenciales)
+
+# El ejercicio 2.6 cambia una acción referencial solo en una copia aislada.
+# La salida se guarda como evidencia y comandas/comandas_pruebas no se modifican.
+experimento-samy: pruebas
+	@echo "==> Recreando la copia comandas_experimento_samy desde $(BASE_PRUEBAS)"
+	@$(PSQL) -d postgres -c 'DROP DATABASE IF EXISTS comandas_experimento_samy WITH (FORCE);'
+	@$(PSQL) -d postgres -c 'CREATE DATABASE comandas_experimento_samy TEMPLATE $(BASE_PRUEBAS);'
+	@$(PSQL) -v ON_ERROR_STOP=1 -d comandas_experimento_samy < "$(SQL_DIR)/../practica5/sql/experimento-2.6-samy.sql" 2>&1 | tee "$(SQL_DIR)/../evidencias/practica5/experimento-2.6-samy.txt"
 
 psql:
 	@$(MOTOR) exec -it $(CONTENEDOR) psql -U $(USUARIO) -d $(BASE)

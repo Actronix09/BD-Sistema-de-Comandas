@@ -1,0 +1,93 @@
+==> pruebas-referenciales.sql
+=== FK inexistente: una mesa no puede apuntar a un evento ausente
+ momento | mesas 
+---------+-------
+ antes   |     3
+(1 row)
+
+NOTICE:  Error esperado: insert or update on table "mesa" violates foreign key constraint "fk_mesa_evento"
+ momento | mesas 
+---------+-------
+ después |     3
+(1 row)
+
+=== Orden de carga: primero la hija falla, padre y luego hija funcionan
+ momento | eventos_prueba | mesas_prueba 
+---------+----------------+--------------
+ antes   |              0 |            0
+(1 row)
+
+NOTICE:  Hija antes que padre, error esperado: insert or update on table "mesa" violates foreign key constraint "fk_mesa_evento"
+          momento           | eventos_prueba | mesas_prueba 
+----------------------------+----------------+--------------
+ después del orden correcto |              1 |            1
+(1 row)
+
+=== ON DELETE RESTRICT: no borrar un ingrediente usado por una receta
+ momento | ingrediente | recetas_que_lo_usan 
+---------+-------------+---------------------
+ antes   |           1 |                   1
+(1 row)
+
+NOTICE:  Error esperado: update or delete on table "ingrediente" violates foreign key constraint "fk_receta_ingrediente" on table "receta"
+ momento | ingrediente | recetas_que_lo_usan 
+---------+-------------+---------------------
+ después |           1 |                   1
+(1 row)
+
+=== ON UPDATE CASCADE: cambiar la clave del evento conserva sus referencias
+ momento | eventos | organizadores | mesas | cuentas | acuerdos | anticipos | comandas | pagos 
+---------+---------+---------------+-------+---------+----------+-----------+----------+-------
+ antes   |       1 |             2 |     3 |       3 |        4 |         1 |        5 |     1
+(1 row)
+
+ momento | eventos | organizadores | mesas | cuentas | acuerdos | anticipos | comandas | pagos 
+---------+---------+---------------+-------+---------+----------+-----------+----------+-------
+ después |       1 |             2 |     3 |       3 |        4 |         1 |        5 |     1
+(1 row)
+
+=== ON UPDATE RESTRICT: no cambiar la identidad de un usuario referenciado
+ momento | usuario_original | subtipo_mesero | usuarios_totales 
+---------+------------------+----------------+------------------
+ antes   |                1 |              1 |                5
+(1 row)
+
+NOTICE:  Error esperado: update or delete on table "usuario" violates foreign key constraint "fk_mesero_usuario" on table "mesero"
+ momento | usuario_original | subtipo_mesero | usuarios_totales 
+---------+------------------+----------------+------------------
+ después |                1 |              1 |                5
+(1 row)
+
+=== ON DELETE CASCADE: borrar el evento elimina sus filas dependientes
+          momento           | eventos | organizadores | mesas | cuentas | acuerdos | comandas | pagos | anticipos 
+----------------------------+---------+---------------+-------+---------+----------+----------+-------+-----------
+ datos de ejemplo al inicio |       1 |             2 |     3 |       3 |        4 |        5 |     1 |         1
+(1 row)
+
+         momento         | eventos | organizadores | mesas | cuentas | acuerdos | comandas | pagos | anticipos 
+-------------------------+---------+---------------+-------+---------+----------+----------+-------+-----------
+ justo antes del CASCADE |       1 |             2 |     3 |       3 |        4 |        0 |     0 |         0
+(1 row)
+
+       momento       | eventos | organizadores | mesas | cuentas | acuerdos 
+---------------------+---------+---------------+-------+---------+----------
+ después del CASCADE |       0 |             0 |     0 |       0 |        0
+(1 row)
+
+=== Auditorías: las tres consultas deben devolver cero filas
+ restriccion | filas_huerfanas 
+-------------+-----------------
+(0 rows)
+
+ indice | grupos_duplicados 
+--------+-------------------
+(0 rows)
+
+ tabla | columna | filas_nulas 
+-------+---------+-------------
+(0 rows)
+
+Todas las pruebas referenciales pasaron; los datos de ejemplo quedaron restaurados.
+
+==> Todas las pruebas pasaron sobre comandas_pruebas
+make: Leaving directory 'C:/Users/sami-dev/Documents/BD-Sistema-de-Comandas/sql'

@@ -93,17 +93,17 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [ ] Proponer tres restricciones y probarlas en una copia. **Falta:** todo. Por revisar: rango de `magnitud`, de `latitud` y `longitud`, y `profundidad`, que vale 33 en muchos renglones (`levantamiento.md`).
 
 - [ ] **Práctica 5: DML e integridad referencial**
-  - [ ] **Ejercicio 2.1. Claves foráneas** (`referencias.md`) · Samy
-    - [ ] Tabla con las 25 claves: relación del EER, tabla y columna referenciada, y si admite nulos. **Hay:** `docs/ReglasDeTransformacion.md`, sección "Resumen de relaciones y regla aplicada". **Falta:** la tabla, clave por clave.
+  - [x] **Ejercicio 2.1. Claves foráneas** (`practica5/referencias.md`) · Samy
+    - [x] Tabla con las 25 claves: relación del EER, tabla y columna referenciada, y si admite nulos.
     - [x] Toda relación del modelo quedó como clave foránea: las 17 relaciones del inventario más la jerarquía y el atributo multivaluado dan las 25.
-  - [ ] **Ejercicio 2.2. Acciones referenciales** (en `referencias.md`) · Samy
+  - [x] **Ejercicio 2.2. Acciones referenciales** (en `practica5/referencias.md`) · Samy
     - [x] Cada clave declara qué hacer al borrar y al actualizar. Al borrar: 9 `CASCADE` y 16 `RESTRICT`. Al actualizar: 14 `CASCADE` y 11 `RESTRICT`.
-    - [ ] Justificar cada una con una regla del dominio. **Hay:** el criterio por grupos en `docs/ReglasDeTransformacion.md`. **Falta:** una justificación por clave. Ese documento dice que `SET NULL` no aplica a ninguna relación, pero hay 4 claves opcionales con `RESTRICT` (`id_producto_principal`, `id_bar_cocina`, `id_cajero_cancela` e `id_mesero_propina`): hay que justificarlas una por una.
-  - [ ] **Ejercicio 2.3. Pruebas de integridad** (`pruebas-referenciales.md`) · Samy
-    - [ ] Una prueba por cada acción usada, con renglones antes y después. **Hay:** rechazos 15 y 18 para `RESTRICT`, sin conteos. Comprobé que borrar un evento con mesa y cuenta y cambiarle el número funcionan, pero `CASCADE` no tiene un caso escrito. **Falta:** las cuatro pruebas con datos reales.
-    - [ ] `INSERT` con una clave foránea inexistente y su mensaje. **Hay:** el rechazo 1. **Falta:** pasarlo al documento.
-    - [ ] Cargar las hijas antes que las padres: qué ocurre y cómo se resuelve. **Falta:** todo; se prueba con el script de 1.4.
-    - [ ] Comprobaciones que deben salir vacías en las dos bases: huérfanos, duplicados en columnas únicas y nulos donde no se admiten. **Falta:** todo.
+    - [x] Justificación individual para las 25 claves, incluidas las cuatro relaciones opcionales que usan `RESTRICT`.
+  - [ ] **Ejercicio 2.3. Pruebas de integridad** (`practica5/pruebas-referenciales.md`) · Samy
+    - [x] **Comandas:** una prueba para cada acción referencial, con conteos antes/después; `make -C sql pruebas` pasó el 4 de noviembre y la salida está en `evidencias/practica5/pruebas-referenciales.txt`.
+    - [x] `INSERT` con FK inexistente y su mensaje; el script también demuestra que cargar primero la hija falla y cargar primero el padre funciona.
+    - [x] **Comandas:** auditorías de huérfanos, duplicados únicos y nulos indebidos; las tres devolvieron cero filas.
+    - [ ] **Sismos:** repetir las auditorías en la base del proyecto asignado; queda para esa parte.
   - [ ] **Ejercicio 2.4. Edición de valores y transacciones** (`edicion-de-valores.md`) · @Actronix09
     - [ ] `INSERT` desde una consulta, y una inserción que resuelva que el renglón ya exista. **Falta:** todo. Por ejemplo: copiar el contenido de un paquete a `acuerdo`, y resurtir un ingrediente con `ON CONFLICT`.
     - [ ] `UPDATE` que dependa de otra tabla y otro que clasifique con `CASE`. **Falta:** todo. Por ejemplo: `bar_cocina.estado` según sus comandas en preparación.
@@ -118,7 +118,7 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [ ] Explicar por qué un almacén a veces las omite y qué riesgo corre. **Hay:** un buen ejemplo en `data/README.md` del fork: los identificadores de `dim_zonas` y `dim_economia` no coinciden (la zona 4 es Coahuila y la economía 4 es Chiapas). **Falta:** escribirlo. Como las claves ya están declaradas, agregarlas en una copia no aplica; hay que decirlo así.
   - [ ] **Ejercicio 2.6. Trabajo por integrante** (`practica5/integrantes/`, firmado con su nombre) · Ambos
     - [ ] @Actronix09: `comanda → cuenta`, de `RESTRICT` a `CASCADE` (sugerida). **Falta:** todo.
-    - [ ] Samy: `receta → ingrediente`, de `RESTRICT` a `CASCADE` (sugerida). **Falta:** todo.
+    - [x] Samy: `receta → ingrediente`, de `RESTRICT` a `CASCADE`. Ejecutado en la copia `comandas_experimento_samy`; `CASCADE` eliminó 1 fila de `receta`, el producto y las comandas siguieron presentes y `ROLLBACK` restauró los datos y `RESTRICT`. Documento firmado: `practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md`; salida: `evidencias/practica5/experimento-2.6-samy.txt`.
     - Cada quien puede elegir otra, sin repetir. Se hace en una copia y muestra qué se pierde, qué se conserva y cuál opción es la correcta. **Se preguntará en clase.**
 
 - [ ] **Entregable** · @Actronix09
