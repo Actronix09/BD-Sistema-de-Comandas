@@ -47,6 +47,11 @@ fi
 psql_app() { "$MOTOR" exec -i -e PGDATABASE -e PGUSER -e PGPASSWORD "$CONTENEDOR" psql -X -q -v ON_ERROR_STOP=1 "$@"; }
 psql_admin() { "$MOTOR" exec -i "$CONTENEDOR" psql -X -q -v ON_ERROR_STOP=1 -U "$ADMIN_USUARIO" "$@"; }
 
+if ! "$MOTOR" exec "$CONTENEDOR" pg_isready -q > /dev/null 2>&1; then
+    echo "El contenedor $CONTENEDOR no está listo. Levántelo con: make -C sql levantar" >&2
+    exit 2
+fi
+
 if [ "${1:-}" = "--recrear" ]; then
     # `comandas` y `comandas_pruebas` son de sql/Makefile: esta opción no las toca.
     case "$PGDATABASE" in
