@@ -26,6 +26,8 @@ Las dos prácticas se desarrollan en la rama `practica4-5`, creada a partir de `
 
 Estas son las ramas de las secciones de Adrian. Samy agrega las suyas con el mismo formato.
 
+Los *pull requests* #32 y #33, de los ejercicios 1.3 y 1.4, se fusionaron por error directo a `main`. No se revirtieron: los mismos commits entraron después a `practica4-5` con los *pull requests* #34 y #35, con el mismo contenido, y las secciones siguientes salen de ahí.
+
 ```bash
 git switch practica4-5
 git switch -c Practica4-Entorno
