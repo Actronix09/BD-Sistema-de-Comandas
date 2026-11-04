@@ -1,0 +1,82 @@
+==> Contraseña
+  [ok] permitida Entrar con la contraseña correcta
+       SELECT 1
+  [ok] negada   Entrar con una contraseña equivocada
+       SELECT 1
+       FATAL:  password authentication failed for user "app_comandas"
+
+==> comandas_app (usuario app_comandas)
+  [ok] permitida Levantar una comanda; sus disparadores tocan cuenta, evento e ingrediente
+       INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto)
+       SELECT numero_evento, secuencial, 1, 2 FROM cuenta WHERE estado = 'abierta' LIMIT 1
+  [ok] negada   Borrar una comanda: se cancela, no se borra
+       DELETE FROM comanda WHERE id_comanda = 1
+       ERROR:  permission denied for table comanda
+  [ok] negada   Cambiar un pago ya recibido
+       UPDATE pago SET monto = 1 WHERE numero_pago = 1
+       ERROR:  permission denied for table pago
+  [ok] negada   Borrar una tabla
+       DROP TABLE pago
+       ERROR:  must be owner of table pago
+
+==> comandas_consulta (usuario consulta_comandas)
+  [ok] permitida Leer el saldo de las cuentas
+       SELECT count(*) FROM v_cuenta
+  [ok] permitida Leer los datos de un usuario, sin su contraseña
+       SELECT nombre, usuario, rol FROM usuario LIMIT 1
+  [ok] negada   Leer el hash de las contraseñas
+       SELECT contrasena_hash FROM usuario LIMIT 1
+       ERROR:  permission denied for table usuario
+  [ok] negada   Cambiar un precio
+       UPDATE producto SET precio = 1 WHERE id_producto = 1
+       ERROR:  permission denied for table producto
+  [ok] negada   Crear una tabla temporal
+       CREATE TEMP TABLE prueba (id INTEGER)
+       ERROR:  permission denied to create temporary tables in database "comandas_carga"
+
+==> comandas_admin (usuario admin_comandas)
+  [ok] permitida Corregir un pago
+       UPDATE pago SET monto = monto WHERE numero_pago = 1
+  [ok] permitida Borrar la receta de un producto
+       DELETE FROM receta WHERE id_producto = 2
+  [ok] negada   Borrar una tabla: no es su dueño
+       DROP TABLE pago
+       ERROR:  must be owner of table pago
+  [ok] negada   Crear otro rol
+       CREATE ROLE intruso
+       ERROR:  permission denied to create role
+
+==> REVOKE: la operación deja de funcionar
+  [ok] permitida Registrar un anticipo, antes del REVOKE
+       INSERT INTO anticipo (monto, numero_evento) VALUES (500, 1)
+       REVOKE INSERT ON anticipo FROM comandas_app
+  [ok] negada   Registrar un anticipo, después del REVOKE
+       INSERT INTO anticipo (monto, numero_evento) VALUES (500, 1)
+       ERROR:  permission denied for table anticipo
+       GRANT INSERT ON anticipo TO comandas_app
+  [ok] permitida Registrar un anticipo, después de devolver el permiso
+       INSERT INTO anticipo (monto, numero_evento) VALUES (500, 1)
+
+==> Matriz de permisos, leída del catálogo (S = SELECT, I = INSERT, U = UPDATE, D = DELETE; * = solo algunas columnas)
+       tabla        | comandas_app | comandas_consulta | comandas_admin 
+--------------------+--------------+-------------------+----------------
+ acuerdo            | SIUD         | S                 | SIUD
+ anticipo           | SI           | S                 | SIUD
+ bar_cocina         | SIUD         | S                 | SIUD
+ cajero_admin       | SIUD         | S                 | SIUD
+ comanda            | SIU          | S                 | SIUD
+ cuenta             | SIU          | S                 | SIUD
+ evento             | SIU          | S                 | SIUD
+ evento_organizador | SIUD         | S                 | SIUD
+ ingrediente        | SIUD         | S                 | SIUD
+ mesa               | SIU          | S                 | SIUD
+ mesero             | SIUD         | S                 | SIUD
+ pago               | SI           | S                 | SIUD
+ paquete            | SIUD         | S                 | SIUD
+ paquete_producto   | SIUD         | S                 | SIUD
+ producto           | SIUD         | S                 | SIUD
+ receta             | SIUD         | S                 | SIUD
+ usuario            | SIUD         | S*                | SIUD
+
+
+==> Todas las operaciones dieron el resultado esperado
