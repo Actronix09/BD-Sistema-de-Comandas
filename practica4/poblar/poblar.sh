@@ -10,8 +10,9 @@
 #  que no se sube al repositorio. Ver .env.example.
 #
 #  Si la base no existe, la crea con sql/esquema.sql y las migraciones de
-#  practica4/migraciones/. Termina con 0 si la carga se confirmó y con 1 si se
-#  revirtió; los rechazos quedan en practica4/poblar/rechazos.csv.
+#  practica4/migraciones/, con el usuario administrador. La carga en sí se
+#  conecta como app_comandas. Termina con 0 si la carga se confirmó y con 1 si
+#  se revirtió; los rechazos quedan en practica4/poblar/rechazos.csv.
 # =====================================================================
 
 set -euo pipefail
@@ -30,7 +31,7 @@ MOTOR="${MOTOR:-docker}"
 CONTENEDOR="${CONTENEDOR:-practica1-postgres}"
 DATOS="${DATOS:-$RAIZ/practica4/datos/generados}"
 
-for variable in PGDATABASE PGUSER PGPASSWORD ADMIN_USUARIO; do
+for variable in PGDATABASE ADMIN_USUARIO COMANDAS_APP_CLAVE COMANDAS_CONSULTA_CLAVE COMANDAS_ADMIN_CLAVE; do
     if [ -z "${!variable:-}" ]; then
         echo "Falta la variable $variable. Copie practica4/poblar/.env.example a practica4/poblar/.env y llénela." >&2
         exit 2
@@ -42,10 +43,15 @@ if ! [[ "$PGDATABASE" =~ ^[a-z_][a-z0-9_]*$ ]]; then
     exit 2
 fi
 
+# La carga entra con el rol de la aplicación, nunca con el administrador.
+export PGUSER=app_comandas
+export PGPASSWORD="$COMANDAS_APP_CLAVE"
+
 # Se pasa el nombre de la variable y no su valor, para que la contraseña no
-# aparezca en la lista de procesos.
-psql_app() { "$MOTOR" exec -i -e PGDATABASE -e PGUSER -e PGPASSWORD "$CONTENEDOR" psql -X -q -v ON_ERROR_STOP=1 "$@"; }
-psql_admin() { "$MOTOR" exec -i "$CONTENEDOR" psql -X -q -v ON_ERROR_STOP=1 -U "$ADMIN_USUARIO" "$@"; }
+# aparezca en la lista de procesos. Se conecta a la IP del contenedor porque la
+# conexión local y la de 127.0.0.1 no piden contraseña en la imagen de PostgreSQL.
+psql_app() { "$MOTOR" exec -i -e PGDATABASE -e PGUSER -e PGPASSWORD "$CONTENEDOR" sh -c 'PGHOST=$(hostname -i) exec psql -X -q -v ON_ERROR_STOP=1 "$@"' sh "$@"; }
+psql_admin() { "$MOTOR" exec -i -e COMANDAS_APP_CLAVE -e COMANDAS_CONSULTA_CLAVE -e COMANDAS_ADMIN_CLAVE "$CONTENEDOR" psql -X -q -v ON_ERROR_STOP=1 -U "$ADMIN_USUARIO" "$@"; }
 
 if ! "$MOTOR" exec "$CONTENEDOR" pg_isready -q > /dev/null 2>&1; then
     echo "El contenedor $CONTENEDOR no está listo. Levántelo con: make -C sql levantar" >&2
@@ -74,6 +80,8 @@ if [ -z "$(psql_admin -d postgres -Atc "SELECT 1 FROM pg_database WHERE datname 
         psql_admin -d "$PGDATABASE" < "$migracion" > /dev/null
     done
 fi
+
+psql_admin -d "$PGDATABASE" < "$POBLAR_DIR/crear_usuarios.sql"
 
 "$MOTOR" exec "$CONTENEDOR" rm -rf /tmp/poblar
 "$MOTOR" exec "$CONTENEDOR" mkdir -p /tmp/poblar

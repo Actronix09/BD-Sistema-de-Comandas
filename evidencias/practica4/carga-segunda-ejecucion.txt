@@ -1,4 +1,4 @@
-==> Base comandas_carga, usuario pg-practica1
+==> Base comandas_carga, usuario app_comandas
 ==> Leyendo los CSV con \copy
 ==> Cargando las tablas
 

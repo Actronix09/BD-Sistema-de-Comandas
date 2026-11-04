@@ -1,6 +1,7 @@
 ==> Borrando la base comandas_carga
 ==> Creando la base comandas_carga con el esquema y las migraciones
-==> Base comandas_carga, usuario pg-practica1
+    099-permisos.sql
+==> Base comandas_carga, usuario app_comandas
 ==> Leyendo los CSV con \copy
 ==> Cargando las tablas
 
@@ -31,4 +32,4 @@
 
 
 ==> Carga confirmada
-==> Tiempo total: 122 s
+==> Tiempo total: 174 s

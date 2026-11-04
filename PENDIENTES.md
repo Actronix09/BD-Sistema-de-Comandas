@@ -79,13 +79,13 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Casos de `NOT NULL` (3), `UNIQUE` simple (8), `UNIQUE` compuesta (2, 13 y 20), `CHECK` de rango (9 y 17) y entre columnas (10 y 25).
     - [ ] Caso de `DEFAULT`. **Falta:** no hay; por ejemplo, un evento sin `estado` queda `programado` y uno con `estado` nulo se rechaza.
     - [ ] Caso de `CHECK` de formato. **Hay:** el rechazo 19 (nombre en blanco). **Falta:** el del formato real de 1.2.
-  - [ ] **Ejercicio 1.6. Usuarios y permisos** (`permisos.md`) · @Actronix09
-    - [ ] Tres roles (aplicación, consulta y administración), diciendo para qué existe cada uno. **Hay:** nada; todo se conecta con `pg-practica1`, que es superusuario. **Falta:** todo.
-    - [ ] `GRANT` con mínimo privilegio y un usuario por rol, con las contraseñas en variables de entorno. **Falta:** todo. **Ojo, comprobado:** los disparadores corren con los permisos de quien hace la operación. Con solo `SELECT` e `INSERT`, levantar una comanda falla con `permission denied for table cuenta` por su `FOR UPDATE`. Hay que decidir entre conceder esos permisos o usar `SECURITY DEFINER`, y explicarlo. El rol de consulta no debe leer `usuario.contrasena_hash`.
-    - [ ] El script de carga se conecta con el rol de la aplicación. **Falta:** todo. Crear la base y correr las migraciones sigue siendo del administrador.
-    - [ ] Una operación permitida y una negada por rol, con el mensaje del gestor. **Falta:** todo.
-    - [ ] Un `REVOKE` que muestre que la operación deja de funcionar. **Falta:** todo.
-    - [ ] Matriz de permisos: 3 roles contra 17 tablas. **Falta:** todo.
+  - [x] **Ejercicio 1.6. Usuarios y permisos** (`practica4/permisos.md`) · @Actronix09
+    - [x] Tres roles (aplicación, consulta y administración), diciendo para qué existe cada uno: `migraciones/099-permisos.sql`.
+    - [x] `GRANT` con mínimo privilegio y un usuario por rol, con las contraseñas en variables de entorno. Los disparadores corren con los permisos de quien opera; se concedieron en lugar de usar `SECURITY DEFINER`.
+    - [x] El script de carga se conecta con el rol de la aplicación: `app_comandas`.
+    - [x] Una operación permitida y una negada por rol, con el mensaje del gestor: `poblar/probar_permisos.sh`.
+    - [x] Un `REVOKE` que muestra que la operación deja de funcionar.
+    - [x] Matriz de permisos: 3 roles contra 17 tablas, leída del catálogo.
   - [ ] **Ejercicio 1.7. Sismos: datos y dominios** (`practica4/proyecto-asignado/`) · Samy
     - [ ] Cargar el catálogo en la base del fork con un script que cumpla 1.4. **Hay:** volcados del repo original (168 MB) en `fuentes-alternas/sismos-usgs/datos/original/ssn` y JSON en `data/` del fork. **Falta:** el script. También hay que decidir si se parte del catálogo público del SSN, que es lo que pide la práctica, o de los volcados, y justificarlo.
     - [ ] Comparar con el artículo y explicar las diferencias. **Hay:** 319,592 sismos y 196,576 hechos (`data/README.md` del fork); el artículo habla de más de 300,000; y `fuentes-alternas` encontró 74,927 sismos con un día de menos. **Falta:** repetir los números con la carga nueva y escribir la comparación.
