@@ -1,0 +1,123 @@
+id_producto,nombre,descripcion,categoria,precio,id_producto_principal,origen_precio,se_pide
+1,Tacos,,alimentos,30.00,,menu,no
+2,Tacos de bistec,,alimentos,30.00,1,menu,si
+3,Tacos de longaniza,,alimentos,30.00,1,menu,si
+4,Tacos campechanos,,alimentos,30.00,1,menu,si
+5,Tacos de bistec con queso,,alimentos,35.00,1,menu,si
+6,Tacos de longaniza con queso,,alimentos,35.00,1,menu,si
+7,Tacos campechanos con queso,,alimentos,35.00,1,menu,si
+8,Hamburguesa de arrachera,Arrachera de 150 g,alimentos,80.00,,menu,si
+9,Hot dog,3 piezas,alimentos,60.00,,menu,si
+10,Maruchan,,alimentos,35.00,,menu,no
+11,Maruchan de camarón,,alimentos,35.00,10,menu,si
+12,Maruchan de habanero,,alimentos,35.00,10,menu,si
+13,Maruchan de piquín,,alimentos,35.00,10,menu,si
+14,Sincronizadas,Con ensalada mixta,alimentos,40.00,,menu,si
+15,"Sincronizadas, media orden",,alimentos,25.00,14,integrante,si
+16,Choripán,Chorizo argentino,alimentos,50.00,,menu,si
+17,Tortas,,alimentos,50.00,,menu,no
+18,Torta de bistec,,alimentos,50.00,17,menu,si
+19,Torta de pollo,,alimentos,50.00,17,menu,si
+20,Torta de jamón,,alimentos,50.00,17,menu,si
+21,Torta de queso,,alimentos,50.00,17,menu,si
+22,Torta de bistec con queso,,alimentos,60.00,17,menu,si
+23,Torta de pollo con queso,,alimentos,60.00,17,menu,si
+24,Torta de jamón con queso,,alimentos,60.00,17,menu,si
+25,Pambazos,,alimentos,35.00,,menu,si
+26,Chilaquiles con bistec,,alimentos,80.00,,menu,si
+27,"Chilaquiles con bistec, media orden",,alimentos,50.00,26,integrante,si
+28,Mini ensalada,Zanahoria y pepino,alimentos,40.00,,menu,si
+29,"Mini ensalada, media orden",,alimentos,25.00,28,integrante,si
+30,Tenders de pollo con ensalada,,alimentos,80.00,,menu,si
+31,"Tenders de pollo con ensalada, media orden",,alimentos,50.00,30,integrante,si
+32,Ensalada,,alimentos,80.00,,menu,no
+33,Ensalada con queso,,alimentos,80.00,32,menu,si
+34,Ensalada con pollo,,alimentos,80.00,32,menu,si
+35,Alambre,"Bistec, tocino, jamón, cebolla, morrón y queso",alimentos,200.00,,menu,si
+36,"Alambre, media orden",,alimentos,120.00,35,integrante,si
+37,Plato botana de fritura,,dulceria,15.00,,menu,si
+38,Nachos,"Con queso, catsup, crema y jalapeño",alimentos,50.00,,menu,si
+39,Papas,,dulceria,30.00,,menu,no
+40,Papas naturales,,dulceria,30.00,39,menu,si
+41,Papas adobadas,,dulceria,30.00,39,menu,si
+42,Papas con queso,,dulceria,30.00,39,menu,si
+43,Papas con limón,,dulceria,30.00,39,menu,si
+44,Churritos,,dulceria,25.00,,menu,no
+45,Churritos naturales,,dulceria,25.00,44,menu,si
+46,Churritos con chile,,dulceria,25.00,44,menu,si
+47,Palomitas de microondas,,dulceria,50.00,,menu,si
+48,Chicharrón preparado,,alimentos,50.00,,menu,si
+49,"Chicharrón preparado, mitad",,alimentos,30.00,48,menu,si
+50,Agua de 1 L,,bebidas,30.00,,menu,no
+51,Agua de 1 L fría,,bebidas,30.00,50,menu,si
+52,Agua de 1 L al tiempo,,bebidas,30.00,50,menu,si
+53,Jugo del Valle de 413 ml,,bebidas,35.00,,menu,no
+54,Jugo del Valle de manzana,,bebidas,35.00,53,menu,si
+55,Jugo del Valle de mango,,bebidas,35.00,53,menu,si
+56,Jugo del Valle de durazno,,bebidas,35.00,53,menu,si
+57,Refresco de 600 ml,,bebidas,35.00,,menu,no
+58,Coca de 600 ml fría,,bebidas,35.00,57,menu,si
+59,Coca de 600 ml al tiempo,,bebidas,35.00,57,menu,si
+60,Sidral de 600 ml fría,,bebidas,35.00,57,menu,si
+61,Sidral de 600 ml al tiempo,,bebidas,35.00,57,menu,si
+62,Squirt de 600 ml fría,,bebidas,35.00,57,menu,si
+63,Squirt de 600 ml al tiempo,,bebidas,35.00,57,menu,si
+64,Tehuacán de 600 ml fría,,bebidas,35.00,57,menu,si
+65,Tehuacán de 600 ml al tiempo,,bebidas,35.00,57,menu,si
+66,Refresco de 3 L,,bebidas,100.00,,menu,no
+67,Coca de 3 L fría,,bebidas,100.00,66,menu,si
+68,Coca de 3 L al tiempo,,bebidas,100.00,66,menu,si
+69,Squirt de 3 L fría,,bebidas,100.00,66,menu,si
+70,Squirt de 3 L al tiempo,,bebidas,100.00,66,menu,si
+71,Sidral de 3 L fría,,bebidas,100.00,66,menu,si
+72,Sidral de 3 L al tiempo,,bebidas,100.00,66,menu,si
+73,Sangría de 3 L fría,,bebidas,100.00,66,menu,si
+74,Sangría de 3 L al tiempo,,bebidas,100.00,66,menu,si
+75,Agua mineral de 2 L,,bebidas,70.00,,menu,si
+76,Ginger Ale de 1 L,,bebidas,50.00,,menu,si
+77,Preparada de 1/2 L,,bebidas,45.00,,menu,no
+78,Tehuacán preparado de 1/2 L,,bebidas,45.00,77,menu,si
+79,Sangría preparada de 1/2 L,,bebidas,45.00,77,menu,si
+80,Preparada de 1 L,,bebidas,70.00,,menu,no
+81,Tehuacán preparado de 1 L,,bebidas,70.00,80,menu,si
+82,Sangría preparada de 1 L,,bebidas,70.00,80,menu,si
+83,Café o té,,bebidas,20.00,,menu,no
+84,Café,,bebidas,20.00,83,menu,si
+85,Té,,bebidas,20.00,83,menu,si
+86,Michelada de 1/2 L,,bebidas,50.00,,menu,si
+87,Michelada de 1/2 L con Clamato,,bebidas,60.00,86,menu,si
+88,Michelada de 1 L,,bebidas,80.00,,menu,si
+89,Michelada de 1 L con Clamato,,bebidas,90.00,88,menu,si
+90,Cerveza en bola o yarda,,bebidas,60.00,,menu,no
+91,Cerveza en bola,,bebidas,60.00,90,menu,si
+92,Cerveza en yarda,,bebidas,60.00,90,menu,si
+93,Cubetazo de 6 cervezas,,bebidas,180.00,,menu,si
+94,Cerveza de 355 ml,,bebidas,35.00,,menu,no
+95,Corona de 355 ml,,bebidas,35.00,94,menu,si
+96,Victoria de 355 ml,,bebidas,35.00,94,menu,si
+97,Ultra de 355 ml,,bebidas,35.00,94,menu,si
+98,Cerveza Modelo,,bebidas,40.00,,menu,no
+99,Negra Modelo,,bebidas,40.00,98,menu,si
+100,Modelo Especial,,bebidas,40.00,98,menu,si
+101,Caguama,,bebidas,90.00,,menu,no
+102,Caguama Corona,,bebidas,90.00,101,menu,si
+103,Caguama Corona preparada,,bebidas,100.00,101,integrante,si
+104,Caguama Victoria,,bebidas,90.00,101,menu,si
+105,Caguama Victoria preparada,,bebidas,100.00,101,integrante,si
+106,Caguama León,,bebidas,90.00,101,menu,si
+107,Caguama León preparada,,bebidas,100.00,101,integrante,si
+108,Caguama de la marca Modelo,,bebidas,100.00,,menu,no
+109,Caguama Modelo,,bebidas,100.00,108,menu,si
+110,Caguama Modelo preparada,,bebidas,110.00,108,integrante,si
+111,Caguama Modelo Especial,,bebidas,100.00,108,menu,si
+112,Caguama Modelo Especial preparada,,bebidas,110.00,108,integrante,si
+113,Copa de 60 pesos,,bebidas,60.00,,menu,no
+114,Copa de Bacardí Blanco,,bebidas,60.00,113,menu,si
+115,Copa de Brandy Torres 5,,bebidas,60.00,113,menu,si
+116,Copa de Whisky Label 5,,bebidas,60.00,113,menu,si
+117,Copa de Tequila José Cuervo,,bebidas,60.00,113,menu,si
+118,Copa de 70 pesos,,bebidas,70.00,,menu,no
+119,Copa de Torres 10,,bebidas,70.00,118,menu,si
+120,Copa de Tequila Tradicional,,bebidas,70.00,118,menu,si
+121,Copa de Whisky Johnnie Walker ER,,bebidas,70.00,118,menu,si
+122,Vaso escarchado,,bebidas,5.00,,menu,si

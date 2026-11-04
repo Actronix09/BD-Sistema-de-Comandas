@@ -36,7 +36,7 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
 ### Lista de requisitos
 
 - [ ] **Continuidad del entorno de trabajo** · @Actronix09
-  - [ ] Rama `practica4-5` creada desde `main`. **Falta:** no existe.
+  - [x] Rama `practica4-5` creada desde `main`, con una rama por sección (`docs/EntornoPractica4y5.md`).
   - [x] Gestor levantado y `esquema.sql` ejecutado sobre una base limpia: `entorno/compose.yml` y `make -C sql pruebas`.
   - [ ] Base de Sismos levantada desde el fork (Samy). **Hay:** `levantamiento.md` del fork, de prácticas anteriores. **Falta:** levantarla para esta práctica, con su evidencia.
   - [ ] Migraciones numeradas con `ALTER TABLE` (Samy). **Hay:** nada; hoy los cambios se hacen editando `sql/esquema.sql`. **Falta:** `practica4/migraciones/` y que `make cargar` y `make pruebas` las apliquen después del esquema.
@@ -56,14 +56,14 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [ ] `CHECK` de formato. **Hay:** solo `ck_cuenta_nombre`, que revisa que no esté en blanco. **Falta:** uno real, por ejemplo `usuario.usuario` con una expresión regular, en una migración y con su rechazo.
     - [x] Al menos diez `CHECK` o `UNIQUE`: hay 35 `CHECK` y 4 `UNIQUE`.
     - [ ] La regla del dominio al lado de cada restricción (en `dominios.md`). **Hay:** parte en `docs/ReglasDeTransformacion.md`, sección "Restricciones por tabla". **Falta:** todas las restricciones, una regla en una línea por cada una.
-  - [ ] **Ejercicio 1.3. Fuente de datos** (`fuente.md`) · @Actronix09
-    - [ ] Buscar un conjunto publicado y decidir. **Hay:** nada. **Propuesta:** buscar el catálogo (`producto`, `ingrediente`, `receta`) en fuentes publicadas y generar la operación (`evento`, `comanda`, `pago`), si se comprueba que no hay datos públicos de eso. Candidatos por verificar: NYPL *What's on the Menu?*, TheMealDB, Open Food Facts y PROFECO *Quién es quién en los precios*. También hay que preguntarle al salón de la entrevista si puede compartir datos.
-    - [ ] Referencia en APA 7 con su licencia y lo que permite hacer con los datos. **Falta:** todo.
-    - [ ] Formato original, tamaño, número de registros y campos. **Falta:** todo.
-    - [ ] Tabla de correspondencia: cada campo contra su tabla y columna, incluidos los que no se usan y por qué. **Falta:** todo.
-    - [ ] Qué venía mal en los datos y qué se decidió con cada problema. **Falta:** todo.
-    - [ ] Lo que se genere: dónde se buscó, con qué términos y por qué no hay datos; que respete las restricciones; al menos 200 renglones en cada tabla principal; y aviso de datos sintéticos en el README. **Hay:** `sql/datos-ejemplo.sql`, muy por debajo: 1 evento, 3 cuentas, 5 comandas y 1 pago. **Falta:** todo.
-    - [ ] Anonimizar los datos personales, si un conjunto real los trae. **Falta:** revisarlo cuando se elija la fuente.
+  - [x] **Ejercicio 1.3. Fuente de datos** (`fuente.md`) · @Actronix09
+    - [x] Buscar un conjunto publicado y decidir (`practica4/fuente.md`): menú real del salón de eventos, recetas estimadas con FNDDS, operación sintética, y productos e ingredientes inventados hasta pasar de 200.
+    - [x] Referencia en APA 7 con su licencia y lo que permite hacer con los datos: CC0 en FNDDS y permiso del salón para publicar su menú, sin sus datos.
+    - [x] Formato original, tamaño, número de registros y campos.
+    - [x] Tabla de correspondencia: cada campo contra su tabla y columna, incluidos los que no se usan y por qué.
+    - [x] Qué venía mal en los datos y qué se decidió con cada problema.
+    - [x] Lo que se genere: dónde se buscó, con qué términos y por qué no hay datos; que respete las restricciones; al menos 200 renglones en cada tabla principal; y aviso de datos sintéticos en el README. Hecho con `practica4/poblar/generar_datos.py`.
+    - [x] Anonimizar los datos personales: ninguna fuente trae datos personales y los nombres generados no son de personas reales.
   - [ ] **Ejercicio 1.4. Script de carga** (`practica4/poblar/`) · @Actronix09
     - [ ] Un solo comando, documentado en el README. **Hay:** `make -C sql cargar`, solo con los datos de ejemplo y sin documentar para esto. **Falta:** el comando de la carga real.
     - [ ] Repetible. **Hay:** `make cargar` no duplica porque borra y recrea la base, pero así no se puede conectar con el rol de la aplicación. **Ojo, comprobado:** `ON CONFLICT DO NOTHING` no basta, porque los disparadores `BEFORE INSERT` corren antes. Repetir un pago ya guardado falla con "el pago excede el saldo de la cuenta". Hay que filtrar lo que ya existe con `WHERE NOT EXISTS`.
