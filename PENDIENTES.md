@@ -13,7 +13,7 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 - `[x]`: el requisito ya se cumple y solo hay que citarlo en el entregable.
 - `[ ]`: falta algo. **Hay** dice lo que ya existe y **Falta**, lo que queda.
 - Los números de ejercicio son los del documento de la práctica, no los de las fases.
-- Estado revisado el 4 de noviembre contra el repo, la base de pruebas (`make -C sql pruebas`: 35 rechazos y 14 válidas, todas pasan) y el fork de Sismos.
+- Estado revisado el 4 de noviembre contra el repo, la base de pruebas (`make -C sql pruebas`: 36 rechazos y 15 válidas, todas pasan) y el fork de Sismos.
 
 ### Quién hace qué
 
@@ -74,11 +74,11 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Eficiente: `\copy` tarda 0.13 s, contra 2.13 s y 11.76 s de un `INSERT` por renglón (`comparar_tiempos.sh`).
     - [x] Registro de lo que rechazó cada restricción, con la decisión de cada caso (`practica4/carga.md`).
     - [x] Salida de la terminal de la primera y la segunda ejecución (`evidencias/practica4/`).
-  - [ ] **Ejercicio 1.5. Pruebas de dominio** (`pruebas-dominio.md`) · Samy
-    - [ ] Diez casos con operación, resultado esperado, mensaje del gestor y regla protegida. **Hay:** 35 rechazos en `sql/inserts-rechazados.sql` y 14 casos válidos en `sql/pruebas-validas.sql`. **Falta:** escribir el documento.
+  - [x] **Ejercicio 1.5. Pruebas de dominio** (`pruebas-dominio.md`) · Samy
+    - [x] Diez casos con operación, resultado esperado, mensaje del gestor y regla protegida, documentados en `practica4/pruebas-dominio.md`; `make -C sql pruebas` confirmó los mensajes y resultados.
     - [x] Casos de `NOT NULL` (3), `UNIQUE` simple (8), `UNIQUE` compuesta (2, 13 y 20), `CHECK` de rango (9 y 17) y entre columnas (10 y 25).
-    - [ ] Caso de `DEFAULT`. **Falta:** no hay; por ejemplo, un evento sin `estado` queda `programado` y uno con `estado` nulo se rechaza.
-    - [ ] Caso de `CHECK` de formato. **Hay:** rechazo 35 y caso válido 14 para el formato de usuario. **Falta:** documentarlos en `pruebas-dominio.md`.
+    - [x] Caso de `DEFAULT`: el caso válido 15 comprueba que un evento sin `estado` queda `programado`; el rechazo 36 confirma que un `NULL` explícito se rechaza.
+    - [x] Caso de `CHECK` de formato: rechazo 35 y caso válido 14 para el formato de usuario, documentados en `pruebas-dominio.md`.
   - [x] **Ejercicio 1.6. Usuarios y permisos** (`practica4/permisos.md`) · @Actronix09
     - [x] Tres roles (aplicación, consulta y administración), diciendo para qué existe cada uno: `migraciones/099-permisos.sql`.
     - [x] `GRANT` con mínimo privilegio y un usuario por rol, con las contraseñas en variables de entorno. Los disparadores corren con los permisos de quien opera; se concedieron en lugar de usar `SECURITY DEFINER`.
@@ -182,7 +182,7 @@ El programa en C (memoria compartida, ncurses y archivos de texto) pasa a ser un
 - **Lo que la base ya protege no se repite en el servidor.** El descuento de stock, la máquina de estados y las reglas del cobro viven en disparadores. Si el servidor también los hace, se hacen dos veces.
 - Cada regla nueva de la base lleva tres cosas: su disparador o `CHECK` en una migración numerada de `practica4/migraciones/`, un caso en `inserts-rechazados.sql` y un caso en `pruebas-validas.sql`. **Primero el disparador** y después los casos. Si no, el Makefile marca el rechazo como fallido.
 - Antes de cada commit, `make -C sql pruebas` debe terminar en `Todas las pruebas pasaron`.
-- Numeración: el siguiente rechazo es el **36** y el siguiente caso válido es el **15**.
+- Numeración: el siguiente rechazo es el **37** y el siguiente caso válido es el **16**.
 - Los disparadores lanzan `RAISE EXCEPTION … USING ERRCODE = 'check_violation'`, igual que `fijar_precio_cobrado()`.
 
 ## Reparto

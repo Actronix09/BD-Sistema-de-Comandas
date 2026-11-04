@@ -483,4 +483,16 @@ BEGIN;
     END $$;
     \warn '✓ 14 de 14'
 
+    \warn '=== 15. Estado inicial de evento por DEFAULT'
+    DO $$
+    DECLARE
+        v_estado VARCHAR(12);
+    BEGIN
+        INSERT INTO evento (fecha, tipo_evento, numero_asistentes)
+        VALUES (DATE '2026-11-05', 'prueba', 1)
+        RETURNING estado INTO v_estado;
+        ASSERT v_estado = 'programado', format('el evento quedó en estado %s, se esperaba programado', v_estado);
+    END $$;
+    \warn '✓ 15 de 15'
+
 ROLLBACK;
