@@ -2,7 +2,7 @@
 #  Makefile — Base de datos del Sistema de Comandas
 #
 #  Levanta el contenedor de PostgreSQL y corre la secuencia de pruebas:
-#  esquema → datos de ejemplo → inserts rechazados → pruebas válidas.
+#  esquema → migraciones numeradas → datos de ejemplo → rechazos → válidas.
 #
 #      make                 lista los objetivos
 #      make pruebas         corrida completa sobre la base de pruebas
@@ -21,6 +21,7 @@ SHELL       := /bin/bash
 # las rutas en los espacios, y "Bases de Datos" tiene espacios.
 SQL_DIR      ?= $(CURDIR)
 COMPOSE_FILE ?= $(SQL_DIR)/../entorno/compose.yml
+MIGRACIONES_DIR ?= $(SQL_DIR)/../practica4/migraciones
 
 MOTOR        ?= docker
 CONTENEDOR   ?= practica1-postgres
@@ -40,7 +41,7 @@ help:
 	@echo "  levantar     Levanta el contenedor $(CONTENEDOR) y espera a que acepte conexiones"
 	@echo "  detener      Detiene el contenedor (el volumen y los datos se conservan)"
 	@echo "  estado       Muestra el contenedor y las bases que existen"
-	@echo "  cargar       Recrea la base $(BASE) con esquema.sql y datos-ejemplo.sql"
+	@echo "  cargar       Recrea $(BASE): esquema.sql, migraciones y datos-ejemplo.sql"
 	@echo "  pruebas      Recrea $(BASE_PRUEBAS) y corre toda la secuencia de pruebas"
 	@echo "  rechazados   Corre inserts-rechazados.sql y exige que cada caso falle"
 	@echo "  validas      Corre pruebas-validas.sql y verifica todos sus casos"
@@ -49,6 +50,7 @@ help:
 	@echo
 	@echo "Variables: MOTOR=$(MOTOR) CONTENEDOR=$(CONTENEDOR) USUARIO=$(USUARIO)"
 	@echo "           BASE=$(BASE) BASE_PRUEBAS=$(BASE_PRUEBAS)"
+	@echo "           MIGRACIONES_DIR=$(MIGRACIONES_DIR)"
 
 levantar:
 	@$(COMPOSE) up -d
@@ -73,15 +75,23 @@ estado:
 # Recetas reutilizables. Se usan con $(call …) dentro de los objetivos, en
 # lugar de llamar a make de nuevo, para que funcionen igual con -C y con -f.
 
-# $(1) = base. Recrea la base y carga esquema y datos. ON_ERROR_STOP detiene
-# el script en el primer error; como cada archivo va en BEGIN…COMMIT, un
-# error deshace todo el archivo y make se detiene con el mensaje de psql.
+# $(1) = base. Recrea la base y carga esquema, migraciones y datos.
+# ON_ERROR_STOP detiene cada archivo en el primer error; cada migración debe
+# usar BEGIN…COMMIT para que el error deshaga ese archivo.
 define cargar_base
 @echo "==> Recreando la base $(1)"
 @$(PSQL) -d postgres -c 'DROP DATABASE IF EXISTS "$(1)" WITH (FORCE);'
 @$(PSQL) -d postgres -c "CREATE DATABASE \"$(1)\" ENCODING 'UTF8';"
 @echo "==> esquema.sql"
 @$(PSQL) -v ON_ERROR_STOP=1 -d $(1) < "$(SQL_DIR)/esquema.sql" > /dev/null
+@hay_migraciones=0; \
+for archivo in "$(MIGRACIONES_DIR)"/[0-9][0-9][0-9]-*.sql; do \
+	[ -f "$$archivo" ] || continue; \
+	hay_migraciones=1; \
+	echo "==> Migración $${archivo##*/}"; \
+	$(PSQL) -v ON_ERROR_STOP=1 -d $(1) < "$$archivo" > /dev/null; \
+done; \
+if [ "$$hay_migraciones" -eq 0 ]; then echo "==> Sin migraciones numeradas"; fi
 @echo "==> datos-ejemplo.sql"
 @$(PSQL) -v ON_ERROR_STOP=1 -d $(1) < "$(SQL_DIR)/datos-ejemplo.sql" > /dev/null
 endef
