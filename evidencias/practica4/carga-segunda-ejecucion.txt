@@ -1,0 +1,32 @@
+==> Base comandas_carga, usuario pg-practica1
+==> Leyendo los CSV con \copy
+==> Cargando las tablas
+
+==> Renglones por tabla
+       tabla        | leidos | insertados | ya_existian | rechazados 
+--------------------+--------+------------+-------------+------------
+ ingrediente        |    208 |          0 |         208 |          0
+ producto           |    214 |          0 |         214 |          0
+ receta             |    681 |          0 |         681 |          0
+ usuario            |    200 |          0 |         200 |          0
+ mesero             |    130 |          0 |         130 |          0
+ bar_cocina         |     45 |          0 |          45 |          0
+ cajero_admin       |     25 |          0 |          25 |          0
+ paquete            |     12 |          0 |          12 |          0
+ paquete_producto   |    100 |          0 |         100 |          0
+ evento             |    240 |          0 |         240 |          0
+ evento_organizador |    360 |          0 |         360 |          0
+ acuerdo            |    625 |          0 |         625 |          0
+ anticipo           |    343 |          0 |         343 |          0
+ mesa               |   3943 |          0 |        3943 |          0
+ cuenta             |   7515 |          0 |        7515 |          0
+ comanda            |  37528 |          0 |       37528 |          0
+ pago               |   9640 |          0 |        9640 |          0
+
+ leidos | insertados | ya_existian | rechazados 
+--------+------------+-------------+------------
+  61809 |          0 |       61809 |          0
+
+
+==> Carga confirmada
+==> Tiempo total: 1 s

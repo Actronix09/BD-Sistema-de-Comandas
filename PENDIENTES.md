@@ -64,16 +64,16 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Qué venía mal en los datos y qué se decidió con cada problema.
     - [x] Lo que se genere: dónde se buscó, con qué términos y por qué no hay datos; que respete las restricciones; al menos 200 renglones en cada tabla principal; y aviso de datos sintéticos en el README. Hecho con `practica4/poblar/generar_datos.py`.
     - [x] Anonimizar los datos personales: ninguna fuente trae datos personales y los nombres generados no son de personas reales.
-  - [ ] **Ejercicio 1.4. Script de carga** (`practica4/poblar/`) · @Actronix09
-    - [ ] Un solo comando, documentado en el README. **Hay:** `make -C sql cargar`, solo con los datos de ejemplo y sin documentar para esto. **Falta:** el comando de la carga real.
-    - [ ] Repetible. **Hay:** `make cargar` no duplica porque borra y recrea la base, pero así no se puede conectar con el rol de la aplicación. **Ojo, comprobado:** `ON CONFLICT DO NOTHING` no basta, porque los disparadores `BEFORE INSERT` corren antes. Repetir un pago ya guardado falla con "el pago excede el saldo de la cuenta". Hay que filtrar lo que ya existe con `WHERE NOT EXISTS`.
-    - [ ] Ordenado. **Hay:** `sql/datos-ejemplo.sql` ya sigue las dependencias. **Ojo:** no basta con el orden de las claves foráneas. Por los disparadores, las comandas y los pagos entran con el evento sin finalizar y la cuenta abierta; las cuentas se cierran y los eventos se finalizan al final, y el stock debe alcanzar para todo lo preparado.
-    - [ ] Todo o nada, con un mensaje que diga qué renglón falló y por qué. **Hay:** `BEGIN…COMMIT` con `ON_ERROR_STOP`. **Falta:** el mensaje con el renglón.
-    - [ ] Con cuentas: insertados y rechazados por tabla. **Falta:** todo. Como la carga es todo o nada, los rechazados deben salir de un paso de validación antes de cargar, por ejemplo en tablas temporales.
-    - [ ] Sin credenciales adentro. **Hay:** usuario `pg-practica1` por omisión en `sql/Makefile` y contraseña por omisión en `entorno/compose.yml`. **Falta:** armar la conexión solo con variables de entorno.
-    - [ ] Eficiente: `\copy` en lugar de un `INSERT` por renglón, reportando la diferencia de tiempo. **Falta:** todo. Se copia a una tabla temporal y de ahí se inserta: `COPY` no admite filtrar lo que ya existe y las columnas generadas no se cargan.
-    - [ ] Registro de lo que rechazó cada restricción, decidiendo si se corrige el dato o la restricción (con una migración). **Falta:** todo.
-    - [ ] Salida de la terminal de la primera y la segunda ejecución. **Falta:** todo.
+  - [x] **Ejercicio 1.4. Script de carga** (`practica4/poblar/`, explicado en `practica4/carga.md`) · @Actronix09
+    - [x] Un solo comando, documentado en el README: `practica4/poblar/poblar.sh`.
+    - [x] Repetible: la segunda ejecución inserta 0 renglones, sin errores. Filtra con `NOT EXISTS`, porque `ON CONFLICT` falla por los disparadores `BEFORE INSERT`.
+    - [x] Ordenado: primero lo que piden las claves foráneas y además los disparadores. Las cuentas se cierran y los eventos se finalizan al final.
+    - [x] Todo o nada, con un mensaje que dice qué renglón falló y por qué (`probar_rechazos.sh`).
+    - [x] Con cuentas: leídos, insertados, ya existentes y rechazados por tabla.
+    - [x] Sin credenciales adentro: `poblar.sh` usa variables de entorno y `.env.example`.
+    - [x] Eficiente: `\copy` tarda 0.13 s, contra 2.13 s y 11.76 s de un `INSERT` por renglón (`comparar_tiempos.sh`).
+    - [x] Registro de lo que rechazó cada restricción, con la decisión de cada caso (`practica4/carga.md`).
+    - [x] Salida de la terminal de la primera y la segunda ejecución (`evidencias/practica4/`).
   - [ ] **Ejercicio 1.5. Pruebas de dominio** (`pruebas-dominio.md`) · Samy
     - [ ] Diez casos con operación, resultado esperado, mensaje del gestor y regla protegida. **Hay:** 34 rechazos en `sql/inserts-rechazados.sql`, de donde salen casi todos. **Falta:** escribir el documento.
     - [x] Casos de `NOT NULL` (3), `UNIQUE` simple (8), `UNIQUE` compuesta (2, 13 y 20), `CHECK` de rango (9 y 17) y entre columnas (10 y 25).
