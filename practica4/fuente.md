@@ -71,13 +71,13 @@ Los datos se buscaron primero en el propio caso de estudio, como pide la prácti
 
 | Concepto | Valor |
 | :-- | :-- |
-| Referencia (APA 7) | salón de eventos. (2026). *Menú de alimentos y bebidas* [Fotografías]. Fotografías tomadas el 3 de noviembre de 2026 |
-| Permiso | El menú no publica una licencia. **Falta confirmar con el salón** que se puede publicar en este repositorio |
-| Formato original | 2 fotografías JPG: [alimentos](<datos/salon/menu-alimentos.jpg>) y [bebidas](<datos/salon/menu-bebidas.jpg>), 354 KB en total |
+| Referencia (APA 7) | Salón de eventos del caso de estudio. (2026). *Menú de alimentos y bebidas* [Fotografías]. Fotografías tomadas el 3 de noviembre de 2026. El nombre del salón se omite en este repositorio |
+| Permiso | El salón dio permiso para publicar su menú en este repositorio. No publica una licencia, así que el permiso solo cubre este uso |
+| Formato original | 2 fotografías JPG: [alimentos](<datos/salon/menu-alimentos.jpg>) y [bebidas](<datos/salon/menu-bebidas.jpg>), 383 KB en total, con el nombre, el logotipo y los datos de contacto del salón tapados |
 | Transcripción | [`datos/salon/productos.csv`](<datos/salon/productos.csv>): 122 renglones: 102 se piden y 20 solo agrupan variantes |
 | Campos | `id_producto`, `nombre`, `descripcion`, `categoria`, `precio`, `id_producto_principal`, `origen_precio`, `se_pide` |
 
-Ningún renglón trae datos personales. La línea de contacto de las fotografías es la del negocio.
+Ningún renglón trae datos personales. Tampoco se publica nada que identifique al salón.
 
 ### Correspondencia con el esquema
 
@@ -98,6 +98,7 @@ Ningún renglón trae datos personales. La línea de contacto de las fotografía
 | Problema | Decisión |
 | :-- | :-- |
 | Las fotografías no son datos estructurados | Se transcribieron a mano a un CSV |
+| Las fotografías traen el nombre, el logotipo, el teléfono y la página del salón | Se taparon con recuadros negros antes de subirlas |
 | Un mismo renglón agrupa varios productos, como "Tacos (Bistec, Longaniza, Campechanos)" | Un producto principal y una variante por cada opción |
 | El precio de `$35` queda entre "Jugos del Valle" y "Refrescos de 600 ml" | Son productos distintos con el mismo precio, según confirmó un integrante que trabajó en el salón |
 | Los extras, como "Queso + $5", no son productos | Cada combinación es una variante con el precio ya sumado |
