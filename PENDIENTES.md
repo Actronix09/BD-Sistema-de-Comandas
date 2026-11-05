@@ -2,7 +2,7 @@
 
 Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** y una casilla para marcarla cuando esté lista.
 
-**Actualizado:** 3 de noviembre de 2026
+**Actualizado:** 4 de noviembre de 2026
 
 ---
 
@@ -13,7 +13,7 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 - `[x]`: el requisito ya se cumple y solo hay que citarlo en el entregable.
 - `[ ]`: falta algo. **Hay** dice lo que ya existe y **Falta**, lo que queda.
 - Los números de ejercicio son los del documento de la práctica, no los de las fases.
-- Estado revisado el 3 de noviembre contra el repo, la base de pruebas (`make -C sql pruebas`: 34 rechazos y 13 válidas, todas pasan) y el fork de Sismos.
+- Estado revisado el 4 de noviembre contra el repo, la base de pruebas (`make -C sql pruebas`: 36 rechazos y 15 válidas, todas pasan) y el fork de Sismos.
 
 ### Quién hace qué
 
@@ -39,23 +39,23 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
   - [x] Rama `practica4-5` creada desde `main`, con una rama por sección (`docs/EntornoPractica4y5.md`).
   - [x] Gestor levantado y `esquema.sql` ejecutado sobre una base limpia: `entorno/compose.yml` y `make -C sql pruebas`.
   - [ ] Base de Sismos levantada desde el fork (Samy). **Hay:** `levantamiento.md` del fork, de prácticas anteriores. **Falta:** levantarla para esta práctica, con su evidencia.
-  - [ ] Migraciones numeradas con `ALTER TABLE` (Samy). **Hay:** nada; hoy los cambios se hacen editando `sql/esquema.sql`. **Falta:** `practica4/migraciones/` y que `make cargar` y `make pruebas` las apliquen después del esquema.
+  - [x] Migraciones numeradas con `ALTER TABLE` (Samy): `001-dominios.sql` y `002-formato-usuario.sql`; `make cargar` y `make pruebas` las aplican después del esquema.
   - [ ] Confirmaciones propias en días distintos (ambos). **Hay:** @Actronix09 tiene muchas y Samy tiene 1 (30 de octubre). **Falta:** que cada quien confirme en al menos dos días, entre hoy y el jueves.
   - [ ] PR revisado por otro integrante y fusionado. Lo abre @Actronix09 y lo revisa Samy. **Falta:** todo.
 
 - [ ] **Práctica 4: DDL, permisos y restricciones de dominio**
-  - [ ] **Ejercicio 1.1. Tipos de dato y dominios** (`dominios.md`) · Samy
-    - [ ] Tabla con las 97 columnas: tipo, longitud o precisión y por qué. **Hay:** los tipos en `docs/DiccionarioDeDatos.md` y el criterio por clase de atributo en `docs/ReglasDeTransformacion.md`. **Falta:** la tabla, con el porqué de cada columna.
+  - [x] **Ejercicio 1.1. Tipos de dato y dominios** (`practica4/dominios.md`) · Samy
+    - [x] Tabla con las 97 columnas: tipo, longitud o precisión y por qué.
     - [x] Montos, fechas, identificadores y textos con el tipo correcto: `NUMERIC(10,2)`, `DATE`, `TIMESTAMPTZ` e `INTEGER` con identidad. Ninguna columna usa punto flotante.
-    - [ ] `CREATE DOMAIN` o tipos enumerados para lo que se repite, explicando qué se gana (`001-dominios.sql`). **Hay:** nada. **Propuesta:** `dinero` (6 columnas) y `cantidad` (3). **Ojo, comprobado:** `ALTER COLUMN TYPE` falla en las columnas que usan una vista o un disparador, como `pago.monto_propina` (`v_cuenta`) y `comanda.precio_cobrado` (`tg_comanda_precio`). La migración debe quitarlos y volver a crearlos.
-  - [ ] **Ejercicio 1.2. Restricciones de columna** · Samy
+    - [x] `CREATE DOMAIN` para `dinero` (6 columnas) y `cantidad` (3), con su beneficio explicado en `practica4/dominios.md` y los objetos dependientes recreados en `001-dominios.sql`.
+  - [x] **Ejercicio 1.2. Restricciones de columna** · Samy
     - [x] `NOT NULL` donde hace falta: 21 de las 25 claves foráneas. Las otras 4 tienen cardinalidad mínima 0.
     - [x] `DEFAULT` con valor inicial natural: 13 columnas (estados iniciales, `now()`, stock en 0).
     - [x] `UNIQUE` simples y compuestas: 4 `UNIQUE` y 3 índices únicos (por ejemplo, `uq_usuario_id_rol` y `ux_cuenta_nombre_abierta`).
     - [x] `CHECK` de rango, de lista de valores y entre columnas (por ejemplo, `ck_pago_monto`, `ck_comanda_estado` y `ck_pago_propina_limite`).
-    - [ ] `CHECK` de formato. **Hay:** solo `ck_cuenta_nombre`, que revisa que no esté en blanco. **Falta:** uno real, por ejemplo `usuario.usuario` con una expresión regular, en una migración y con su rechazo.
-    - [x] Al menos diez `CHECK` o `UNIQUE`: hay 35 `CHECK` y 4 `UNIQUE`.
-    - [ ] La regla del dominio al lado de cada restricción (en `dominios.md`). **Hay:** parte en `docs/ReglasDeTransformacion.md`, sección "Restricciones por tabla". **Falta:** todas las restricciones, una regla en una línea por cada una.
+    - [x] `CHECK` de formato en `usuario.usuario`, con rechazo 35, caso válido 14 y migración `002-formato-usuario.sql`.
+    - [x] Al menos diez `CHECK` o `UNIQUE`: hay 36 `CHECK` y 4 `UNIQUE`.
+    - [x] Regla del dominio junto a las restricciones en `practica4/dominios.md`.
   - [x] **Ejercicio 1.3. Fuente de datos** (`fuente.md`) · @Actronix09
     - [x] Buscar un conjunto publicado y decidir (`practica4/fuente.md`): menú real del salón de eventos, recetas estimadas con FNDDS, operación sintética, y productos e ingredientes inventados hasta pasar de 200.
     - [x] Referencia en APA 7 con su licencia y lo que permite hacer con los datos: CC0 en FNDDS y permiso del salón para publicar su menú, sin sus datos.
@@ -74,18 +74,18 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Eficiente: `\copy` tarda 0.13 s, contra 2.13 s y 11.76 s de un `INSERT` por renglón (`comparar_tiempos.sh`).
     - [x] Registro de lo que rechazó cada restricción, con la decisión de cada caso (`practica4/carga.md`).
     - [x] Salida de la terminal de la primera y la segunda ejecución (`evidencias/practica4/`).
-  - [ ] **Ejercicio 1.5. Pruebas de dominio** (`pruebas-dominio.md`) · Samy
-    - [ ] Diez casos con operación, resultado esperado, mensaje del gestor y regla protegida. **Hay:** 34 rechazos en `sql/inserts-rechazados.sql`, de donde salen casi todos. **Falta:** escribir el documento.
+  - [x] **Ejercicio 1.5. Pruebas de dominio** (`pruebas-dominio.md`) · Samy
+    - [x] Diez casos con operación, resultado esperado, mensaje del gestor y regla protegida, documentados en `practica4/pruebas-dominio.md`; `make -C sql pruebas` confirmó los mensajes y resultados.
     - [x] Casos de `NOT NULL` (3), `UNIQUE` simple (8), `UNIQUE` compuesta (2, 13 y 20), `CHECK` de rango (9 y 17) y entre columnas (10 y 25).
-    - [ ] Caso de `DEFAULT`. **Falta:** no hay; por ejemplo, un evento sin `estado` queda `programado` y uno con `estado` nulo se rechaza.
-    - [ ] Caso de `CHECK` de formato. **Hay:** el rechazo 19 (nombre en blanco). **Falta:** el del formato real de 1.2.
-  - [ ] **Ejercicio 1.6. Usuarios y permisos** (`permisos.md`) · @Actronix09
-    - [ ] Tres roles (aplicación, consulta y administración), diciendo para qué existe cada uno. **Hay:** nada; todo se conecta con `pg-practica1`, que es superusuario. **Falta:** todo.
-    - [ ] `GRANT` con mínimo privilegio y un usuario por rol, con las contraseñas en variables de entorno. **Falta:** todo. **Ojo, comprobado:** los disparadores corren con los permisos de quien hace la operación. Con solo `SELECT` e `INSERT`, levantar una comanda falla con `permission denied for table cuenta` por su `FOR UPDATE`. Hay que decidir entre conceder esos permisos o usar `SECURITY DEFINER`, y explicarlo. El rol de consulta no debe leer `usuario.contrasena_hash`.
-    - [ ] El script de carga se conecta con el rol de la aplicación. **Falta:** todo. Crear la base y correr las migraciones sigue siendo del administrador.
-    - [ ] Una operación permitida y una negada por rol, con el mensaje del gestor. **Falta:** todo.
-    - [ ] Un `REVOKE` que muestre que la operación deja de funcionar. **Falta:** todo.
-    - [ ] Matriz de permisos: 3 roles contra 17 tablas. **Falta:** todo.
+    - [x] Caso de `DEFAULT`: el caso válido 15 comprueba que un evento sin `estado` queda `programado`; el rechazo 36 confirma que un `NULL` explícito se rechaza.
+    - [x] Caso de `CHECK` de formato: rechazo 35 y caso válido 14 para el formato de usuario, documentados en `pruebas-dominio.md`.
+  - [x] **Ejercicio 1.6. Usuarios y permisos** (`practica4/permisos.md`) · @Actronix09
+    - [x] Tres roles (aplicación, consulta y administración), diciendo para qué existe cada uno: `migraciones/099-permisos.sql`.
+    - [x] `GRANT` con mínimo privilegio y un usuario por rol, con las contraseñas en variables de entorno. Los disparadores corren con los permisos de quien opera; se concedieron en lugar de usar `SECURITY DEFINER`.
+    - [x] El script de carga se conecta con el rol de la aplicación: `app_comandas`.
+    - [x] Una operación permitida y una negada por rol, con el mensaje del gestor: `poblar/probar_permisos.sh`.
+    - [x] Un `REVOKE` que muestra que la operación deja de funcionar.
+    - [x] Matriz de permisos: 3 roles contra 17 tablas, leída del catálogo.
   - [ ] **Ejercicio 1.7. Sismos: datos y dominios** (`practica4/proyecto-asignado/`) · Samy
     - [ ] Cargar el catálogo en la base del fork con un script que cumpla 1.4. **Hay:** volcados del repo original (168 MB) en `fuentes-alternas/sismos-usgs/datos/original/ssn` y JSON en `data/` del fork. **Falta:** el script. También hay que decidir si se parte del catálogo público del SSN, que es lo que pide la práctica, o de los volcados, y justificarlo.
     - [ ] Comparar con el artículo y explicar las diferencias. **Hay:** 319,592 sismos y 196,576 hechos (`data/README.md` del fork); el artículo habla de más de 300,000; y `fuentes-alternas` encontró 74,927 sismos con un día de menos. **Falta:** repetir los números con la carga nueva y escribir la comparación.
@@ -93,17 +93,17 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [ ] Proponer tres restricciones y probarlas en una copia. **Falta:** todo. Por revisar: rango de `magnitud`, de `latitud` y `longitud`, y `profundidad`, que vale 33 en muchos renglones (`levantamiento.md`).
 
 - [ ] **Práctica 5: DML e integridad referencial**
-  - [ ] **Ejercicio 2.1. Claves foráneas** (`referencias.md`) · Samy
-    - [ ] Tabla con las 25 claves: relación del EER, tabla y columna referenciada, y si admite nulos. **Hay:** `docs/ReglasDeTransformacion.md`, sección "Resumen de relaciones y regla aplicada". **Falta:** la tabla, clave por clave.
+  - [x] **Ejercicio 2.1. Claves foráneas** (`practica5/referencias.md`) · Samy
+    - [x] Tabla con las 25 claves: relación del EER, tabla y columna referenciada, y si admite nulos.
     - [x] Toda relación del modelo quedó como clave foránea: las 17 relaciones del inventario más la jerarquía y el atributo multivaluado dan las 25.
-  - [ ] **Ejercicio 2.2. Acciones referenciales** (en `referencias.md`) · Samy
+  - [x] **Ejercicio 2.2. Acciones referenciales** (en `practica5/referencias.md`) · Samy
     - [x] Cada clave declara qué hacer al borrar y al actualizar. Al borrar: 9 `CASCADE` y 16 `RESTRICT`. Al actualizar: 14 `CASCADE` y 11 `RESTRICT`.
-    - [ ] Justificar cada una con una regla del dominio. **Hay:** el criterio por grupos en `docs/ReglasDeTransformacion.md`. **Falta:** una justificación por clave. Ese documento dice que `SET NULL` no aplica a ninguna relación, pero hay 4 claves opcionales con `RESTRICT` (`id_producto_principal`, `id_bar_cocina`, `id_cajero_cancela` e `id_mesero_propina`): hay que justificarlas una por una.
-  - [ ] **Ejercicio 2.3. Pruebas de integridad** (`pruebas-referenciales.md`) · Samy
-    - [ ] Una prueba por cada acción usada, con renglones antes y después. **Hay:** rechazos 15 y 18 para `RESTRICT`, sin conteos. Comprobé que borrar un evento con mesa y cuenta y cambiarle el número funcionan, pero `CASCADE` no tiene un caso escrito. **Falta:** las cuatro pruebas con datos reales.
-    - [ ] `INSERT` con una clave foránea inexistente y su mensaje. **Hay:** el rechazo 1. **Falta:** pasarlo al documento.
-    - [ ] Cargar las hijas antes que las padres: qué ocurre y cómo se resuelve. **Falta:** todo; se prueba con el script de 1.4.
-    - [ ] Comprobaciones que deben salir vacías en las dos bases: huérfanos, duplicados en columnas únicas y nulos donde no se admiten. **Falta:** todo.
+    - [x] Justificación individual para las 25 claves, incluidas las cuatro relaciones opcionales que usan `RESTRICT`.
+  - [ ] **Ejercicio 2.3. Pruebas de integridad** (`practica5/pruebas-referenciales.md`) · Samy
+    - [x] **Comandas:** una prueba para cada acción referencial, con conteos antes/después; `make -C sql pruebas` pasó el 4 de noviembre y la salida está en `evidencias/practica5/pruebas-referenciales.txt`.
+    - [x] `INSERT` con FK inexistente y su mensaje; el script también demuestra que cargar primero la hija falla y cargar primero el padre funciona.
+    - [x] **Comandas:** auditorías de huérfanos, duplicados únicos y nulos indebidos; las tres devolvieron cero filas.
+    - [ ] **Sismos:** repetir las auditorías en la base del proyecto asignado; queda para esa parte.
   - [ ] **Ejercicio 2.4. Edición de valores y transacciones** (`edicion-de-valores.md`) · @Actronix09
     - [ ] `INSERT` desde una consulta, y una inserción que resuelva que el renglón ya exista. **Falta:** todo. Por ejemplo: copiar el contenido de un paquete a `acuerdo`, y resurtir un ingrediente con `ON CONFLICT`.
     - [ ] `UPDATE` que dependa de otra tabla y otro que clasifique con `CASE`. **Falta:** todo. Por ejemplo: `bar_cocina.estado` según sus comandas en preparación.
@@ -116,9 +116,9 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Revisar si el esquema declara las claves: declara las 4 (`00-datawarehouse_tables.sql:53-56` del repo original). La tabla de hechos no tiene clave primaria.
     - [ ] Buscar con consultas hechos que apunten a dimensiones inexistentes. **Falta:** todo.
     - [ ] Explicar por qué un almacén a veces las omite y qué riesgo corre. **Hay:** un buen ejemplo en `data/README.md` del fork: los identificadores de `dim_zonas` y `dim_economia` no coinciden (la zona 4 es Coahuila y la economía 4 es Chiapas). **Falta:** escribirlo. Como las claves ya están declaradas, agregarlas en una copia no aplica; hay que decirlo así.
-  - [ ] **Ejercicio 2.6. Trabajo por integrante** (`practica5/integrantes/`, firmado con su nombre) · Ambos
-    - [ ] @Actronix09: `comanda → cuenta`, de `RESTRICT` a `CASCADE` (sugerida). **Falta:** todo.
-    - [ ] Samy: `receta → ingrediente`, de `RESTRICT` a `CASCADE` (sugerida). **Falta:** todo.
+  - [x] **Ejercicio 2.6. Trabajo por integrante** (`practica5/integrantes/`, firmado con su nombre) · Ambos
+    - [x] @Actronix09: `comanda → cuenta`, de `RESTRICT` a `CASCADE`. Ejecutado en una copia de la base cargada: `CASCADE` borra la cuenta 231-29 con sus 3 comandas y 85.00 por cobrar. Se conserva `RESTRICT`. Documento en `practica5/integrantes/Damas_Garnica_Adrian.md`.
+    - [x] Samy: `receta → ingrediente`, de `RESTRICT` a `CASCADE`. Ejecutado en la copia `comandas_experimento_samy`; `CASCADE` eliminó 1 fila de `receta`, el producto y las comandas siguieron presentes y `ROLLBACK` restauró los datos y `RESTRICT`. Documento firmado: `practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md`; salida: `evidencias/practica5/experimento-2.6-samy.txt`.
     - Cada quien puede elegir otra, sin repetir. Se hace en una copia y muestra qué se pierde, qué se conserva y cuál opción es la correcta. **Se preguntará en clase.**
 
 - [ ] **Entregable** · @Actronix09
@@ -182,7 +182,7 @@ El programa en C (memoria compartida, ncurses y archivos de texto) pasa a ser un
 - **Lo que la base ya protege no se repite en el servidor.** El descuento de stock, la máquina de estados y las reglas del cobro viven en disparadores. Si el servidor también los hace, se hacen dos veces.
 - Cada regla nueva de la base lleva tres cosas: su disparador o `CHECK` en una migración numerada de `practica4/migraciones/`, un caso en `inserts-rechazados.sql` y un caso en `pruebas-validas.sql`. **Primero el disparador** y después los casos. Si no, el Makefile marca el rechazo como fallido.
 - Antes de cada commit, `make -C sql pruebas` debe terminar en `Todas las pruebas pasaron`.
-- Numeración: el siguiente rechazo es el **35** y el siguiente caso válido es el **14**.
+- Numeración: el siguiente rechazo es el **37** y el siguiente caso válido es el **16**.
 - Los disparadores lanzan `RAISE EXCEPTION … USING ERRCODE = 'check_violation'`, igual que `fijar_precio_cobrado()`.
 
 ## Reparto
