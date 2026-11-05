@@ -1,0 +1,324 @@
+DO $$
+BEGIN
+    IF current_database() <> 'comandas_edicion' THEN
+        RAISE EXCEPTION 'Ejecute este archivo solo en comandas_edicion';
+    END IF;
+END $$;
+SET ROLE comandas_app;
+
+=== 1a. INSERT desde una consulta: el evento 233 contrata también el paquete 12
+SELECT numero_paquete, count(*) AS productos_acordados
+FROM acuerdo WHERE numero_evento = 233 GROUP BY numero_paquete;
+ numero_paquete | productos_acordados 
+----------------+---------------------
+              3 |                   4
+(1 row)
+
+INSERT INTO acuerdo (numero_evento, numero_paquete, id_producto, cantidad_acordada)
+SELECT e.numero_evento, pp.numero_paquete, pp.id_producto, e.numero_asistentes
+FROM evento e
+JOIN paquete_producto pp ON pp.numero_paquete = 12
+WHERE e.numero_evento = 233;
+SELECT numero_paquete, count(*) AS productos_acordados, max(cantidad_acordada) AS cantidad
+FROM acuerdo WHERE numero_evento = 233 GROUP BY numero_paquete ORDER BY numero_paquete;
+ numero_paquete | productos_acordados | cantidad 
+----------------+---------------------+----------
+              3 |                   4 |       71
+             12 |                   9 |      237
+(2 rows)
+
+
+=== 1b. Inserción que resuelve si ya existe: llega el resurtido del proveedor
+SELECT nombre, stock_actual FROM ingrediente
+WHERE lower(nombre) IN ('hielo', 'aguacate', 'cardamomo') ORDER BY nombre;
+  nombre  | stock_actual 
+----------+--------------
+ Aguacate |      168.500
+ Hielo    |    12625.900
+(2 rows)
+
+INSERT INTO ingrediente (nombre, unidad_medida, stock_actual, stock_minimo)
+VALUES ('Hielo', 'g', 20000, 0),
+       ('AGUACATE', 'g', 5000, 0),
+       ('Cardamomo', 'g', 500, 100)
+ON CONFLICT (lower(nombre::text)) DO UPDATE
+    SET stock_actual = ingrediente.stock_actual + EXCLUDED.stock_actual
+RETURNING id_ingrediente, nombre, stock_actual, stock_minimo, (xmax = 0) AS es_nuevo;
+ id_ingrediente |  nombre   | stock_actual | stock_minimo | es_nuevo 
+----------------+-----------+--------------+--------------+----------
+             35 | Hielo     |    32625.900 |    25251.800 | f
+            145 | Aguacate  |     5168.500 |      337.000 | f
+            211 | Cardamomo |      500.000 |      100.000 | t
+(3 rows)
+
+
+=== 2a. UPDATE que depende de otra tabla: apartar lo que necesita la boda del evento 232
+SELECT count(*) AS ingredientes_bajo_minimo FROM ingrediente WHERE stock_actual < stock_minimo;
+ ingredientes_bajo_minimo 
+--------------------------
+                       65
+(1 row)
+
+UPDATE ingrediente i
+   SET stock_minimo = n.necesario
+  FROM (SELECT r.id_ingrediente,
+               SUM(a.cantidad_acordada * r.cantidad_por_porcion) AS necesario
+          FROM acuerdo a
+          JOIN receta r ON r.id_producto = a.id_producto
+         WHERE a.numero_evento = 232
+         GROUP BY r.id_ingrediente) n
+ WHERE i.id_ingrediente = n.id_ingrediente
+   AND i.stock_minimo < n.necesario
+RETURNING i.nombre, i.stock_actual, i.stock_minimo, i.unidad_medida;
+         nombre         | stock_actual | stock_minimo | unidad_medida 
+------------------------+--------------+--------------+---------------
+ Queso amarillo líquido |      766.000 |     1640.000 | g
+ Miguelito              |        7.575 |      345.000 | g
+ Paletas de caramelo    |      545.400 |     6210.000 | g
+ Chile ancho            |      351.800 |      575.000 | g
+(4 rows)
+
+SELECT count(*) AS ingredientes_bajo_minimo FROM ingrediente WHERE stock_actual < stock_minimo;
+ ingredientes_bajo_minimo 
+--------------------------
+                       67
+(1 row)
+
+
+=== 2b. UPDATE que clasifica con CASE: cada estación queda ocupada o desocupada
+SELECT estado, count(*) FROM bar_cocina GROUP BY estado ORDER BY estado;
+   estado   | count 
+------------+-------
+ desocupado |    27
+ ocupado    |    18
+(2 rows)
+
+UPDATE bar_cocina b
+   SET estado = CASE
+           WHEN EXISTS (SELECT 1 FROM comanda c
+                         WHERE c.id_bar_cocina = b.id_usuario
+                           AND c.estado = 'en_preparacion') THEN 'ocupado'
+           ELSE 'desocupado'
+       END;
+SELECT estado, count(*) FROM bar_cocina GROUP BY estado ORDER BY estado;
+   estado   | count 
+------------+-------
+ desocupado |    19
+ ocupado    |    26
+(2 rows)
+
+
+=== 3a. DELETE con subconsulta: paquetes de temporada que nadie contrató
+WITH nuevo AS (
+    INSERT INTO paquete (monto, detalles)
+    VALUES (15000, 'Paquete Navidad 2026 (borrador)')
+    RETURNING numero_paquete
+)
+INSERT INTO paquete_producto (numero_paquete, id_producto)
+SELECT numero_paquete, p.id_producto
+FROM nuevo CROSS JOIN (VALUES (18), (152)) AS p (id_producto);
+SELECT (SELECT count(*) FROM paquete) AS paquetes,
+       (SELECT count(*) FROM paquete_producto) AS contenido,
+       (SELECT count(*) FROM acuerdo) AS acuerdos;
+ paquetes | contenido | acuerdos 
+----------+-----------+----------
+       13 |       102 |      634
+(1 row)
+
+DELETE FROM paquete p
+WHERE NOT EXISTS (SELECT 1 FROM acuerdo a WHERE a.numero_paquete = p.numero_paquete)
+RETURNING p.numero_paquete, p.detalles;
+ numero_paquete |            detalles             
+----------------+---------------------------------
+             13 | Paquete Navidad 2026 (borrador)
+(1 row)
+
+SELECT (SELECT count(*) FROM paquete) AS paquetes,
+       (SELECT count(*) FROM paquete_producto) AS contenido,
+       (SELECT count(*) FROM acuerdo) AS acuerdos;
+ paquetes | contenido | acuerdos 
+----------+-----------+----------
+       12 |       100 |      634
+(1 row)
+
+
+--- Un paquete que sí se contrató no se puede borrar (fk_acuerdo_paquete, RESTRICT)
+DELETE FROM paquete WHERE numero_paquete = 12;
+ERROR:  update or delete on table "paquete" violates foreign key constraint "fk_acuerdo_paquete" on table "acuerdo"
+DETAIL:  Key (numero_paquete)=(12) is still referenced from table "acuerdo".
+
+=== 3b. Borrado lógico: el cajero cancela la comanda 37358 de la cuenta 231-1
+SELECT id_comanda, estado, precio_cobrado, id_cajero_cancela FROM comanda WHERE id_comanda = 37358;
+ id_comanda |  estado   | precio_cobrado | id_cajero_cancela 
+------------+-----------+----------------+-------------------
+      37358 | pendiente |         120.00 |                  
+(1 row)
+
+SELECT folio, total_acumulado, saldo FROM v_cuenta WHERE numero_evento = 231 AND secuencial = 1;
+  folio  | total_acumulado | saldo  
+---------+-----------------+--------
+ 231-1-1 |          490.00 | 490.00
+(1 row)
+
+UPDATE comanda SET estado = 'cancelada', id_cajero_cancela = 176 WHERE id_comanda = 37358;
+SELECT id_comanda, estado, precio_cobrado, id_cajero_cancela FROM comanda WHERE id_comanda = 37358;
+ id_comanda |  estado   | precio_cobrado | id_cajero_cancela 
+------------+-----------+----------------+-------------------
+      37358 | cancelada |         120.00 |               176
+(1 row)
+
+SELECT folio, total_acumulado, saldo FROM v_cuenta WHERE numero_evento = 231 AND secuencial = 1;
+  folio  | total_acumulado | saldo  
+---------+-----------------+--------
+ 231-1-1 |          370.00 | 370.00
+(1 row)
+
+
+--- La aplicación no tiene permiso de borrarla de verdad
+DELETE FROM comanda WHERE id_comanda = 37359;
+ERROR:  permission denied for table comanda
+
+--- Con el rol de administración sí se puede: mismo total, pero ya no queda rastro (se revierte)
+SET ROLE comandas_admin;
+BEGIN;
+DELETE FROM comanda WHERE id_comanda = 37358;
+SELECT count(*) AS comanda_37358 FROM comanda WHERE id_comanda = 37358;
+ comanda_37358 
+---------------
+             0
+(1 row)
+
+SELECT folio, total_acumulado, saldo FROM v_cuenta WHERE numero_evento = 231 AND secuencial = 1;
+  folio  | total_acumulado | saldo  
+---------+-----------------+--------
+ 231-1-1 |          370.00 | 370.00
+(1 row)
+
+ROLLBACK;
+
+--- Y la cuenta sigue protegida mientras conserve comandas (fk_comanda_cuenta, RESTRICT)
+DELETE FROM cuenta WHERE numero_evento = 231 AND secuencial = 1;
+ERROR:  update or delete on table "cuenta" violates foreign key constraint "fk_comanda_cuenta" on table "comanda"
+DETAIL:  Key (numero_evento, secuencial)=(231, 1) is still referenced from table "comanda".
+SET ROLE comandas_app;
+
+=== 4. Transacción con punto de recuperación: entregar, cobrar y cerrar la cuenta 231-20
+SELECT id_comanda, estado, precio_cobrado FROM comanda
+WHERE numero_evento = 231 AND secuencial = 20 ORDER BY id_comanda;
+ id_comanda |     estado     | precio_cobrado 
+------------+----------------+----------------
+      37474 | en_preparacion |          50.00
+      37475 | lista          |          60.00
+(2 rows)
+
+SELECT folio, estado, total_acumulado, total_pagado, saldo
+FROM v_cuenta WHERE numero_evento = 231 AND secuencial = 20;
+   folio   | estado  | total_acumulado | total_pagado | saldo  
+-----------+---------+-----------------+--------------+--------
+ 231-11-20 | abierta |          110.00 |         0.00 | 110.00
+(1 row)
+
+BEGIN;
+UPDATE comanda SET estado = 'entregada'
+WHERE numero_evento = 231 AND secuencial = 20 AND estado IN ('en_preparacion', 'lista');
+SAVEPOINT antes_del_pago;
+INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
+VALUES (130, 'efectivo', 231, 20, 176, 24, 20);
+SELECT count(*) AS pagos, sum(monto) AS cobrado FROM pago WHERE numero_evento = 231 AND secuencial = 20;
+ pagos | cobrado 
+-------+---------
+     1 |  130.00
+(1 row)
+
+ROLLBACK TO SAVEPOINT antes_del_pago;
+SELECT count(*) AS pagos FROM pago WHERE numero_evento = 231 AND secuencial = 20;
+ pagos 
+-------
+     0
+(1 row)
+
+SELECT estado, count(*) FROM comanda
+WHERE numero_evento = 231 AND secuencial = 20 GROUP BY estado;
+  estado   | count 
+-----------+-------
+ entregada |     2
+(1 row)
+
+INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
+VALUES (130, 'efectivo', 231, 20, 176, 65, 20);
+UPDATE cuenta SET estado = 'cerrada' WHERE numero_evento = 231 AND secuencial = 20;
+COMMIT;
+SELECT folio, estado, total_acumulado, total_pagado, saldo
+FROM v_cuenta WHERE numero_evento = 231 AND secuencial = 20;
+   folio   | estado  | total_acumulado | total_pagado | saldo 
+-----------+---------+-----------------+--------------+-------
+ 231-11-20 | cerrada |          110.00 |       110.00 |  0.00
+(1 row)
+
+SELECT monto, forma_pago, id_mesero_propina, monto_propina
+FROM pago WHERE numero_evento = 231 AND secuencial = 20;
+ monto  | forma_pago | id_mesero_propina | monto_propina 
+--------+------------+-------------------+---------------
+ 130.00 | efectivo   |                65 |         20.00
+(1 row)
+
+
+=== 5. Transacción que falla a la mitad: un café y cinco aguas minerales de 2 L
+RESET ROLE;
+CREATE TEMP TABLE foto AS
+SELECT (SELECT count(*) FROM comanda) AS comandas,
+       (SELECT stock_actual FROM ingrediente WHERE id_ingrediente = 14) AS cafe,
+       (SELECT stock_actual FROM ingrediente WHERE id_ingrediente = 6) AS agua_mineral;
+SELECT * FROM foto;
+ comandas |  cafe  | agua_mineral 
+----------+--------+--------------
+    37528 | 72.500 |        4.575
+(1 row)
+
+SET ROLE comandas_app;
+BEGIN;
+INSERT INTO comanda (estado, numero_evento, secuencial, id_mesero, id_producto, id_bar_cocina)
+VALUES ('en_preparacion', 231, 2, 95, 84, 156);
+SELECT (SELECT count(*) FROM comanda) AS comandas,
+       (SELECT stock_actual FROM ingrediente WHERE id_ingrediente = 14) AS cafe;
+ comandas |  cafe  
+----------+--------
+    37529 | 62.500
+(1 row)
+
+INSERT INTO comanda (estado, numero_evento, secuencial, id_mesero, id_producto, id_bar_cocina)
+SELECT 'en_preparacion', 231, 2, 95, 75, 156
+FROM generate_series(1, 5);
+ERROR:  no hay stock suficiente de "Agua mineral de 2 L" para preparar la comanda (quedan 0.575 pieza, la receta pide 1.000)
+HINT:  Resurta el ingrediente o cancele la comanda.
+CONTEXT:  PL/pgSQL function descontar_stock() line 22 at RAISE
+SELECT count(*) FROM comanda;
+ERROR:  current transaction is aborted, commands ignored until end of transaction block
+ROLLBACK;
+RESET ROLE;
+SELECT (SELECT count(*) FROM comanda) AS comandas,
+       (SELECT stock_actual FROM ingrediente WHERE id_ingrediente = 14) AS cafe,
+       (SELECT stock_actual FROM ingrediente WHERE id_ingrediente = 6) AS agua_mineral;
+ comandas |  cafe  | agua_mineral 
+----------+--------+--------------
+    37528 | 72.500 |        4.575
+(1 row)
+
+DO $$
+BEGIN
+    ASSERT (SELECT comandas FROM foto) = (SELECT count(*) FROM comanda),
+        'la transacción fallida dejó comandas';
+    ASSERT (SELECT cafe FROM foto) = (SELECT stock_actual FROM ingrediente WHERE id_ingrediente = 14),
+        'la transacción fallida dejó descontado el café';
+    ASSERT (SELECT agua_mineral FROM foto) = (SELECT stock_actual FROM ingrediente WHERE id_ingrediente = 6),
+        'la transacción fallida dejó descontada el agua mineral';
+    -- Lo que sí se confirmó en los casos anteriores.
+    ASSERT (SELECT estado FROM cuenta WHERE numero_evento = 231 AND secuencial = 20) = 'cerrada',
+        'la cuenta 231-20 no quedó cerrada';
+    ASSERT (SELECT id_mesero_propina FROM pago WHERE numero_evento = 231 AND secuencial = 20) = 65,
+        'la propina no quedó con el mesero correcto';
+    ASSERT (SELECT estado FROM comanda WHERE id_comanda = 37358) = 'cancelada',
+        'la comanda 37358 no quedó cancelada';
+END $$;
+
+Todas las comprobaciones pasaron.
