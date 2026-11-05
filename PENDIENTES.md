@@ -122,10 +122,11 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - Cada quien puede elegir otra, sin repetir. Se hace en una copia y muestra qué se pierde, qué se conserva y cuál opción es la correcta. **Se preguntará en clase.**
 
 - [ ] **Entregable** · @Actronix09
-  - [ ] Estructura `practica4/` y `practica5/` del documento. **Falta:** no existe ninguna de las dos.
-  - [ ] Sentencias en bloques de código y también en archivos `.sql` ejecutables. **Falta:** todo.
-  - [ ] README al día. **Hay:** sigue titulado "Práctica 3". **Falta:** el comando de carga, el índice de los documentos nuevos y el aviso si hay datos sintéticos.
-  - [ ] Evidencias de cada ejercicio. **Falta:** todo.
+  - [x] Estructura `practica4/` y `practica5/` del documento.
+  - [x] Sentencias en bloques de código y también en archivos `.sql` ejecutables.
+  - [x] README al día: título, índice de los documentos nuevos, tabla por ejercicio, comandos para reproducir y aviso de datos sintéticos.
+  - [x] Evidencias de los ejercicios de Comandas en `evidencias/`. Sismos se documenta aparte.
+  - [ ] Pull request de `practica4-5` a `main`, revisado por el otro integrante y fusionado el jueves 5.
 
 ### Lo que esto cambia en las fases
 
