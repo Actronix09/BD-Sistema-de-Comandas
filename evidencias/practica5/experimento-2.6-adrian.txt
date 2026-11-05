@@ -1,0 +1,183 @@
+DO $$
+BEGIN
+    IF current_database() <> 'comandas_experimento_adrian' THEN
+        RAISE EXCEPTION 'Ejecute este archivo solo en comandas_experimento_adrian';
+    END IF;
+END $$;
+
+=== Estado inicial: la cuenta 231-29 sigue abierta y debe 85.00
+SELECT folio, estado, total_acumulado, total_pagado, saldo
+FROM v_cuenta WHERE numero_evento = 231 AND secuencial = 29;
+   folio   | estado  | total_acumulado | total_pagado | saldo 
+-----------+---------+-----------------+--------------+-------
+ 231-16-29 | abierta |           85.00 |         0.00 | 85.00
+(1 row)
+
+SELECT co.id_comanda, co.estado, co.precio_cobrado, p.nombre AS producto, co.id_mesero, co.id_cajero_cancela
+FROM comanda co
+JOIN producto p ON p.id_producto = co.id_producto
+WHERE co.numero_evento = 231 AND co.secuencial = 29
+ORDER BY co.id_comanda;
+ id_comanda |     estado     | precio_cobrado |        producto        | id_mesero | id_cajero_cancela 
+------------+----------------+----------------+------------------------+-----------+-------------------
+      37526 | en_preparacion |          25.00 | Churritos naturales    |        24 |                  
+      37527 | lista          |          60.00 | Tinto de verano        |        24 |                  
+      37528 | cancelada      |         180.00 | Cubetazo de 6 cervezas |        24 |               198
+(3 rows)
+
+CREATE TEMP TABLE stock_antes AS
+SELECT DISTINCT i.id_ingrediente, i.nombre, i.stock_actual
+FROM comanda co
+JOIN receta r ON r.id_producto = co.id_producto
+JOIN ingrediente i ON i.id_ingrediente = r.id_ingrediente
+WHERE co.numero_evento = 231 AND co.secuencial = 29
+  AND co.estado IN ('en_preparacion', 'lista');
+CREATE TEMP VIEW conteos AS
+SELECT (SELECT count(*) FROM cuenta) AS cuentas,
+       (SELECT count(*) FROM comanda) AS comandas,
+       (SELECT count(*) FROM pago) AS pagos,
+       (SELECT count(*) FROM mesa) AS mesas,
+       (SELECT count(*) FROM mesero) AS meseros,
+       (SELECT count(*) FROM producto) AS productos;
+SELECT * FROM conteos;
+ cuentas | comandas | pagos | mesas | meseros | productos 
+---------+----------+-------+-------+---------+-----------
+    7515 |    37528 |  9640 |  3943 |     130 |       214
+(1 row)
+
+
+=== Con ON DELETE RESTRICT: el gestor no deja borrar la cuenta
+SELECT confdeltype AS accion_al_borrar FROM pg_constraint WHERE conname = 'fk_comanda_cuenta';
+ accion_al_borrar 
+------------------
+ r
+(1 row)
+
+DELETE FROM cuenta WHERE numero_evento = 231 AND secuencial = 29;
+ERROR:  update or delete on table "cuenta" violates foreign key constraint "fk_comanda_cuenta" on table "comanda"
+DETAIL:  Key (numero_evento, secuencial)=(231, 29) is still referenced from table "comanda".
+SELECT * FROM conteos;
+ cuentas | comandas | pagos | mesas | meseros | productos 
+---------+----------+-------+-------+---------+-----------
+    7515 |    37528 |  9640 |  3943 |     130 |       214
+(1 row)
+
+
+--- Y tampoco el evento, aunque se le quiten primero los anticipos (se revierte)
+BEGIN;
+DELETE FROM anticipo WHERE numero_evento = 231;
+DELETE FROM evento WHERE numero_evento = 231;
+ERROR:  update or delete on table "cuenta" violates foreign key constraint "fk_comanda_cuenta" on table "comanda"
+DETAIL:  Key (numero_evento, secuencial)=(231, 1) is still referenced from table "comanda".
+ROLLBACK;
+
+=== Se cambia la acción en la copia: de RESTRICT a CASCADE
+ALTER TABLE comanda DROP CONSTRAINT fk_comanda_cuenta;
+ALTER TABLE comanda
+    ADD CONSTRAINT fk_comanda_cuenta
+    FOREIGN KEY (numero_evento, secuencial)
+    REFERENCES cuenta (numero_evento, secuencial)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE;
+SELECT confdeltype AS accion_al_borrar FROM pg_constraint WHERE conname = 'fk_comanda_cuenta';
+ accion_al_borrar 
+------------------
+ c
+(1 row)
+
+
+=== Con ON DELETE CASCADE: la misma sentencia borra la cuenta y sus comandas
+SELECT count(*) AS cuentas_con_saldo, sum(saldo) AS por_cobrar
+FROM v_cuenta WHERE numero_evento = 231 AND saldo > 0;
+ cuentas_con_saldo | por_cobrar 
+-------------------+------------
+                29 |   10025.00
+(1 row)
+
+DELETE FROM cuenta WHERE numero_evento = 231 AND secuencial = 29;
+SELECT * FROM conteos;
+ cuentas | comandas | pagos | mesas | meseros | productos 
+---------+----------+-------+-------+---------+-----------
+    7514 |    37525 |  9640 |  3943 |     130 |       214
+(1 row)
+
+SELECT count(*) AS comandas_de_la_cuenta FROM comanda WHERE numero_evento = 231 AND secuencial = 29;
+ comandas_de_la_cuenta 
+-----------------------
+                     0
+(1 row)
+
+SELECT count(*) AS cuentas_con_saldo, sum(saldo) AS por_cobrar
+FROM v_cuenta WHERE numero_evento = 231 AND saldo > 0;
+ cuentas_con_saldo | por_cobrar 
+-------------------+------------
+                28 |    9940.00
+(1 row)
+
+
+--- Los ingredientes siguen descontados, pero ya no hay comanda que lo explique
+SELECT a.nombre, a.stock_actual AS antes, i.stock_actual AS despues
+FROM stock_antes a
+JOIN ingrediente i ON i.id_ingrediente = a.id_ingrediente
+ORDER BY a.nombre;
+      nombre       |  antes   | despues  
+-------------------+----------+----------
+ Azúcar            | 2796.150 | 2796.150
+ Churritos de maíz | 3248.000 | 3248.000
+ Mezcal            | 1414.000 | 1414.000
+ Vino blanco       |   82.500 |   82.500
+(4 rows)
+
+
+--- Una cuenta con pagos sigue protegida por fk_pago_cuenta, que no cambió
+SELECT folio, estado, total_pagado FROM v_cuenta WHERE numero_evento = 230 AND secuencial = 1;
+  folio  | estado  | total_pagado 
+---------+---------+--------------
+ 230-1-1 | cerrada |       195.00
+(1 row)
+
+DELETE FROM cuenta WHERE numero_evento = 230 AND secuencial = 1;
+ERROR:  update or delete on table "cuenta" violates foreign key constraint "fk_pago_cuenta" on table "pago"
+DETAIL:  Key (numero_evento, secuencial)=(230, 1) is still referenced from table "pago".
+
+--- El evento en curso ahora se puede borrar con todo su consumo (se revierte)
+BEGIN;
+SELECT (SELECT count(*) FROM cuenta WHERE numero_evento = 231) AS cuentas,
+       (SELECT count(*) FROM comanda WHERE numero_evento = 231) AS comandas,
+       (SELECT count(*) FROM mesa WHERE numero_evento = 231) AS mesas,
+       (SELECT count(*) FROM anticipo WHERE numero_evento = 231) AS anticipos;
+ cuentas | comandas | mesas | anticipos 
+---------+----------+-------+-----------
+      28 |      169 |    16 |         2
+(1 row)
+
+DELETE FROM anticipo WHERE numero_evento = 231;
+DELETE FROM evento WHERE numero_evento = 231;
+SELECT (SELECT count(*) FROM cuenta WHERE numero_evento = 231) AS cuentas,
+       (SELECT count(*) FROM comanda WHERE numero_evento = 231) AS comandas,
+       (SELECT count(*) FROM mesa WHERE numero_evento = 231) AS mesas,
+       (SELECT count(*) FROM anticipo WHERE numero_evento = 231) AS anticipos;
+ cuentas | comandas | mesas | anticipos 
+---------+----------+-------+-----------
+       0 |        0 |     0 |         0
+(1 row)
+
+ROLLBACK;
+DO $$
+BEGIN
+    ASSERT (SELECT count(*) FROM cuenta WHERE numero_evento = 231 AND secuencial = 29) = 0,
+        'CASCADE no borró la cuenta';
+    ASSERT (SELECT count(*) FROM comanda WHERE numero_evento = 231 AND secuencial = 29) = 0,
+        'CASCADE no borró las comandas de la cuenta';
+    ASSERT (SELECT count(*) FROM stock_antes a JOIN ingrediente i USING (id_ingrediente)
+             WHERE a.stock_actual <> i.stock_actual) = 0,
+        'el borrado cambió el stock';
+    ASSERT (SELECT count(*) FROM cuenta WHERE numero_evento = 230 AND secuencial = 1) = 1,
+        'se borró una cuenta con pagos';
+    ASSERT (SELECT count(*) FROM evento WHERE numero_evento = 231) = 1,
+        'no se revirtió el borrado del evento';
+END $$;
+
+Todas las comprobaciones pasaron.
+
+La base comandas_revision no cambió: fk_comanda_cuenta sigue con RESTRICT.
