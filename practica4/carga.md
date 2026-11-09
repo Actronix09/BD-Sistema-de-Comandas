@@ -19,7 +19,7 @@ cp practica4/poblar/.env.example practica4/poblar/.env   # y llenar los valores
 practica4/poblar/poblar.sh
 ```
 
-Si la base no existe, el script la crea con `sql/esquema.sql` y las migraciones de `practica4/migraciones/`. Con `--recrear` la borra y la carga desde cero; esa opción no toca las bases `comandas` ni `comandas_pruebas`, que son de `sql/Makefile`.
+Si la base no existe, el script la crea con `sql/esquema.sql` y las migraciones de `practica4/migraciones/`. Con `--recrear` la borra y la carga desde cero; hace falta cuando se agrega una migración. Esa opción no toca las bases `comandas` ni `comandas_pruebas`, que son de `sql/Makefile`.
 
 | Archivo | Para qué |
 | :-- | :-- |
@@ -37,7 +37,7 @@ Si la base no existe, el script la crea con `sql/esquema.sql` y las migraciones 
 | Ordenado | Primero las tablas de las que dependen las demás, y además el orden que piden los disparadores (abajo) |
 | Todo o nada | Todo va en una transacción. Con un solo rechazo se revierte, y se informa el renglón y el motivo |
 | Con cuentas | Al terminar informa, por tabla, los renglones leídos, insertados, los que ya existían y los rechazados |
-| Sin credenciales | La conexión sale de `PGDATABASE`, `PGUSER` y `PGPASSWORD`. `.env` no se sube al repositorio |
+| Sin credenciales | La conexión y las contraseñas salen de variables de entorno. `.env` no se sube al repositorio. La carga entra como `app_comandas`, el usuario del rol de la aplicación ([Usuarios y Permisos](<permisos.md>)) |
 | Eficiente | Los CSV entran con `\copy` a tablas temporales y pasan a las reales en tandas de 1000 renglones |
 
 ### Por qué `NOT EXISTS` y no `ON CONFLICT`
@@ -92,7 +92,7 @@ Primera ejecución, sobre una base recién creada ([salida completa](<../evidenc
   61809 |      61809 |           0 |          0
 
 ==> Carga confirmada
-==> Tiempo total: 122 s
+==> Tiempo total: 174 s
 ```
 
 Segunda ejecución, sobre la misma base ([salida completa](<../evidencias/practica4/carga-segunda-ejecucion.txt>)):
@@ -145,7 +145,3 @@ Para comprobar que las restricciones protegen la carga, `probar_rechazos.sh` agr
 | `pago` | 9641 | `$999,999` a una cuenta pagada | `tg_pago_saldo` | el pago excede el saldo de la cuenta (0.00) | En el dato |
 
 En ningún caso el error estaba en la restricción, así que no hizo falta ninguna migración.
-
-## Pendiente
-
-Por ahora la carga se conecta con el usuario administrador `pg-practica1`, como se ve en la salida. Pasa al rol de la aplicación en el [Ejercicio 1.6](<permisos.md>).

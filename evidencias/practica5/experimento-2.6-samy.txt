@@ -1,0 +1,14 @@
+=== Estado inicial: el ingrediente 1 forma parte de la receta del producto 1
+ momento | ingredientes | filas_receta | usos_del_ingrediente | componentes_del_producto | producto | comandas 
+---------+--------------+--------------+----------------------+--------------------------+----------+----------
+ antes   |            8 |            9 |                    1 |                        2 |        1 |        5
+(1 row)
+
+=== Sustitución temporal de ON DELETE RESTRICT por ON DELETE CASCADE
+=== Borrado del ingrediente 1 bajo CASCADE
+ momento | ingredientes | filas_receta | usos_del_ingrediente | componentes_del_producto | producto | comandas 
+---------+--------------+--------------+----------------------+--------------------------+----------+----------
+ después |            7 |            8 |                    0 |                        1 |        1 |        5
+(1 row)
+
+Experimento terminado: CASCADE eliminó una fila de receta; rollback restauró RESTRICT y todos los datos.
