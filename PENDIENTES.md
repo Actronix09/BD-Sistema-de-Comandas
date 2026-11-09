@@ -2,13 +2,13 @@
 
 Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de acuerdo en qué sigue y quién lo hace: cada parte tiene una columna **Responsable** y una casilla para marcarla cuando esté lista.
 
-**Actualizado:** 4 de noviembre de 2026
+**Actualizado:** 9 de noviembre de 2026
 
 ---
 
 ## Prioridad 1: Prácticas 4 y 5
 
-**Entrega: jueves 5 de noviembre de 2026.** Cuenta la hora de la última confirmación en `main`. Esto va antes que todas las fases de abajo, que esperan hasta esa fecha.
+**Entrega: jueves 19 de noviembre de 2026.** Era el jueves 5, pero el profesor movió la fecha. Cuenta la hora de la última confirmación en `main`. Esto va antes que todas las fases de abajo, que esperan hasta esa fecha.
 
 - `[x]`: el requisito ya se cumple y solo hay que citarlo en el entregable.
 - `[ ]`: falta algo. **Hay** dice lo que ya existe y **Falta**, lo que queda.
@@ -25,11 +25,13 @@ Lo que falta para terminar el sistema, dividido en fases. Sirve para ponernos de
 
 ### Orden de trabajo
 
-| Día | Qué debe quedar |
+Del 3 al 4 de noviembre quedaron el entorno, las migraciones y los ejercicios 1.1 a 1.6, 2.1 a 2.4 y 2.6 de Comandas. Con la nueva fecha queda así:
+
+| Cuándo | Qué debe quedar |
 | :-- | :-- |
-| Martes 3 | Rama y carpetas, primeras migraciones, fuente de datos decidida, avance de 1.1, 2.1 y 2.2. **Primera confirmación de cada integrante** |
-| Miércoles 4 | Script de carga, permisos, 1.5, 2.3, 2.4, y Sismos (1.7 y 2.5) |
-| Jueves 5 | 2.6, evidencias y README. **Segunda confirmación de cada integrante.** PR revisado y fusionado antes de mediodía: el documento no da una hora límite |
+| Del 9 al 13 | 2.4, el 2.6 de @Actronix09 y el entregable fusionados en `practica4-5`. Samy empieza Sismos (1.7, 2.5 y las auditorías de 2.3) |
+| Del 16 al 18 | Sismos terminado, README y página web al día, y el PR de `practica4-5` a `main` abierto y revisado por Samy |
+| Jueves 19 | PR fusionado antes de mediodía: el documento no da una hora límite |
 
 Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6) se cierran junto con 1.4, porque la carga debe conectarse con el rol de la aplicación. Sismos (1.7 y 2.5) no depende de lo demás.
 
@@ -40,7 +42,7 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
   - [x] Gestor levantado y `esquema.sql` ejecutado sobre una base limpia: `entorno/compose.yml` y `make -C sql pruebas`.
   - [ ] Base de Sismos levantada desde el fork (Samy). **Hay:** `levantamiento.md` del fork, de prácticas anteriores. **Falta:** levantarla para esta práctica, con su evidencia.
   - [x] Migraciones numeradas con `ALTER TABLE` (Samy): `001-dominios.sql` y `002-formato-usuario.sql`; `make cargar` y `make pruebas` las aplican después del esquema.
-  - [ ] Confirmaciones propias en días distintos (ambos). **Hay:** @Actronix09 tiene muchas y Samy tiene 1 (30 de octubre). **Falta:** que cada quien confirme en al menos dos días, entre hoy y el jueves.
+  - [x] Confirmaciones propias en días distintos (ambos): @Actronix09 confirmó en seis días entre el 30 de octubre y el 4 de noviembre, y Samy el 30 de octubre y el 4 de noviembre.
   - [ ] PR revisado por otro integrante y fusionado. Lo abre @Actronix09 y lo revisa Samy. **Falta:** todo.
 
 - [ ] **Práctica 4: DDL, permisos y restricciones de dominio**
@@ -126,7 +128,7 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
   - [x] Sentencias en bloques de código y también en archivos `.sql` ejecutables.
   - [x] README al día: título, índice de los documentos nuevos, tabla por ejercicio, comandos para reproducir y aviso de datos sintéticos.
   - [x] Evidencias de los ejercicios de Comandas en `evidencias/`. Sismos se documenta aparte.
-  - [ ] Pull request de `practica4-5` a `main`, revisado por el otro integrante y fusionado el jueves 5.
+  - [ ] Pull request de `practica4-5` a `main`, revisado por el otro integrante y fusionado a más tardar el jueves 19.
 
 ### Lo que esto cambia en las fases
 
