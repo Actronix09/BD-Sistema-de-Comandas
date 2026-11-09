@@ -116,8 +116,8 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] Revisar si el esquema declara las claves: declara las 4 (`00-datawarehouse_tables.sql:53-56` del repo original). La tabla de hechos no tiene clave primaria.
     - [ ] Buscar con consultas hechos que apunten a dimensiones inexistentes. **Falta:** todo.
     - [ ] Explicar por qué un almacén a veces las omite y qué riesgo corre. **Hay:** un buen ejemplo en `data/README.md` del fork: los identificadores de `dim_zonas` y `dim_economia` no coinciden (la zona 4 es Coahuila y la economía 4 es Chiapas). **Falta:** escribirlo. Como las claves ya están declaradas, agregarlas en una copia no aplica; hay que decirlo así.
-  - [ ] **Ejercicio 2.6. Trabajo por integrante** (`practica5/integrantes/`, firmado con su nombre) · Ambos
-    - [ ] @Actronix09: `comanda → cuenta`, de `RESTRICT` a `CASCADE` (sugerida). **Falta:** todo.
+  - [x] **Ejercicio 2.6. Trabajo por integrante** (`practica5/integrantes/`, firmado con su nombre) · Ambos
+    - [x] @Actronix09: `comanda → cuenta`, de `RESTRICT` a `CASCADE`. Ejecutado en una copia de la base cargada: `CASCADE` borra la cuenta 231-29 con sus 3 comandas y 85.00 por cobrar. Se conserva `RESTRICT`. Documento en `practica5/integrantes/Damas_Garnica_Adrian.md`.
     - [x] Samy: `receta → ingrediente`, de `RESTRICT` a `CASCADE`. Ejecutado en la copia `comandas_experimento_samy`; `CASCADE` eliminó 1 fila de `receta`, el producto y las comandas siguieron presentes y `ROLLBACK` restauró los datos y `RESTRICT`. Documento firmado: `practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md`; salida: `evidencias/practica5/experimento-2.6-samy.txt`.
     - Cada quien puede elegir otra, sin repetir. Se hace en una copia y muestra qué se pierde, qué se conserva y cuál opción es la correcta. **Se preguntará en clase.**
 
