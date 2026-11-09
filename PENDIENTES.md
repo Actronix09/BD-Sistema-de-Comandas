@@ -104,13 +104,13 @@ Dependencias: migraciones → 1.3 → 1.4 → 2.3, 2.4 y 2.6. Los permisos (1.6)
     - [x] `INSERT` con FK inexistente y su mensaje; el script también demuestra que cargar primero la hija falla y cargar primero el padre funciona.
     - [x] **Comandas:** auditorías de huérfanos, duplicados únicos y nulos indebidos; las tres devolvieron cero filas.
     - [ ] **Sismos:** repetir las auditorías en la base del proyecto asignado; queda para esa parte.
-  - [ ] **Ejercicio 2.4. Edición de valores y transacciones** (`edicion-de-valores.md`) · @Actronix09
-    - [ ] `INSERT` desde una consulta, y una inserción que resuelva que el renglón ya exista. **Falta:** todo. Por ejemplo: copiar el contenido de un paquete a `acuerdo`, y resurtir un ingrediente con `ON CONFLICT`.
-    - [ ] `UPDATE` que dependa de otra tabla y otro que clasifique con `CASE`. **Falta:** todo. Por ejemplo: `bar_cocina.estado` según sus comandas en preparación.
-    - [ ] `DELETE` con subconsulta. **Falta:** todo. Por ejemplo: paquetes que ningún acuerdo usa.
-    - [ ] Borrado lógico, explicando cuándo conviene y qué se pierde al borrar de verdad. **Hay:** nada; ninguna tabla tiene una columna para esto. **Falta:** una migración, por ejemplo `producto.activo`, porque un producto con comandas no se puede borrar por su `RESTRICT`.
-    - [ ] Transacción sobre dos o más tablas con `SAVEPOINT`, reversión parcial y confirmación final. **Falta:** todo. Por ejemplo: registrar un pago y cerrar la cuenta.
-    - [ ] Transacción que falle a la mitad por una restricción, con el mensaje y la comprobación de que la base quedó igual. **Falta:** todo. Por ejemplo: un pedido con un producto sin stock.
+  - [x] **Ejercicio 2.4. Edición de valores y transacciones** (`practica5/edicion-de-valores.md`) · @Actronix09
+    - [x] `INSERT` desde una consulta: el evento 233 agrega el paquete 12 a `acuerdo`. Inserción con `ON CONFLICT`: el resurtido suma al stock o da de alta el ingrediente.
+    - [x] `UPDATE` que depende de otra tabla: `stock_minimo` según lo acordado con el evento 232. `UPDATE` con `CASE`: `bar_cocina.estado` según sus comandas en preparación.
+    - [x] `DELETE` con subconsulta: los paquetes que ningún acuerdo usa; se muestran el `CASCADE` de su contenido y el `RESTRICT` de un paquete contratado.
+    - [x] Borrado lógico: cancelar la comanda con `estado` y `id_cajero_cancela`, sin migración, porque el modelo ya lo tiene. Se explica cuándo conviene cada uno y qué se pierde al borrar de verdad.
+    - [x] Transacción sobre `comanda`, `pago` y `cuenta` con `SAVEPOINT`, reversión parcial y confirmación final.
+    - [x] Transacción que falla a la mitad por falta de stock, con el mensaje del gestor y la comprobación de que la base quedó igual. Salida en `evidencias/practica5/edicion-de-valores.txt`.
   - [ ] **Ejercicio 2.5. Integridad en el almacén de Sismos** (`integridad-almacen.md`) · Samy
     - [ ] Tabla de hechos, dimensiones y granularidad. **Hay:** `fact_impacto_sismos_imputed` con 4 dimensiones. **Falta:** escribir qué representa exactamente un renglón.
     - [x] Revisar si el esquema declara las claves: declara las 4 (`00-datawarehouse_tables.sql:53-56` del repo original). La tabla de hechos no tiene clave primaria.
