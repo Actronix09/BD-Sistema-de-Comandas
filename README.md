@@ -1,4 +1,4 @@
-# Práctica 3
+# Prácticas 4 y 5
 
 **Sitio del proyecto:** <https://actronix09.github.io/BD-Sistema-de-Comandas/>
 
@@ -11,7 +11,7 @@
 
 **Grupo:** 3CV4
 
-**Carrera:** Ingenieria en Sistemas Computacionalesl\
+**Carrera:** Ingenieria en Sistemas Computacionales
 
 **Proyecto:** Sistema de Comandas Profesional
 
@@ -137,9 +137,85 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
   - [pago](<docs/DiccionarioDeDatos.md#pago>)
   - [anticipo](<docs/DiccionarioDeDatos.md#anticipo>)
   - [Vistas de atributos derivados](<docs/DiccionarioDeDatos.md#vistas-de-atributos-derivados>)
+- [Entorno de Trabajo de las Prácticas 4 y 5](<docs/EntornoPractica4y5.md>)
+  - [Rama de trabajo](<docs/EntornoPractica4y5.md#rama-de-trabajo>)
+  - [Estructura de carpetas](<docs/EntornoPractica4y5.md#estructura-de-carpetas>)
+  - [Levantamiento del gestor](<docs/EntornoPractica4y5.md#levantamiento-del-gestor>)
+- Práctica 4
+  - [Tipos de dato y dominios](<practica4/dominios.md>)
+    - [Dominios reutilizables](<practica4/dominios.md#dominios-reutilizables>)
+    - [Tipos por columna](<practica4/dominios.md#tipos-por-columna>)
+    - [Restricciones y reglas del dominio](<practica4/dominios.md#restricciones-y-reglas-del-dominio>)
+  - [Fuente de Datos](<practica4/fuente.md>)
+    - [Dónde se buscó](<practica4/fuente.md#dónde-se-buscó>)
+    - [Decisión](<practica4/fuente.md#decisión>)
+    - [Catálogo del salón de eventos](<practica4/fuente.md#catálogo-del-salón-de-eventos>)
+    - [Datos sintéticos](<practica4/fuente.md#datos-sintéticos>)
+  - [Script de Carga](<practica4/carga.md>)
+    - [Cómo cumple cada requisito](<practica4/carga.md#cómo-cumple-cada-requisito>)
+    - [Salida de las dos ejecuciones](<practica4/carga.md#salida-de-las-dos-ejecuciones>)
+    - [Comparación de tiempos](<practica4/carga.md#comparación-de-tiempos>)
+    - [Registro de rechazos](<practica4/carga.md#registro-de-rechazos>)
+  - [Pruebas de restricciones de dominio](<practica4/pruebas-dominio.md>)
+  - [Usuarios y Permisos](<practica4/permisos.md>)
+    - [Roles y usuarios](<practica4/permisos.md#roles-y-usuarios>)
+    - [Pruebas](<practica4/permisos.md#pruebas>)
+    - [`REVOKE`](<practica4/permisos.md#revoke>)
+    - [Matriz de permisos](<practica4/permisos.md#matriz-de-permisos>)
+- Práctica 5
+  - [Claves foráneas y acciones referenciales](<practica5/referencias.md>)
+    - [Inventario y justificación por clave](<practica5/referencias.md#inventario-y-justificación-por-clave>)
+  - [Pruebas de integridad referencial](<practica5/pruebas-referenciales.md>)
+    - [Pruebas de las acciones referenciales](<practica5/pruebas-referenciales.md#pruebas-de-las-acciones-referenciales>)
+    - [Clave foránea inexistente y orden de carga](<practica5/pruebas-referenciales.md#clave-foránea-inexistente-y-orden-de-carga>)
+    - [Auditorías que deben devolver cero filas](<practica5/pruebas-referenciales.md#auditorías-que-deben-devolver-cero-filas>)
+  - [Edición de Valores y Transacciones](<practica5/edicion-de-valores.md>)
+    - [Inserciones](<practica5/edicion-de-valores.md#1-inserciones>)
+    - [Actualizaciones](<practica5/edicion-de-valores.md#2-actualizaciones>)
+    - [Borrados](<practica5/edicion-de-valores.md#3-borrados>)
+    - [Transacción con punto de recuperación](<practica5/edicion-de-valores.md#4-transacción-con-punto-de-recuperación>)
+    - [Transacción que falla a la mitad](<practica5/edicion-de-valores.md#5-transacción-que-falla-a-la-mitad>)
+  - Trabajo por integrante
+    - [Damas Garnica Adrian](<practica5/integrantes/Damas_Garnica_Adrian.md>)
+    - [Hernandez Barrios Samuel Rodrigo](<practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md>)
 
 ---  
   
+## Prácticas 4 y 5
+
+| Ejercicio | Documento | Archivos ejecutables | Evidencia |
+| :-- | :-- | :-- | :-- |
+| 1.1 y 1.2. Dominios y restricciones | [`dominios.md`](<practica4/dominios.md>) | [`migraciones/`](<practica4/migraciones>) | Mensajes en [`pruebas-dominio.md`](<practica4/pruebas-dominio.md>) |
+| 1.3. Fuente de datos | [`fuente.md`](<practica4/fuente.md>) | [`generar_datos.py`](<practica4/poblar/generar_datos.py>) | [`datos/`](<practica4/datos>) |
+| 1.4. Script de carga | [`carga.md`](<practica4/carga.md>) | [`poblar.sh`](<practica4/poblar/poblar.sh>), [`probar_rechazos.sh`](<practica4/poblar/probar_rechazos.sh>) y [`comparar_tiempos.sh`](<practica4/poblar/comparar_tiempos.sh>) | [`evidencias/practica4/`](<evidencias/practica4>) |
+| 1.5. Pruebas de dominio | [`pruebas-dominio.md`](<practica4/pruebas-dominio.md>) | [`inserts-rechazados.sql`](<sql/inserts-rechazados.sql>) y [`pruebas-validas.sql`](<sql/pruebas-validas.sql>) | Mensajes en el documento |
+| 1.6. Usuarios y permisos | [`permisos.md`](<practica4/permisos.md>) | [`099-permisos.sql`](<practica4/migraciones/099-permisos.sql>) y [`probar_permisos.sh`](<practica4/poblar/probar_permisos.sh>) | [`permisos.txt`](<evidencias/practica4/permisos.txt>) |
+| 2.1 y 2.2. Claves foráneas y acciones | [`referencias.md`](<practica5/referencias.md>) | [`esquema.sql`](<sql/esquema.sql>) | Tabla del documento |
+| 2.3. Pruebas de integridad | [`pruebas-referenciales.md`](<practica5/pruebas-referenciales.md>) | [`pruebas-referenciales.sql`](<practica5/sql/pruebas-referenciales.sql>) | [`pruebas-referenciales.txt`](<evidencias/practica5/pruebas-referenciales.txt>) |
+| 2.4. Edición de valores y transacciones | [`edicion-de-valores.md`](<practica5/edicion-de-valores.md>) | [`edicion-de-valores.sql`](<practica5/sql/edicion-de-valores.sql>) y [`edicion-de-valores.sh`](<practica5/sql/edicion-de-valores.sh>) | [`edicion-de-valores.txt`](<evidencias/practica5/edicion-de-valores.txt>) |
+| 2.6. Damas Garnica Adrian | [`Damas_Garnica_Adrian.md`](<practica5/integrantes/Damas_Garnica_Adrian.md>) | [`experimento-2.6-adrian.sql`](<practica5/sql/experimento-2.6-adrian.sql>) y [`experimento-2.6-adrian.sh`](<practica5/sql/experimento-2.6-adrian.sh>) | [`experimento-2.6-adrian.txt`](<evidencias/practica5/experimento-2.6-adrian.txt>) |
+| 2.6. Hernandez Barrios Samuel Rodrigo | [`Hernandez_Barrios_Samuel_Rodrigo.md`](<practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md>) | [`experimento-2.6-samy.sql`](<practica5/sql/experimento-2.6-samy.sql>) | [`experimento-2.6-samy.txt`](<evidencias/practica5/experimento-2.6-samy.txt>) |
+
+El proyecto asignado (los ejercicios 1.7 y 2.5, y las comprobaciones de 2.3 sobre su base) se trabaja y se documenta por separado.
+
+### Cómo se reproduce
+
+Con el contenedor levantado (`make -C sql levantar`) y `practica4/poblar/.env` ya lleno:
+
+```bash
+# Esquema, migraciones y pruebas de dominio y de integridad, sobre comandas_pruebas
+make -C sql pruebas
+
+# Carga de la base y pruebas de sus usuarios
+practica4/poblar/poblar.sh
+practica4/poblar/probar_permisos.sh
+
+# Edición de valores y experimentos individuales, sobre copias de la base
+practica5/sql/edicion-de-valores.sh
+practica5/sql/experimento-2.6-adrian.sh
+make -C sql experimento-samy
+```
+
 ## Documento de Desarrollo
 
 El reporte principal de la práctica se encuentra en:
