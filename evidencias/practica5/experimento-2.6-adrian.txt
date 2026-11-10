@@ -180,4 +180,4 @@ END $$;
 
 Todas las comprobaciones pasaron.
 
-La base comandas_revision no cambió: fk_comanda_cuenta sigue con RESTRICT.
+La base comandas_carga no cambió: fk_comanda_cuenta sigue con RESTRICT.
