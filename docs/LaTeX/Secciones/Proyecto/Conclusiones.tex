@@ -1,0 +1,65 @@
+\newpage
+
+\section{Resultados y conclusiones}
+\label{sec:conclusiones}
+
+En esta sección se contrastan los resultados del proyecto con los objetivos planteados en la introducción, se presentan las conclusiones del desarrollo, sus limitaciones y el trabajo que queda por realizar.
+
+\subsection{Resultados}
+
+El resultado principal del proyecto es una base de datos relacional, implementada en PostgreSQL, que representa la operación del salón de eventos y hace cumplir por sí misma sus reglas del negocio. La Tabla~\ref{tab:resultados} relaciona cada objetivo específico con el resultado que lo atiende.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Objetivo específico} & \textbf{Resultado} \\
+        \midrule
+        Identificar los requerimientos y fundamentar los conceptos de bases de datos. & Entrevista en siete áreas, requerimientos de información y del sistema, reglas del negocio y marco teórico. \\
+        Construir el modelo entidad-relación y extenderlo. & Modelo extendido con dos entidades débiles, una jerarquía disjunta y total, una relación ternaria y diecisiete relaciones con cardinalidad mínima y máxima. \\
+        Transformar el modelo y ejecutarlo en PostgreSQL. & Esquema de diecisiete tablas, noventa y siete columnas, veinticinco claves foráneas y seis vistas, ejecutado en un contenedor de Docker. \\
+        Declarar tipos, dominios, restricciones y permisos. & Dos dominios, treinta y seis restricciones \texttt{CHECK}, trece disparadores y tres roles con el mínimo privilegio, aplicados mediante migraciones numeradas. \\
+        Poblar la base con un script de carga. & 61,809 renglones cargados con un solo comando repetible, transaccional y basado en la carga masiva del gestor. \\
+        Comprobar la integridad referencial y la manipulación de datos. & Pruebas de cada acción referencial, auditorías sin hallazgos, seis operaciones de manipulación de datos, dos transacciones y dos experimentos individuales. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Objetivos específicos y resultados obtenidos}
+    \label{tab:resultados}
+\end{table}
+
+Todas las restricciones del esquema cuentan con una prueba: treinta y seis instrucciones que el gestor debe rechazar y quince casos válidos que debe aceptar, que se ejecutan con un solo comando. Con ello, el objetivo general queda cumplido: la base gestiona de manera íntegra y consistente la información del salón y está lista para sustentar la versión profesional del sistema.
+
+\subsection{Conclusiones}
+
+El desarrollo confirmó que el diseño de una base de datos es un proceso iterativo. Cada etapa obligó a revisar la anterior: el modelo extendido reveló requerimientos que la entrevista había dejado implícitos, la transformación al modelo relacional exigió decidir cómo representar una jerarquía cuyas subclases tienen relaciones propias, y la implementación de las restricciones encontró reglas que el diagrama no podía expresar. Seguir el ciclo de vida con entregables concretos en cada etapa permitió detectar esas omisiones a tiempo, antes de que existieran datos que corregir.
+
+La decisión más importante del proyecto fue concentrar las reglas del negocio en el gestor y no en la aplicación. Que un pago no exceda el saldo, que el inventario no quede negativo o que una comanda no retroceda de estado son reglas que la base hace cumplir sin importar qué programa se conecte a ella, y que se verifican aun ante operaciones simultáneas. Esta decisión tiene un costo, visible en la carga de datos, donde casi todo el tiempo se dedica a los disparadores; sin embargo, ese costo se paga una sola vez al cargar, mientras que la protección se mantiene durante toda la operación.
+
+El proyecto mostró también que no todas las reglas pueden o deben llevarse al esquema, y que cada decisión implica renunciar a algo. Exigir que todo evento tenga mesas habría impedido registrar eventos con semanas de anticipación, y proteger la disyunción de la jerarquía obligó a sacrificar el cambio de rol conservando el historial. Documentar estas renuncias, en lugar de ocultarlas, fue tan importante como implementar las reglas que sí se hicieron cumplir.
+
+En cuanto a los datos, la búsqueda de una fuente confirmó que los registros de operación de un negocio rara vez se publican. Combinar el menú real del salón con recetas estimadas a partir de una fuente abierta y datos sintéticos generados con las mismas reglas del esquema permitió obtener una base de volumen realista, siempre que cada dato inventado o estimado quedara identificado como tal.
+
+Por último, el trabajo en equipo se apoyó en el control de versiones y en la automatización. El flujo de ramas con revisión entre pares, los scripts reproducibles y las pruebas que se ejecutan con un solo comando permitieron que cualquier integrante verificara el estado de la base en cualquier momento, y dejaron en el historial del repositorio la evidencia de la participación de cada uno.
+
+\subsection{Limitaciones}
+
+El proyecto tiene las siguientes limitaciones, que conviene considerar al interpretar sus resultados:
+
+\begin{itemize}
+    \item Los datos de operación son sintéticos. Respetan las reglas del esquema y tienen un volumen realista, pero no reflejan patrones reales de consumo, por lo que no deben usarse para conclusiones sobre el negocio.
+    \item Algunas reglas del modelo, como que todo evento tenga al menos una mesa y todo producto al menos un ingrediente, no se hacen cumplir en la base y dependen de que la aplicación las valide.
+    \item El cambio de rol de un usuario con historial requiere un procedimiento administrativo, porque el esquema no lo permite de forma directa.
+    \item Las pruebas de integridad referencial se ejecutan sobre la base de pruebas con los datos de ejemplo.
+\end{itemize}
+
+\subsection{Trabajo futuro}
+
+La base de datos es el primer componente de la versión profesional del sistema de comandas. El siguiente paso es la aplicación que la utiliza, cuyo diseño contempla un servidor y un cliente desarrollados en C++ con Qt: el servidor se ejecutará en el equipo de caja, junto al gestor, y atenderá a los clientes de meseros, cocina, bar y caja desde computadoras o teléfonos dentro de la red del salón, sin depender de internet. Como las reglas del negocio ya viven en la base, el servidor no debe duplicarlas, sino conectarse con el rol de la aplicación y traducir los errores del gestor en mensajes para el usuario.
+
+Además, quedan por resolver algunas decisiones de diseño que el desarrollo identificó: si la cocina debe agrupar los pedidos por ronda mediante una entidad propia, dónde se registrará la bitácora de operaciones del sistema y cómo se manejará el historial de roles si los cambios de puesto se vuelven frecuentes. Por último, las prácticas siguientes de la materia trabajarán sobre esta misma base las consultas de recuperación de datos, como combinaciones, subconsultas, agregaciones y análisis de rendimiento, que darán forma a los reportes de ventas e ingresos por evento y a la comparación entre el consumo real y lo presupuestado que pidió el cliente.
