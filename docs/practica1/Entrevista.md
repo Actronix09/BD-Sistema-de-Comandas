@@ -2,7 +2,7 @@
 
 ---
 
-Documento de trabajo para levantar los requerimientos del primer cliente del sistema de comandas: un salon de eventos. Las respuestas capturadas aqui se vaciaron despues en `docs/LaTeX/Secciones/CasoDeEstudio.tex`.
+Documento de trabajo para levantar los requerimientos del primer cliente del sistema de comandas: un salon de eventos. Las respuestas capturadas aqui se vaciaron despues en el [Caso de Estudio](<CasoDeEstudio.md>).
 
 ---
 
