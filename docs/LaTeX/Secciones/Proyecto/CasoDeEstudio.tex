@@ -1,0 +1,91 @@
+\newpage
+
+\section{Caso de estudio y requerimientos}
+\label{sec:caso-de-estudio}
+
+En esta sección se describe el negocio para el que se diseñó la base de datos, la forma en que se obtuvieron sus requerimientos y las reglas que la base debe hacer cumplir.
+
+\subsection{Descripción del caso}
+
+El primer cliente del sistema es un salón de eventos que ofrece servicio de banquetes. El salón atiende un solo evento a la vez y alrededor de quince eventos al mes; en cada evento se instalan cerca de veinte mesas, numeradas, y los invitados de cada mesa suelen dividirse en dos o tres grupos que pagan por separado. Cada grupo realiza entre uno y tres pedidos durante el evento, aunque puede pedir más veces.
+
+La operación actual se apoya en comandas de papel. Los meseros toman los pedidos en las mesas y los entregan al responsable de caja, quien los reenvía a la cocina o al bar y es el único que puede cancelarlos o modificarlos. El organizador del evento puede contratar con anticipación un paquete de comida preparada, que no se cobra aparte, mientras que el consumo adicional a la carta se cobra a cada grupo. El salón recibe anticipos antes del evento y acepta pagos en efectivo, por transferencia o con tarjeta.
+
+Para este giro, el equipo contaba con un sistema de comandas desarrollado en la materia de Sistemas Operativos: una interfaz de terminal escrita en C con la biblioteca \texttt{ncurses}, que guardaba la información en archivos de texto. Ese sistema sirvió como punto de partida para conocer la operación, pero su forma de almacenar los datos es justamente lo que el proyecto busca sustituir.
+
+\subsection{Levantamiento de requerimientos}
+
+Los requerimientos se obtuvieron mediante una entrevista con el cliente, organizada en siete áreas: eventos y mesas, menú y productos, flujo de comandas, cobros y pagos, roles y permisos, reportes, y operación y escalabilidad. La Tabla~\ref{tab:entrevista} resume los hallazgos de cada área; las preguntas y respuestas completas se encuentran en el repositorio del proyecto.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{3.2cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Área} & \textbf{Hallazgos principales} \\
+        \midrule
+        Eventos y mesas & Un evento a la vez, con alrededor de veinte mesas numeradas cuya cantidad varía. Cuando hay varios meseros, a cada uno se le asigna un grupo de mesas. \\
+        Menú y productos & Alimentos, bebidas con y sin alcohol, y dulcería, con precio fijo durante el evento y variantes de tamaño o preparación. Cada producto tiene una receta, y el salón necesita saber cuánto queda de cada ingrediente y cuándo resurtir. \\
+        Flujo de comandas & Los pedidos se centralizan en caja, pasan por los estados pendiente, en preparación, lista y entregada, y pueden cancelarse. Una cuenta puede pedir varias rondas y cada pedido admite notas especiales. \\
+        Cobros y pagos & El cobro más común es por grupo de invitados. Hay anticipos, tres formas de pago y no se requiere factura fiscal. La comida del paquete no se cobra aparte; el consumo a la carta sí. \\
+        Roles y permisos & Existen los roles de mesero, cocina, bar y cajero o administrador, y es necesario saber qué mesero levantó cada comanda y qué cuentas atiende. \\
+        Reportes & Ventas e ingresos por evento, y una comparación entre el consumo real y lo presupuestado en el paquete, consultados al cierre y también durante el evento. \\
+        Operación & Alrededor de quince eventos al mes, de preferencia sin depender de una conexión a internet y sin planes de abrir otra sucursal. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Hallazgos de la entrevista con el cliente}
+    \label{tab:entrevista}
+\end{table}
+
+En la Práctica~2, al construir el modelo extendido, se revisaron de nuevo las respuestas de la entrevista. Esa revisión mostró que varias reglas que el cliente sí había mencionado no podían expresarse con el modelo entidad-relación básico y habían quedado aplanadas o fuera del diagrama: que los números de mesa se reinician en cada evento, que cada tipo de usuario guarda datos distintos, que un evento puede tener varios organizadores, que lo acordado de cada producto cambia de un evento a otro aunque se contrate el mismo paquete, y que el inventario debe llevarse por ingrediente y no como un campo del producto. Estos requerimientos se incorporaron al diseño conceptual que se describe en la sección siguiente.
+
+\subsection{Requerimientos de información}
+
+A partir de la entrevista se identificaron los datos que la base debe almacenar, que se agrupan en cuatro ámbitos:
+
+\begin{itemize}
+    \item \textbf{Eventos:} cada evento, con su fecha, tipo, número de asistentes, estado y organizadores; las mesas que se instalan en él; los paquetes que se contratan y la cantidad acordada de cada producto; y los anticipos que se reciben antes de su fecha.
+    \item \textbf{Catálogo e inventario:} los productos, con su categoría, descripción, precio y variantes; los ingredientes, con su unidad de medida, existencia actual y existencia mínima; y la receta que indica cuánto de cada ingrediente lleva una porción de cada producto.
+    \item \textbf{Operación:} las cuentas de cada mesa, con el nombre que las distingue entre sí; las comandas que genera cada cuenta, con su producto, precio, estado, notas, el mesero que las levantó, la estación que las prepara y, en su caso, el cajero que las canceló.
+    \item \textbf{Personal y cobro:} los usuarios del sistema con su rol, el turno de cada mesero y la estación de cocina o bar; y los pagos de cada cuenta, con su monto, forma de pago, fecha y la propina asignada al mesero.
+\end{itemize}
+
+\subsection{Requerimientos del sistema}
+
+Además de los datos, la entrevista estableció lo que el sistema debe permitir hacer con ellos. Los requerimientos funcionales son los siguientes:
+
+\begin{enumerate}[label=\arabic*.]
+    \item Registrar cada evento con sus mesas y asignar uno o varios meseros a ellas.
+    \item Permitir varias cuentas independientes por mesa, cada una con su propio consumo y su propio cobro.
+    \item Registrar las comandas de cada cuenta, en varias rondas, con notas especiales cuando hagan falta, y dar seguimiento a su estado hasta su entrega o cancelación.
+    \item Restringir la cancelación y la modificación de las comandas al responsable de caja.
+    \item Registrar la receta de cada producto, descontar del inventario los ingredientes que consume cada comanda y avisar cuando un ingrediente quede por debajo de su existencia mínima.
+    \item Registrar anticipos por evento y pagos por cuenta, con su forma de pago y la propina de cada mesero.
+    \item Distinguir el consumo incluido en el paquete del evento del consumo adicional a la carta.
+    \item Diferenciar los accesos de meseros, cocina, bar y caja según su función.
+    \item Generar reportes de ventas e ingresos por evento y comparar el consumo real con lo presupuestado.
+\end{enumerate}
+
+Como requerimientos no funcionales, el sistema debe operar dentro del salón sin depender de una conexión a internet, soportar el volumen descrito en el caso con margen para crecer, y emitir únicamente comprobantes internos, ya que el salón no requiere facturación fiscal.
+
+\subsection{Reglas del negocio}
+
+De los requerimientos anteriores se desprenden las reglas que la base de datos debe proteger por sí misma, sin depender de que la aplicación las respete. Las principales son las siguientes:
+
+\begin{itemize}
+    \item Una mesa y una cuenta solo se identifican dentro de su evento: la mesa tres de un evento y la de otro son mesas distintas.
+    \item Toda mesa tiene un mesero responsable, aunque un mesero puede no tener mesas asignadas.
+    \item Una comanda solo avanza en el orden pendiente, en preparación, lista y entregada; puede cancelarse en cualquier momento, pero la cancelación debe registrar qué cajero la hizo.
+    \item El precio que se cobra en una comanda es el del catálogo en el momento del pedido y no puede alterarse después.
+    \item Cada comanda se prepara en la estación que corresponde a su producto: las bebidas en el bar y los alimentos y la dulcería en la cocina.
+    \item Las existencias de un ingrediente nunca pueden quedar por debajo de cero.
+    \item No se pueden levantar comandas en una cuenta cerrada ni en un evento que ya terminó.
+    \item Un pago no puede exceder lo que se debe en la cuenta, la propina no puede superar el monto pagado y una cuenta solo puede cerrarse sin adeudo y con todas sus comandas entregadas o canceladas.
+\end{itemize}
+
+Algunas de estas reglas se precisaron durante el desarrollo, al revisar el diseño o al probar el esquema, pero todas tienen su origen en la operación que el cliente describió. Las secciones de diseño e implementación explican cómo se representa y se hace cumplir cada una.
