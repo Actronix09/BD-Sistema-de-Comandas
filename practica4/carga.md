@@ -128,7 +128,7 @@ La lectura de los CSV es casi instantánea. Casi todo el tiempo de la carga real
 
 ### Los datos de prueba
 
-Para comprobar que las restricciones protegen la carga, `probar_rechazos.sh` agrega renglones malos a una copia de los CSV. **Estos renglones son de prueba y no están en `practica4/datos/`.** Se rechazaron los 11, se revirtió la carga completa y las tablas quedaron en 0 renglones ([salida](<../evidencias/practica4/carga-con-rechazos.txt>)).
+Para comprobar que las restricciones protegen la carga, `probar_rechazos.sh` agrega renglones malos a una copia de los CSV. **Estos renglones son de prueba y no están en `practica4/datos/`.** Se rechazaron los 11, se revirtió la carga completa y las tablas quedaron en 0 renglones ([salida](<../evidencias/practica4/carga-con-rechazos.txt>) y [captura](<../evidencias/practica4/carga-con-rechazos.png>)).
 
 | Tabla | Renglón | Dato | Restricción | Mensaje del gestor | ¿Dónde estaba el error? |
 | :-- | :--: | :-- | :-- | :-- | :-- |
