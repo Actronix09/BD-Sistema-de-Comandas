@@ -1,0 +1,2003 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nyt/apasortcite//global/global/global}
+    \entry{aguilar2023}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=16e6d92dfe01bf9dd7a33d650e580b4a}{%
+           family={Aguilar\bibnamedelima Vera},
+           familyi={A\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b4c6a4e7922a30cadc1179c6739dd5b9}{%
+           family={Naal\bibnamedelima Jácome},
+           familyi={N\bibinitperiod\bibinitdelim J\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8ae56f2fa330b49e398708750bb92aa8}{%
+           family={Díaz\bibnamedelima Mendoza},
+           familyi={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=0eac9d563993dbbda5dbdef76a084ac2}{%
+           family={Gómez\bibnamedelima Gómez},
+           familyi={G\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{20529f5299eb135cd57221b1d91af247}
+      \strng{fullhash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{fullhashraw}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{bibnamehash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{authorbibnamehash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{authornamehash}{20529f5299eb135cd57221b1d91af247}
+      \strng{authorfullhash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{authorfullhashraw}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eid}{e16519}
+      \field{journaltitle}{Revista Facultad de Ingeniería}
+      \field{number}{65}
+      \field{title}{{NoSQL} database modeling and management: A systematic literature review}
+      \field{volume}{32}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.19053/01211129.v32.n65.2023.16519
+      \endverb
+    \endentry
+    \entry{atlassian_feature_branch}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=a8fd8cd0b6d2cfda939a8ef257e60192}{%
+           family={{Atlassian}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Atlassian Git Tutorials}%
+      }
+      \strng{namehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{bibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorbibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authornamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Git feature branch workflow}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
+      \endverb
+      \verb{url}
+      \verb https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
+      \endverb
+    \endentry
+    \entry{bellinger_dikw}{online}{}{}
+      \name{author}{3}{}{%
+        {{hash=70ae3f194291906e506b5588c346c9f3}{%
+           family={Bellinger},
+           familyi={B\bibinitperiod},
+           given={Gene},
+           giveni={G\bibinitperiod}}}%
+        {{hash=1dd073f7e1b7fc031edab8d432611923}{%
+           family={Castro},
+           familyi={C\bibinitperiod},
+           given={Durval},
+           giveni={D\bibinitperiod}}}%
+        {{hash=faf111c9bdd48c3bff1e7520aa49adf8}{%
+           family={Mills},
+           familyi={M\bibinitperiod},
+           given={Anthony},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Universidade Federal de Minas Gerais (UFMG)}%
+      }
+      \strng{namehash}{51aa04fad4241f9b922bf14fc378b59e}
+      \strng{fullhash}{1cda437edf138834226673c1e1c9e693}
+      \strng{fullhashraw}{1cda437edf138834226673c1e1c9e693}
+      \strng{bibnamehash}{1cda437edf138834226673c1e1c9e693}
+      \strng{authorbibnamehash}{1cda437edf138834226673c1e1c9e693}
+      \strng{authornamehash}{51aa04fad4241f9b922bf14fc378b59e}
+      \strng{authorfullhash}{1cda437edf138834226673c1e1c9e693}
+      \strng{authorfullhashraw}{1cda437edf138834226673c1e1c9e693}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Data, information, knowledge, and wisdom}
+      \field{urlday}{18}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2004}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://homepages.dcc.ufmg.br/~amendes/SistemasInformacaoTP/TextosBasicos/Data-Information-Knowledge.pdf
+      \endverb
+      \verb{url}
+      \verb https://homepages.dcc.ufmg.br/~amendes/SistemasInformacaoTP/TextosBasicos/Data-Information-Knowledge.pdf
+      \endverb
+    \endentry
+    \entry{chacon_progit}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=8f4ee0c97dee95179ce1e79e846dd298}{%
+           family={Chacon},
+           familyi={C\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod}}}%
+        {{hash=50418136ff59fed99760e32ba5613c51}{%
+           family={Straub},
+           familyi={S\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Apress}%
+      }
+      \strng{namehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{fullhash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{fullhashraw}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{bibnamehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authorbibnamehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authornamehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authorfullhash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authorfullhashraw}{1764b95256df68c84d8a593fc2dfa143}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Pro Git}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://git-scm.com/book/en/v2
+      \endverb
+      \verb{url}
+      \verb https://git-scm.com/book/en/v2
+      \endverb
+    \endentry
+    \entry{chen_er_model}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=9f90f0ad8baeb533067f29a90c289ca6}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Peter\bibnamedelima Pin-Shan},
+           giveni={P\bibinitperiod\bibinitdelim P\bibinithyphendelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{fullhash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{fullhashraw}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{bibnamehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authorbibnamehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authornamehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authorfullhash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authorfullhashraw}{9f90f0ad8baeb533067f29a90c289ca6}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Transactions on Database Systems}
+      \field{number}{1}
+      \field{title}{The entity-relationship model---toward a unified view of data}
+      \field{volume}{1}
+      \field{year}{1976}
+      \field{dateera}{ce}
+      \field{pages}{9\bibrangedash 36}
+      \range{pages}{28}
+      \verb{doi}
+      \verb 10.1145/320434.320440
+      \endverb
+    \endentry
+    \entry{date_intro_bd}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=c09e33f0c9dc5770fb91e75cdc21d569}{%
+           family={Date},
+           familyi={D\bibinitperiod},
+           given={C.\bibnamedelimi J.},
+           giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \name{translator}{1}{}{%
+        {{hash=9cb456d7ec6ec133cfcdc5cc30fc4f15}{%
+           family={Ruíz\bibnamedelima Faudón},
+           familyi={R\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Sergio\bibnamedelimb Luis\bibnamedelima María},
+           giveni={S\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson Educación}%
+      }
+      \strng{namehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{fullhash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{fullhashraw}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{bibnamehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authorbibnamehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authornamehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authorfullhash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authorfullhashraw}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{translatorbibnamehash}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \strng{translatornamehash}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \strng{translatorfullhash}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \strng{translatorfullhashraw}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{title}{Introducción a los sistemas de bases de datos}
+      \field{year}{2001}
+      \field{dateera}{ce}
+    \endentry
+    \entry{docker_publishing_ports}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c5fd214cdd0d2b3b4272e73b022ba5c2}{%
+           family={{Docker}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Docker Docs}%
+      }
+      \strng{namehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{bibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorbibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authornamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \field{extraname}{1}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Publishing and exposing ports}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.docker.com/get-started/docker-concepts/running-containers/publishing-ports/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/get-started/docker-concepts/running-containers/publishing-ports/
+      \endverb
+    \endentry
+    \entry{docker_volumes}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c5fd214cdd0d2b3b4272e73b022ba5c2}{%
+           family={{Docker}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Docker Docs}%
+      }
+      \strng{namehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{bibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorbibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authornamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \field{extraname}{2}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Volumes}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.docker.com/engine/storage/volumes/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/engine/storage/volumes/
+      \endverb
+    \endentry
+    \entry{docker_what_is_container}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c5fd214cdd0d2b3b4272e73b022ba5c2}{%
+           family={{Docker}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Docker Docs}%
+      }
+      \strng{namehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{bibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorbibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authornamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \field{extraname}{3}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradate}{3}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{What is a container?}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/
+      \endverb
+    \endentry
+    \entry{elmasri_navathe}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=c7e2fe1a0e649bf469f3feb7c5aa840d}{%
+           family={Elmasri},
+           familyi={E\bibinitperiod},
+           given={Ramez},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4ae94109c6efa1688beb655559324ba2}{%
+           family={Navathe},
+           familyi={N\bibinitperiod},
+           given={Shamkant\bibnamedelima B.},
+           giveni={S\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{fullhash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{fullhashraw}{2e8829be23557c692dac07b198a7df6e}
+      \strng{bibnamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorbibnamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authornamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorfullhash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorfullhashraw}{2e8829be23557c692dac07b198a7df6e}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{title}{Fundamentals of database systems}
+      \field{year}{2016}
+      \field{dateera}{ce}
+    \endentry
+    \entry{github_pr_reviews}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=d3b7c913cd04ebfec0e9ec32cb6fd58c}{%
+           family={{GitHub}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {GitHub Docs}%
+      }
+      \strng{namehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{bibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorbibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authornamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \field{extraname}{1}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About pull request reviews}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews
+      \endverb
+      \verb{url}
+      \verb https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews
+      \endverb
+    \endentry
+    \entry{github_repositories}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=d3b7c913cd04ebfec0e9ec32cb6fd58c}{%
+           family={{GitHub}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {GitHub Docs}%
+      }
+      \strng{namehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{bibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorbibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authornamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \field{extraname}{2}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About repositories}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories
+      \endverb
+      \verb{url}
+      \verb https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories
+      \endverb
+    \endentry
+    \entry{machuca2022}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=f777b6756f62de59f08152724059cacf}{%
+           family={Machuca},
+           familyi={M\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=d4dbef8ad5505091b2696da13749c437}{%
+           family={Braul},
+           familyi={B\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{fullhash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{fullhashraw}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{bibnamehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authorbibnamehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authornamehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authorfullhash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authorfullhashraw}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Campus}
+      \field{number}{33}
+      \field{title}{Metodologías más usadas en la seguridad de bases de datos: Una revisión de la literatura científica, 2016--2021}
+      \field{volume}{27}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{pages}{121\bibrangedash 130}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.24265/campus.2022.v27n33.08
+      \endverb
+    \endentry
+    \entry{postgres_constraints}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{1}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Constraints}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/ddl-constraints.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/ddl-constraints.html
+      \endverb
+    \endentry
+    \entry{postgres_copy}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{2}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{COPY}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-copy.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-copy.html
+      \endverb
+    \endentry
+    \entry{postgres_createdomain}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{3}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{3}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{CREATE DOMAIN}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-createdomain.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-createdomain.html
+      \endverb
+    \endentry
+    \entry{postgres_createview}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{4}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{4}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{CREATE VIEW}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-createview.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-createview.html
+      \endverb
+    \endentry
+    \entry{postgres_roles}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{5}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{5}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Database roles}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/database-roles.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/database-roles.html
+      \endverb
+    \endentry
+    \entry{postgres_privileges}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{6}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{6}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Privileges}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/ddl-priv.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/ddl-priv.html
+      \endverb
+    \endentry
+    \entry{postgres_savepoint}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{7}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{7}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{SAVEPOINT}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-savepoint.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-savepoint.html
+      \endverb
+    \endentry
+    \entry{postgres_transactions}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{8}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{8}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Transactions}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/tutorial-transactions.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/tutorial-transactions.html
+      \endverb
+    \endentry
+    \entry{postgres_triggers}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{9}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{9}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Triggers}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/triggers.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/triggers.html
+      \endverb
+    \endentry
+    \entry{menu_salon}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=38642a38b9be9c2cc2a2de57e9b5b061}{%
+           family={{Salón de eventos del caso de estudio}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{fullhash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{fullhashraw}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{bibnamehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authorbibnamehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authornamehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authorfullhash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authorfullhashraw}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Tomadas el 3 de noviembre de 2026; el nombre del salón se omite}
+      \field{title}{Menú de alimentos y bebidas}
+      \field{titleaddon}{Fotografías}
+      \field{year}{2026}
+      \field{dateera}{ce}
+    \endentry
+    \entry{silberschatz_dbconcepts}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=525ecdcf12996b3d68e3c71d7526bf35}{%
+           family={Silberschatz},
+           familyi={S\bibinitperiod},
+           given={Abraham},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1640aebebaf3b1913d7477fe0f7675e0}{%
+           family={Korth},
+           familyi={K\bibinitperiod},
+           given={Henry\bibnamedelima F.},
+           giveni={H\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=61d6a2d7215571ff54eadda8d36a2d58}{%
+           family={Sudarshan},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill Higher Education}%
+      }
+      \strng{namehash}{59c006bedfd0408796f05183940decf3}
+      \strng{fullhash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{fullhashraw}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{bibnamehash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{authorbibnamehash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{authornamehash}{59c006bedfd0408796f05183940decf3}
+      \strng{authorfullhash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{authorfullhashraw}{4c269a32abf2e4056c1b534993062a6b}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{4}
+      \field{title}{Database system concepts: Instructor's manual}
+      \field{year}{2002}
+      \field{dateera}{ce}
+    \endentry
+    \entry{taipalus2024}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=3fd7f3051d0454ef12ae84362e2178c1}{%
+           family={Taipalus},
+           familyi={T\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{fullhash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{fullhashraw}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{bibnamehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authorbibnamehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authornamehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authorfullhash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authorfullhashraw}{3fd7f3051d0454ef12ae84362e2178c1}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eid}{111872}
+      \field{journaltitle}{Journal of Systems and Software}
+      \field{title}{Database management system performance comparisons: A systematic literature review}
+      \field{volume}{208}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1016/j.jss.2023.111872
+      \endverb
+    \endentry
+    \entry{usda_fndds}{dataset}{}{}
+      \name{author}{1}{}{%
+        {{hash=a1e768a0804909b3eddc399581d4a1c6}{%
+           family={{U.S. Department of Agriculture, Agricultural Research Service}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{fullhash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{fullhashraw}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{bibnamehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authorbibnamehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authornamehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authorfullhash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authorfullhashraw}{a1e768a0804909b3eddc399581d4a1c6}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FoodData Central: Food and Nutrient Database for Dietary Studies 2021-2023}
+      \field{urlday}{3}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{version}{octubre de 2024}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://fdc.nal.usda.gov/download-datasets/
+      \endverb
+      \verb{url}
+      \verb https://fdc.nal.usda.gov/download-datasets/
+      \endverb
+    \endentry
+  \enddatalist
+  \datalist[entry]{nyt/global//global/global/global}
+    \entry{aguilar2023}{article}{}{}
+      \name{author}{4}{}{%
+        {{hash=16e6d92dfe01bf9dd7a33d650e580b4a}{%
+           family={Aguilar\bibnamedelima Vera},
+           familyi={A\bibinitperiod\bibinitdelim V\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+        {{hash=b4c6a4e7922a30cadc1179c6739dd5b9}{%
+           family={Naal\bibnamedelima Jácome},
+           familyi={N\bibinitperiod\bibinitdelim J\bibinitperiod},
+           given={A.},
+           giveni={A\bibinitperiod}}}%
+        {{hash=8ae56f2fa330b49e398708750bb92aa8}{%
+           family={Díaz\bibnamedelima Mendoza},
+           familyi={D\bibinitperiod\bibinitdelim M\bibinitperiod},
+           given={J.},
+           giveni={J\bibinitperiod}}}%
+        {{hash=0eac9d563993dbbda5dbdef76a084ac2}{%
+           family={Gómez\bibnamedelima Gómez},
+           familyi={G\bibinitperiod\bibinitdelim G\bibinitperiod},
+           given={O.},
+           giveni={O\bibinitperiod}}}%
+      }
+      \strng{namehash}{20529f5299eb135cd57221b1d91af247}
+      \strng{fullhash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{fullhashraw}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{bibnamehash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{authorbibnamehash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{authornamehash}{20529f5299eb135cd57221b1d91af247}
+      \strng{authorfullhash}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \strng{authorfullhashraw}{5f92d6a6bba4a4c586e9bb6eab4259be}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eid}{e16519}
+      \field{journaltitle}{Revista Facultad de Ingeniería}
+      \field{number}{65}
+      \field{title}{{NoSQL} database modeling and management: A systematic literature review}
+      \field{volume}{32}
+      \field{year}{2023}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.19053/01211129.v32.n65.2023.16519
+      \endverb
+    \endentry
+    \entry{atlassian_feature_branch}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=a8fd8cd0b6d2cfda939a8ef257e60192}{%
+           family={{Atlassian}},
+           familyi={A\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Atlassian Git Tutorials}%
+      }
+      \strng{namehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{fullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{bibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorbibnamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authornamehash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhash}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \strng{authorfullhashraw}{a8fd8cd0b6d2cfda939a8ef257e60192}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Git feature branch workflow}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
+      \endverb
+      \verb{url}
+      \verb https://www.atlassian.com/git/tutorials/comparing-workflows/feature-branch-workflow
+      \endverb
+    \endentry
+    \entry{bellinger_dikw}{online}{}{}
+      \name{author}{3}{}{%
+        {{hash=70ae3f194291906e506b5588c346c9f3}{%
+           family={Bellinger},
+           familyi={B\bibinitperiod},
+           given={Gene},
+           giveni={G\bibinitperiod}}}%
+        {{hash=1dd073f7e1b7fc031edab8d432611923}{%
+           family={Castro},
+           familyi={C\bibinitperiod},
+           given={Durval},
+           giveni={D\bibinitperiod}}}%
+        {{hash=faf111c9bdd48c3bff1e7520aa49adf8}{%
+           family={Mills},
+           familyi={M\bibinitperiod},
+           given={Anthony},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Universidade Federal de Minas Gerais (UFMG)}%
+      }
+      \strng{namehash}{51aa04fad4241f9b922bf14fc378b59e}
+      \strng{fullhash}{1cda437edf138834226673c1e1c9e693}
+      \strng{fullhashraw}{1cda437edf138834226673c1e1c9e693}
+      \strng{bibnamehash}{1cda437edf138834226673c1e1c9e693}
+      \strng{authorbibnamehash}{1cda437edf138834226673c1e1c9e693}
+      \strng{authornamehash}{51aa04fad4241f9b922bf14fc378b59e}
+      \strng{authorfullhash}{1cda437edf138834226673c1e1c9e693}
+      \strng{authorfullhashraw}{1cda437edf138834226673c1e1c9e693}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Data, information, knowledge, and wisdom}
+      \field{urlday}{18}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2004}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://homepages.dcc.ufmg.br/~amendes/SistemasInformacaoTP/TextosBasicos/Data-Information-Knowledge.pdf
+      \endverb
+      \verb{url}
+      \verb https://homepages.dcc.ufmg.br/~amendes/SistemasInformacaoTP/TextosBasicos/Data-Information-Knowledge.pdf
+      \endverb
+    \endentry
+    \entry{chacon_progit}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=8f4ee0c97dee95179ce1e79e846dd298}{%
+           family={Chacon},
+           familyi={C\bibinitperiod},
+           given={Scott},
+           giveni={S\bibinitperiod}}}%
+        {{hash=50418136ff59fed99760e32ba5613c51}{%
+           family={Straub},
+           familyi={S\bibinitperiod},
+           given={Ben},
+           giveni={B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Apress}%
+      }
+      \strng{namehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{fullhash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{fullhashraw}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{bibnamehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authorbibnamehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authornamehash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authorfullhash}{1764b95256df68c84d8a593fc2dfa143}
+      \strng{authorfullhashraw}{1764b95256df68c84d8a593fc2dfa143}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Pro Git}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{year}{2014}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://git-scm.com/book/en/v2
+      \endverb
+      \verb{url}
+      \verb https://git-scm.com/book/en/v2
+      \endverb
+    \endentry
+    \entry{chen_er_model}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=9f90f0ad8baeb533067f29a90c289ca6}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Peter\bibnamedelima Pin-Shan},
+           giveni={P\bibinitperiod\bibinitdelim P\bibinithyphendelim S\bibinitperiod}}}%
+      }
+      \strng{namehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{fullhash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{fullhashraw}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{bibnamehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authorbibnamehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authornamehash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authorfullhash}{9f90f0ad8baeb533067f29a90c289ca6}
+      \strng{authorfullhashraw}{9f90f0ad8baeb533067f29a90c289ca6}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{ACM Transactions on Database Systems}
+      \field{number}{1}
+      \field{title}{The entity-relationship model---toward a unified view of data}
+      \field{volume}{1}
+      \field{year}{1976}
+      \field{dateera}{ce}
+      \field{pages}{9\bibrangedash 36}
+      \range{pages}{28}
+      \verb{doi}
+      \verb 10.1145/320434.320440
+      \endverb
+    \endentry
+    \entry{date_intro_bd}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=c09e33f0c9dc5770fb91e75cdc21d569}{%
+           family={Date},
+           familyi={D\bibinitperiod},
+           given={C.\bibnamedelimi J.},
+           giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \name{translator}{1}{}{%
+        {{hash=9cb456d7ec6ec133cfcdc5cc30fc4f15}{%
+           family={Ruíz\bibnamedelima Faudón},
+           familyi={R\bibinitperiod\bibinitdelim F\bibinitperiod},
+           given={Sergio\bibnamedelimb Luis\bibnamedelima María},
+           giveni={S\bibinitperiod\bibinitdelim L\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson Educación}%
+      }
+      \strng{namehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{fullhash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{fullhashraw}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{bibnamehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authorbibnamehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authornamehash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authorfullhash}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{authorfullhashraw}{c09e33f0c9dc5770fb91e75cdc21d569}
+      \strng{translatorbibnamehash}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \strng{translatornamehash}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \strng{translatorfullhash}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \strng{translatorfullhashraw}{9cb456d7ec6ec133cfcdc5cc30fc4f15}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{title}{Introducción a los sistemas de bases de datos}
+      \field{year}{2001}
+      \field{dateera}{ce}
+    \endentry
+    \entry{docker_publishing_ports}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c5fd214cdd0d2b3b4272e73b022ba5c2}{%
+           family={{Docker}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Docker Docs}%
+      }
+      \strng{namehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{bibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorbibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authornamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \field{extraname}{1}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Publishing and exposing ports}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.docker.com/get-started/docker-concepts/running-containers/publishing-ports/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/get-started/docker-concepts/running-containers/publishing-ports/
+      \endverb
+    \endentry
+    \entry{docker_volumes}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c5fd214cdd0d2b3b4272e73b022ba5c2}{%
+           family={{Docker}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Docker Docs}%
+      }
+      \strng{namehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{bibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorbibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authornamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \field{extraname}{2}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Volumes}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.docker.com/engine/storage/volumes/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/engine/storage/volumes/
+      \endverb
+    \endentry
+    \entry{docker_what_is_container}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=c5fd214cdd0d2b3b4272e73b022ba5c2}{%
+           family={{Docker}},
+           familyi={D\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {Docker Docs}%
+      }
+      \strng{namehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{fullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{bibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorbibnamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authornamehash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhash}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \strng{authorfullhashraw}{c5fd214cdd0d2b3b4272e73b022ba5c2}
+      \field{extraname}{3}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradate}{3}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{What is a container?}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/
+      \endverb
+      \verb{url}
+      \verb https://docs.docker.com/get-started/docker-concepts/the-basics/what-is-a-container/
+      \endverb
+    \endentry
+    \entry{elmasri_navathe}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=c7e2fe1a0e649bf469f3feb7c5aa840d}{%
+           family={Elmasri},
+           familyi={E\bibinitperiod},
+           given={Ramez},
+           giveni={R\bibinitperiod}}}%
+        {{hash=4ae94109c6efa1688beb655559324ba2}{%
+           family={Navathe},
+           familyi={N\bibinitperiod},
+           given={Shamkant\bibnamedelima B.},
+           giveni={S\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{fullhash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{fullhashraw}{2e8829be23557c692dac07b198a7df6e}
+      \strng{bibnamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorbibnamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authornamehash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorfullhash}{2e8829be23557c692dac07b198a7df6e}
+      \strng{authorfullhashraw}{2e8829be23557c692dac07b198a7df6e}
+      \field{sortinit}{E}
+      \field{sortinithash}{8da8a182d344d5b9047633dfc0cc9131}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{title}{Fundamentals of database systems}
+      \field{year}{2016}
+      \field{dateera}{ce}
+    \endentry
+    \entry{github_pr_reviews}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=d3b7c913cd04ebfec0e9ec32cb6fd58c}{%
+           family={{GitHub}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {GitHub Docs}%
+      }
+      \strng{namehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{bibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorbibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authornamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \field{extraname}{1}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About pull request reviews}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews
+      \endverb
+      \verb{url}
+      \verb https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/reviewing-changes-in-pull-requests/about-pull-request-reviews
+      \endverb
+    \endentry
+    \entry{github_repositories}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=d3b7c913cd04ebfec0e9ec32cb6fd58c}{%
+           family={{GitHub}},
+           familyi={G\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {GitHub Docs}%
+      }
+      \strng{namehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{fullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{bibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorbibnamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authornamehash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhash}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \strng{authorfullhashraw}{d3b7c913cd04ebfec0e9ec32cb6fd58c}
+      \field{extraname}{2}
+      \field{sortinit}{G}
+      \field{sortinithash}{32d67eca0634bf53703493fb1090a2e8}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{About repositories}
+      \field{urlday}{16}
+      \field{urlmonth}{9}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories
+      \endverb
+      \verb{url}
+      \verb https://docs.github.com/en/repositories/creating-and-managing-repositories/about-repositories
+      \endverb
+    \endentry
+    \entry{machuca2022}{article}{}{}
+      \name{author}{2}{}{%
+        {{hash=f777b6756f62de59f08152724059cacf}{%
+           family={Machuca},
+           familyi={M\bibinitperiod},
+           given={L.},
+           giveni={L\bibinitperiod}}}%
+        {{hash=d4dbef8ad5505091b2696da13749c437}{%
+           family={Braul},
+           familyi={B\bibinitperiod},
+           given={R.},
+           giveni={R\bibinitperiod}}}%
+      }
+      \strng{namehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{fullhash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{fullhashraw}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{bibnamehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authorbibnamehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authornamehash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authorfullhash}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \strng{authorfullhashraw}{0b9e4e3c5260c6c7f3dd65b055cb0a27}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Campus}
+      \field{number}{33}
+      \field{title}{Metodologías más usadas en la seguridad de bases de datos: Una revisión de la literatura científica, 2016--2021}
+      \field{volume}{27}
+      \field{year}{2022}
+      \field{dateera}{ce}
+      \field{pages}{121\bibrangedash 130}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.24265/campus.2022.v27n33.08
+      \endverb
+    \endentry
+    \entry{postgres_constraints}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{1}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{1}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Constraints}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/ddl-constraints.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/ddl-constraints.html
+      \endverb
+    \endentry
+    \entry{postgres_copy}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{2}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{2}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{COPY}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-copy.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-copy.html
+      \endverb
+    \endentry
+    \entry{postgres_createdomain}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{3}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{3}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{CREATE DOMAIN}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-createdomain.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-createdomain.html
+      \endverb
+    \endentry
+    \entry{postgres_createview}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{4}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{4}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{CREATE VIEW}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-createview.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-createview.html
+      \endverb
+    \endentry
+    \entry{postgres_roles}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{5}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{5}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Database roles}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/database-roles.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/database-roles.html
+      \endverb
+    \endentry
+    \entry{postgres_privileges}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{6}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{6}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Privileges}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/ddl-priv.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/ddl-priv.html
+      \endverb
+    \endentry
+    \entry{postgres_savepoint}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{7}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{7}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{SAVEPOINT}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/sql-savepoint.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/sql-savepoint.html
+      \endverb
+    \endentry
+    \entry{postgres_transactions}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{8}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{8}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Transactions}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/tutorial-transactions.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/tutorial-transactions.html
+      \endverb
+    \endentry
+    \entry{postgres_triggers}{online}{}{}
+      \name{author}{1}{}{%
+        {{hash=36423acfb135ffe286ea438eafcb0bc6}{%
+           family={{PostgreSQL Global Development Group}},
+           familyi={P\bibinitperiod}}}%
+      }
+      \list{organization}{1}{%
+        {PostgreSQL 16 Documentation}%
+      }
+      \strng{namehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{fullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{bibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorbibnamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authornamehash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhash}{36423acfb135ffe286ea438eafcb0bc6}
+      \strng{authorfullhashraw}{36423acfb135ffe286ea438eafcb0bc6}
+      \field{extraname}{9}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradate}{9}
+      \field{labeldatesource}{nodate}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Triggers}
+      \field{urlday}{10}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://www.postgresql.org/docs/16/triggers.html
+      \endverb
+      \verb{url}
+      \verb https://www.postgresql.org/docs/16/triggers.html
+      \endverb
+    \endentry
+    \entry{menu_salon}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=38642a38b9be9c2cc2a2de57e9b5b061}{%
+           family={{Salón de eventos del caso de estudio}},
+           familyi={S\bibinitperiod}}}%
+      }
+      \strng{namehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{fullhash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{fullhashraw}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{bibnamehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authorbibnamehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authornamehash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authorfullhash}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \strng{authorfullhashraw}{38642a38b9be9c2cc2a2de57e9b5b061}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{note}{Tomadas el 3 de noviembre de 2026; el nombre del salón se omite}
+      \field{title}{Menú de alimentos y bebidas}
+      \field{titleaddon}{Fotografías}
+      \field{year}{2026}
+      \field{dateera}{ce}
+    \endentry
+    \entry{silberschatz_dbconcepts}{book}{}{}
+      \name{author}{3}{}{%
+        {{hash=525ecdcf12996b3d68e3c71d7526bf35}{%
+           family={Silberschatz},
+           familyi={S\bibinitperiod},
+           given={Abraham},
+           giveni={A\bibinitperiod}}}%
+        {{hash=1640aebebaf3b1913d7477fe0f7675e0}{%
+           family={Korth},
+           familyi={K\bibinitperiod},
+           given={Henry\bibnamedelima F.},
+           giveni={H\bibinitperiod\bibinitdelim F\bibinitperiod}}}%
+        {{hash=61d6a2d7215571ff54eadda8d36a2d58}{%
+           family={Sudarshan},
+           familyi={S\bibinitperiod},
+           given={S.},
+           giveni={S\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {McGraw-Hill Higher Education}%
+      }
+      \strng{namehash}{59c006bedfd0408796f05183940decf3}
+      \strng{fullhash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{fullhashraw}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{bibnamehash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{authorbibnamehash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{authornamehash}{59c006bedfd0408796f05183940decf3}
+      \strng{authorfullhash}{4c269a32abf2e4056c1b534993062a6b}
+      \strng{authorfullhashraw}{4c269a32abf2e4056c1b534993062a6b}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{4}
+      \field{title}{Database system concepts: Instructor's manual}
+      \field{year}{2002}
+      \field{dateera}{ce}
+    \endentry
+    \entry{taipalus2024}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=3fd7f3051d0454ef12ae84362e2178c1}{%
+           family={Taipalus},
+           familyi={T\bibinitperiod},
+           given={T.},
+           giveni={T\bibinitperiod}}}%
+      }
+      \strng{namehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{fullhash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{fullhashraw}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{bibnamehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authorbibnamehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authornamehash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authorfullhash}{3fd7f3051d0454ef12ae84362e2178c1}
+      \strng{authorfullhashraw}{3fd7f3051d0454ef12ae84362e2178c1}
+      \field{sortinit}{T}
+      \field{sortinithash}{9af77f0292593c26bde9a56e688eaee9}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eid}{111872}
+      \field{journaltitle}{Journal of Systems and Software}
+      \field{title}{Database management system performance comparisons: A systematic literature review}
+      \field{volume}{208}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \verb{doi}
+      \verb 10.1016/j.jss.2023.111872
+      \endverb
+    \endentry
+    \entry{usda_fndds}{dataset}{}{}
+      \name{author}{1}{}{%
+        {{hash=a1e768a0804909b3eddc399581d4a1c6}{%
+           family={{U.S. Department of Agriculture, Agricultural Research Service}},
+           familyi={U\bibinitperiod}}}%
+      }
+      \strng{namehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{fullhash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{fullhashraw}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{bibnamehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authorbibnamehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authornamehash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authorfullhash}{a1e768a0804909b3eddc399581d4a1c6}
+      \strng{authorfullhashraw}{a1e768a0804909b3eddc399581d4a1c6}
+      \field{sortinit}{U}
+      \field{sortinithash}{6901a00e45705986ee5e7ca9fd39adca}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \true{uniqueprimaryauthor}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{FoodData Central: Food and Nutrient Database for Dietary Studies 2021-2023}
+      \field{urlday}{3}
+      \field{urlmonth}{11}
+      \field{urlyear}{2026}
+      \field{version}{octubre de 2024}
+      \field{year}{2024}
+      \field{dateera}{ce}
+      \field{urldateera}{ce}
+      \verb{urlraw}
+      \verb https://fdc.nal.usda.gov/download-datasets/
+      \endverb
+      \verb{url}
+      \verb https://fdc.nal.usda.gov/download-datasets/
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
