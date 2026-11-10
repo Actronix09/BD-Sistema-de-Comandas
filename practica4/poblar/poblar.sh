@@ -20,11 +20,22 @@ set -euo pipefail
 POBLAR_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 RAIZ="$(cd "$POBLAR_DIR/../.." && pwd)"
 
+# Lo que ya viene definido en el entorno gana sobre .env. Así probar_rechazos.sh
+# puede cargar en otra base sin que .env la regrese a la de siempre.
 if [ -f "$POBLAR_DIR/.env" ]; then
+    definidas=()
+    while IFS='=' read -r clave _; do
+        if [[ "$clave" =~ ^[A-Za-z_][A-Za-z0-9_]*$ ]] && [ -n "${!clave+x}" ]; then
+            definidas+=("$clave=${!clave}")
+        fi
+    done < "$POBLAR_DIR/.env"
     set -a
     # shellcheck disable=SC1091
     . "$POBLAR_DIR/.env"
     set +a
+    for par in "${definidas[@]}"; do
+        export "$par"
+    done
 fi
 
 MOTOR="${MOTOR:-docker}"
