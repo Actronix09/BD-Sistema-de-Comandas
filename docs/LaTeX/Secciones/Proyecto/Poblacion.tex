@@ -1,0 +1,121 @@
+\newpage
+
+\section{Población de la base de datos}
+\label{sec:poblacion}
+
+En esta sección se describe cómo se obtuvieron los datos con los que se pobló la base y el script con el que se cargan. Este trabajo corresponde a la Práctica~4, cuyo requisito era contar con al menos doscientos renglones en cada tabla principal, provenientes de una fuente documentada y cargados con un solo comando.
+
+\subsection{Búsqueda de una fuente de datos}
+
+Las tablas de la base se dividen en dos grupos con necesidades distintas: el catálogo, formado por los productos, los ingredientes y las recetas, requiere platillos y bebidas con las cantidades de sus ingredientes; la operación, formada por los eventos, las mesas, las cuentas, las comandas, los pagos y los anticipos, requiere pedidos registrados uno por uno, con su mesa, su mesero, su estado y su pago.
+
+Para cada grupo se buscaron conjuntos de datos publicados en los portales de datos abiertos de la Ciudad de México y del gobierno federal, en el repositorio DataMX y en buscadores generales, con términos como \textit{comandas}, \textit{recetas}, \textit{restaurantes} y \textit{banquetes}. Para la operación no se encontró ningún conjunto con pedidos de un salón de eventos: los resultados eran directorios de negocios, estadísticas agregadas o conjuntos de pedidos declarados como ficticios por sus propios autores. El resultado es razonable, porque los pedidos son datos internos de cada negocio y contienen información de sus clientes y empleados. Para el catálogo, el único conjunto que ofrecía recetas con cantidades y una licencia que permite su uso fue la base de datos de alimentos y nutrientes del Departamento de Agricultura de los Estados Unidos \parencite{usda_fndds}, publicada en el dominio público.
+
+\subsection{Fuente elegida}
+
+Siguiendo el orden que pide la práctica, los datos se buscaron primero en el propio caso de estudio. El salón de eventos permitió publicar su menú vigente \parencite{menu_salon}, pero no cuenta con recetas fijas ni con registros de pedidos que compartir. Por ello, cada tabla se pobló con la mejor fuente disponible, como se resume en la Tabla~\ref{tab:fuentes}.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}p{2cm}
+        }
+        \toprule
+        \textbf{Datos} & \textbf{Origen} & \textbf{Tipo} \\
+        \midrule
+        122 de los 214 productos & Menú del salón y variantes confirmadas por un integrante que trabajó en él & Reales \\
+        85 de los 208 ingredientes y 292 de las 681 filas de receta & Estimados a partir del menú, con las proporciones de FNDDS donde el platillo coincide & Estimados \\
+        92 productos y 123 ingredientes con sus recetas & Script de generación, para superar los doscientos renglones & Inventados \\
+        Usuarios, eventos, mesas, cuentas, comandas, pagos, anticipos y paquetes & Script de generación con semilla fija & Sintéticos \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Origen de los datos de cada tabla}
+    \label{tab:fuentes}
+\end{table}
+
+\subsubsection{Menú del salón}
+
+El menú se obtuvo en dos fotografías, que se transcribieron a mano porque no son datos estructurados. Antes de publicarlas se taparon el nombre, el logotipo y los datos de contacto del salón, cuya identidad se omite a petición del equipo. La transcripción requirió varias decisiones: los renglones que agrupaban varias opciones, como unos tacos de distintos guisos, se convirtieron en un producto principal con una variante por opción; los extras con costo adicional se registraron como variantes con el precio ya sumado; y los precios que el menú no indicaba, como los de las medias órdenes, los confirmó un integrante del equipo que trabajó en el salón. Ningún dato del menú corresponde a una persona.
+
+\subsubsection{Recetas estimadas}
+
+Como el salón no tiene recetas fijas, las recetas de sus productos son una estimación. Cuando un platillo del menú coincide con un alimento de FNDDS, se tomaron las proporciones de sus ingredientes y se escalaron a la porción del salón; en los demás casos, la receta se estimó directamente. Cada fila de receta conserva una columna que indica de dónde proviene, de modo que las estimaciones pueden distinguirse de los datos reales.
+
+\subsubsection{Productos e ingredientes inventados}
+
+El menú real tiene 122 productos, y sus recetas utilizan 85 ingredientes. Para superar los doscientos renglones en esas tablas, el generador agrega 92 productos y 123 ingredientes inventados, con sus recetas, que no existen en el salón. Se distinguen de los reales por su rango de identificadores, por una columna de origen en los archivos fuente y por una descripción que lo indica dentro de la propia base.
+
+\subsection{Datos sintéticos}
+
+Los datos de operación se generan con un script en Python que utiliza una semilla fija, de modo que dos ejecuciones producen exactamente los mismos archivos. El generador simula 240 eventos entre enero de 2023 y diciembre de 2026, de los cuales 224 están finalizados, 6 cancelados, uno en curso y nueve programados. Los nombres de las personas se forman al azar a partir de listas comunes y no corresponden a personas reales, y las contraseñas son un texto fijo con el que ningún usuario generado puede entrar al sistema.
+
+El generador debe respetar las reglas del esquema, porque de lo contrario la carga sería rechazada. Así, las bebidas las prepara el bar y los alimentos la cocina; cada cuenta de un evento finalizado se paga exacta, en uno o dos pagos, para que pueda cerrarse; la mitad de los pagos incluye una propina de entre el 5 y el 15~por~ciento con su mesero; el 3~por~ciento de las comandas se cancela, con el cajero que lo hizo; y la existencia inicial de cada ingrediente es lo que se consume más un remanente, de modo que ninguna queda negativa. La Tabla~\ref{tab:volumen} muestra el volumen resultante de las tablas principales.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabular}{lr}
+        \toprule
+        \textbf{Tabla} & \textbf{Renglones} \\
+        \midrule
+        \texttt{producto} & 214 \\
+        \texttt{ingrediente} & 208 \\
+        \texttt{receta} & 681 \\
+        \texttt{usuario} & 200 \\
+        \texttt{evento} & 240 \\
+        \texttt{anticipo} & 343 \\
+        \texttt{mesa} & 3,943 \\
+        \texttt{cuenta} & 7,515 \\
+        \texttt{comanda} & 37,528 \\
+        \texttt{pago} & 9,640 \\
+        \midrule
+        Total de la base, con las tablas restantes & 61,809 \\
+        \bottomrule
+    \end{tabular}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Renglones de las tablas principales}
+    \label{tab:volumen}
+\end{table}
+
+\subsection{Script de carga}
+
+La base se puebla con un solo comando, que crea la base si no existe, aplica el esquema y las migraciones, y carga los archivos generados. La práctica establecía seis requisitos para el script, que se cumplieron como se describe a continuación.
+
+\begin{itemize}
+    \item \textbf{Repetible.} Cada tabla filtra los renglones que ya existen antes de insertar, por lo que una segunda ejecución no duplica datos ni termina en error. No se utilizó la cláusula \texttt{ON CONFLICT DO NOTHING}, porque los disparadores se ejecutan antes de que el gestor detecte el conflicto: al repetir un pago ya registrado, el disparador del cobro lo compararía contra una cuenta ya pagada y rechazaría la carga.
+    \item \textbf{Ordenado.} Las tablas se cargan después de aquellas de las que dependen, y además en el orden que exigen los disparadores: los eventos entran como programados y las cuentas como abiertas, para que acepten comandas; después se cargan las comandas, que descuentan el inventario, y los pagos, que se comparan contra el saldo; y al final se actualiza el estado definitivo de cuentas y eventos.
+    \item \textbf{Todo o nada.} La carga completa se ejecuta en una sola transacción. Si un renglón falla, se revierte todo y el script informa la tabla, el renglón, la restricción y el mensaje del gestor.
+    \item \textbf{Con cuentas.} Al terminar, el script informa por tabla cuántos renglones leyó, cuántos insertó, cuántos ya existían y cuántos se rechazaron.
+    \item \textbf{Sin credenciales.} La conexión y las contraseñas se toman de variables de entorno, y la carga se realiza con el usuario del rol de la aplicación, no con el administrador.
+    \item \textbf{Eficiente.} Los archivos se leen con la carga masiva \texttt{\textbackslash copy} \parencite{postgres_copy} hacia tablas temporales cuyas columnas son todas de texto, para que un dato con un tipo incorrecto no detenga la lectura. Desde ahí pasan a las tablas reales en tandas de mil renglones, cada una en una subtransacción; solo si una tanda falla, se repite renglón por renglón para identificar cuál rechazó el gestor.
+\end{itemize}
+
+\subsection{Resultados de la carga}
+
+La primera ejecución, sobre una base recién creada, insertó los 61,809 renglones sin ningún rechazo en 356 segundos. La segunda ejecución, sobre la misma base, no insertó ningún renglón, reportó los 61,809 como existentes y terminó en un segundo; la suma de las existencias de los ingredientes fue la misma después de ambas, lo que confirma que el inventario no se descontó dos veces.
+
+Para medir el efecto de la carga masiva, se cargaron las 37,528 comandas en una tabla sin restricciones ni disparadores con tres métodos distintos, con los resultados de la Tabla~\ref{tab:tiempos}. La carga masiva resultó más de setenta veces más rápida que insertar renglón por renglón con confirmación automática. En la carga real, casi todo el tiempo se dedica a los disparadores de las comandas, que descuentan del inventario la receta de cada pedido: es el costo de que la base proteja sus reglas.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabular}{lrr}
+        \toprule
+        \textbf{Método} & \textbf{Tiempo} & \textbf{Respecto a \texttt{\textbackslash copy}} \\
+        \midrule
+        \texttt{\textbackslash copy} & 0.17 s & --- \\
+        \texttt{INSERT} por renglón, en una transacción & 2.50 s & 15 veces más \\
+        \texttt{INSERT} por renglón, con confirmación automática & 12.11 s & 71 veces más \\
+        \bottomrule
+    \end{tabular}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Tiempo de carga de 37,528 comandas}
+    \label{tab:tiempos}
+\end{table}
+
+La práctica pedía también registrar qué renglones rechazaban las restricciones y decidir, en cada caso, si el error estaba en el dato o en la restricción. Con los datos reales, la carga final no tuvo rechazos; el único conflicto apareció antes, al transcribir el menú, donde un grupo de productos y una marca tenían el mismo nombre, lo que habría violado la unicidad del nombre del producto, y se corrigió el dato. Para comprobar que las restricciones protegen la carga, se agregaron once renglones incorrectos a una copia de los archivos, cada uno diseñado para violar una restricción distinta: una unidad de medida no permitida, un precio negativo, un producto duplicado, una fecha inexistente o un pago mayor al saldo, entre otros. El gestor rechazó los once, la carga se revirtió por completo y las tablas quedaron vacías. En ningún caso el error estaba en la restricción, por lo que no fue necesaria ninguna migración.
