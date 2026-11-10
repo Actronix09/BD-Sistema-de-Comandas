@@ -64,7 +64,7 @@ Las tablas temporales tienen todas sus columnas como texto, así que un dato con
 
 ## Salida de las dos ejecuciones
 
-Primera ejecución, sobre una base recién creada ([salida completa](<../evidencias/practica4/carga-primera-ejecucion.txt>)):
+Primera ejecución, sobre una base recién creada ([salida completa](<../evidencias/practica4/carga-primera-ejecucion.txt>) y [captura](<../evidencias/practica4/carga-primera-ejecucion.png>)):
 
 ```
        tabla        | leidos | insertados | ya_existian | rechazados 
@@ -92,10 +92,10 @@ Primera ejecución, sobre una base recién creada ([salida completa](<../evidenc
   61809 |      61809 |           0 |          0
 
 ==> Carga confirmada
-==> Tiempo total: 174 s
+==> Tiempo total: 356 s
 ```
 
-Segunda ejecución, sobre la misma base ([salida completa](<../evidencias/practica4/carga-segunda-ejecucion.txt>)):
+Segunda ejecución, sobre la misma base ([salida completa](<../evidencias/practica4/carga-segunda-ejecucion.txt>) y [captura](<../evidencias/practica4/carga-segunda-ejecucion.png>)):
 
 ```
  leidos | insertados | ya_existian | rechazados 
@@ -110,13 +110,13 @@ No duplicó renglones ni descontó stock otra vez: la suma de `stock_actual` fue
 
 ## Comparación de tiempos
 
-`comparar_tiempos.sh` carga `comanda.csv` en una tabla sin restricciones ni disparadores, para medir solo la forma de cargar ([salida](<../evidencias/practica4/comparacion-de-tiempos.txt>)):
+`comparar_tiempos.sh` carga `comanda.csv` en una tabla sin restricciones ni disparadores, para medir solo la forma de cargar ([salida](<../evidencias/practica4/comparacion-de-tiempos.txt>) y [captura](<../evidencias/practica4/comparacion-de-tiempos.png>)):
 
 | Forma de cargar 37,528 renglones | Tiempo | Contra `\copy` |
 | :-- | :--: | :--: |
-| `\copy` | 0.13 s | — |
-| `INSERT` por renglón, en una transacción | 2.13 s | 16 veces más |
-| `INSERT` por renglón, con *autocommit* | 11.76 s | 90 veces más |
+| `\copy` | 0.17 s | — |
+| `INSERT` por renglón, en una transacción | 2.50 s | 15 veces más |
+| `INSERT` por renglón, con *autocommit* | 12.11 s | 71 veces más |
 
 La lectura de los CSV es casi instantánea. Casi todo el tiempo de la carga real se va en los disparadores de `comanda`, que descuentan el stock de cada receta: es el costo de que la base proteja sus reglas.
 

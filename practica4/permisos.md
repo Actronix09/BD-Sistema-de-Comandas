@@ -59,6 +59,8 @@ Había dos opciones: conceder esos permisos o declarar las funciones `SECURITY D
 
 ```
 ==> Creando la base comandas_carga con el esquema y las migraciones
+    001-dominios.sql
+    002-formato-usuario.sql
     099-permisos.sql
 ==> Base comandas_carga, usuario app_comandas
 ```
