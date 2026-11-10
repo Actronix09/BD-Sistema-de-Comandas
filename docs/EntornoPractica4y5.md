@@ -22,11 +22,19 @@ Las dos prácticas se desarrollan en la rama `practica4-5`, creada a partir de `
 | `Practica4-Ejercicio1.6-Permisos` | `practica4-5` | `practica4/permisos.md` y los roles |
 | `Practica5-Ejercicio2.4-Edicion` | `practica4-5` | `practica5/edicion-de-valores.md` y sus sentencias |
 | `Practica5-Ejercicio2.6-Adrian` | `practica4-5` | El trabajo individual en `practica5/integrantes/` |
-| `Practica4y5-Entregable` | `practica4-5` | README e índice de documentos |
+| `Practica4y5-Entregable` | `practica4-5` | README, índice de documentos y página web |
+| `Practica4y5-Correcciones` | `practica4-5` | Este documento al día y las evidencias de la carga regeneradas |
 
-Estas son las ramas de las secciones de Adrian. Samy agrega las suyas con el mismo formato.
+Estas son las ramas de las secciones de Adrian. Samy hizo sus secciones (migraciones, 1.1, 1.2, 1.5, 2.1, 2.2, 2.3 y su 2.6) con confirmaciones directas en `practica4-5`.
 
-Los *pull requests* #32 y #33, de los ejercicios 1.3 y 1.4, se fusionaron por error directo a `main`. No se revirtieron: los mismos commits entraron después a `practica4-5` con los *pull requests* #34 y #35, con el mismo contenido, y las secciones siguientes salen de ahí.
+Tres *pull requests* se fusionaron por error directo a `main`, porque GitHub propone `main` como base:
+
+| *Pull request* | Rama | Cómo se corrigió |
+| :-- | :-- | :-- |
+| #32 y #33 | 1.3 y 1.4 | Los mismos commits entraron a `practica4-5` con los *pull requests* #34 y #35 |
+| #39 | 2.6 de Adrian | Como la rama salió de `practica4-5`, llevó a `main` todo lo que había ahí, menos 2.4. Se volvió a fusionar en `practica4-5` con el #41 |
+
+Ninguno se revirtió. Al revertir una fusión, Git da sus commits por ya fusionados, y el *pull request* final de `practica4-5` a `main` no los volvería a meter.
 
 ```bash
 git switch practica4-5
@@ -55,7 +63,7 @@ Los documentos de cada práctica van en la raíz de su carpeta. Desde esta prác
 
 ## Levantamiento del gestor
 
-Se reutiliza la definición de contenedores de las prácticas anteriores, [`entorno/compose.yml`](<../entorno/compose.yml>), sin cambios. `make -C sql pruebas` levanta el contenedor si hace falta, recrea la base `comandas_pruebas`, ejecuta `sql/esquema.sql` y `sql/datos-ejemplo.sql`, y corre las pruebas.
+Se reutiliza la definición de contenedores de las prácticas anteriores, [`entorno/compose.yml`](<../entorno/compose.yml>), sin cambios. `make -C sql pruebas` levanta el contenedor si hace falta, recrea la base `comandas_pruebas`, ejecuta `sql/esquema.sql`, las migraciones de `practica4/migraciones/` y `sql/datos-ejemplo.sql`, y corre los rechazos, los casos válidos y las pruebas referenciales.
 
 ```bash
 make -C sql pruebas
@@ -65,12 +73,13 @@ docker ps --filter name=practica1-postgres
 El esquema se ejecuta completo sobre la base limpia y todos los casos pasan:
 
 ```
-==> Rechazados: 34 de 34
-==> Válidas: 13 de 13
+==> Rechazados: 36 de 36
+==> Válidas: 15 de 15
+Todas las pruebas referenciales pasaron; los datos de ejemplo quedaron restaurados.
 ==> Todas las pruebas pasaron sobre comandas_pruebas
 
 NAMES                IMAGE                  STATUS       PORTS
-practica1-postgres   postgres:16.4-alpine   Up 7 hours   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
+practica1-postgres   postgres:16.4-alpine   Up 6 hours   0.0.0.0:5432->5432/tcp, [::]:5432->5432/tcp
 ```
 
 | Concepto | Valor |

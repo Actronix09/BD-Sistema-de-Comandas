@@ -1,4 +1,4 @@
 ==> 37528 renglones de comanda.csv
-\copy                                      0.13 s
-INSERT por renglón, una transacción      2.13 s
-INSERT por renglón, con autocommit       11.76 s
+\copy                                      0.17 s
+INSERT por renglón, una transacción      2.50 s
+INSERT por renglón, con autocommit       12.11 s
