@@ -32,6 +32,30 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
 
 ## Indice
 
+- [Introducción](<docs/practica1/Introduccion.md>)
+  - [Planteamiento del problema](<docs/practica1/Introduccion.md#planteamiento-del-problema>)
+  - [Justificación](<docs/practica1/Introduccion.md#justificación>)
+  - [Objetivo general](<docs/practica1/Introduccion.md#objetivo-general>)
+  - [Objetivos específicos](<docs/practica1/Introduccion.md#objetivos-específicos>)
+  - [Estado del arte](<docs/practica1/Introduccion.md#estado-del-arte>)
+  - [Productos esperados](<docs/practica1/Introduccion.md#productos-esperados>)
+  - [Referencias](<docs/practica1/Introduccion.md#referencias>)
+- [Marco Teórico](<docs/practica1/MarcoTeorico.md>)
+  - [Dato, información y bases de datos](<docs/practica1/MarcoTeorico.md#dato-información-y-bases-de-datos>)
+  - [Características de una base de datos](<docs/practica1/MarcoTeorico.md#características-de-una-base-de-datos>)
+  - [Archivos contra bases de datos](<docs/practica1/MarcoTeorico.md#archivos-contra-bases-de-datos>)
+  - [Usuarios de una base de datos](<docs/practica1/MarcoTeorico.md#usuarios-de-una-base-de-datos>)
+  - [Ciclo de vida de una base de datos](<docs/practica1/MarcoTeorico.md#ciclo-de-vida-de-una-base-de-datos>)
+  - [Sistema gestor de bases de datos](<docs/practica1/MarcoTeorico.md#sistema-gestor-de-bases-de-datos>)
+  - [Sistema de bases de datos](<docs/practica1/MarcoTeorico.md#sistema-de-bases-de-datos>)
+  - [Modelos de datos](<docs/practica1/MarcoTeorico.md#modelos-de-datos>)
+  - [Referencias](<docs/practica1/MarcoTeorico.md#referencias>)
+- [Caso de Estudio](<docs/practica1/CasoDeEstudio.md>)
+  - [Entrevista con el Cliente](<docs/practica1/CasoDeEstudio.md#entrevista-con-el-cliente>)
+  - [Requerimientos de la base de datos](<docs/practica1/CasoDeEstudio.md#requerimientos-de-la-base-de-datos>)
+  - [Requerimientos del sistema en general](<docs/practica1/CasoDeEstudio.md#requerimientos-del-sistema-en-general>)
+  - [Diagrama Entidad-Relación](<docs/practica1/CasoDeEstudio.md#diagrama-entidad-relación>)
+  - [Justificación del modelo](<docs/practica1/CasoDeEstudio.md#justificación-del-modelo>)
 - [Control de Versiones (Git)](<docs/practica1/Control de Versiones.md>)
   - [Sistema Gestor de Versiones](<docs/practica1/Control de Versiones.md#sistema-gestor-de-versiones>)
   - [Definiciones](<docs/practica1/Control de Versiones.md#definiciones>)
@@ -221,6 +245,8 @@ make -C sql experimento-samy
 El reporte principal de la práctica se encuentra en:
 
 **[Practica 1.pdf](<docs/LaTeX/Practica 1.pdf>)** (fuente LaTeX en [docs/LaTeX](<docs/LaTeX>))
+
+El mismo contenido está en Markdown, junto con los demás documentos de la Práctica 1: [Introducción](<docs/practica1/Introduccion.md>), [Marco Teórico](<docs/practica1/MarcoTeorico.md>) y [Caso de Estudio](<docs/practica1/CasoDeEstudio.md>). La entrevista completa está en [Entrevista con el Cliente](<docs/practica1/Entrevista.md>).
 
 1. Introducción
    - Planteamiento del problema
