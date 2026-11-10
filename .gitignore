@@ -55,7 +55,7 @@ docker/data/
 .env.*.local
 
 # Rechazos que deja el script de carga
-practica4/poblar/rechazos.csv
+sql/carga/rechazos.csv
 
 # Logs de contenedores
 *.log

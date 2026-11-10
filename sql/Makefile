@@ -21,7 +21,7 @@ SHELL       := /bin/bash
 # las rutas en los espacios, y "Bases de Datos" tiene espacios.
 SQL_DIR      ?= $(CURDIR)
 COMPOSE_FILE ?= $(SQL_DIR)/../entorno/compose.yml
-MIGRACIONES_DIR ?= $(SQL_DIR)/../practica4/migraciones
+MIGRACIONES_DIR ?= $(SQL_DIR)/migraciones
 
 MOTOR        ?= docker
 CONTENEDOR   ?= practica1-postgres
@@ -100,7 +100,7 @@ endef
 
 define correr_referenciales
 @echo "==> pruebas-referenciales.sql"
-@$(PSQL) -v ON_ERROR_STOP=1 -d $(BASE_PRUEBAS) < "$(SQL_DIR)/../practica5/sql/pruebas-referenciales.sql"
+@$(PSQL) -v ON_ERROR_STOP=1 -d $(BASE_PRUEBAS) < "$(SQL_DIR)/practica5/pruebas-referenciales.sql"
 endef
 
 # Sin ON_ERROR_STOP: cada INSERT debe fallar y seguir con el siguiente.
@@ -174,7 +174,7 @@ experimento-samy: pruebas
 	@echo "==> Recreando la copia comandas_experimento_samy desde $(BASE_PRUEBAS)"
 	@$(PSQL) -d postgres -c 'DROP DATABASE IF EXISTS comandas_experimento_samy WITH (FORCE);'
 	@$(PSQL) -d postgres -c 'CREATE DATABASE comandas_experimento_samy TEMPLATE $(BASE_PRUEBAS);'
-	@$(PSQL) -v ON_ERROR_STOP=1 -d comandas_experimento_samy < "$(SQL_DIR)/../practica5/sql/experimento-2.6-samy.sql" 2>&1 | tee "$(SQL_DIR)/../evidencias/practica5/experimento-2.6-samy.txt"
+	@$(PSQL) -v ON_ERROR_STOP=1 -d comandas_experimento_samy < "$(SQL_DIR)/practica5/experimento-2.6-samy.sql" 2>&1 | tee "$(SQL_DIR)/../evidencias/practica5/experimento-2.6-samy.txt"
 
 psql:
 	@$(MOTOR) exec -it $(CONTENEDOR) psql -U $(USUARIO) -d $(BASE)
