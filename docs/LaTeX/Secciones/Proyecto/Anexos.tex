@@ -1,0 +1,295 @@
+\newpage
+\phantomsection
+\section*{Anexo 1. Diccionario de datos}
+\addcontentsline{toc}{section}{Anexo 1. Diccionario de datos}
+\markboth{Anexo 1. Diccionario de datos}{}
+\label{anexo:diccionario}
+
+El diccionario de datos describe cada una de las noventa y siete columnas del esquema con su tipo, sus restricciones y su significado. Se generó a partir del catálogo del gestor sobre la base poblada, después de aplicar todas las migraciones, y las descripciones son los comentarios que el propio esquema guarda en cada tabla y cada columna, de modo que el diccionario no puede contradecir a la base. La Tabla~\ref{tab:convenciones} explica las marcas que se utilizan en la columna de restricciones.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{3.6cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Marca} & \textbf{Significado} \\
+        \midrule
+        PK & La columna forma parte de la clave primaria. \\
+        Identidad & El gestor asigna el siguiente número, aunque admite cargar números conocidos. \\
+        Generada & El gestor calcula el valor a partir de otra columna, y nadie puede escribirlo. \\
+        FK $\rightarrow$ \textit{tabla} (B/A) & Clave foránea hacia la tabla indicada. Las letras indican la acción al borrar y al actualizar la fila referida: C, en cascada; R, se restringe. \\
+        UNIQUE & Clave alternativa o índice único. Cuando aplica \texttt{lower}, no se distinguen mayúsculas de minúsculas. \\
+        Admite nulos & La columna acepta \texttt{NULL}. Las columnas sin esta marca son \texttt{NOT NULL}. \\
+        DEFAULT & Valor que toma la columna cuando no se indica uno. \\
+        CHECK & Condición que el gestor verifica en cada fila. Si involucra varias columnas, aparece en cada una de ellas. \\
+        \textit{dinero}, \textit{cantidad} & Dominios sobre \texttt{NUMERIC(10,2)} y \texttt{NUMERIC(10,3)}, para importes y cantidades de inventario. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Marcas del diccionario de datos}
+    \label{tab:convenciones}
+\end{table}
+
+Las tablas aparecen en el orden del modelo: primero el evento y su organizador, después la jerarquía de usuarios, las entidades débiles, el catálogo y, al final, las tablas de la operación.
+
+{
+\footnotesize
+\setlength{\LTpre}{0pt}
+\captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+\begin{longtable}
+    {
+        @{}>{\RaggedRight\arraybackslash}p{3.5cm}
+        >{\RaggedRight\arraybackslash}p{2.0cm}
+        >{\RaggedRight\arraybackslash}p{4.9cm}
+        >{\RaggedRight\arraybackslash}p{\dimexpr\textwidth-10.4cm-6\tabcolsep\relax}@{}
+    }
+        \toprule
+        \textbf{Columna} & \textbf{Tipo} & \textbf{Restricciones} & \textbf{Descripción} \\
+        \endfirsthead
+        \toprule
+        \textbf{Columna} & \textbf{Tipo} & \textbf{Restricciones} & \textbf{Descripción} \\
+        \endhead
+        \bottomrule
+        \endfoot
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{evento}}: evento atendido en el salón (entidad fuerte).} \\*
+        \midrule
+        \texttt{numero\_evento} & \texttt{INTEGER} & PK \newline Identidad & Identificador del evento. \\
+        \texttt{fecha} & \texttt{DATE} &  & Fecha del evento (atributo compuesto). \\
+        \texttt{fecha\_dia} & \texttt{SMALLINT} & Generada & Componente Día de la fecha; se calcula de fecha. \\
+        \texttt{fecha\_mes} & \texttt{SMALLINT} & Generada & Componente Mes de la fecha; se calcula de fecha. \\
+        \texttt{fecha\_anio} & \texttt{SMALLINT} & Generada & Componente Año de la fecha; se calcula de fecha. \\
+        \texttt{tipo\_evento} & \texttt{VARCHAR(40)} &  & Tipo de evento (boda, XV años, empresarial, etc.). \\
+        \texttt{numero\_asistentes} & \texttt{INTEGER} & CHECK \texttt{numero\_asistentes > 0} & Número de invitados esperados. \\
+        \texttt{estado} & \texttt{VARCHAR(12)} & DEFAULT \texttt{'programado'} \newline CHECK \texttt{estado IN ('programado', 'en\_curso', 'finalizado', 'cancelado')} & Estado del evento: programado, en\_curso, finalizado o cancelado. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{evento\_organizador}}: organizadores o clientes de un evento (atributo multivaluado de Evento).} \\*
+        \midrule
+        \texttt{numero\_evento} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{evento} (C/C) & Evento al que pertenece el organizador. \\
+        \texttt{organizador} & \texttt{VARCHAR(120)} & PK & Nombre del organizador o cliente. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{usuario}}: personal del salón que usa el sistema (supertipo de la jerarquía).} \\*
+        \midrule
+        \texttt{id\_usuario} & \texttt{INTEGER} & PK \newline Identidad \newline UNIQUE \texttt{(id\_usuario, rol)} & Identificador del usuario. \\
+        \texttt{nombre} & \texttt{VARCHAR(120)} &  & Nombre completo. \\
+        \texttt{usuario} & \texttt{VARCHAR(40)} & UNIQUE \newline UNIQUE \texttt{lower(usuario)} \newline CHECK \texttt{usuario \textasciitilde{} '\textasciicircum{}[A-Za-z][A-Za-z0-9]\{2,39\}\$'} & Nombre de acceso al sistema (clave alternativa). \\
+        \texttt{fecha\_nacimiento} & \texttt{DATE} & CHECK \texttt{fecha\_nacimiento >= '1900-01-01'} & Fecha de nacimiento (atributo compuesto). \\
+        \texttt{fecha\_nacimiento\_dia} & \texttt{SMALLINT} & Generada & Componente Día; se calcula de fecha\_nacimiento. \\
+        \texttt{fecha\_nacimiento\_mes} & \texttt{SMALLINT} & Generada & Componente Mes; se calcula de fecha\_nacimiento. \\
+        \texttt{fecha\_nacimiento\_anio} & \texttt{SMALLINT} & Generada & Componente Año; se calcula de fecha\_nacimiento. \\
+        \texttt{contrasena\_hash} & \texttt{VARCHAR(255)} &  & Hash de la contraseña; nunca se guarda en claro. \\
+        \texttt{rol} & \texttt{VARCHAR(12)} & UNIQUE \texttt{(id\_usuario, rol)} \newline CHECK \texttt{rol IN ('mesero', 'bar\_cocina', 'cajero\_admin')} & Discriminador de la jerarquía: mesero, bar\_cocina o cajero\_admin. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{mesero}}: subtipo Mesero de Usuario.} \\*
+        \midrule
+        \texttt{id\_usuario} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{usuario} \texttt{(id\_usuario, rol)} (C/R) & Usuario que es mesero. \\
+        \texttt{rol} & \texttt{VARCHAR(12)} & FK $\rightarrow$ \texttt{usuario} \texttt{(id\_usuario, rol)} (C/R) \newline DEFAULT \texttt{'mesero'} \newline CHECK \texttt{rol = 'mesero'} & Copia fija del discriminador; obliga a que el usuario tenga rol mesero. \\
+        \texttt{turno\_asignado} & \texttt{VARCHAR(12)} & CHECK \texttt{turno\_asignado IN ('matutino', 'vespertino', 'nocturno')} & Turno en el que trabaja. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{bar\_cocina}}: subtipo Bar/Cocina de Usuario.} \\*
+        \midrule
+        \texttt{id\_usuario} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{usuario} \texttt{(id\_usuario, rol)} (C/R) & Usuario que trabaja en bar o cocina. \\
+        \texttt{rol} & \texttt{VARCHAR(12)} & FK $\rightarrow$ \texttt{usuario} \texttt{(id\_usuario, rol)} (C/R) \newline DEFAULT \texttt{'bar\_cocina'} \newline CHECK \texttt{rol = 'bar\_cocina'} & Copia fija del discriminador; obliga a que el usuario tenga rol bar\_cocina. \\
+        \texttt{estado} & \texttt{VARCHAR(10)} & DEFAULT \texttt{'desocupado'} \newline CHECK \texttt{estado IN ('ocupado', 'desocupado')} & Disponibilidad de la estación: ocupado o desocupado. \\
+        \texttt{estacion\_asignada} & \texttt{VARCHAR(6)} & CHECK \texttt{estacion\_asignada IN ('bar', 'cocina')} & Estación en la que trabaja: bar o cocina. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{cajero\_admin}}: subtipo Cajero/Administrador de Usuario.} \\*
+        \midrule
+        \texttt{id\_usuario} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{usuario} \texttt{(id\_usuario, rol)} (C/R) & Usuario que es cajero o administrador. \\
+        \texttt{rol} & \texttt{VARCHAR(12)} & FK $\rightarrow$ \texttt{usuario} \texttt{(id\_usuario, rol)} (C/R) \newline DEFAULT \texttt{'cajero\_admin'} \newline CHECK \texttt{rol = 'cajero\_admin'} & Copia fija del discriminador; obliga a que el usuario tenga rol cajero\_admin. \\
+        \texttt{nivel\_acceso} & \texttt{VARCHAR(13)} & DEFAULT \texttt{'cajero'} \newline CHECK \texttt{nivel\_acceso IN ('cajero', 'administrador')} & Nivel de acceso: cajero o administrador. \\
+        \texttt{caja\_asignada} & \texttt{SMALLINT} & CHECK \texttt{caja\_asignada > 0} & Número de caja que atiende. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{mesa}}: mesa montada para un evento (entidad débil de Evento).} \\*
+        \midrule
+        \texttt{numero\_evento} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{evento} (C/C) & Evento al que pertenece la mesa (parte de la clave, relación Pertenece). \\
+        \texttt{numero\_mesa} & \texttt{SMALLINT} & PK \newline CHECK \texttt{numero\_mesa > 0} & Número de mesa dentro del evento (clave parcial). \\
+        \texttt{id\_mesero} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{mesero} (R/R) & Mesero que atiende la mesa (relación Atiende). \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{cuenta}}: cuenta de un grupo de invitados (entidad débil de Evento).} \\*
+        \midrule
+        \texttt{numero\_evento} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{evento} (C/C) \newline FK $\rightarrow$ \texttt{mesa} \texttt{(numero\_evento, numero\_mesa)} (R/R) & Evento en el que se abrió la cuenta (parte de la clave, relación Abre). \\
+        \texttt{secuencial} & \texttt{SMALLINT} & PK \newline CHECK \texttt{secuencial > 0} & Número de cuenta dentro del evento (clave parcial). \\
+        \texttt{numero\_mesa} & \texttt{SMALLINT} & FK $\rightarrow$ \texttt{mesa} \texttt{(numero\_evento, numero\_mesa)} (R/R) & Mesa en la que se abrió la cuenta (relación Tiene). \\
+        \texttt{nombre} & \texttt{VARCHAR(60)} & UNIQUE \texttt{(numero\_evento, numero\_mesa, lower(nombre))} entre las cuentas abiertas \newline CHECK \texttt{btrim(nombre) <> ''} & Alias de la cuenta para distinguirla de las demás de su mesa (p. ej. \guillemotleft{}Novios\guillemotright{}). \\
+        \texttt{folio} & \texttt{VARCHAR(30)} & Generada & Folio evento-mesa-secuencial (derivado); se calcula de la fila. \\
+        \texttt{estado} & \texttt{VARCHAR(8)} & DEFAULT \texttt{'abierta'} \newline CHECK \texttt{estado IN ('abierta', 'cerrada')} & Estado de la cuenta: abierta o cerrada. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{producto}}: producto del menú (entidad fuerte).} \\*
+        \midrule
+        \texttt{id\_producto} & \texttt{INTEGER} & PK \newline Identidad \newline CHECK \texttt{id\_producto\_principal <> id\_producto} & Identificador del producto. \\
+        \texttt{nombre} & \texttt{VARCHAR(80)} & UNIQUE & Nombre del producto. \\
+        \texttt{descripcion} & \texttt{VARCHAR(255)} & Admite nulos & Descripción breve para la carta (opcional). \\
+        \texttt{categoria} & \texttt{VARCHAR(10)} & CHECK \texttt{categoria IN ('alimentos', 'bebidas', 'dulceria')} & Categoría: alimentos, bebidas o dulceria. \\
+        \texttt{precio} & \textit{dinero} & CHECK \texttt{precio >= 0} & Precio vigente en el catálogo. \\
+        \texttt{id\_producto\_principal} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{producto} (R/R) \newline Admite nulos \newline CHECK \texttt{id\_producto\_principal <> id\_producto} & Producto principal del que es variante (relación Variante); NULL si es principal. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{ingrediente}}: insumo del inventario con su stock (entidad fuerte).} \\*
+        \midrule
+        \texttt{id\_ingrediente} & \texttt{INTEGER} & PK \newline Identidad & Identificador del ingrediente. \\
+        \texttt{nombre} & \texttt{VARCHAR(60)} & UNIQUE \newline UNIQUE \texttt{lower(nombre)} & Nombre del ingrediente. \\
+        \texttt{unidad\_medida} & \texttt{VARCHAR(5)} & CHECK \texttt{unidad\_medida IN ('g', 'ml', 'pieza')} & Unidad en que se mide el stock y la receta: g, ml o pieza. \\
+        \texttt{stock\_actual} & \textit{cantidad} & DEFAULT \texttt{(0)} \newline CHECK \texttt{stock\_actual >= 0} & Existencia actual; baja sola al preparar comandas y nunca es negativa. \\
+        \texttt{stock\_minimo} & \textit{cantidad} & DEFAULT \texttt{(0)} \newline CHECK \texttt{stock\_minimo >= 0} & Existencia por debajo de la cual hay que resurtir. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{receta}}: ingredientes de cada producto y su cantidad (relación Receta, muchos a muchos).} \\*
+        \midrule
+        \texttt{id\_producto} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{producto} (C/C) & Producto que lleva el ingrediente. \\
+        \texttt{id\_ingrediente} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{ingrediente} (R/C) & Ingrediente que se usa. \\
+        \texttt{cantidad\_por\_porcion} & \textit{cantidad} & CHECK \texttt{cantidad\_por\_porcion > 0} & Cantidad del ingrediente por porción, en su unidad (atributo de la relación). \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{paquete}}: paquete contratable del catálogo (entidad fuerte).} \\*
+        \midrule
+        \texttt{numero\_paquete} & \texttt{INTEGER} & PK \newline Identidad & Identificador del paquete. \\
+        \texttt{monto} & \textit{dinero} & CHECK \texttt{monto >= 0} & Precio del paquete. \\
+        \texttt{detalles} & \texttt{VARCHAR(255)} &  & Descripción del paquete. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{paquete\_producto}}: contenido base de cada paquete (relación Incluye, muchos a muchos).} \\*
+        \midrule
+        \texttt{numero\_paquete} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{paquete} (C/C) & Paquete. \\
+        \texttt{id\_producto} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{producto} (R/C) & Producto que el paquete incluye. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{acuerdo}}: lo pactado de cada producto de cada paquete para un evento (relación ternaria Acuerda).} \\*
+        \midrule
+        \texttt{numero\_evento} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{evento} (C/C) & Evento que contrata. \\
+        \texttt{numero\_paquete} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{paquete} (R/C) & Paquete contratado. \\
+        \texttt{id\_producto} & \texttt{INTEGER} & PK \newline FK $\rightarrow$ \texttt{producto} (R/C) & Producto acordado. \\
+        \texttt{cantidad\_acordada} & \texttt{INTEGER} & CHECK \texttt{cantidad\_acordada > 0} & Cantidad pactada (atributo de la relación). \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{comanda}}: pedido de un producto levantado por un mesero (entidad fuerte).} \\*
+        \midrule
+        \texttt{id\_comanda} & \texttt{INTEGER} & PK \newline Identidad & Identificador de la comanda. \\
+        \texttt{fecha\_hora} & \texttt{TIMESTAMPTZ} & DEFAULT \texttt{now()} & Momento en que se levantó (atributo compuesto Time Stamp). \\
+        \texttt{fecha\_hora\_dia} & \texttt{SMALLINT} & Generada & Componente Día; se calcula de fecha\_hora en hora de la Ciudad de México. \\
+        \texttt{fecha\_hora\_mes} & \texttt{SMALLINT} & Generada & Componente Mes; se calcula de fecha\_hora. \\
+        \texttt{fecha\_hora\_anio} & \texttt{SMALLINT} & Generada & Componente Año; se calcula de fecha\_hora. \\
+        \texttt{fecha\_hora\_hora} & \texttt{TIME} & Generada & Componente Hora; se calcula de fecha\_hora. \\
+        \texttt{precio\_cobrado} & \textit{dinero} & CHECK \texttt{precio\_cobrado >= 0} & Precio copiado del producto al levantar la comanda; no cambia después. \\
+        \texttt{estado} & \texttt{VARCHAR(14)} & DEFAULT \texttt{'pendiente'} \newline CHECK \texttt{(estado = 'cancelada') = (id\_cajero\_cancela IS NOT NULL)} \newline CHECK \texttt{estado IN ('pendiente', 'en\_preparacion', 'lista', 'entregada', 'cancelada')} \newline CHECK \texttt{(id\_bar\_cocina IS NOT NULL) OR (estado IN ('pendiente', 'cancelada'))} & Estado: pendiente, en\_preparacion, lista (listo para entregar), entregada o cancelada. \\
+        \texttt{detalles} & \texttt{VARCHAR(255)} & Admite nulos & Indicaciones del cliente (opcional). \\
+        \texttt{numero\_evento} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{cuenta} \texttt{(numero\_evento, secuencial)} (R/C) & Evento de la cuenta que genera la comanda (relación Genera). \\
+        \texttt{secuencial} & \texttt{SMALLINT} & FK $\rightarrow$ \texttt{cuenta} \texttt{(numero\_evento, secuencial)} (R/C) & Secuencial de la cuenta que genera la comanda (relación Genera). \\
+        \texttt{id\_mesero} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{mesero} (R/R) & Mesero que la levantó (relación Levanta). \\
+        \texttt{id\_producto} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{producto} (R/C) & Producto pedido (relación Referencia). \\
+        \texttt{id\_bar\_cocina} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{bar\_cocina} (R/R) \newline Admite nulos \newline CHECK \texttt{(id\_bar\_cocina IS NOT NULL) OR (estado IN ('pendiente', 'cancelada'))} & Estación que la prepara (relación Prepara); NULL si está pendiente o se canceló. \\
+        \texttt{id\_cajero\_cancela} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{cajero\_admin} (R/R) \newline Admite nulos \newline CHECK \texttt{(estado = 'cancelada') = (id\_cajero\_cancela IS NOT NULL)} & Cajero/administrador que la canceló (relación Cancela); NULL si no se canceló. \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{pago}}: pago recibido sobre una cuenta (entidad fuerte).} \\*
+        \midrule
+        \texttt{numero\_pago} & \texttt{INTEGER} & PK \newline Identidad & Identificador del pago. \\
+        \texttt{monto} & \textit{dinero} & CHECK \texttt{monto > 0} \newline CHECK \texttt{(monto\_propina IS NULL) OR (monto\_propina <= monto)} & Importe pagado por el cliente, incluida la propina. \\
+        \texttt{forma\_pago} & \texttt{VARCHAR(13)} & CHECK \texttt{forma\_pago IN ('efectivo', 'tarjeta', 'transferencia')} & Forma de pago: efectivo, tarjeta o transferencia. \\
+        \texttt{fecha\_hora} & \texttt{TIMESTAMPTZ} & DEFAULT \texttt{now()} & Momento del pago (atributo compuesto Time Stamp). \\
+        \texttt{fecha\_hora\_dia} & \texttt{SMALLINT} & Generada & Componente Día; se calcula de fecha\_hora en hora de la Ciudad de México. \\
+        \texttt{fecha\_hora\_mes} & \texttt{SMALLINT} & Generada & Componente Mes; se calcula de fecha\_hora. \\
+        \texttt{fecha\_hora\_anio} & \texttt{SMALLINT} & Generada & Componente Año; se calcula de fecha\_hora. \\
+        \texttt{fecha\_hora\_hora} & \texttt{TIME} & Generada & Componente Hora; se calcula de fecha\_hora. \\
+        \texttt{numero\_evento} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{cuenta} \texttt{(numero\_evento, secuencial)} (R/C) & Evento de la cuenta pagada (relación Recibe). \\
+        \texttt{secuencial} & \texttt{SMALLINT} & FK $\rightarrow$ \texttt{cuenta} \texttt{(numero\_evento, secuencial)} (R/C) & Secuencial de la cuenta pagada (relación Recibe). \\
+        \texttt{id\_cajero} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{cajero\_admin} (R/R) & Cajero/administrador que manejó el pago (relación Maneja). \\
+        \texttt{id\_mesero\_propina} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{mesero} (R/R) \newline Admite nulos \newline CHECK \texttt{(id\_mesero\_propina IS NULL) = (monto\_propina IS NULL)} & Mesero que recibe propina de este pago (relación Recibe propina). \\
+        \texttt{monto\_propina} & \textit{dinero} & Admite nulos \newline CHECK \texttt{(id\_mesero\_propina IS NULL) = (monto\_propina IS NULL)} \newline CHECK \texttt{(monto\_propina IS NULL) OR (monto\_propina <= monto)} \newline CHECK \texttt{(monto\_propina IS NULL) OR (monto\_propina >= 0)} & Monto de la propina (atributo de la relación Recibe propina). \\
+        \midrule
+        \multicolumn{4}{@{}>{\RaggedRight\arraybackslash}p{\textwidth}@{}}{\textbf{\texttt{anticipo}}: anticipo pagado a cuenta de un evento (entidad fuerte).} \\*
+        \midrule
+        \texttt{id\_anticipo} & \texttt{INTEGER} & PK \newline Identidad & Identificador del anticipo. \\
+        \texttt{monto} & \textit{dinero} & CHECK \texttt{monto > 0} & Importe del anticipo. \\
+        \texttt{fecha} & \texttt{DATE} & DEFAULT \texttt{CURRENT\_DATE} & Fecha del anticipo (atributo compuesto). \\
+        \texttt{fecha\_dia} & \texttt{SMALLINT} & Generada & Componente Día; se calcula de fecha. \\
+        \texttt{fecha\_mes} & \texttt{SMALLINT} & Generada & Componente Mes; se calcula de fecha. \\
+        \texttt{fecha\_anio} & \texttt{SMALLINT} & Generada & Componente Año; se calcula de fecha. \\
+        \texttt{numero\_evento} & \texttt{INTEGER} & FK $\rightarrow$ \texttt{evento} (R/C) & Evento al que se abona (relación Recibe). \\
+        \bottomrule
+        \caption{Diccionario de datos del esquema}
+        \label{tab:diccionario}
+\end{longtable}
+}
+
+\subsection*{Atributos derivados}
+
+Los atributos derivados no son columnas de ninguna tabla, sino que se calculan en las vistas que muestra la Tabla~\ref{tab:derivados}. Cada vista parte de su tabla de origen y le agrega las columnas calculadas.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{2.3cm}
+            >{\RaggedRight\arraybackslash}p{3.7cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Vista} & \textbf{Columna} & \textbf{Cálculo} \\
+        \midrule
+        \texttt{v\_evento} & \texttt{numero\_mesas} & Número de mesas del evento. \\
+        \texttt{v\_cuenta} & \texttt{total\_acumulado} & Suma del precio cobrado de las comandas no canceladas de la cuenta. \\
+         & \texttt{total\_pagado} & Suma de los pagos de la cuenta sin sus propinas. \\
+         & \texttt{saldo} & Total acumulado menos total pagado. \\
+        \texttt{v\_usuario} & \texttt{edad} & Años cumplidos a partir de la fecha de nacimiento. No incluye el \textit{hash} de la contraseña. \\
+        \texttt{v\_mesero} & \texttt{propinas\_acumuladas} & Suma de las propinas que ha recibido el mesero. \\
+        \texttt{v\_producto} & \texttt{disponible} & Verdadero si ningún ingrediente de su receta tiene una existencia menor que la cantidad por porción. \\
+        \texttt{v\_comanda} & \texttt{precio\_catalogo} & Precio vigente del producto, para compararlo con el precio cobrado. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Atributos derivados calculados en las vistas}
+    \label{tab:derivados}
+\end{table}
+
+\newpage
+\phantomsection
+\section*{Anexo 2. Matriz de permisos}
+\addcontentsline{toc}{section}{Anexo 2. Matriz de permisos}
+\markboth{Anexo 2. Matriz de permisos}{}
+\label{anexo:permisos}
+
+La Tabla~\ref{tab:matriz-permisos} muestra los privilegios de cada rol sobre cada tabla y vista del esquema. La matriz no se escribió a mano: se obtuvo consultando el catálogo del gestor con la función \texttt{has\_table\_privilege}, de modo que refleja los permisos que realmente otorga la migración. Las letras indican el privilegio de consulta (S), inserción (I), actualización (U) y borrado (D); el asterisco indica que el privilegio solo se otorgó sobre algunas columnas.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabular}{lccc}
+        \toprule
+        \textbf{Tabla o vista} & \texttt{comandas\_app} & \texttt{comandas\_consulta} & \texttt{comandas\_admin} \\
+        \midrule
+        \texttt{acuerdo} & SIUD & S & SIUD \\
+        \texttt{anticipo} & SI & S & SIUD \\
+        \texttt{bar\_cocina} & SIUD & S & SIUD \\
+        \texttt{cajero\_admin} & SIUD & S & SIUD \\
+        \texttt{comanda} & SIU & S & SIUD \\
+        \texttt{cuenta} & SIU & S & SIUD \\
+        \texttt{evento} & SIU & S & SIUD \\
+        \texttt{evento\_organizador} & SIUD & S & SIUD \\
+        \texttt{ingrediente} & SIUD & S & SIUD \\
+        \texttt{mesa} & SIU & S & SIUD \\
+        \texttt{mesero} & SIUD & S & SIUD \\
+        \texttt{pago} & SI & S & SIUD \\
+        \texttt{paquete} & SIUD & S & SIUD \\
+        \texttt{paquete\_producto} & SIUD & S & SIUD \\
+        \texttt{producto} & SIUD & S & SIUD \\
+        \texttt{receta} & SIUD & S & SIUD \\
+        \texttt{usuario} & SIUD & S* & SIUD \\
+        \midrule
+        \texttt{v\_comanda} & S & S & SIUD \\
+        \texttt{v\_cuenta} & S & S & SIUD \\
+        \texttt{v\_evento} & S & S & SIUD \\
+        \texttt{v\_mesero} & S & S & SIUD \\
+        \texttt{v\_producto} & S & S & SIUD \\
+        \texttt{v\_usuario} & S & S & SIUD \\
+        \bottomrule
+    \end{tabular}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Matriz de permisos de los roles sobre las tablas y vistas}
+    \label{tab:matriz-permisos}
+\end{table}
+
+La matriz debe leerse junto con las siguientes precisiones:
+
+\begin{itemize}
+    \item El rol de consulta puede leer todas las columnas de \texttt{usuario} salvo \texttt{contrasena\_hash}. La vista \texttt{v\_usuario} tampoco incluye esa columna, por lo que el rol puede consultarla completa.
+    \item El rol de administración recibió todos los privilegios sobre las vistas, pero \texttt{v\_comanda}, \texttt{v\_cuenta} y \texttt{v\_mesero} combinan tablas o calculan sumas y el gestor no permite modificarlas. Las otras tres son actualizables, y sus cambios se aplican sobre la tabla de origen.
+    \item Ninguno de los tres roles es dueño de las tablas, por lo que ninguno puede borrarlas ni alterar su estructura. Esas operaciones quedan reservadas al usuario administrador del gestor, que es quien aplica las migraciones.
+\end{itemize}

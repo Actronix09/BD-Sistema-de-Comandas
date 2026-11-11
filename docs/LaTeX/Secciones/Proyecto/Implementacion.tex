@@ -145,7 +145,7 @@ Los atributos derivados del modelo se calculan en seis vistas \parencite{postgre
 
 \subsection{Usuarios y permisos}
 
-Una base que siempre se usa con el usuario administrador no está protegida, porque cualquier error de un programa podría borrar o modificar cualquier dato. Por ello se definieron tres roles con el principio de mínimo privilegio \parencites{postgres_roles}{postgres_privileges}, cada uno con un usuario que solo hereda sus permisos y cuya contraseña se toma de variables de entorno. La Tabla~\ref{tab:roles} los resume.
+Una base que siempre se usa con el usuario administrador no está protegida, porque cualquier error de un programa podría borrar o modificar cualquier dato. Por ello se definieron tres roles con el principio de mínimo privilegio \parencites{postgres_roles}{postgres_privileges}, cada uno con un usuario que solo hereda sus permisos y cuya contraseña se toma de variables de entorno. La Tabla~\ref{tab:roles} los resume, y la matriz con los privilegios de cada rol sobre cada tabla y vista se encuentra en el \hyperref[anexo:permisos]{Anexo~2}.
 
 \begin{table}[H]
     \centering
