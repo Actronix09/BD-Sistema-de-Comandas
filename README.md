@@ -17,8 +17,6 @@
 
 **Proyecto:** Sistema de Comandas Profesional
 
-**Proyecto Paralelo del Equipo:** [Samuel-Hdzx07/BD-Proyecto-Musica](<https://github.com/Samuel-Hdzx07/BD-Proyecto-Musica.git>)
-
 **Proyecto Asignado:** 
 
 - **Visualización de Impacto de Sismos**
