@@ -41,19 +41,19 @@ Integra el contenedor de PostgresSQl integrado por: el archivo [compose.yml](<..
 
 ### Pull Request #3 — Caso-de-Estudio
 
-Integra el desarrollo del caso de estudio consistiendo de: el archivo markdown [Entrevista.md](Entrevista.md), el archivo [CasoDeEstudio.tex](<../LaTeX/Secciones/CasoDeEstudio.tex>), el diagrama `diagrama-er.png` (hoy [diagrama-er.png](../../modelo/diagrama-er.png)) y [Practica 1.pdf](./LaTeX/Practica 1.pdf) siendo el archivo completo donde se incluye la Seccion 5.
+Integra el desarrollo del caso de estudio consistiendo de: el archivo markdown [Entrevista.md](Entrevista.md), el archivo [CasoDeEstudio.tex](https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/676a8ce75e86d5d341c4220d39607c6e51b79997/docs/LaTeX/Secciones/CasoDeEstudio.tex), el diagrama `diagrama-er.png` (hoy [diagrama-er.png](../../modelo/diagrama-er.png)) y [Practica 1.pdf](https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/676a8ce75e86d5d341c4220d39607c6e51b79997/docs/LaTeX/Practica%201.pdf) siendo el archivo completo donde se incluye la Seccion 5.
 
 ![Pull Request #3 fusionado en GitHub, mostrando la rama Caso-de-Estudio integrada a main](<../../evidencias/git/Pull Request Fusionado del Caso de Estudio.png>)
 
 ### Pull Request #4 - Desarrollo-Parte-4
 
-Se integra el Estado del Arte consistiendo unicamente del archivo [Introducción.tex](../LaTeX/Secciones/Introduccion.tex) consistiendo unicamente de la ultima seccion de dicho documento, y el archivo compilado [Practica 1.pdf](./LaTeX/Practica 1.pdf).
+Se integra el Estado del Arte consistiendo unicamente del archivo [Introducción.tex](https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/676a8ce75e86d5d341c4220d39607c6e51b79997/docs/LaTeX/Secciones/Introduccion.tex) consistiendo unicamente de la ultima seccion de dicho documento, y el archivo compilado [Practica 1.pdf](https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/676a8ce75e86d5d341c4220d39607c6e51b79997/docs/LaTeX/Practica%201.pdf).
 
 ![Pull Request #3 fusionado en GitHub, mostrando la rama Desarrollo-Parte-4 integrada a main](<../../evidencias/git/Pull Request Fusionado de la Parte 4.png>)
 
 ### Pull Request #5 — ejercicio3
 
-En la rama ejerccio3 se desarrollo la investigación principal incluida en  [MarcoTeorico.tex](../LaTeX/Secciones/MarcoTeorico.tex), y con esta seccion concretando el desarrollo de [Practica 1.pdf](./LaTeX/Practica 1.pdf).
+En la rama ejerccio3 se desarrollo la investigación principal incluida en  [MarcoTeorico.tex](https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/676a8ce75e86d5d341c4220d39607c6e51b79997/docs/LaTeX/Secciones/MarcoTeorico.tex), y con esta seccion concretando el desarrollo de [Practica 1.pdf](https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/676a8ce75e86d5d341c4220d39607c6e51b79997/docs/LaTeX/Practica%201.pdf).
 
 ![Pull Request #3 fusionado en GitHub, mostrando la rama ejercicio3 integrada a main](<../../evidencias/git/Pull Request Fusionado del Ejercicio 3.png>)
 

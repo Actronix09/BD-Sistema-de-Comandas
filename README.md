@@ -244,35 +244,25 @@ make -C sql experimento-samy
 
 ## Documento de Desarrollo
 
-El reporte principal de la práctica se encuentra en:
+El reporte del proyecto se encuentra en:
 
-**[Practica 1.pdf](<docs/LaTeX/Practica 1.pdf>)** (fuente LaTeX en [docs/LaTeX](<docs/LaTeX>))
+**[Proyecto BD.pdf](<docs/LaTeX/Proyecto BD.pdf>)** (fuente LaTeX en [docs/LaTeX](<docs/LaTeX>))
 
-El mismo contenido está en Markdown, junto con los demás documentos de la Práctica 1: [Introducción](<docs/practica1/Introduccion.md>), [Marco Teórico](<docs/practica1/MarcoTeorico.md>) y [Caso de Estudio](<docs/practica1/CasoDeEstudio.md>). La entrevista completa está en [Entrevista con el Cliente](<docs/practica1/Entrevista.md>).
+Recopila de manera formal el desarrollo de las prácticas 1 a 5. Los documentos de la Práctica 1 están en Markdown: [Introducción](<docs/practica1/Introduccion.md>), [Marco Teórico](<docs/practica1/MarcoTeorico.md>) y [Caso de Estudio](<docs/practica1/CasoDeEstudio.md>), y la entrevista completa en [Entrevista con el Cliente](<docs/practica1/Entrevista.md>). El PDF original de la Práctica 1 se conserva en el [historial del repositorio](https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/676a8ce75e86d5d341c4220d39607c6e51b79997/docs/LaTeX/Practica%201.pdf).
 
 1. Introducción
-   - Planteamiento del problema
-   - Justificación
-   - Objetivo general
-   - Objetivos específicos
-   - Estado del arte
-   - Productos esperados
 2. Marco teórico
-   - Dato, información y bases de datos
-   - Características de una base de datos
-   - Archivos contra bases de datos
-   - Usuarios de una base de datos
-   - Ciclo de vida de una base de datos
-   - Sistema gestor de bases de datos
-   - Sistema de bases de datos
-   - Modelos de datos
-3. Caso de estudio
-   - Entrevista con el cliente
-   - Requerimientos de la base de datos
-   - Requerimientos del sistema en general
-   - Diagrama Entidad-Relación
-   - Justificación del modelo
+3. Metodología y entorno de trabajo
+4. Caso de estudio y requerimientos
+5. Diseño conceptual
+6. Diseño lógico
+7. Implementación
+8. Población de la base de datos
+9. Integridad referencial y manipulación de datos
+10. Resultados y conclusiones
 - Referencias
+- Anexo 1. Diccionario de datos
+- Anexo 2. Matriz de permisos
 
 ## Diagramas
 
