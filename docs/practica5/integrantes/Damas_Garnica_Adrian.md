@@ -94,5 +94,3 @@ Debe conservarse **`ON DELETE RESTRICT`**. La acción `CASCADE` corresponde cuan
 - La aplicación no puede borrar cuentas: `comandas_app` no tiene ese permiso. Pero eso no reemplaza a la restricción, porque `comandas_admin` sí puede, y es ahí donde `RESTRICT` protege contra un error humano.
 
 La salida completa está en [`evidencias/practica5/experimento-2.6-adrian.txt`](../../../evidencias/practica5/experimento-2.6-adrian.txt).
-
-**Firma:** Damas Garnica Adrian
