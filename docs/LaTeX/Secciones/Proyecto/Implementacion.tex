@@ -1,0 +1,177 @@
+\newpage
+
+\section{Implementación}
+\label{sec:implementacion}
+
+En esta sección se describe la implementación física del esquema en PostgreSQL: su ejecución y la forma en que se modificó después, los tipos y dominios, las restricciones de columna, los disparadores y las vistas que hacen cumplir las reglas del negocio, los roles con los que se accede a la base y las pruebas con las que se comprobó cada restricción. Este trabajo se realizó en las prácticas~3 y~4.
+
+\subsection{Ejecución del esquema y migraciones}
+
+El esquema relacional se escribió en un solo script de definición de datos que crea las diecisiete tablas, sus restricciones, los disparadores, las vistas y un comentario en cada tabla y columna, que el gestor guarda en su catálogo como parte del diccionario de datos. El script se ejecutó sobre una base vacía dentro del contenedor descrito en la metodología, junto con un conjunto pequeño de datos de ejemplo con el que se probaron las restricciones.
+
+A partir de la Práctica~4, el script original ya no se editó: cada cambio posterior al esquema se escribió como una migración numerada con sentencias \texttt{ALTER TABLE}, que se aplica después del script y en orden. Así, cualquier base puede llevarse al estado actual ejecutando el script y las migraciones, y la historia de los cambios queda registrada. La Tabla~\ref{tab:migraciones} resume las migraciones del proyecto.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{4.4cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Migración} & \textbf{Cambio} \\
+        \midrule
+        \texttt{001-dominios.sql} & Crea los dominios \texttt{dinero} y \texttt{cantidad} y cambia a ellos las columnas de importes y de inventario. \\
+        \texttt{002-formato-usuario.sql} & Agrega la restricción de formato del nombre de acceso de los usuarios. \\
+        \texttt{099-permisos.sql} & Crea los roles de la aplicación, de consulta y de administración, y les otorga sus permisos. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Migraciones aplicadas al esquema}
+    \label{tab:migraciones}
+\end{table}
+
+La migración de permisos lleva el número 99 para ejecutarse siempre al final, de modo que alcance a las tablas o columnas que agreguen las migraciones anteriores.
+
+\subsection{Tipos de dato y dominios}
+
+Cada una de las noventa y siete columnas recibió el tipo y la precisión justificados en el diseño lógico. Ninguna columna usa punto flotante: los importes son decimales exactos a centavos, las cantidades de inventario son decimales exactos a milésimas, las fechas usan los tipos nativos del gestor y los identificadores son enteros que el gestor asigna con una secuencia.
+
+Los importes aparecen en seis columnas de cinco tablas, y las cantidades de inventario en tres columnas de dos tablas. Para no repetir su tipo y su precisión en cada una, se definieron dos dominios con la sentencia \texttt{CREATE DOMAIN} \parencite{postgres_createdomain}, como se muestra en el Código~\ref{cod:dominios}. Con ellos, todas las columnas de dinero comparten exactamente la misma definición, y si en el futuro cambiara la precisión, bastaría con modificar el dominio. Las reglas propias de cada columna, como que un precio no sea negativo, se mantuvieron en sus restricciones \texttt{CHECK}, porque no son iguales en todas.
+
+\begin{lstlisting}[style=codigoC, language=SQL, caption={Dominios de la migración \texttt{001-dominios.sql}}, label=cod:dominios]
+CREATE DOMAIN dinero AS NUMERIC(10,2);
+CREATE DOMAIN cantidad AS NUMERIC(10,3);
+
+ALTER TABLE producto
+    ALTER COLUMN precio TYPE dinero USING precio::dinero;
+\end{lstlisting}
+
+\subsection{Restricciones de columna}
+
+Las restricciones de columna hacen cumplir las reglas que dependen de una sola fila \parencite{postgres_constraints}. El esquema declara las siguientes:
+
+\begin{itemize}
+    \item \textbf{\texttt{NOT NULL}} en todo atributo sin el cual la fila no tiene sentido y en veintiuna de las veinticinco claves foráneas. Las otras cuatro admiten nulos porque su participación mínima es cero: el producto principal de una variante, la estación que prepara una comanda, el cajero que la canceló y el mesero que recibe la propina.
+    \item \textbf{\texttt{DEFAULT}} en trece columnas con un valor inicial natural, como el estado inicial de un evento o de una comanda, la fecha y hora actual o una existencia de cero.
+    \item \textbf{\texttt{UNIQUE}} en cuatro columnas o combinaciones, y tres índices únicos para reglas que una restricción simple no expresa: los nombres de acceso y los nombres de ingredientes no pueden repetirse aunque cambien las mayúsculas, y dos cuentas abiertas de una misma mesa no pueden llamarse igual.
+    \item \textbf{\texttt{CHECK}} en treinta y seis reglas de rango, de lista de valores, de formato y entre columnas. La Tabla~\ref{tab:check} muestra ejemplos de cada tipo.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{2.4cm}
+            >{\RaggedRight\arraybackslash}p{5.4cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Tipo} & \textbf{Restricción} & \textbf{Regla del negocio} \\
+        \midrule
+        Rango & \texttt{ck\_ingrediente\_stock} & Las existencias de un ingrediente nunca son negativas. \\
+        Lista de valores & \texttt{ck\_comanda\_estado} & Una comanda solo puede estar pendiente, en preparación, lista, entregada o cancelada. \\
+        Formato & \texttt{ck\_usuario\_formato} & El nombre de acceso empieza con una letra y solo lleva letras y números, de 3 a 40 caracteres. \\
+        Entre columnas & \texttt{ck\_pago\_propina\_limite} & La propina no puede superar el monto pagado. \\
+        Entre columnas & \texttt{ck\_comanda\_cancelacion} & Una comanda está cancelada si y solo si registra al cajero que la canceló. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Ejemplos de restricciones \texttt{CHECK}}
+    \label{tab:check}
+\end{table}
+
+\subsection{Reglas del negocio con disparadores}
+
+Las reglas que relacionan varias filas o varias tablas no pueden expresarse con una restricción de columna, por lo que se implementaron con disparadores \parencite{postgres_triggers}. La Tabla~\ref{tab:disparadores} relaciona cada regla del negocio enunciada en el caso de estudio con el disparador que la hace cumplir.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}p{5cm}
+        }
+        \toprule
+        \textbf{Regla del negocio} & \textbf{Disparador} \\
+        \midrule
+        El precio cobrado se copia del catálogo y no puede modificarse después. & \texttt{tg\_comanda\_precio} \\
+        Una comanda solo avanza de estado y una cancelada ya no cambia. & \texttt{tg\_comanda\_estado} \\
+        Cada comanda la prepara la estación de su categoría. & \texttt{tg\_comanda\_estacion} \\
+        No se levantan comandas en un evento finalizado. & \texttt{tg\_comanda\_evento} \\
+        No se levantan comandas en una cuenta cerrada. & \texttt{tg\_comanda\_cuenta\_abierta} \\
+        Al preparar una comanda se descuenta la receta del inventario. & \texttt{tg\_comanda\_stock} \\
+        Un pago no puede exceder el saldo de la cuenta. & \texttt{tg\_pago\_saldo} \\
+        Una cuenta solo se cierra sin adeudo y con sus comandas terminadas. & \texttt{tg\_cuenta\_cierre} \\
+        Una variante no puede tener variantes. & \texttt{tg\_producto\_variante} \\
+        Todo usuario pertenece a la subclase de su rol. & \texttt{ct\_usuario\_total} y uno por subclase \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Reglas del negocio implementadas con disparadores}
+    \label{tab:disparadores}
+\end{table}
+
+El descuento de inventario ocurre una sola vez, cuando la comanda pasa por primera vez a preparación, y si algún ingrediente no alcanza, el disparador rechaza la operación con un mensaje que indica cuánto queda y cuánto pide la receta. Los disparadores de la especialización total son diferidos: se revisan al confirmar la transacción, lo que permite insertar primero al usuario y después su fila de subclase.
+
+El Código~\ref{cod:pago-saldo} muestra la función del disparador que protege el cobro. Antes de comparar, bloquea la fila de la cuenta con \texttt{FOR UPDATE}, de modo que dos cajeros que registren pagos a la misma cuenta al mismo tiempo no puedan exceder el saldo entre los dos: el segundo pago espera a que el primero termine y se compara contra el saldo ya actualizado.
+
+\begin{lstlisting}[style=codigoC, language=SQL, caption={Función del disparador \texttt{tg\_pago\_saldo}}, label=cod:pago-saldo, morekeywords={RETURNS, LANGUAGE, PERFORM, RAISE, EXCEPTION, USING, ERRCODE, RETURN, NEW, COALESCE, DECLARE}]
+CREATE FUNCTION validar_pago_saldo() RETURNS trigger
+LANGUAGE plpgsql AS $$
+DECLARE
+    v_saldo NUMERIC(10,2);
+BEGIN
+    PERFORM 1 FROM cuenta
+    WHERE numero_evento = NEW.numero_evento AND secuencial = NEW.secuencial
+    FOR UPDATE;
+    SELECT saldo INTO v_saldo FROM v_cuenta
+    WHERE numero_evento = NEW.numero_evento AND secuencial = NEW.secuencial;
+    IF NEW.monto - COALESCE(NEW.monto_propina, 0) > v_saldo THEN
+        RAISE EXCEPTION 'el pago excede el saldo de la cuenta (%)', v_saldo
+            USING ERRCODE = 'check_violation';
+    END IF;
+    RETURN NEW;
+END;
+$$;
+\end{lstlisting}
+
+\subsection{Vistas}
+
+Los atributos derivados del modelo se calculan en seis vistas \parencite{postgres_createview}, una por cada tabla que los requiere. La más importante para la operación es \texttt{v\_cuenta}, que calcula para cada cuenta el total acumulado de sus comandas no canceladas, el total pagado sin contar las propinas y el saldo pendiente; tanto el disparador del cobro como el del cierre de cuenta consultan esta vista, de modo que la regla y el reporte usan exactamente el mismo cálculo. Las demás vistas calculan el número de mesas de cada evento, la edad de cada usuario, las propinas acumuladas de cada mesero, el precio vigente del producto de cada comanda y la disponibilidad de cada producto según su receta y el inventario.
+
+\subsection{Usuarios y permisos}
+
+Una base que siempre se usa con el usuario administrador no está protegida, porque cualquier error de un programa podría borrar o modificar cualquier dato. Por ello se definieron tres roles con el principio de mínimo privilegio \parencites{postgres_roles}{postgres_privileges}, cada uno con un usuario que solo hereda sus permisos y cuya contraseña se toma de variables de entorno. La Tabla~\ref{tab:roles} los resume.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{3.2cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Rol} & \textbf{Para qué existe y qué puede hacer} \\
+        \midrule
+        \texttt{comandas\_app} & Lo usan el servidor del sistema y el script de carga. Opera el salón, pero no puede borrar comandas, eventos, mesas ni cuentas, porque estos cambian de estado en lugar de borrarse; solo puede insertar pagos y anticipos, nunca modificarlos; y no puede alterar la estructura. \\
+        \texttt{comandas\_consulta} & Para reportes. Solo lee, y no puede ver el \textit{hash} de las contraseñas, porque su permiso sobre la tabla de usuarios se otorgó columna por columna. \\
+        \texttt{comandas\_admin} & Para correcciones manuales. Puede leer y modificar todas las tablas, pero no es su dueño, así que no puede borrarlas ni crear roles. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Roles de la base de datos}
+    \label{tab:roles}
+\end{table}
+
+Los disparadores se ejecutan con los permisos de quien realiza la operación, de modo que levantar una comanda requiere, además del permiso de inserción, poder bloquear la cuenta, consultar el evento y descontar el inventario. Se optó por conceder esos permisos al rol de la aplicación, que de todos modos los necesita para cerrar cuentas, cambiar el estado de los eventos y resurtir ingredientes, en lugar de declarar las funciones con los privilegios de su dueño, lo que no habría aportado ninguna protección.
+
+Cada rol se probó con operaciones permitidas y negadas, y en todos los casos el gestor respondió como se esperaba; por ejemplo, borrar una comanda con el rol de la aplicación produce el error \texttt{permission denied for table comanda}. También se comprobó que al retirar un permiso con \texttt{REVOKE} la operación deja de funcionar, y que vuelve a funcionar al devolverlo con \texttt{GRANT}.
+
+\subsection{Pruebas de las restricciones}
+
+Cada restricción del esquema se comprobó con una instrucción diseñada para violarla, y cada regla con un caso válido que debe aceptarse. El conjunto de pruebas reúne treinta y seis instrucciones que el gestor debe rechazar y quince casos válidos que debe aceptar, y se ejecuta con un solo comando que se detiene si alguna prueba no da el resultado esperado. Entre ellas, diez casos documentan con detalle las restricciones de dominio: \texttt{NOT NULL}, \texttt{DEFAULT}, \texttt{UNIQUE} simple y compuesta, y \texttt{CHECK} de rango, de formato y entre columnas, cada uno con la operación intentada, el mensaje del gestor y la regla protegida. En la última ejecución, las treinta y seis instrucciones fueron rechazadas y los quince casos válidos se aceptaron.

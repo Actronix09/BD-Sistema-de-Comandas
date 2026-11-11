@@ -1,0 +1,99 @@
+\newpage
+
+\section{Introducción}
+\label{sec:introduccion}
+
+En esta sección se presenta el problema que da origen al proyecto, las razones que justifican el diseño de una base de datos para atenderlo, los objetivos que guiaron su desarrollo, los trabajos relacionados que se revisaron y el alcance del documento.
+
+\subsection{Planteamiento del problema}
+
+Los salones de eventos que ofrecen servicio de banquetes gestionan la toma y el seguimiento de las comandas, es decir, los pedidos de alimentos y bebidas que realiza cada mesa durante un evento, con comandas de papel, hojas de cálculo o aplicaciones genéricas que no fueron diseñadas para este giro. Con esta forma de operar, la información de los pedidos se duplica o se pierde entre el área de meseros, la cocina y la caja; no queda un registro histórico confiable de lo que se sirvió en cada evento ni de su costo; el inventario de insumos se controla de manera aproximada, lo que provoca faltantes o compras innecesarias; y la cuenta final de cada evento se elabora conciliando a mano varias comandas, lo que la vuelve lenta y propensa a errores.
+
+El salón que se tomó como caso de estudio atiende alrededor de quince eventos al mes, con unas veinte mesas por evento y dos o tres cuentas por mesa. Para atenderlo, el equipo contaba con un sistema de comandas desarrollado en un semestre anterior en la materia de Sistemas Operativos: una interfaz de terminal escrita en C que guardaba la información en archivos de texto. Ese sistema carecía de relaciones bien definidas, de normalización y de reglas de integridad, de modo que cualquier cambio en el negocio obligaba a modificar el programa y nada impedía que los archivos quedaran en un estado inconsistente.
+
+Por lo anterior, el problema que se atiende no consiste solamente en digitalizar la toma de comandas, sino en diseñar e implementar, con una metodología formal, la base de datos que sustente una versión profesional de ese sistema, capaz de representar eventos, mesas, cuentas, comandas, productos, ingredientes, personal y pagos sin perder la consistencia de la información.
+
+\subsection{Justificación}
+
+El sistema de comandas constituye el núcleo operativo de un salón de eventos: de él dependen la asignación de mesas, el seguimiento de los pedidos, la disponibilidad de insumos y el cobro al cliente. Un modelo de datos mal estructurado produce inconsistencias que el personal descubre hasta el cierre del evento, cuando ya no es posible corregirlas, y limita la capacidad del sistema para adaptarse a nuevos requerimientos, como los paquetes contratados, las variantes de los productos o los reportes administrativos.
+
+Desde el punto de vista académico, el proyecto permite aplicar de forma integral los contenidos de la materia sobre un caso real y conocido por el equipo: el modelado entidad-relación y su versión extendida, la transformación al modelo relacional, la definición de datos con restricciones de dominio y de integridad referencial, el control de acceso y la manipulación de datos mediante transacciones. Contar con el sistema anterior como punto de comparación facilita identificar los errores de diseño que se cometieron y comprobar que el nuevo modelo los resuelve.
+
+Desde el punto de vista práctico, una base de datos que hace cumplir por sí misma las reglas del negocio reduce los errores en la toma de comandas, permite conocer con precisión el consumo y las existencias de insumos y entrega cuentas correctas sin conciliación manual. Además, al concentrar las reglas en el gestor y no en el programa, cualquier aplicación que se conecte a la base, ya sea de escritorio, móvil o web, queda sujeta a las mismas validaciones.
+
+\subsection{Objetivo general}
+
+Diseñar, implementar y comprobar una base de datos relacional para el sistema de comandas de un salón de eventos, que gestione de manera íntegra y consistente la información de eventos, mesas, cuentas, comandas, productos, ingredientes, personal y pagos, y que sirva de sustento a la versión profesional del sistema desarrollado previamente.
+
+\subsection{Objetivos específicos}
+
+\begin{enumerate}[label=\arabic*.]
+    \item Identificar los requerimientos de información del salón de eventos mediante una entrevista con el cliente y fundamentar los conceptos de bases de datos que guían el diseño.
+    \item Construir el modelo entidad-relación del sistema y extenderlo con los conceptos del modelo entidad-relación extendido que el caso requiere.
+    \item Transformar el modelo extendido en un esquema relacional mediante las reglas de transformación y ejecutarlo en PostgreSQL dentro de un contenedor de Docker.
+    \item Declarar los tipos de dato, dominios, restricciones y permisos que protejan las reglas del negocio desde el propio gestor.
+    \item Poblar la base de datos a partir de una fuente documentada, mediante un script de carga repetible y eficiente.
+    \item Comprobar la integridad referencial y el comportamiento de las operaciones de manipulación de datos mediante pruebas y transacciones.
+\end{enumerate}
+
+\clearpage
+
+\subsection{Estado del arte}
+
+Para ubicar el proyecto respecto de trabajos recientes se revisaron tres estudios relacionados con los modelos de datos, la elección de un sistema gestor y la seguridad de la información. La Tabla~\ref{tab:estado-del-arte} resume cada uno y su relación con el proyecto.
+
+\begin{table}[H]
+    \centering
+    \footnotesize
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{2.4cm}
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+        }
+
+        \toprule
+
+        \textbf{Referencia} & \textbf{Problema y metodología} & \textbf{Resultados principales} & \textbf{Relación con el proyecto} \\
+
+        \midrule
+
+        \textcite{aguilar2023} &
+        Revisión sistemática de la literatura sobre el modelado y la gestión de bases de datos NoSQL, sus tipos de datos y sus herramientas. &
+        Identifica cuatro modelos NoSQL: clave-valor, documentos, columnas y grafos; el orientado a documentos es el más flexible y el más usado. &
+        Permite contrastar los modelos NoSQL con el modelo relacional que exigen las cuentas, los pagos y las comandas. \\
+
+        \midrule
+
+        \textcite{taipalus2024} &
+        Revisión de 117 estudios que comparan el desempeño de 44 sistemas gestores, junto con su rigor metodológico y su reproducibilidad. &
+        Hay pocas comparaciones rigurosas y reproducibles; en general, los gestores NoSQL superan a los NewSQL en lectura y escritura. &
+        Sustenta que la elección del gestor considere la integridad y las transacciones, y no solo el desempeño. \\
+
+        \midrule
+
+        \textcite{machuca2022} &
+        Revisión de catorce artículos publicados entre 2016 y 2021 sobre las metodologías de seguridad en bases de datos. &
+        El control de acceso es la estrategia más utilizada, seguida del cifrado y de la protección de bases de datos en la nube. &
+        Respalda la definición de roles y permisos distintos para la aplicación, la consulta y la administración. \\
+
+        \bottomrule
+
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Trabajos relacionados con el proyecto}
+    \label{tab:estado-del-arte}
+\end{table}
+
+Los tres trabajos son revisiones sistemáticas y coinciden en que ninguna tecnología de bases de datos es superior en términos absolutos: la elección depende de las necesidades del sistema. \textcite{taipalus2024} reporta que los gestores NoSQL superan a otras familias en velocidad de lectura y escritura; sin embargo, en un sistema de comandas una cuenta que no cuadra o un pago registrado dos veces afectan directamente la operación del salón, por lo que la integridad y la consistencia pesan más que la velocidad. Por esa razón se eligió PostgreSQL, un gestor relacional con soporte completo de transacciones y restricciones de integridad. De igual forma, lo reportado por \textcite{machuca2022} sobre el control de acceso se tradujo en roles con el mínimo privilegio, de modo que cada usuario de la base pueda realizar únicamente las operaciones que le corresponden.
+
+\subsection{Alcance}
+
+El documento abarca la base de datos del sistema de comandas en todas sus etapas: el análisis del caso de estudio, el diseño conceptual con los modelos entidad-relación y entidad-relación extendido, el diseño lógico con el modelo relacional, la implementación física en PostgreSQL, la población con datos y las pruebas de integridad y de manipulación de datos. Cada etapa corresponde a una o varias de las prácticas de la materia, y su documentación detallada, junto con los scripts y las evidencias, se encuentra en el repositorio del equipo.
+
+Quedan fuera de este documento la aplicación que utiliza la base de datos, cuyo cliente y servidor se desarrollan por separado, y el proyecto asignado por la materia, que se documenta de forma independiente.
+
+\subsection{Organización del documento}
+
+Después de esta introducción, el marco teórico reúne los conceptos que sustentan el diseño y la sección de metodología describe la forma de trabajo y el entorno en que se desarrolló el proyecto. Enseguida se presentan el caso de estudio con sus requerimientos, el diseño conceptual y el diseño lógico de la base de datos. Las secciones siguientes describen su implementación en PostgreSQL, la población con datos y las pruebas de integridad referencial y de manipulación de datos. Por último, se presentan los resultados y las conclusiones del proyecto.

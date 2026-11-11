@@ -1,0 +1,129 @@
+\newpage
+
+\section{Metodología y entorno de trabajo}
+\label{sec:metodologia}
+
+En esta sección se describe la forma en que se organizó el desarrollo del proyecto, las herramientas con las que el equipo coordinó su trabajo y el entorno en que se ejecutó el gestor de bases de datos.
+
+\subsection{Desarrollo por etapas}
+
+El proyecto se desarrolló siguiendo las etapas del ciclo de vida de una base de datos descritas en el marco teórico. Cada práctica de la materia correspondió a una o varias de esas etapas, y su resultado fue la entrada de la práctica siguiente, como se resume en la Tabla~\ref{tab:etapas}.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{1.7cm}
+            >{\RaggedRight\arraybackslash}p{3.6cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Práctica} & \textbf{Etapa} & \textbf{Productos} \\
+        \midrule
+        1 & Requerimientos y diseño conceptual & Marco teórico, entrevista con el cliente, requerimientos, diagrama entidad-relación y entorno de trabajo con Git y Docker. \\
+        2 & Diseño conceptual & Modelo entidad-relación extendido en notación de Peter Chen y análisis de los artículos del proyecto asignado. \\
+        3 & Diseño lógico e implementación & Inventario del modelo extendido, reglas de transformación, esquema relacional ejecutado en PostgreSQL, diccionario de datos y pruebas de las restricciones. \\
+        4 & Implementación y población & Tipos de dato y dominios, restricciones de columna, fuente de datos, script de carga, pruebas de dominio, usuarios y permisos. \\
+        5 & Pruebas de integridad & Claves foráneas y acciones referenciales, pruebas de integridad, edición de valores, transacciones y experimentos individuales. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Etapas del ciclo de vida trabajadas en cada práctica}
+    \label{tab:etapas}
+\end{table}
+
+El desarrollo no fue estrictamente lineal. Cada etapa permitió detectar omisiones de la anterior y corregirlas antes de continuar: al construir el modelo extendido se reconsideraron los requerimientos de la entrevista; al transformar el modelo al relacional se levantó primero un inventario de entidades, relaciones y atributos especiales; y al implementar las restricciones de dominio se encontraron reglas que el esquema todavía no protegía. A partir de la Práctica~4, todo cambio al esquema ya ejecutado se registró como una migración numerada con sentencias \texttt{ALTER TABLE}, en lugar de editar el script original, de modo que la historia del esquema quedara documentada y pudiera reproducirse en cualquier base.
+
+\subsection{Control de versiones}
+
+El código, la documentación y las evidencias del proyecto se administran con Git en un repositorio compartido en GitHub. Git registra cada cambio como una confirmación con su autor y su fecha, lo que permite reconstruir la historia del proyecto y recuperar cualquier versión anterior \parencite{chacon_progit}; GitHub agrega un repositorio remoto común y la revisión de cambios mediante \textit{pull requests} \parencite{github_repositories}.
+
+El equipo adoptó un flujo de trabajo basado en ramas \parencite{atlassian_feature_branch}, representado en la Figura~\ref{fig:flujo-ramas}. La rama \texttt{main} contiene únicamente el trabajo revisado y entregado. Al iniciar una práctica se crea a partir de ella una rama de práctica, y cada sección de la práctica se desarrolla en una rama propia que sale de la rama de práctica. Al terminar una sección, sus cambios se integran a la rama de práctica mediante un \textit{pull request}, y al cerrar la práctica, la rama de práctica se integra a \texttt{main} con un \textit{pull request} revisado por otro integrante del equipo.
+
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[
+        rama/.style={draw, rounded corners, minimum width=3.6cm, minimum height=0.8cm, font=\small\ttfamily},
+        flecha/.style={-{Stealth[length=2.5mm]}, thick},
+        etiqueta/.style={font=\footnotesize, fill=white, inner sep=1.5pt}
+    ]
+        \node[rama] (main) {main};
+        \node[rama, below=1.4cm of main] (practica) {practica4-5};
+        \node[rama, below left=1.4cm and -0.4cm of practica] (seccion1) {Practica4-Ejercicio1.3};
+        \node[rama, below right=1.4cm and -0.4cm of practica] (seccion2) {Practica5-Ejercicio2.4};
+
+        \draw[flecha] ([xshift=-0.6cm]main.south) -- node[etiqueta, left=2pt] {se crea} ([xshift=-0.6cm]practica.north);
+        \draw[flecha] ([xshift=0.6cm]practica.north) -- node[etiqueta, right=2pt] {\textit{pull request} revisado} ([xshift=0.6cm]main.south);
+        \draw[flecha] (practica.south) to[bend right=15] node[etiqueta, pos=0.45] {se crea} (seccion1.north);
+        \draw[flecha] (seccion2.north) to[bend right=15] node[etiqueta, pos=0.55] {\textit{pull request}} (practica.south);
+    \end{tikzpicture}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Flujo de ramas del repositorio, con ejemplos de las prácticas 4 y 5}
+    \label{fig:flujo-ramas}
+\end{figure}
+
+La revisión entre pares antes de cada integración permite detectar errores, proteger la rama principal y compartir el conocimiento entre los integrantes \parencite{github_pr_reviews}. A lo largo del proyecto se integraron cerca de cuarenta \textit{pull requests}, y cada integrante registró sus propias confirmaciones, de modo que el historial del repositorio funciona también como evidencia de la participación de cada uno.
+
+\subsection{Contenedores y gestor de bases de datos}
+
+El gestor de bases de datos se ejecuta en un contenedor de Docker. Un contenedor empaqueta una aplicación con todo lo que necesita para funcionar y la aísla del sistema anfitrión, de manera que se comporta igual en cualquier equipo \parencite{docker_what_is_container}. Esto resuelve un problema habitual en el trabajo en equipo: que la base funcione en la computadora de un integrante y no en la de otro por diferencias de versión o de configuración.
+
+La definición del contenedor se encuentra en un archivo de Docker Compose que forma parte del repositorio y que se ha reutilizado sin cambios desde la Práctica~1. Sus parámetros principales se presentan en la Tabla~\ref{tab:entorno}.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{4cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Parámetro} & \textbf{Valor} \\
+        \midrule
+        Gestor & PostgreSQL 16.4, sobre la imagen oficial \texttt{postgres:16.4-alpine} \\
+        Contenedor & \texttt{practica1-postgres} \\
+        Puerto publicado & \texttt{5432} en el anfitrión y en el contenedor \\
+        Volumen & \texttt{practica1-pgdata}, montado en el directorio de datos del gestor \\
+        Codificación & UTF-8 \\
+        Zona horaria & \texttt{America/Mexico\_City} \\
+        Credenciales & Variables de entorno, con valores por omisión para el entorno de desarrollo \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Configuración del contenedor del gestor}
+    \label{tab:entorno}
+\end{table}
+
+Los datos de un contenedor se pierden cuando este se elimina, salvo que se guarden en un volumen, que es un espacio de almacenamiento administrado por Docker e independiente del ciclo de vida del contenedor \parencite{docker_volumes}. Por ello, el directorio de datos de PostgreSQL se monta en un volumen con nombre. En la Práctica~1 se comprobó que la base y sus datos se conservan después de eliminar y volver a crear el contenedor. El puerto publicado permite, además, que las herramientas del equipo anfitrión, como el cliente \texttt{psql} o un administrador gráfico, se conecten al gestor como si estuviera instalado localmente \parencite{docker_publishing_ports}.
+
+\subsection{Automatización y organización del repositorio}
+
+Para que cualquier integrante pudiera reproducir el estado de la base y verificar que las reglas del esquema se cumplen, las tareas repetitivas se automatizaron con un archivo \texttt{Makefile}. Un solo comando levanta el contenedor, recrea una base de pruebas, ejecuta el esquema, las migraciones y los datos de ejemplo, y corre todas las pruebas: las instrucciones que deben ser rechazadas, los casos válidos y las pruebas de integridad referencial. Si alguna prueba no da el resultado esperado, el proceso se detiene e informa cuál falló. La carga de la base completa, las pruebas de permisos y los ejercicios de manipulación de datos cuentan con sus propios scripts, que leen las credenciales de variables de entorno y nunca las guardan en el repositorio.
+
+El repositorio se organiza por tipo de contenido, como se muestra en la Tabla~\ref{tab:repositorio}. Además, desde la carpeta \texttt{web} se publica un sitio del proyecto mediante GitHub Pages.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{3cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Carpeta} & \textbf{Contenido} \\
+        \midrule
+        \texttt{docs} & Documentación de cada práctica en Markdown, enunciados y este documento en \LaTeX \\
+        \texttt{sql} & Esquema, migraciones, pruebas, script de carga, datos y sentencias de la Práctica~5 \\
+        \texttt{modelo} & Diagramas entidad-relación, entidad-relación extendido y relacional \\
+        \texttt{evidencias} & Capturas y salidas de la terminal de cada práctica \\
+        \texttt{entorno} & Definición del contenedor del gestor \\
+        \texttt{web} & Sitio del proyecto \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Organización del repositorio}
+    \label{tab:repositorio}
+\end{table}

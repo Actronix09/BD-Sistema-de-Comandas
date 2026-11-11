@@ -1,0 +1,142 @@
+\newpage
+
+\section{Integridad referencial y manipulación de datos}
+\label{sec:integridad}
+
+En esta sección se presentan las claves foráneas del esquema y la acción referencial elegida para cada una, las pruebas con las que se comprobó su comportamiento, las operaciones de manipulación de datos y las transacciones realizadas sobre la base poblada, y los experimentos individuales en los que cada integrante analizó el efecto de cambiar una acción referencial. Este trabajo corresponde a la Práctica~5.
+
+\subsection{Claves foráneas y acciones referenciales}
+
+Cada relación del modelo extendido quedó representada por al menos una clave foránea: las diecisiete relaciones del inventario, junto con la jerarquía de Usuario y el atributo multivaluado, producen las veinticinco claves foráneas del esquema. Veintiuna son obligatorias y cuatro admiten nulos, en correspondencia con la cardinalidad mínima de su relación.
+
+Para cada clave se eligió qué ocurre al borrar y al actualizar la fila referenciada, y la elección se justificó con una regla del negocio. El criterio general fue el siguiente: las filas que forman parte de su padre y no tienen sentido sin él, como las mesas y las cuentas de un evento, los organizadores, las filas de receta de un producto, el contenido de un paquete y las filas de cada subclase, se borran en cascada con su padre; en cambio, las filas que representan consumo, cobro, asignación de personal o un compromiso con el cliente, como las comandas, los pagos, los anticipos y los acuerdos de un paquete, impiden borrar a su padre, para conservar el historial y la atribución de responsabilidades. No se utilizó \texttt{SET NULL}, porque en este dominio una referencia opcional que ya existe registra a un responsable o un dato histórico que no debe perderse.
+
+Al actualizar, la cascada se usó donde corregir una clave no cambia el significado de la relación, como el número de un evento, y la restricción se usó para la identidad y el rol del personal, cuyo cambio alteraría la atribución de lo que ya se registró. La Tabla~\ref{tab:acciones} resume el resultado.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabular}{lcc}
+        \toprule
+        \textbf{Acción} & \textbf{Al borrar} & \textbf{Al actualizar} \\
+        \midrule
+        \texttt{CASCADE} & 9 & 14 \\
+        \texttt{RESTRICT} & 16 & 11 \\
+        \midrule
+        Total & 25 & 25 \\
+        \bottomrule
+    \end{tabular}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Acciones referenciales de las claves foráneas}
+    \label{tab:acciones}
+\end{table}
+
+\subsection{Pruebas de integridad referencial}
+
+Las pruebas se ejecutan sobre la base de pruebas con los datos de ejemplo, dentro de una transacción que se revierte al terminar, de modo que no dejan cambios. Se probó una vez cada acción utilizada, contando los renglones afectados antes y después de la operación:
+
+\begin{itemize}
+    \item \textbf{\texttt{ON DELETE RESTRICT}.} Borrar un ingrediente que forma parte de una receta es rechazado por el gestor, y la receta queda completa.
+    \item \textbf{\texttt{ON UPDATE CASCADE}.} Cambiar el número del evento 17 a 117 propaga el nuevo número a sus organizadores, mesas, cuentas, acuerdos, anticipos, comandas y pagos, y bajo el número anterior no queda ninguna fila.
+    \item \textbf{\texttt{ON UPDATE RESTRICT}.} Cambiar el identificador de un usuario que tiene su fila de mesero es rechazado, por lo que la jerarquía y la atribución del personal no se rompen.
+    \item \textbf{\texttt{ON DELETE CASCADE}.} Después de retirar las filas de historial que impiden el borrado, borrar el evento elimina también sus organizadores, mesas, cuentas y acuerdos.
+\end{itemize}
+
+También se comprobó que una inserción con una clave foránea inexistente, como una mesa de un evento que no existe, es rechazada con el mensaje \texttt{violates foreign key constraint "fk\_mesa\_evento"}, y que por esa razón la carga debe insertar primero las tablas padre: la misma mesa se acepta en cuanto existe su evento. Por último, tres auditorías recorren el catálogo del gestor en busca de claves foráneas huérfanas, valores duplicados en columnas únicas y nulos en columnas obligatorias; las tres devolvieron cero filas.
+
+\subsection{Manipulación de datos}
+
+Las sentencias de manipulación de datos se escribieron a partir de situaciones reales del salón y se ejecutaron sobre una copia de la base poblada, con el rol de la aplicación salvo donde se indica otro. La Tabla~\ref{tab:dml} resume cada caso y su resultado.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{3.3cm}
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Operación} & \textbf{Situación} & \textbf{Resultado} \\
+        \midrule
+        \texttt{INSERT} desde una consulta & Un evento de 237 invitados agrega un paquete y se acuerda una porción de cada producto por invitado. & Se insertaron nueve acuerdos, uno por producto del paquete, sin capturarlos uno por uno. \\
+        Inserción con conflicto & Llega el resurtido del proveedor: los ingredientes existentes suman lo recibido y los nuevos se dan de alta. & Dos ingredientes aumentaron su existencia, uno de ellos escrito en mayúsculas, y uno nuevo se registró. \\
+        \texttt{UPDATE} con otra tabla & El mínimo de cada ingrediente debe alcanzar para lo acordado con una boda programada. & Cuatro de los diez ingredientes del evento subieron su mínimo. \\
+        \texttt{UPDATE} con \texttt{CASE} & El estado de cada estación debe reflejar si tiene comandas en preparación. & Las estaciones ocupadas pasaron de 18 a 26, de acuerdo con sus comandas. \\
+        \texttt{DELETE} con subconsulta & Se retira del catálogo un paquete que ningún evento contrató. & Se borró el paquete y su contenido en cascada; uno contratado es rechazado por \texttt{RESTRICT}. \\
+        Borrado lógico & Un grupo ya no quiere un pedido y el cajero lo cancela. & La comanda se conserva como cancelada, con su cajero, y el total de la cuenta bajó de 490 a 370. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Operaciones de manipulación de datos}
+    \label{tab:dml}
+\end{table}
+
+La inserción con conflicto se resolvió con \texttt{ON CONFLICT DO UPDATE} sobre el índice que compara los nombres sin distinguir mayúsculas, de modo que \enquote{AGUACATE} se reconoció como el ingrediente existente. A diferencia de la carga masiva, aquí la cláusula sí pudo usarse, porque la tabla de ingredientes no tiene disparadores que se ejecuten antes de detectar el conflicto.
+
+\subsubsection{Borrado lógico y borrado físico}
+
+El modelo ya contaba con un borrado lógico para las comandas: en lugar de eliminarlas, se cancelan, y el cálculo del total de la cuenta excluye las canceladas. Tanto el borrado lógico como el físico dejan el mismo total, pero solo el primero permite responder después qué se pidió, a qué precio, quién lo levantó y quién lo canceló. Borrar de verdad una comanda elimina ese rastro, deja sin explicación el inventario que ya se había descontado al prepararla y quita la protección de las claves foráneas, porque una comanda que existe impide borrar su cuenta, su producto y su mesero. Por ello, el borrado físico se reservó para los datos sin historia, como un borrador de paquete que nadie contrató, y además el rol de la aplicación no tiene permiso para borrar comandas.
+
+\subsection{Transacciones}
+
+El primer caso es una transacción que toca tres tablas y debe quedar completa o no quedar. Al final de una cuenta, el cajero entrega las dos comandas pendientes, registra un pago de 130 pesos con 20 de propina y cierra la cuenta. Al capturar el pago, asigna la propina por error a un mesero que no atiende la mesa; en lugar de descartar todo, se regresa al punto de recuperación previo al pago, se registra el pago correcto y se confirma, como se muestra en el Código~\ref{cod:savepoint}. Al final, la cuenta quedó cerrada con saldo cero y un solo pago, y la entrega de las comandas, que ya era correcta, se conservó.
+
+\noindent\begin{minipage}{\linewidth}
+\begin{lstlisting}[style=codigoC, language=SQL, caption={Transacción con punto de recuperación}, label=cod:savepoint, morekeywords={SAVEPOINT, ROLLBACK, COMMIT, BEGIN}]
+BEGIN;
+
+UPDATE comanda SET estado = 'entregada'
+WHERE numero_evento = 231 AND secuencial = 20 AND estado IN ('en_preparacion', 'lista');
+
+SAVEPOINT antes_del_pago;
+
+-- Propina asignada por error al mesero 24, que no atiende la mesa
+INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
+VALUES (130, 'efectivo', 231, 20, 176, 24, 20);
+
+ROLLBACK TO SAVEPOINT antes_del_pago;
+
+INSERT INTO pago (monto, forma_pago, numero_evento, secuencial, id_cajero, id_mesero_propina, monto_propina)
+VALUES (130, 'efectivo', 231, 20, 176, 65, 20);
+
+UPDATE cuenta SET estado = 'cerrada' WHERE numero_evento = 231 AND secuencial = 20;
+
+COMMIT;
+\end{lstlisting}
+\end{minipage}
+
+El orden de las operaciones importa: el disparador del cierre no permite cerrar una cuenta con comandas sin terminar o con saldo, por lo que primero se entregan las comandas y se registra el pago.
+
+El segundo caso es una transacción que falla a la mitad por una restricción. Una cuenta pide un café y cinco botellas de agua mineral, todos directo a preparación, cuando en el inventario solo quedan agua para cuatro. El café y las primeras cuatro botellas descuentan su receta, pero la quinta es rechazada por el disparador del inventario con el mensaje \texttt{no hay stock suficiente de "Agua mineral de 2 L"}, y a partir de ese error el gestor no acepta ninguna otra operación hasta que la transacción termine. Al revertirla, el número de comandas y las existencias del café y del agua volvieron exactamente a sus valores iniciales, lo que el script comprueba con aserciones: la base quedó como estaba, porque en un pedido no se entrega solo una parte. Lo único que no regresa es el contador de identificadores de las comandas, porque las secuencias no se revierten y los números ya utilizados quedan como un hueco.
+
+\subsection{Experimentos individuales}
+
+Cada integrante eligió una clave foránea distinta, cambió su acción referencial de \texttt{RESTRICT} a \texttt{CASCADE} en una copia de la base y midió qué cambia al borrar una fila padre. La Tabla~\ref{tab:experimentos} resume ambos experimentos.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{3.4cm}
+            >{\RaggedRight\arraybackslash}X
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        & \textbf{Damas Garnica Adrian} & \textbf{Hernandez Barrios Samuel Rodrigo} \\
+        \midrule
+        Relación & Comanda hacia cuenta (\textit{Genera}) & Receta hacia ingrediente (\textit{Receta}) \\
+        Operación & Borrar una cuenta abierta con tres comandas y 85 pesos por cobrar & Borrar un ingrediente que forma parte de una receta \\
+        Qué se pierde & La deuda, el registro del consumo, el rastro de una cancelación y la explicación del inventario ya descontado & Un componente de la receta del producto, sin ningún aviso \\
+        Qué se conserva & Mesas, meseros, productos y las cuentas con pagos, protegidas por su propia clave & El producto y las comandas históricas \\
+        Decisión & Conservar \texttt{RESTRICT} & Conservar \texttt{RESTRICT} \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Experimentos individuales con acciones referenciales}
+    \label{tab:experimentos}
+\end{table}
+
+El primer experimento mostró, además, que el efecto de una cascada no se limita a la tabla que se modifica: como la cuenta ya se borraba en cascada con su evento, cambiar la acción de las comandas abre un camino para que borrar un evento sin pagos ni anticipos elimine también todas sus cuentas y comandas. El segundo mostró que una cascada puede alterar el menú y el inventario sin que nadie lo note, porque el producto sigue existiendo pero ya no descuenta el ingrediente borrado. Ambos experimentos concluyen que \texttt{CASCADE} corresponde cuando la fila hija no tiene sentido sin su padre, y que una comanda o una fila de receta sí lo tienen: la primera es la prueba de un consumo que debe cobrarse y la segunda es parte de la definición de un producto que sigue en el menú.

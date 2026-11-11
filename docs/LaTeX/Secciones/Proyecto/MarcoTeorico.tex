@@ -1,0 +1,102 @@
+\newpage
+
+\section{Marco teórico}
+\label{sec:marco-teorico}
+
+En esta sección se reúnen los conceptos que sustentan el diseño y la implementación de la base de datos: la noción de base de datos y de sistema gestor, las etapas de su ciclo de vida, los modelos con los que se representó el caso de estudio y los mecanismos del lenguaje SQL con los que el gestor hace cumplir las reglas del negocio.
+
+\subsection{Dato, información y base de datos}
+
+Un dato es un hecho que puede ser registrado y que tiene un significado implícito \parencite[p.~4]{elmasri_navathe}; por sí solo no tiene un significado más allá de su propia existencia \parencite[p.~1]{bellinger_dikw}. La información surge cuando los datos se relacionan entre sí y adquieren significado a través de esa conexión \parencite[p.~1]{bellinger_dikw}. Por ejemplo, el número de una mesa no dice nada aislado, pero ligado a un evento, a un mesero y a una cuenta permite saber quién atendió a qué grupo de invitados y cuánto consumió.
+
+Una base de datos es, en consecuencia, una colección de datos relacionados de manera lógica y coherente, que representa algún aspecto del mundo real y que se diseña y se puebla con un propósito específico \parencite[p.~5]{elmasri_navathe}. Para \textcite{date_intro_bd}, es un sistema computarizado cuyo objetivo es llevar el registro de la información y permitir que los usuarios la consulten y la actualicen (p.~2).
+
+\subsection{Sistema gestor de bases de datos}
+
+Un sistema gestor de bases de datos (SGBD) es el conjunto de programas que facilita los procesos de definir, construir, manipular y compartir bases de datos entre diversos usuarios y aplicaciones \parencite[p.~6]{elmasri_navathe}. Su función es mediar entre los archivos físicos y quienes usan la información, de manera que las aplicaciones no dependan de la forma en que los datos se almacenan. Frente a los sistemas de archivos tradicionales, en los que cada programa define y mantiene sus propios archivos, un SGBD concentra la definición de los datos en un catálogo y ofrece las características que se resumen en la Tabla~\ref{tab:caracteristicas-sgbd}.
+
+\begin{table}[H]
+    \centering
+    \small
+    \begin{tabularx}{\textwidth}
+        {
+            >{\RaggedRight\arraybackslash}p{3.4cm}
+            >{\RaggedRight\arraybackslash}X
+        }
+        \toprule
+        \textbf{Característica} & \textbf{Descripción} \\
+        \midrule
+        Integración & Los datos se concentran en un solo repositorio en lugar de archivos independientes e inconexos. \\
+        Persistencia & Los datos sobreviven a los programas que los crearon y solo cambian por una petición al gestor. \\
+        Redundancia controlada & La duplicación se evita mediante la normalización y, cuando existe a propósito, el gestor mantiene las copias sincronizadas. \\
+        Integridad & Los datos cumplen las restricciones declaradas en el catálogo, que el gestor valida en cada actualización. \\
+        Independencia de datos & El esquema físico o lógico puede cambiar sin modificar los programas que acceden a los datos. \\
+        Seguridad & Solo los usuarios autorizados pueden leer o modificar cada objeto, según los privilegios que se les otorgan. \\
+        Concurrencia & Varios usuarios operan al mismo tiempo sin producir lecturas sucias ni actualizaciones perdidas. \\
+        Recuperación & Tras una falla, la base regresa a un estado consistente que conserva las transacciones confirmadas. \\
+        \bottomrule
+    \end{tabularx}
+    \captionsetup{labelfont=bf, textfont=it, labelsep=newline, justification=raggedright, singlelinecheck=false}
+    \caption{Características de un sistema gestor de bases de datos}
+    \label{tab:caracteristicas-sgbd}
+\end{table}
+
+Estas características se ejercen mediante cuatro sublenguajes que, en los gestores basados en SQL, conviven en una misma interfaz \parencites[pp.~38--41]{elmasri_navathe}[pp.~42--44]{silberschatz_dbconcepts}: el lenguaje de definición de datos (DDL), con el que se crean tablas, dominios y restricciones; el lenguaje de manipulación de datos (DML), con el que se insertan, modifican, borran y consultan los datos; el lenguaje de control de datos (DCL), que administra los privilegios de los usuarios; y el lenguaje de control de transacciones (TCL), que delimita las unidades de trabajo que se confirman o se descartan por completo.
+
+Para separar las aplicaciones de los detalles de almacenamiento, los gestores siguen la arquitectura de tres niveles propuesta por el comité ANSI/SPARC \parencite[pp.~36--37]{elmasri_navathe}: el nivel interno describe cómo se almacenan los datos, el nivel conceptual describe la estructura lógica de toda la base y el nivel externo ofrece vistas con la porción de datos que interesa a cada grupo de usuarios. Gracias a esta separación, un cambio en un nivel no obliga a modificar el nivel superior ni los programas de aplicación \parencite[pp.~37--38]{elmasri_navathe}.
+
+\subsection{Ciclo de vida de una base de datos}
+
+Una base de datos real tiene un ciclo de vida de muchos años, durante el cual debe evolucionar conforme cambian los requerimientos \parencite[p.~8]{elmasri_navathe}. Su desarrollo se divide en etapas que van de la idea del negocio a la operación, y cada una produce un entregable que sirve de entrada a la siguiente. Este proyecto siguió esas etapas, que se describen a continuación junto con la práctica en que se trabajó cada una.
+
+\begin{enumerate}[label=\arabic*.]
+    \item \textbf{Recolección y análisis de requerimientos.} Se documenta qué información necesita la organización y qué operaciones realiza sobre ella \parencite[p.~8]{elmasri_navathe}. En el proyecto corresponde a la entrevista con el cliente de la Práctica~1.
+    \item \textbf{Diseño conceptual.} Los requerimientos se expresan en un modelo semántico independiente del gestor, como el modelo entidad-relación \parencite[pp.~9--10]{chen_er_model}. Se realizó en las prácticas~1 y~2.
+    \item \textbf{Diseño lógico.} El esquema conceptual se traduce al modelo del gestor elegido, por lo general el relacional, mediante reglas de transformación \parencite[p.~289]{elmasri_navathe}. Corresponde a la Práctica~3.
+    \item \textbf{Diseño físico e implementación.} El esquema lógico se escribe en sentencias DDL, se ejecuta en el gestor y la base se puebla con los datos iniciales \parencites[p.~41]{date_intro_bd}[p.~31]{elmasri_navathe}. Se realizó en las prácticas~3 y~4.
+    \item \textbf{Pruebas y operación.} Se comprueba que la base proteja sus reglas y se pone en uso mediante las aplicaciones \parencite[pp.~43--45]{elmasri_navathe}. Las pruebas corresponden a las prácticas~4 y~5.
+\end{enumerate}
+
+\subsection{Modelo entidad-relación y su extensión}
+
+El modelo entidad-relación, propuesto por \textcite{chen_er_model}, representa el mundo real mediante entidades, que son los objetos de interés; atributos, que son sus propiedades; y relaciones, que son las asociaciones entre entidades. Un atributo puede ser simple o compuesto, monovaluado o multivaluado, y almacenado o derivado, cuando su valor se calcula a partir de otros datos \parencite{elmasri_navathe}. Cada relación tiene un grado, que es el número de entidades que participan en ella, y restricciones estructurales que se expresan con la notación $(\mathit{min}, \mathit{max})$: el mínimo indica si la participación de una entidad es obligatoria y el máximo, con cuántas instancias de la otra entidad puede asociarse \parencite{elmasri_navathe}.
+
+Una entidad débil es aquella que no tiene una clave propia suficiente para identificarse y depende de una entidad propietaria a través de una relación identificadora; su clave se forma con la clave de la propietaria y una clave parcial \parencite{elmasri_navathe}. Por ejemplo, la mesa número tres solo se distingue si se sabe a qué evento pertenece.
+
+El modelo entidad-relación extendido (EER) añade los conceptos de especialización y generalización, con los que una entidad general, o superclase, se divide en subclases que heredan sus atributos y agregan los propios \parencite{elmasri_navathe}. Una especialización está sujeta a dos restricciones: de disyunción, que indica si una instancia puede pertenecer a una sola subclase (disjunta) o a varias (solapada), y de completitud, que indica si toda instancia de la superclase debe pertenecer a alguna subclase (total) o no (parcial). El modelo extendido también contempla relaciones de grado superior, como las ternarias, que se justifican cuando ningún par de las entidades participantes determina a la tercera.
+
+\subsection{Modelo relacional}
+
+El modelo relacional representa la base de datos como una colección de relaciones, o tablas, en las que cada fila es una tupla y cada columna es un atributo cuyo valor pertenece a un dominio, es decir, a un conjunto de valores atómicos permitidos \parencite{elmasri_navathe}. Una clave candidata es un conjunto mínimo de atributos que identifica de forma única a cada tupla; la clave primaria es la candidata que se elige para ese fin, y una clave foránea es un conjunto de atributos que hace referencia a la clave primaria de otra relación.
+
+Sobre estas estructuras se definen las restricciones de integridad del modelo \parencite{elmasri_navathe}: la restricción de dominio exige que cada valor pertenezca al dominio de su atributo; la de clave, que no existan dos tuplas con la misma clave; la de integridad de entidad, que la clave primaria nunca sea nula; y la de integridad referencial, que toda clave foránea haga referencia a una tupla que exista.
+
+El paso del modelo extendido al relacional se realiza con un conjunto de reglas de transformación \parencite[p.~289]{elmasri_navathe}. Las reglas que se aplicaron en el proyecto convierten cada entidad fuerte en una tabla; descomponen los atributos compuestos en sus componentes; llevan cada atributo multivaluado a una tabla propia; transforman las relaciones uno a muchos en una clave foránea del lado de muchos, las de muchos a muchos en una tabla intermedia y las de uno a uno en una clave foránea única; convierten las relaciones de grado superior en una tabla cuya clave combina las claves de las entidades participantes; forman la clave de cada entidad débil con la de su propietaria; y representan las jerarquías con una de varias estrategias, como una tabla por superclase y una por subclase.
+
+\subsection{Implementación en un gestor relacional}
+
+Los conceptos anteriores se hacen cumplir en el gestor mediante las sentencias de SQL. En esta sección se describen los mecanismos de PostgreSQL que se utilizaron en el proyecto.
+
+\subsubsection{Restricciones de dominio}
+
+Al definir una tabla, cada columna recibe un tipo de dato y, opcionalmente, restricciones que acotan sus valores \parencite{postgres_constraints}: \texttt{NOT NULL} impide que la columna quede vacía; \texttt{DEFAULT} asigna un valor inicial cuando no se especifica uno; \texttt{UNIQUE} impide que dos filas repitan el mismo valor o combinación de valores; y \texttt{CHECK} exige que cada fila cumpla una condición, ya sea un rango, una lista de valores permitidos, un formato o una comparación entre columnas. Cuando un mismo tipo y una misma precisión se repiten en varias tablas, la sentencia \texttt{CREATE DOMAIN} permite definirlos una sola vez con un nombre propio y reutilizarlos \parencite{postgres_createdomain}.
+
+\subsubsection{Integridad referencial}
+
+Una clave foránea se declara con \texttt{FOREIGN KEY} y hace que el gestor rechace cualquier fila que apunte a un renglón inexistente \parencite{postgres_constraints}. La declaración incluye además una acción referencial, que determina qué ocurre con las filas hijas cuando se borra o se actualiza la fila padre: \texttt{RESTRICT} impide la operación mientras existan hijas; \texttt{CASCADE} la propaga a las hijas; \texttt{SET NULL} deja la referencia en nulo; y \texttt{SET DEFAULT} la reemplaza por un valor por omisión. La elección depende de la regla del negocio: \texttt{CASCADE} corresponde cuando la hija no tiene sentido sin su padre, como una entidad débil, y \texttt{RESTRICT} cuando el padre no debe desaparecer mientras algo dependa de él.
+
+\subsubsection{Disparadores y vistas}
+
+Algunas reglas del negocio relacionan varias filas o varias tablas y no pueden expresarse con una restricción de columna. Para ellas se emplean disparadores, que son funciones que el gestor ejecuta automáticamente antes o después de una inserción, actualización o borrado, y que pueden rechazar la operación o modificar los datos \parencite{postgres_triggers}. Por su parte, una vista es una consulta almacenada con un nombre, que se consulta como si fuera una tabla \parencite{postgres_createview}; se utiliza para calcular atributos derivados sin guardarlos, de modo que su valor nunca queda desactualizado, y para ofrecer a cada grupo de usuarios solo la porción de datos que necesita.
+
+\subsubsection{Transacciones}
+
+Una transacción es una unidad de trabajo que agrupa varias operaciones y que debe ejecutarse completa o no ejecutarse \parencite{postgres_transactions}. Las transacciones cumplen las propiedades conocidas como ACID: atomicidad, porque sus operaciones se aplican todas o ninguna; consistencia, porque llevan la base de un estado válido a otro; aislamiento, porque su ejecución no se ve afectada por otras transacciones concurrentes; y durabilidad, porque sus cambios confirmados persisten aun ante fallas \parencite{elmasri_navathe}. En SQL, una transacción inicia con \texttt{BEGIN}, se confirma con \texttt{COMMIT} y se descarta con \texttt{ROLLBACK}. Dentro de ella, \texttt{SAVEPOINT} marca un punto de recuperación al que es posible regresar con \texttt{ROLLBACK TO} sin descartar el trabajo anterior \parencite{postgres_savepoint}.
+
+\subsubsection{Control de acceso}
+
+El acceso a la base se administra mediante roles, que pueden representar a un usuario o a un grupo de usuarios \parencite{postgres_roles}. Con \texttt{GRANT} se otorgan privilegios sobre cada objeto, como leer, insertar, modificar o borrar en una tabla, y con \texttt{REVOKE} se retiran \parencite{postgres_privileges}. El principio de mínimo privilegio consiste en conceder a cada rol únicamente los permisos que su función requiere, de modo que un error en una aplicación o un acceso indebido no pueda afectar más datos de los necesarios.
+
+\subsubsection{Carga masiva de datos}
+
+Para poblar una base con volúmenes grandes de datos, insertar cada fila con una sentencia \texttt{INSERT} resulta lento, porque cada sentencia se procesa por separado. La sentencia \texttt{COPY} de PostgreSQL, y su variante \texttt{\textbackslash copy} del cliente \texttt{psql}, transfiere el contenido completo de un archivo a una tabla en una sola operación \parencite{postgres_copy}, por lo que es el mecanismo recomendado para la carga inicial de una base de datos.
