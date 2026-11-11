@@ -5,6 +5,8 @@
 *.lof
 *.log
 *.lot
+*.lol
+*-SAVE-ERROR
 *.fls
 *.fdb_latexmk
 *.out
