@@ -1,5 +1,7 @@
 ==> Borrando la base comandas_carga_rechazos
 ==> Creando la base comandas_carga_rechazos con el esquema y las migraciones
+    001-dominios.sql
+    002-formato-usuario.sql
     099-permisos.sql
 ==> Base comandas_carga_rechazos, usuario app_comandas
 ==> Leyendo los CSV con \copy
@@ -63,7 +65,7 @@
 
 
 ==> CARGA REVERTIDA: la base quedó como estaba
-==> Tiempo total: 190 s
+==> Tiempo total: 255 s
 ==> Ver los rechazos en practica4/poblar/rechazos.csv
 
 ==> Renglones que quedaron en la base después de revertir

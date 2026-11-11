@@ -3,7 +3,7 @@
 --  Práctica 3: Modelo relacional · Bases de Datos (3CV4)
 --
 --  Transformación del modelo EER de la Práctica 2
---  (docs/ModeloEntidadRelaciónExtendido.md) a tablas de PostgreSQL 16.
+--  (docs/practica2/ModeloEntidadRelaciónExtendido.md) a tablas de PostgreSQL 16.
 --
 --  Se ejecuta sobre una base de datos vacía:
 --      psql -v ON_ERROR_STOP=1 -U pg-practica1 -d comandas -f sql/esquema.sql
@@ -12,7 +12,7 @@
 --  crea nada y la base queda vacía otra vez.
 --
 --  Cada tabla indica en su encabezado la regla de transformación que la
---  origina (Reglas 1 a 9, docs/ReglasDeTransformacion.md).
+--  origina (Reglas 1 a 9, docs/practica3/ReglasDeTransformacion.md).
 -- =====================================================================
 
 BEGIN;
@@ -793,7 +793,7 @@ JOIN producto p ON p.id_producto = co.id_producto;
 -- =====================================================================
 --  8. DICCIONARIO DE DATOS EN EL GESTOR
 --     Los comentarios quedan guardados en el catálogo de PostgreSQL y de
---     ahí se genera docs/DiccionarioDeDatos (Parte 6.4).
+--     ahí se genera docs/practica3/DiccionarioDeDatos (Parte 6.4).
 -- =====================================================================
 
 COMMENT ON TABLE evento                IS 'Evento atendido en el salón (entidad fuerte).';

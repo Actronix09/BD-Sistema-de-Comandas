@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sistema de Comandas Profesional — Práctica 3</title>
+<title>Sistema de Comandas Profesional — Prácticas 4 y 5</title>
 <meta name="description" content="Sitio del proyecto Sistema de Comandas Profesional: base de datos para la gestión de comandas, cuentas y cobros de un salón de eventos. Bases de Datos, ESCOM-IPN.">
 <link rel="stylesheet" href="estilos.css">
 </head>
@@ -17,6 +17,7 @@
     <li><a href="#problema">El problema</a></li>
     <li><a href="#eer">Modelo EER</a></li>
     <li><a href="#relacional">Diagrama relacional</a></li>
+    <li><a href="#practicas">Prácticas 4 y 5</a></li>
     <li><a href="#repositorios">Repositorios</a></li>
     <li><a href="#documentacion">Documentación</a></li>
   </ul>
@@ -30,7 +31,7 @@
     cobros de un salón de eventos: del pedido levantado en la mesa hasta el pago
     registrado en caja.
   </p>
-  <p class="sello">Práctica 3 &middot; Del modelo EER al esquema relacional</p>
+  <p class="sello">Prácticas 4 y 5 &middot; Restricciones, carga de datos e integridad referencial</p>
 </header>
 
 <main id="contenido">
@@ -119,7 +120,7 @@
     <p class="pie-enlace">
       El análisis completo —entidades, atributos, cardinalidades, restricciones y
       justificación de cada decisión— está en
-      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloEntidadRelaci%C3%B3nExtendido.md">
+      <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica2/ModeloEntidadRelaci%C3%B3nExtendido.md">
         ModeloEntidadRelaciónExtendido.md</a>.
     </p>
   </section>
@@ -196,21 +197,81 @@
     </div>
 
     <p class="pie-enlace">
-      El esquema se probó con datos de ejemplo y con 20 instrucciones que violan una
-      restricción cada una, todas rechazadas por el gestor. Solo una regla del EER no se
-      preservó: cambiar el rol de un usuario conservando su historial. El detalle está en
-      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloRelacional.md">ModeloRelacional.md</a>
-      y <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ReglasDeTransformacion.md">ReglasDeTransformacion.md</a>.
+      El esquema se prueba con datos de ejemplo, con 15 casos válidos y con 36
+      instrucciones que violan una restricción cada una, todas rechazadas por el gestor.
+      Solo una regla del EER no se preservó: cambiar el rol de un usuario conservando su historial. El detalle está en
+      <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica3/ModeloRelacional.md">ModeloRelacional.md</a>
+      y <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica3/ReglasDeTransformacion.md">ReglasDeTransformacion.md</a>.
+    </p>
+  </section>
+
+  <section class="seccion" id="practicas">
+    <h2>Prácticas 4 y 5</h2>
+    <p class="seccion-nota">Restricciones de dominio, permisos, carga e integridad referencial</p>
+    <p>
+      Sobre el esquema de la Práctica 3 se afinaron los tipos de dato y las restricciones
+      con migraciones numeradas, se poblaron las 17 tablas con un solo comando y se
+      probó qué hace cada clave foránea cuando se borra o se actualiza su padre. El menú
+      es el de un salón de eventos real, sin sus datos; las recetas son estimadas y la
+      operación (eventos, cuentas, comandas y pagos) es sintética.
+    </p>
+
+    <ul class="cifras">
+      <li><strong>61,809</strong> renglones</li>
+      <li><strong>36</strong> rechazos</li>
+      <li><strong>3</strong> roles</li>
+      <li><strong>25</strong> claves foráneas</li>
+    </ul>
+
+    <div class="rejilla rejilla-dos">
+      <div class="tarjeta decision">
+        <h3>Dominios y restricciones</h3>
+        <p>
+          Ninguna columna usa punto flotante: el dinero es <code>NUMERIC(10,2)</code> a
+          través del dominio <code>dinero</code>. Hay 36 <code>CHECK</code> y 4
+          <code>UNIQUE</code>, y cada tipo de restricción tiene un caso que el gestor rechaza.
+        </p>
+      </div>
+      <div class="tarjeta decision">
+        <h3>Script de carga</h3>
+        <p>
+          <code>poblar.sh</code> carga todo o nada y se puede repetir: la segunda vez
+          inserta 0 renglones. Medido sin disparadores, <code>\copy</code> pasa las 37,528
+          comandas en 0.17 s, contra 12.11 s de un <code>INSERT</code> por renglón.
+        </p>
+      </div>
+      <div class="tarjeta decision">
+        <h3>Usuarios y permisos</h3>
+        <p>
+          La aplicación, los reportes y la administración tienen cada uno su rol. La
+          aplicación levanta comandas, pero no puede borrarlas ni cambiar un pago ya
+          recibido; los reportes solo leen y nunca ven las contraseñas.
+        </p>
+      </div>
+      <div class="tarjeta decision">
+        <h3>Integridad referencial</h3>
+        <p>
+          Al borrar, 9 claves usan <code>CASCADE</code> y 16 <code>RESTRICT</code>. Una
+          comanda no se borra con su cuenta: es la prueba de un consumo que se debe
+          cobrar. Para quitarla se cancela, y queda registrado quién lo hizo.
+        </p>
+      </div>
+    </div>
+
+    <p class="pie-enlace">
+      Cada ejercicio tiene su documento, sus scripts y la salida de la terminal; la
+      tabla completa está en el
+      <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas#prácticas-4-y-5">README</a>.
     </p>
   </section>
 
   <section class="seccion" id="repositorios">
     <h2>Repositorios</h2>
     <div class="rejilla">
-      <a class="tarjeta enlace-tarjeta" href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD">
+      <a class="tarjeta enlace-tarjeta" href="https://github.com/Actronix09/BD-Sistema-de-Comandas">
         <h3>Repositorio del equipo</h3>
         <p>Todo el trabajo del curso: documentación, modelos, evidencias y este sitio.</p>
-        <span class="url">github.com/Actronix09/Desarrollo-Proyecto-Final-BD</span>
+        <span class="url">github.com/Actronix09/BD-Sistema-de-Comandas</span>
       </a>
     </div>
   </section>
@@ -222,15 +283,15 @@
     <h3 class="subtitulo">Proyecto propio</h3>
     <ul class="indice">
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Entrevista.md">Entrevista con el cliente</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica1/Entrevista.md">Entrevista con el cliente</a>
         <span>Eventos, mesas, menú, flujo de comandas, cobros, roles y reportes.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloEntidadRelaci%C3%B3nExtendido.md">Modelo entidad-relación extendido</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica2/ModeloEntidadRelaci%C3%B3nExtendido.md">Modelo entidad-relación extendido</a>
         <span>Entidades, relaciones con cardinalidades, entidades débiles, jerarquía y restricciones.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/LaTeX/Practica%201.pdf">Documento de la Práctica 1 (PDF)</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/LaTeX/Practica%201.pdf">Documento de la Práctica 1 (PDF)</a>
         <span>Introducción, marco teórico y caso de estudio.</span>
       </li>
     </ul>
@@ -238,35 +299,83 @@
     <h3 class="subtitulo">Modelo relacional</h3>
     <ul class="indice">
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/EntornoPractica3.md">Entorno de trabajo de la Práctica 3</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica3/EntornoPractica3.md">Entorno de trabajo de la Práctica 3</a>
         <span>Ramas de trabajo, PostgreSQL levantado con el compose del repositorio y base vacía.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/InventarioModeloEER.md">Inventario del modelo EER</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica3/InventarioModeloEER.md">Inventario del modelo EER</a>
         <span>Entidades, relaciones, jerarquía y atributos especiales antes de la transformación.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ReglasDeTransformacion.md">Reglas de transformación</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica3/ReglasDeTransformacion.md">Reglas de transformación</a>
         <span>Reglas 1 a 9 aplicadas al modelo, tipos de dato y estrategia para la jerarquía de Usuario.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/ModeloRelacional.md">Esquema relacional</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica3/ModeloRelacional.md">Esquema relacional</a>
         <span>Esquema completo, ejecución del DDL, instrucciones rechazadas y preservación del significado.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/DiccionarioDeDatos.md">Diccionario de datos</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica3/DiccionarioDeDatos.md">Diccionario de datos</a>
         <span>Las 97 columnas de las 17 tablas con tipo, restricciones y descripción.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/sql/esquema.sql">Script <code>esquema.sql</code></a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/sql/esquema.sql">Script <code>esquema.sql</code></a>
         <span>Tablas, disparadores, índices, vistas y comentarios del esquema.</span>
+      </li>
+    </ul>
+
+    <h3 class="subtitulo">Prácticas 4 y 5</h3>
+    <ul class="indice">
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica4/EntornoPractica4y5.md">Entorno de trabajo de las Prácticas 4 y 5</a>
+        <span>Rama por sección, estructura de carpetas y gestor levantado.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica4/dominios.md">Tipos de dato y dominios</a>
+        <span>Tipo de cada una de las 97 columnas, dominios reutilizables y restricciones.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica4/fuente.md">Fuente de datos</a>
+        <span>Dónde se buscó, el menú del salón, las recetas estimadas y los datos sintéticos.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica4/carga.md">Script de carga</a>
+        <span>Carga repetible y de todo o nada, comparación de tiempos y registro de rechazos.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica4/pruebas-dominio.md">Pruebas de dominio</a>
+        <span>Casos de <code>NOT NULL</code>, <code>UNIQUE</code>, <code>CHECK</code> y <code>DEFAULT</code> con el mensaje del gestor.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica4/permisos.md">Usuarios y permisos</a>
+        <span>Tres roles, pruebas de lo permitido y lo negado, <code>REVOKE</code> y matriz de permisos.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica5/referencias.md">Claves foráneas y acciones referenciales</a>
+        <span>Las 25 claves con su relación del EER y la justificación de cada acción.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica5/pruebas-referenciales.md">Pruebas de integridad referencial</a>
+        <span>Cada acción referencial con conteos antes y después, y auditorías de huérfanos.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica5/edicion-de-valores.md">Edición de valores y transacciones</a>
+        <span>Inserciones, actualizaciones y borrados a partir de casos del salón, y transacciones.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica5/integrantes/Damas_Garnica_Adrian.md">Experimento de Damas Garnica Adrian</a>
+        <span>Qué pasaría si las comandas se borraran en cascada con su cuenta.</span>
+      </li>
+      <li>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md">Experimento de Hernandez Barrios Samuel Rodrigo</a>
+        <span>Qué pasaría si las recetas se borraran en cascada con su ingrediente.</span>
       </li>
     </ul>
 
     <h3 class="subtitulo">Proyecto asignado</h3>
     <ul class="indice">
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Investigaci%C3%B3nDeArticulos.md">Análisis de los tres artículos</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica2/Investigaci%C3%B3nDeArticulos.md">Análisis de los tres artículos</a>
         <span>Sismos, datos abiertos de agua y almacén geoespacial de obra pública.</span>
       </li>
     </ul>
@@ -274,19 +383,19 @@
     <h3 class="subtitulo">Entorno y control de versiones</h3>
     <ul class="indice">
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Control%20de%20Versiones.md">Control de versiones (Git)</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica1/Control%20de%20Versiones.md">Control de versiones (Git)</a>
         <span>Sistema gestor de versiones, definiciones y flujo de trabajo por ramas.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Control%20de%20Versiones%20GIT%20y%20Pull%20Request.md">Evidencias de Git y pull requests</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica1/Control%20de%20Versiones%20GIT%20y%20Pull%20Request.md">Evidencias de Git y pull requests</a>
         <span>Estructura de ramas, pull requests e historial del repositorio.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Contenedores.md">Contenedores en Docker</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica1/Contenedores.md">Contenedores en Docker</a>
         <span>Imagen, contenedor, volumen y puerto publicado.</span>
       </li>
       <li>
-        <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/blob/main/docs/Persistencia%20del%20Volumen%20de%20Docker.md">Persistencia del volumen de Docker</a>
+        <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/blob/main/docs/practica1/Persistencia%20del%20Volumen%20de%20Docker.md">Persistencia del volumen de Docker</a>
         <span>Prueba de que los datos sobreviven a la eliminación del contenedor.</span>
       </li>
     </ul>
@@ -303,7 +412,7 @@
     <p>Bases de Datos &middot; ESCOM-IPN &middot; 3CV4</p>
     <p>
       Sitio estático publicado con GitHub Pages desde
-      <a href="https://github.com/Actronix09/Desarrollo-Proyecto-Final-BD/tree/main/web">
+      <a href="https://github.com/Actronix09/BD-Sistema-de-Comandas/tree/main/web">
         la carpeta <code>web/</code></a>
       de la rama <code>main</code>.
     </p>

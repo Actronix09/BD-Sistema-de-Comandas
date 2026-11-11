@@ -1,4 +1,4 @@
-# Práctica 3
+# Prácticas 4 y 5
 
 **Sitio del proyecto:** <https://actronix09.github.io/BD-Sistema-de-Comandas/> 
 
@@ -13,7 +13,7 @@
 
 **Grupo:** 3CV4
 
-**Carrera:** Ingenieria en Sistemas Computacionalesl\
+**Carrera:** Ingenieria en Sistemas Computacionales
 
 **Proyecto:** Sistema de Comandas Profesional
 
@@ -34,114 +34,190 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
 
 ## Indice
 
-- [Control de Versiones (Git)](<docs/Control de Versiones.md>)
-  - [Sistema Gestor de Versiones](<docs/Control de Versiones.md#sistema-gestor-de-versiones>)
-  - [Definiciones](<docs/Control de Versiones.md#definiciones>)
-  - [Flujo de Trabajo Basado en Ramas](<docs/Control de Versiones.md#flujo-de-trabajo-basado-en-ramas>)
-  - [Referencias](<docs/Control de Versiones.md#referencias>)
-- [Evidencias del Flujo de Git y Pull Request](<docs/Control de Versiones GIT y Pull Request.md>)
-  - [Estructura de ramas del repositorio](<docs/Control de Versiones GIT y Pull Request.md#estructura-de-ramas-del-repositorio>)
-  - [Pull Requests realizados](<docs/Control de Versiones GIT y Pull Request.md#pull-requests-realizados>)
-  - [Historial completo del repositorio](<docs/Control de Versiones GIT y Pull Request.md#historial-completo-del-repositorio>)
-- [Contenedores en Docker](<docs/Contenedores.md>)
-  - [Diferencias entre contenedor y maquina virtual](<docs/Contenedores.md#diferencias-entre-contenedor-y-maquina-virtual>)
-  - [Imagen](<docs/Contenedores.md#imagen>)
-  - [Contenedor](<docs/Contenedores.md#contenedor>)
-  - [Volumen](<docs/Contenedores.md#volumen>)
-  - [Puerto publicado](<docs/Contenedores.md#puerto-publicado>)
-  - [Respecto a un volumen](<docs/Contenedores.md#respecto-a-un-volumen>)
-    - [¿Por qué es indispensable?](<docs/Contenedores.md#por-qué-es-indispensable>)
-    - [¿Qué ocurre si no se declara?](<docs/Contenedores.md#qué-ocurre-si-no-se-declara>)
-  - [Referencias](<docs/Contenedores.md#referencias>)
-- [Persistencia del Volumen de Docker](<docs/Persistencia del Volumen de Docker.md>)
-  - [Configuración del entorno](<docs/Persistencia del Volumen de Docker.md#configuración-del-entorno>)
-  - [Creación del contenedor y la base de datos](<docs/Persistencia del Volumen de Docker.md#creación-del-contenedor-y-la-base-de-datos>)
-  - [Eliminación del contenedor](<docs/Persistencia del Volumen de Docker.md#eliminación-del-contenedor>)
-  - [Verificación de la persistencia](<docs/Persistencia del Volumen de Docker.md#verificación-de-la-persistencia>)
-- [Entrevista con el Cliente](<docs/Entrevista.md>)
-  - [Eventos y mesas](<docs/Entrevista.md#eventos-y-mesas>)
-  - [Menu y productos](<docs/Entrevista.md#menu-y-productos>)
-  - [Flujo de comandas](<docs/Entrevista.md#flujo-de-comandas>)
-  - [Cobros y pagos](<docs/Entrevista.md#cobros-y-pagos>)
-  - [Roles y permisos](<docs/Entrevista.md#roles-y-permisos>)
-  - [Reportes](<docs/Entrevista.md#reportes>)
-  - [Operacion y escalabilidad](<docs/Entrevista.md#operacion-y-escalabilidad>)
-- [Análisis de los Tres Artículos de los Proyectos](<docs/InvestigaciónDeArticulos.md>)
-  - [Artículo 1: "Cuando México tiembla: la historia contada por los datos"](<docs/InvestigaciónDeArticulos.md#articulo-1-cuando-méxico-tiembla-la-historia-contada-por-los-datos-villa-vargas-et-al-2026>)
-  - [Artículo 2: "Territorial Information Retrieval from Heterogeneous Open Data..."](<docs/InvestigaciónDeArticulos.md#articulo-2-territorial-information-retrieval-from-heterogeneous-open-data-through-the-construction-of-a-data-warehouse-for-water-management-in-mexico-city-velázquez-arrieta-et-al-en-prensa>)
-  - [Artículo 3: "A Dimensional Data Warehouse for Geospatial Monitoring of Municipal Public Works..."](<docs/InvestigaciónDeArticulos.md#articulo-3-a-dimensional-data-warehouse-for-geospatial-monitoring-of-municipal-public-works-with-an-evolution-path-toward-a-lakehouse-architecture-gonzález-casiano-et-al-en-prensa>)
-  - [Referencias](<docs/InvestigaciónDeArticulos.md#referencias>)
-- [Modelo Entidad-Relación Extendido del Sistema de Comandas](<docs/ModeloEntidadRelaciónExtendido.md>)
-  - [El problema](<docs/ModeloEntidadRelaciónExtendido.md#el-problema>)
-  - [Reconsideración de requisitos](<docs/ModeloEntidadRelaciónExtendido.md#reconsideración-de-requisitos>)
-  - [Relaciones](<docs/ModeloEntidadRelaciónExtendido.md#relaciones>)
-  - [Restricciones](<docs/ModeloEntidadRelaciónExtendido.md#restricciones>)
-  - [Conceptos del modelo extendido que el caso no necesita](<docs/ModeloEntidadRelaciónExtendido.md#conceptos-del-modelo-extendido-que-el-caso-no-necesita>)
-  - [Modelo en notación de Peter Chen](<docs/ModeloEntidadRelaciónExtendido.md#modelo-en-notación-de-peter-chen>)
-  - [Justificación](<docs/ModeloEntidadRelaciónExtendido.md#justificación>)
-- [Entorno de Trabajo de la Práctica 3](<docs/EntornoPractica3.md>)
-  - [Rama de trabajo](<docs/EntornoPractica3.md#rama-de-trabajo>)
-  - [Levantamiento del gestor](<docs/EntornoPractica3.md#levantamiento-del-gestor>)
-  - [Base de datos vacía](<docs/EntornoPractica3.md#base-de-datos-vacía>)
-- [Inventario del Modelo Entidad-Relación Extendido](<docs/InventarioModeloEER.md>)
-  - [Entidades fuertes](<docs/InventarioModeloEER.md#entidades-fuertes>)
-  - [Entidades débiles](<docs/InventarioModeloEER.md#entidades-débiles>)
-  - [Relaciones](<docs/InventarioModeloEER.md#relaciones>)
-  - [Jerarquías de generalización y especialización](<docs/InventarioModeloEER.md#jerarquías-de-generalización-y-especialización>)
-  - [Atributos multivaluados, compuestos y derivados](<docs/InventarioModeloEER.md#atributos-multivaluados-compuestos-y-derivados>)
-  - [Relaciones ternarias o de orden superior](<docs/InventarioModeloEER.md#relaciones-ternarias-o-de-orden-superior>)
-  - [Preguntas previas a la transformación](<docs/InventarioModeloEER.md#preguntas-previas-a-la-transformación>)
-  - [Resumen del inventario](<docs/InventarioModeloEER.md#resumen-del-inventario>)
-- [Reglas de Transformación del Modelo EER al Modelo Relacional](<docs/ReglasDeTransformacion.md>)
-  - [Notación](<docs/ReglasDeTransformacion.md#notación>)
-  - [Decisiones de tipos de dato](<docs/ReglasDeTransformacion.md#decisiones-de-tipos-de-dato>)
-  - [Parte 3 — Reglas de transformación básicas](<docs/ReglasDeTransformacion.md#parte-3--reglas-de-transformación-básicas>)
-    - [Regla 1: entidades fuertes](<docs/ReglasDeTransformacion.md#regla-1-entidades-fuertes>)
-    - [Regla 2: atributos compuestos](<docs/ReglasDeTransformacion.md#regla-2-atributos-compuestos>)
-    - [Regla 3: atributos multivaluados](<docs/ReglasDeTransformacion.md#regla-3-atributos-multivaluados>)
-    - [Atributos derivados](<docs/ReglasDeTransformacion.md#atributos-derivados>)
-  - [Parte 4 — Transformación de relaciones](<docs/ReglasDeTransformacion.md#parte-4--transformación-de-relaciones>)
-    - [Regla 4: relaciones uno a muchos](<docs/ReglasDeTransformacion.md#regla-4-relaciones-uno-a-muchos>)
-    - [Regla 5: relaciones muchos a muchos](<docs/ReglasDeTransformacion.md#regla-5-relaciones-muchos-a-muchos>)
-    - [Regla 6: relaciones uno a uno](<docs/ReglasDeTransformacion.md#regla-6-relaciones-uno-a-uno>)
-    - [Regla 7: relaciones de orden superior](<docs/ReglasDeTransformacion.md#regla-7-relaciones-de-orden-superior>)
-    - [Resumen de relaciones y regla aplicada](<docs/ReglasDeTransformacion.md#resumen-de-relaciones-y-regla-aplicada>)
-    - [Acciones referenciales](<docs/ReglasDeTransformacion.md#acciones-referenciales>)
-  - [Parte 5 — Entidades débiles y jerarquías](<docs/ReglasDeTransformacion.md#parte-5--entidades-débiles-y-jerarquías>)
-    - [Regla 8: entidades débiles](<docs/ReglasDeTransformacion.md#regla-8-entidades-débiles>)
-    - [Regla 9: jerarquías](<docs/ReglasDeTransformacion.md#regla-9-jerarquías>)
-    - [Jerarquía de Usuario](<docs/ReglasDeTransformacion.md#jerarquía-de-usuario>)
-    - [Lo que el esquema no puede garantizar](<docs/ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>)
-    - [Tablas resultantes](<docs/ReglasDeTransformacion.md#tablas-resultantes>)
-- [Esquema Relacional, DDL Ejecutado y Diccionario](<docs/ModeloRelacional.md>)
-  - [6.1 Esquema completo](<docs/ModeloRelacional.md#61-esquema-completo>)
-  - [6.2 Script de definición de datos](<docs/ModeloRelacional.md#62-script-de-definición-de-datos>)
-  - [6.3 Diagrama relacional](<docs/ModeloRelacional.md#63-diagrama-relacional>)
-  - [6.4 Diccionario de datos](<docs/ModeloRelacional.md#64-diccionario-de-datos>)
-  - [6.5 Preservación del significado](<docs/ModeloRelacional.md#65-preservación-del-significado>)
-- [Diccionario de Datos del Sistema de Comandas](<docs/DiccionarioDeDatos.md>)
-  - [Convenciones](<docs/DiccionarioDeDatos.md#convenciones>)
-  - [evento](<docs/DiccionarioDeDatos.md#evento>)
-  - [evento_organizador](<docs/DiccionarioDeDatos.md#evento_organizador>)
-  - [usuario](<docs/DiccionarioDeDatos.md#usuario>)
-  - [mesero](<docs/DiccionarioDeDatos.md#mesero>)
-  - [bar_cocina](<docs/DiccionarioDeDatos.md#bar_cocina>)
-  - [cajero_admin](<docs/DiccionarioDeDatos.md#cajero_admin>)
-  - [mesa](<docs/DiccionarioDeDatos.md#mesa>)
-  - [cuenta](<docs/DiccionarioDeDatos.md#cuenta>)
-  - [producto](<docs/DiccionarioDeDatos.md#producto>)
-  - [ingrediente](<docs/DiccionarioDeDatos.md#ingrediente>)
-  - [receta](<docs/DiccionarioDeDatos.md#receta>)
-  - [paquete](<docs/DiccionarioDeDatos.md#paquete>)
-  - [paquete_producto](<docs/DiccionarioDeDatos.md#paquete_producto>)
-  - [acuerdo](<docs/DiccionarioDeDatos.md#acuerdo>)
-  - [comanda](<docs/DiccionarioDeDatos.md#comanda>)
-  - [pago](<docs/DiccionarioDeDatos.md#pago>)
-  - [anticipo](<docs/DiccionarioDeDatos.md#anticipo>)
-  - [Vistas de atributos derivados](<docs/DiccionarioDeDatos.md#vistas-de-atributos-derivados>)
+- [Control de Versiones (Git)](<docs/practica1/Control de Versiones.md>)
+  - [Sistema Gestor de Versiones](<docs/practica1/Control de Versiones.md#sistema-gestor-de-versiones>)
+  - [Definiciones](<docs/practica1/Control de Versiones.md#definiciones>)
+  - [Flujo de Trabajo Basado en Ramas](<docs/practica1/Control de Versiones.md#flujo-de-trabajo-basado-en-ramas>)
+  - [Referencias](<docs/practica1/Control de Versiones.md#referencias>)
+- [Evidencias del Flujo de Git y Pull Request](<docs/practica1/Control de Versiones GIT y Pull Request.md>)
+  - [Estructura de ramas del repositorio](<docs/practica1/Control de Versiones GIT y Pull Request.md#estructura-de-ramas-del-repositorio>)
+  - [Pull Requests realizados](<docs/practica1/Control de Versiones GIT y Pull Request.md#pull-requests-realizados>)
+  - [Historial completo del repositorio](<docs/practica1/Control de Versiones GIT y Pull Request.md#historial-completo-del-repositorio>)
+- [Contenedores en Docker](<docs/practica1/Contenedores.md>)
+  - [Diferencias entre contenedor y maquina virtual](<docs/practica1/Contenedores.md#diferencias-entre-contenedor-y-maquina-virtual>)
+  - [Imagen](<docs/practica1/Contenedores.md#imagen>)
+  - [Contenedor](<docs/practica1/Contenedores.md#contenedor>)
+  - [Volumen](<docs/practica1/Contenedores.md#volumen>)
+  - [Puerto publicado](<docs/practica1/Contenedores.md#puerto-publicado>)
+  - [Respecto a un volumen](<docs/practica1/Contenedores.md#respecto-a-un-volumen>)
+    - [¿Por qué es indispensable?](<docs/practica1/Contenedores.md#por-qué-es-indispensable>)
+    - [¿Qué ocurre si no se declara?](<docs/practica1/Contenedores.md#qué-ocurre-si-no-se-declara>)
+  - [Referencias](<docs/practica1/Contenedores.md#referencias>)
+- [Persistencia del Volumen de Docker](<docs/practica1/Persistencia del Volumen de Docker.md>)
+  - [Configuración del entorno](<docs/practica1/Persistencia del Volumen de Docker.md#configuración-del-entorno>)
+  - [Creación del contenedor y la base de datos](<docs/practica1/Persistencia del Volumen de Docker.md#creación-del-contenedor-y-la-base-de-datos>)
+  - [Eliminación del contenedor](<docs/practica1/Persistencia del Volumen de Docker.md#eliminación-del-contenedor>)
+  - [Verificación de la persistencia](<docs/practica1/Persistencia del Volumen de Docker.md#verificación-de-la-persistencia>)
+- [Entrevista con el Cliente](<docs/practica1/Entrevista.md>)
+  - [Eventos y mesas](<docs/practica1/Entrevista.md#eventos-y-mesas>)
+  - [Menu y productos](<docs/practica1/Entrevista.md#menu-y-productos>)
+  - [Flujo de comandas](<docs/practica1/Entrevista.md#flujo-de-comandas>)
+  - [Cobros y pagos](<docs/practica1/Entrevista.md#cobros-y-pagos>)
+  - [Roles y permisos](<docs/practica1/Entrevista.md#roles-y-permisos>)
+  - [Reportes](<docs/practica1/Entrevista.md#reportes>)
+  - [Operacion y escalabilidad](<docs/practica1/Entrevista.md#operacion-y-escalabilidad>)
+- [Análisis de los Tres Artículos de los Proyectos](<docs/practica2/InvestigaciónDeArticulos.md>)
+  - [Artículo 1: "Cuando México tiembla: la historia contada por los datos"](<docs/practica2/InvestigaciónDeArticulos.md#articulo-1-cuando-méxico-tiembla-la-historia-contada-por-los-datos-villa-vargas-et-al-2026>)
+  - [Artículo 2: "Territorial Information Retrieval from Heterogeneous Open Data..."](<docs/practica2/InvestigaciónDeArticulos.md#articulo-2-territorial-information-retrieval-from-heterogeneous-open-data-through-the-construction-of-a-data-warehouse-for-water-management-in-mexico-city-velázquez-arrieta-et-al-en-prensa>)
+  - [Artículo 3: "A Dimensional Data Warehouse for Geospatial Monitoring of Municipal Public Works..."](<docs/practica2/InvestigaciónDeArticulos.md#articulo-3-a-dimensional-data-warehouse-for-geospatial-monitoring-of-municipal-public-works-with-an-evolution-path-toward-a-lakehouse-architecture-gonzález-casiano-et-al-en-prensa>)
+  - [Referencias](<docs/practica2/InvestigaciónDeArticulos.md#referencias>)
+- [Modelo Entidad-Relación Extendido del Sistema de Comandas](<docs/practica2/ModeloEntidadRelaciónExtendido.md>)
+  - [El problema](<docs/practica2/ModeloEntidadRelaciónExtendido.md#el-problema>)
+  - [Reconsideración de requisitos](<docs/practica2/ModeloEntidadRelaciónExtendido.md#reconsideración-de-requisitos>)
+  - [Relaciones](<docs/practica2/ModeloEntidadRelaciónExtendido.md#relaciones>)
+  - [Restricciones](<docs/practica2/ModeloEntidadRelaciónExtendido.md#restricciones>)
+  - [Conceptos del modelo extendido que el caso no necesita](<docs/practica2/ModeloEntidadRelaciónExtendido.md#conceptos-del-modelo-extendido-que-el-caso-no-necesita>)
+  - [Modelo en notación de Peter Chen](<docs/practica2/ModeloEntidadRelaciónExtendido.md#modelo-en-notación-de-peter-chen>)
+  - [Justificación](<docs/practica2/ModeloEntidadRelaciónExtendido.md#justificación>)
+- [Entorno de Trabajo de la Práctica 3](<docs/practica3/EntornoPractica3.md>)
+  - [Rama de trabajo](<docs/practica3/EntornoPractica3.md#rama-de-trabajo>)
+  - [Levantamiento del gestor](<docs/practica3/EntornoPractica3.md#levantamiento-del-gestor>)
+  - [Base de datos vacía](<docs/practica3/EntornoPractica3.md#base-de-datos-vacía>)
+- [Inventario del Modelo Entidad-Relación Extendido](<docs/practica3/InventarioModeloEER.md>)
+  - [Entidades fuertes](<docs/practica3/InventarioModeloEER.md#entidades-fuertes>)
+  - [Entidades débiles](<docs/practica3/InventarioModeloEER.md#entidades-débiles>)
+  - [Relaciones](<docs/practica3/InventarioModeloEER.md#relaciones>)
+  - [Jerarquías de generalización y especialización](<docs/practica3/InventarioModeloEER.md#jerarquías-de-generalización-y-especialización>)
+  - [Atributos multivaluados, compuestos y derivados](<docs/practica3/InventarioModeloEER.md#atributos-multivaluados-compuestos-y-derivados>)
+  - [Relaciones ternarias o de orden superior](<docs/practica3/InventarioModeloEER.md#relaciones-ternarias-o-de-orden-superior>)
+  - [Preguntas previas a la transformación](<docs/practica3/InventarioModeloEER.md#preguntas-previas-a-la-transformación>)
+  - [Resumen del inventario](<docs/practica3/InventarioModeloEER.md#resumen-del-inventario>)
+- [Reglas de Transformación del Modelo EER al Modelo Relacional](<docs/practica3/ReglasDeTransformacion.md>)
+  - [Notación](<docs/practica3/ReglasDeTransformacion.md#notación>)
+  - [Decisiones de tipos de dato](<docs/practica3/ReglasDeTransformacion.md#decisiones-de-tipos-de-dato>)
+  - [Parte 3 — Reglas de transformación básicas](<docs/practica3/ReglasDeTransformacion.md#parte-3--reglas-de-transformación-básicas>)
+    - [Regla 1: entidades fuertes](<docs/practica3/ReglasDeTransformacion.md#regla-1-entidades-fuertes>)
+    - [Regla 2: atributos compuestos](<docs/practica3/ReglasDeTransformacion.md#regla-2-atributos-compuestos>)
+    - [Regla 3: atributos multivaluados](<docs/practica3/ReglasDeTransformacion.md#regla-3-atributos-multivaluados>)
+    - [Atributos derivados](<docs/practica3/ReglasDeTransformacion.md#atributos-derivados>)
+  - [Parte 4 — Transformación de relaciones](<docs/practica3/ReglasDeTransformacion.md#parte-4--transformación-de-relaciones>)
+    - [Regla 4: relaciones uno a muchos](<docs/practica3/ReglasDeTransformacion.md#regla-4-relaciones-uno-a-muchos>)
+    - [Regla 5: relaciones muchos a muchos](<docs/practica3/ReglasDeTransformacion.md#regla-5-relaciones-muchos-a-muchos>)
+    - [Regla 6: relaciones uno a uno](<docs/practica3/ReglasDeTransformacion.md#regla-6-relaciones-uno-a-uno>)
+    - [Regla 7: relaciones de orden superior](<docs/practica3/ReglasDeTransformacion.md#regla-7-relaciones-de-orden-superior>)
+    - [Resumen de relaciones y regla aplicada](<docs/practica3/ReglasDeTransformacion.md#resumen-de-relaciones-y-regla-aplicada>)
+    - [Acciones referenciales](<docs/practica3/ReglasDeTransformacion.md#acciones-referenciales>)
+  - [Parte 5 — Entidades débiles y jerarquías](<docs/practica3/ReglasDeTransformacion.md#parte-5--entidades-débiles-y-jerarquías>)
+    - [Regla 8: entidades débiles](<docs/practica3/ReglasDeTransformacion.md#regla-8-entidades-débiles>)
+    - [Regla 9: jerarquías](<docs/practica3/ReglasDeTransformacion.md#regla-9-jerarquías>)
+    - [Jerarquía de Usuario](<docs/practica3/ReglasDeTransformacion.md#jerarquía-de-usuario>)
+    - [Lo que el esquema no puede garantizar](<docs/practica3/ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>)
+    - [Tablas resultantes](<docs/practica3/ReglasDeTransformacion.md#tablas-resultantes>)
+- [Esquema Relacional, DDL Ejecutado y Diccionario](<docs/practica3/ModeloRelacional.md>)
+  - [6.1 Esquema completo](<docs/practica3/ModeloRelacional.md#61-esquema-completo>)
+  - [6.2 Script de definición de datos](<docs/practica3/ModeloRelacional.md#62-script-de-definición-de-datos>)
+  - [6.3 Diagrama relacional](<docs/practica3/ModeloRelacional.md#63-diagrama-relacional>)
+  - [6.4 Diccionario de datos](<docs/practica3/ModeloRelacional.md#64-diccionario-de-datos>)
+  - [6.5 Preservación del significado](<docs/practica3/ModeloRelacional.md#65-preservación-del-significado>)
+- [Diccionario de Datos del Sistema de Comandas](<docs/practica3/DiccionarioDeDatos.md>)
+  - [Convenciones](<docs/practica3/DiccionarioDeDatos.md#convenciones>)
+  - [evento](<docs/practica3/DiccionarioDeDatos.md#evento>)
+  - [evento_organizador](<docs/practica3/DiccionarioDeDatos.md#evento_organizador>)
+  - [usuario](<docs/practica3/DiccionarioDeDatos.md#usuario>)
+  - [mesero](<docs/practica3/DiccionarioDeDatos.md#mesero>)
+  - [bar_cocina](<docs/practica3/DiccionarioDeDatos.md#bar_cocina>)
+  - [cajero_admin](<docs/practica3/DiccionarioDeDatos.md#cajero_admin>)
+  - [mesa](<docs/practica3/DiccionarioDeDatos.md#mesa>)
+  - [cuenta](<docs/practica3/DiccionarioDeDatos.md#cuenta>)
+  - [producto](<docs/practica3/DiccionarioDeDatos.md#producto>)
+  - [ingrediente](<docs/practica3/DiccionarioDeDatos.md#ingrediente>)
+  - [receta](<docs/practica3/DiccionarioDeDatos.md#receta>)
+  - [paquete](<docs/practica3/DiccionarioDeDatos.md#paquete>)
+  - [paquete_producto](<docs/practica3/DiccionarioDeDatos.md#paquete_producto>)
+  - [acuerdo](<docs/practica3/DiccionarioDeDatos.md#acuerdo>)
+  - [comanda](<docs/practica3/DiccionarioDeDatos.md#comanda>)
+  - [pago](<docs/practica3/DiccionarioDeDatos.md#pago>)
+  - [anticipo](<docs/practica3/DiccionarioDeDatos.md#anticipo>)
+  - [Vistas de atributos derivados](<docs/practica3/DiccionarioDeDatos.md#vistas-de-atributos-derivados>)
+- [Entorno de Trabajo de las Prácticas 4 y 5](<docs/practica4/EntornoPractica4y5.md>)
+  - [Rama de trabajo](<docs/practica4/EntornoPractica4y5.md#rama-de-trabajo>)
+  - [Estructura de carpetas](<docs/practica4/EntornoPractica4y5.md#estructura-de-carpetas>)
+  - [Levantamiento del gestor](<docs/practica4/EntornoPractica4y5.md#levantamiento-del-gestor>)
+- Práctica 4
+  - [Tipos de dato y dominios](<docs/practica4/dominios.md>)
+    - [Dominios reutilizables](<docs/practica4/dominios.md#dominios-reutilizables>)
+    - [Tipos por columna](<docs/practica4/dominios.md#tipos-por-columna>)
+    - [Restricciones y reglas del dominio](<docs/practica4/dominios.md#restricciones-y-reglas-del-dominio>)
+  - [Fuente de Datos](<docs/practica4/fuente.md>)
+    - [Dónde se buscó](<docs/practica4/fuente.md#dónde-se-buscó>)
+    - [Decisión](<docs/practica4/fuente.md#decisión>)
+    - [Catálogo del salón de eventos](<docs/practica4/fuente.md#catálogo-del-salón-de-eventos>)
+    - [Datos sintéticos](<docs/practica4/fuente.md#datos-sintéticos>)
+  - [Script de Carga](<docs/practica4/carga.md>)
+    - [Cómo cumple cada requisito](<docs/practica4/carga.md#cómo-cumple-cada-requisito>)
+    - [Salida de las dos ejecuciones](<docs/practica4/carga.md#salida-de-las-dos-ejecuciones>)
+    - [Comparación de tiempos](<docs/practica4/carga.md#comparación-de-tiempos>)
+    - [Registro de rechazos](<docs/practica4/carga.md#registro-de-rechazos>)
+  - [Pruebas de restricciones de dominio](<docs/practica4/pruebas-dominio.md>)
+  - [Usuarios y Permisos](<docs/practica4/permisos.md>)
+    - [Roles y usuarios](<docs/practica4/permisos.md#roles-y-usuarios>)
+    - [Pruebas](<docs/practica4/permisos.md#pruebas>)
+    - [`REVOKE`](<docs/practica4/permisos.md#revoke>)
+    - [Matriz de permisos](<docs/practica4/permisos.md#matriz-de-permisos>)
+- Práctica 5
+  - [Claves foráneas y acciones referenciales](<docs/practica5/referencias.md>)
+    - [Inventario y justificación por clave](<docs/practica5/referencias.md#inventario-y-justificación-por-clave>)
+  - [Pruebas de integridad referencial](<docs/practica5/pruebas-referenciales.md>)
+    - [Pruebas de las acciones referenciales](<docs/practica5/pruebas-referenciales.md#pruebas-de-las-acciones-referenciales>)
+    - [Clave foránea inexistente y orden de carga](<docs/practica5/pruebas-referenciales.md#clave-foránea-inexistente-y-orden-de-carga>)
+    - [Auditorías que deben devolver cero filas](<docs/practica5/pruebas-referenciales.md#auditorías-que-deben-devolver-cero-filas>)
+  - [Edición de Valores y Transacciones](<docs/practica5/edicion-de-valores.md>)
+    - [Inserciones](<docs/practica5/edicion-de-valores.md#1-inserciones>)
+    - [Actualizaciones](<docs/practica5/edicion-de-valores.md#2-actualizaciones>)
+    - [Borrados](<docs/practica5/edicion-de-valores.md#3-borrados>)
+    - [Transacción con punto de recuperación](<docs/practica5/edicion-de-valores.md#4-transacción-con-punto-de-recuperación>)
+    - [Transacción que falla a la mitad](<docs/practica5/edicion-de-valores.md#5-transacción-que-falla-a-la-mitad>)
+  - Trabajo por integrante
+    - [Damas Garnica Adrian](<docs/practica5/integrantes/Damas_Garnica_Adrian.md>)
+    - [Hernandez Barrios Samuel Rodrigo](<docs/practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md>)
 
 ---  
   
+## Prácticas 4 y 5
+
+| Ejercicio | Documento | Archivos ejecutables | Evidencia |
+| :-- | :-- | :-- | :-- |
+| 1.1 y 1.2. Dominios y restricciones | [`dominios.md`](<docs/practica4/dominios.md>) | [`sql/migraciones/`](<sql/migraciones>) | Mensajes en [`pruebas-dominio.md`](<docs/practica4/pruebas-dominio.md>) |
+| 1.3. Fuente de datos | [`fuente.md`](<docs/practica4/fuente.md>) | [`generar_datos.py`](<sql/carga/generar_datos.py>) | [`sql/datos/`](<sql/datos>) |
+| 1.4. Script de carga | [`carga.md`](<docs/practica4/carga.md>) | [`poblar.sh`](<sql/carga/poblar.sh>), [`probar_rechazos.sh`](<sql/carga/probar_rechazos.sh>) y [`comparar_tiempos.sh`](<sql/carga/comparar_tiempos.sh>) | [`evidencias/practica4/`](<evidencias/practica4>) |
+| 1.5. Pruebas de dominio | [`pruebas-dominio.md`](<docs/practica4/pruebas-dominio.md>) | [`inserts-rechazados.sql`](<sql/inserts-rechazados.sql>) y [`pruebas-validas.sql`](<sql/pruebas-validas.sql>) | Mensajes en el documento |
+| 1.6. Usuarios y permisos | [`permisos.md`](<docs/practica4/permisos.md>) | [`099-permisos.sql`](<sql/migraciones/099-permisos.sql>) y [`probar_permisos.sh`](<sql/carga/probar_permisos.sh>) | [`permisos.txt`](<evidencias/practica4/permisos.txt>) |
+| 2.1 y 2.2. Claves foráneas y acciones | [`referencias.md`](<docs/practica5/referencias.md>) | [`esquema.sql`](<sql/esquema.sql>) | Tabla del documento |
+| 2.3. Pruebas de integridad | [`pruebas-referenciales.md`](<docs/practica5/pruebas-referenciales.md>) | [`pruebas-referenciales.sql`](<sql/practica5/pruebas-referenciales.sql>) | [`pruebas-referenciales.txt`](<evidencias/practica5/pruebas-referenciales.txt>) |
+| 2.4. Edición de valores y transacciones | [`edicion-de-valores.md`](<docs/practica5/edicion-de-valores.md>) | [`edicion-de-valores.sql`](<sql/practica5/edicion-de-valores.sql>) y [`edicion-de-valores.sh`](<sql/practica5/edicion-de-valores.sh>) | [`edicion-de-valores.txt`](<evidencias/practica5/edicion-de-valores.txt>) |
+| 2.6. Damas Garnica Adrian | [`Damas_Garnica_Adrian.md`](<docs/practica5/integrantes/Damas_Garnica_Adrian.md>) | [`experimento-2.6-adrian.sql`](<sql/practica5/experimento-2.6-adrian.sql>) y [`experimento-2.6-adrian.sh`](<sql/practica5/experimento-2.6-adrian.sh>) | [`experimento-2.6-adrian.txt`](<evidencias/practica5/experimento-2.6-adrian.txt>) |
+| 2.6. Hernandez Barrios Samuel Rodrigo | [`Hernandez_Barrios_Samuel_Rodrigo.md`](<docs/practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md>) | [`experimento-2.6-samy.sql`](<sql/practica5/experimento-2.6-samy.sql>) | [`experimento-2.6-samy.txt`](<evidencias/practica5/experimento-2.6-samy.txt>) |
+
+El proyecto asignado (los ejercicios 1.7 y 2.5, y las comprobaciones de 2.3 sobre su base) se trabaja y se documenta por separado.
+
+### Cómo se reproduce
+
+Con el contenedor levantado (`make -C sql levantar`) y `sql/carga/.env` ya lleno:
+
+```bash
+# Esquema, migraciones y pruebas de dominio y de integridad, sobre comandas_pruebas
+make -C sql pruebas
+
+# Carga de la base y pruebas de sus usuarios
+sql/carga/poblar.sh
+sql/carga/probar_permisos.sh
+
+# Edición de valores y experimentos individuales, sobre copias de la base
+sql/practica5/edicion-de-valores.sh
+sql/practica5/experimento-2.6-adrian.sh
+make -C sql experimento-samy
+```
+
 ## Documento de Desarrollo
 
 El reporte principal de la práctica se encuentra en:
@@ -181,15 +257,15 @@ El reporte principal de la práctica se encuentra en:
 
 ## Datos
 
-La base se puebla con el menú real del salón de eventos, con recetas estimadas y con datos **sintéticos**: usuarios, eventos, mesas, cuentas, comandas, pagos y anticipos. Además, **92 de los 214 productos y 123 de los 208 ingredientes son inventados** y no existen en el salón. El detalle y las referencias están en [Fuente de Datos](<practica4/fuente.md>).
+La base se puebla con el menú real del salón de eventos, con recetas estimadas y con datos **sintéticos**: usuarios, eventos, mesas, cuentas, comandas, pagos y anticipos. Además, **92 de los 214 productos y 123 de los 208 ingredientes son inventados** y no existen en el salón. El detalle y las referencias están en [Fuente de Datos](<docs/practica4/fuente.md>).
 
-Se puebla con un solo comando, después de copiar `practica4/poblar/.env.example` a `practica4/poblar/.env` y llenar sus valores:
+Se puebla con un solo comando, después de copiar `sql/carga/.env.example` a `sql/carga/.env` y llenar sus valores:
 
 ```bash
-practica4/poblar/poblar.sh
+sql/carga/poblar.sh
 ```
 
-Los datos sintéticos se vuelven a generar con `python3 practica4/poblar/generar_datos.py`. Más detalles en [Script de Carga](<practica4/carga.md>).
+Los datos sintéticos se vuelven a generar con `python3 sql/carga/generar_datos.py`. Más detalles en [Script de Carga](<docs/practica4/carga.md>).
 
 ## Licencia
 
