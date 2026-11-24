@@ -67,7 +67,7 @@ tags:
 ## Parte 1 - El proyecto propio (6 min)
 
 > [!danger] Lo que falta construir: el registro desde la web
-> Hoy **ninguna página web registra datos**. La landing page (`web/index.html`) no tiene formulario y el cliente en Qt trabaja con datos simulados (`Api.qml`). El servidor se está reescribiendo en **C puro** (rama `servidor-c` de `Sistema-de-Comandas`), y todavía no tiene ninguna operación que escriba.
+> **Estado (24-Noviembre-2026): la demo ya funciona de punta a punta.** La app completa (cliente QML compilado a WebAssembly) está en <https://actronix09.github.io/Sistema-de-Comandas/>. Se conecta por `wss://lilyth.tail2ed638.ts.net` al servidor en C de la PC de casa (Fedora CoreOS), que tiene 39 operaciones, avisos en vivo y modo demo. La base de la demo se reinicia cada noche a las 3:30 con `db/demo/datos-demo.sql`.
 >
 > **Plan decidido (23-Noviembre-2026):** el docente pide que **cualquiera** (nosotros, el profe o un compañero) haga un cambio en la base desde el salón **sin instalar nada**, y que el cambio se vea. El sistema final funciona solo en red local, pero la demo es otra cosa:
 >
@@ -78,11 +78,14 @@ tags:
 >   → PostgreSQL de demostración (contenedor, nunca expuesto)
 > ```
 >
-> - [ ] **1.** Servidor en C: una operación de escritura de punta a punta (por ejemplo, crear una comanda) con el rol de la aplicación.
-> - [ ] **2.** Página de la demo en Pages: formulario pequeño que envía `{id, op, datos}` y muestra la respuesta.
-> - [ ] **3.** PC fija (Arch, por SSH): instalar Tailscale (`tailscale up`). El **Funnel no se abre** hasta tener lo del paso 4.
-> - [ ] **4.** Base de demostración, límite de peticiones y revisión del `Origin` (solo `https://actronix09.github.io`).
-> - [ ] **5.** Abrir el Funnel al puerto 9000 y probar desde otra red (datos del celular).
+> - [x] **1.** Servidor en C: todas las operaciones del cliente, con el rol de la aplicación (`app_comandas`).
+> - [x] **2.** Página de la demo en Pages: no un formulario, sino la app completa en modo demo (letrero, botones de acceso rápido, admin limitado).
+> - [x] **3.** PC fija: reinstalada con Fedora CoreOS (repo privado `servidor-lilyth`), con Tailscale en contenedor.
+> - [x] **4.** Base de demostración que se reinicia cada noche y revisión del `Origin` (solo `https://actronix09.github.io`). Falta el límite de peticiones.
+> - [x] La demo carga **los datos de la Práctica 4** (`sql/carga/poblar.sql`, ~62 mil renglones, todas las tablas principales con más de 200) y encima las cuentas de prueba. Así cumple con lo de las prácticas: el evento en curso (la posada) es de hoy y tiene los paquetes Oro y Plata incluidos.
+> - [x] **5.** Funnel abierto al puerto 9000; probado desde internet (17 de 17).
+> - [ ] Probar desde el celular con datos móviles y revisar las pantallas en tamaño teléfono.
+> - [ ] Desactivar la expiración de la llave de `lilyth` en la consola de Tailscale.
 > - [ ] **Plan B:** el mismo contenedor en la laptop, por si se va la luz o el internet en casa.
 > - [ ] Preguntarle al docente si le parece bien Tailscale Funnel.
 
@@ -193,3 +196,14 @@ tags:
 ---
 
 [[Bases de Datos|← Índice]] | [[Desarrollo Prácticas 6, 7 y 8|← Prácticas 6, 7 y 8]]
+
+> [!todo]+ Migración 003: cobro de los paquetes (24-Noviembre-2026)
+> Lo que incluye el paquete de un evento cuesta 0 hasta la cantidad acordada. Al acabarse, cada producto hace lo que decidió el organizador:
+> - `cobrar`: se cobra en su cuenta.
+> - `bloquear`: ya no se vende.
+> - `anfitrion`: se carga a la cuenta del anfitrión.
+>
+> Los acuerdos que ya existían quedan en `aparte` y no cambian. Están en `sql/migraciones/003-cobro-paquetes.sql`, con la prueba válida 16 y los rechazos 37 a 39. Ya se documentaron en `docs/practica3/DiccionarioDeDatos.md` y `ModeloRelacional.md`.
+> - [ ] Correr `make -C sql pruebas` con la migración (39 rechazos y 16 válidas).
+> - [ ] Regenerar `modelo/diagrama-relacional.svg` y `.png` con las columnas nuevas: `evento.secuencial_anfitrion`, `acuerdo.modo_cobro` y `comanda.tipo_cobro`.
+> - [ ] Que Samy revise el disparador `fijar_precio_cobrado` y la vista `v_cuenta`.
