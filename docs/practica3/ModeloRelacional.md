@@ -30,7 +30,7 @@ Notación: clave primaria <ins>subrayada</ins>, clave foránea en *cursiva* y �
 
 | Tabla | Columnas |
 | :-- | :-- |
-| **evento** | <ins>numero_evento</ins> `INTEGER`, fecha `DATE`, fecha_dia ⚙ `SMALLINT`, fecha_mes ⚙ `SMALLINT`, fecha_anio ⚙ `SMALLINT`, tipo_evento `VARCHAR(40)`, numero_asistentes `INTEGER`, estado `VARCHAR(12)` |
+| **evento** | <ins>numero_evento</ins> `INTEGER`, fecha `DATE`, fecha_dia ⚙ `SMALLINT`, fecha_mes ⚙ `SMALLINT`, fecha_anio ⚙ `SMALLINT`, tipo_evento `VARCHAR(40)`, numero_asistentes `INTEGER`, estado `VARCHAR(12)`, *secuencial_anfitrion* `SMALLINT` |
 | **evento_organizador** | *<ins>numero_evento</ins>* `INTEGER`, <ins>organizador</ins> `VARCHAR(120)` |
 | **usuario** | <ins>id_usuario</ins> `INTEGER`, nombre `VARCHAR(120)`, usuario `VARCHAR(40)`, fecha_nacimiento `DATE`, fecha_nacimiento_dia ⚙ `SMALLINT`, fecha_nacimiento_mes ⚙ `SMALLINT`, fecha_nacimiento_anio ⚙ `SMALLINT`, contrasena_hash `VARCHAR(255)`, rol `VARCHAR(12)` |
 | **mesero** | *<ins>id_usuario</ins>* `INTEGER`, *rol* `VARCHAR(12)`, turno_asignado `VARCHAR(12)` |
@@ -43,8 +43,8 @@ Notación: clave primaria <ins>subrayada</ins>, clave foránea en *cursiva* y �
 | **receta** | *<ins>id_producto</ins>* `INTEGER`, *<ins>id_ingrediente</ins>* `INTEGER`, cantidad_por_porcion `NUMERIC(10,3)` |
 | **paquete** | <ins>numero_paquete</ins> `INTEGER`, monto `NUMERIC(10,2)`, detalles `VARCHAR(255)` |
 | **paquete_producto** | *<ins>numero_paquete</ins>* `INTEGER`, *<ins>id_producto</ins>* `INTEGER` |
-| **acuerdo** | *<ins>numero_evento</ins>* `INTEGER`, *<ins>numero_paquete</ins>* `INTEGER`, *<ins>id_producto</ins>* `INTEGER`, cantidad_acordada `INTEGER` |
-| **comanda** | <ins>id_comanda</ins> `INTEGER`, fecha_hora `TIMESTAMPTZ`, fecha_hora_dia ⚙ `SMALLINT`, fecha_hora_mes ⚙ `SMALLINT`, fecha_hora_anio ⚙ `SMALLINT`, fecha_hora_hora ⚙ `TIME`, precio_cobrado `NUMERIC(10,2)`, estado `VARCHAR(14)`, detalles `VARCHAR(255)`, *numero_evento* `INTEGER`, *secuencial* `SMALLINT`, *id_mesero* `INTEGER`, *id_producto* `INTEGER`, *id_bar_cocina* `INTEGER`, *id_cajero_cancela* `INTEGER` |
+| **acuerdo** | *<ins>numero_evento</ins>* `INTEGER`, *<ins>numero_paquete</ins>* `INTEGER`, *<ins>id_producto</ins>* `INTEGER`, cantidad_acordada `INTEGER`, modo_cobro `VARCHAR(9)` |
+| **comanda** | <ins>id_comanda</ins> `INTEGER`, fecha_hora `TIMESTAMPTZ`, fecha_hora_dia ⚙ `SMALLINT`, fecha_hora_mes ⚙ `SMALLINT`, fecha_hora_anio ⚙ `SMALLINT`, fecha_hora_hora ⚙ `TIME`, precio_cobrado `NUMERIC(10,2)`, tipo_cobro `VARCHAR(9)`, estado `VARCHAR(14)`, detalles `VARCHAR(255)`, *numero_evento* `INTEGER`, *secuencial* `SMALLINT`, *id_mesero* `INTEGER`, *id_producto* `INTEGER`, *id_bar_cocina* `INTEGER`, *id_cajero_cancela* `INTEGER` |
 | **pago** | <ins>numero_pago</ins> `INTEGER`, monto `NUMERIC(10,2)`, forma_pago `VARCHAR(13)`, fecha_hora `TIMESTAMPTZ`, fecha_hora_dia ⚙ `SMALLINT`, fecha_hora_mes ⚙ `SMALLINT`, fecha_hora_anio ⚙ `SMALLINT`, fecha_hora_hora ⚙ `TIME`, *numero_evento* `INTEGER`, *secuencial* `SMALLINT`, *id_cajero* `INTEGER`, *id_mesero_propina* `INTEGER`, monto_propina `NUMERIC(10,2)` |
 | **anticipo** | <ins>id_anticipo</ins> `INTEGER`, monto `NUMERIC(10,2)`, fecha `DATE`, fecha_dia ⚙ `SMALLINT`, fecha_mes ⚙ `SMALLINT`, fecha_anio ⚙ `SMALLINT`, *numero_evento* `INTEGER` |
 
@@ -79,6 +79,9 @@ Las 25 claves foráneas del esquema, tal como quedaron registradas en el catálo
 | 23 | `fk_pago_cajero` | pago | id_cajero | cajero_admin (id_usuario) | RESTRICT | RESTRICT |
 | 24 | `fk_pago_mesero_propina` | pago | id_mesero_propina | mesero (id_usuario) | RESTRICT | RESTRICT |
 | 25 | `fk_anticipo_evento` | anticipo | numero_evento | evento (numero_evento) | RESTRICT | CASCADE |
+| 26 | `fk_evento_cuenta_anfitrion` | evento | numero_evento, secuencial_anfitrion | cuenta (numero_evento, secuencial) | RESTRICT | RESTRICT |
+
+La 26 la agrega la migración 003 (cobro de los paquetes): la cuenta del anfitrión es una cuenta del mismo evento, y por eso la clave foránea es compuesta. Es opcional (`secuencial_anfitrion` admite NULL), así que no hace falta para crear un evento, cuando todavía no tiene cuentas.
 
 El criterio de cada acción está en [Reglas de Transformación — Acciones referenciales](<ReglasDeTransformacion.md#acciones-referenciales>).
 

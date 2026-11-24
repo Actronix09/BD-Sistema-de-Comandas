@@ -41,6 +41,7 @@ Evento atendido en el salón (entidad fuerte).
 | evento | `tipo_evento` | `VARCHAR(40)` | NOT NULL | Tipo de evento (boda, XV años, empresarial, etc.). |
 | evento | `numero_asistentes` | `INTEGER` | NOT NULL<br>`ck_evento_asistentes`: CHECK (numero_asistentes > 0) | Número de invitados esperados. |
 | evento | `estado` | `VARCHAR(12)` | NOT NULL<br>DEFAULT 'programado'<br>`ck_evento_estado`: CHECK (estado IN ('programado', 'en_curso', 'finalizado', 'cancelado')) | Estado del evento: programado, en_curso, finalizado o cancelado. |
+| evento | `secuencial_anfitrion` | `SMALLINT` | NULL<br>`fk_evento_cuenta_anfitrion`: FK (numero_evento, secuencial_anfitrion) → cuenta · ON DELETE RESTRICT · ON UPDATE RESTRICT | Cuenta del anfitrión dentro del evento; recibe los excedentes de los productos en modo `anfitrion` (migración 003). |
 
 ## evento_organizador
 
@@ -186,6 +187,7 @@ Lo pactado de cada producto de cada paquete para un evento (relación ternaria A
 | acuerdo | `numero_paquete` | `INTEGER` | PK<br>FK → paquete · ON DELETE RESTRICT · ON UPDATE CASCADE | Paquete contratado. |
 | acuerdo | `id_producto` | `INTEGER` | PK<br>FK → producto · ON DELETE RESTRICT · ON UPDATE CASCADE | Producto acordado. |
 | acuerdo | `cantidad_acordada` | `INTEGER` | NOT NULL<br>`ck_acuerdo_cantidad`: CHECK (cantidad_acordada > 0) | Cantidad pactada (atributo de la relación). |
+| acuerdo | `modo_cobro` | `VARCHAR(9)` | NOT NULL<br>DEFAULT 'aparte'<br>`ck_acuerdo_modo_cobro`: CHECK (modo_cobro IN ('aparte', 'cobrar', 'bloquear', 'anfitrion')) | Cómo se cobra el producto en el evento: `aparte` (no incluido); o incluido hasta la cantidad acordada y, al acabarse, `cobrar`, `bloquear` (ya no se vende) o `anfitrion` (lo paga la cuenta del anfitrión). Migración 003. |
 
 ## comanda
 
@@ -199,7 +201,8 @@ Pedido de un producto levantado por un mesero (entidad fuerte).
 | comanda | `fecha_hora_mes` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Mes; se calcula de fecha_hora. |
 | comanda | `fecha_hora_anio` | `SMALLINT` | GENERATED ALWAYS … STORED | Componente Año; se calcula de fecha_hora. |
 | comanda | `fecha_hora_hora` | `TIME` | GENERATED ALWAYS … STORED | Componente Hora; se calcula de fecha_hora. |
-| comanda | `precio_cobrado` | `NUMERIC(10,2)` | NOT NULL<br>`ck_comanda_precio`: CHECK (precio_cobrado >= 0) | Precio copiado del producto al levantar la comanda; no cambia después. |
+| comanda | `precio_cobrado` | `NUMERIC(10,2)` | NOT NULL<br>`ck_comanda_precio`: CHECK (precio_cobrado >= 0) | Precio copiado del producto al levantar la comanda (0 si va incluida en el paquete del evento); no cambia después. |
+| comanda | `tipo_cobro` | `VARCHAR(9)` | NOT NULL<br>DEFAULT 'normal'<br>`ck_comanda_tipo_cobro`: CHECK (tipo_cobro IN ('normal', 'paquete', 'anfitrion'))<br>`ck_comanda_paquete_sin_costo`: CHECK (tipo_cobro <> 'paquete' OR precio_cobrado = 0) | Cómo se cobró: `normal` (precio de catálogo), `paquete` (incluida, precio 0) o `anfitrion` (la paga la cuenta del anfitrión). Lo fija `tg_comanda_precio` al levantarla y no cambia (migración 003). |
 | comanda | `estado` | `VARCHAR(14)` | NOT NULL<br>DEFAULT 'pendiente'<br>`ck_comanda_cancelacion`: CHECK ((estado = 'cancelada') = (id_cajero_cancela IS NOT NULL))<br>`ck_comanda_estado`: CHECK (estado IN ('pendiente', 'en_preparacion', 'lista', 'entregada', 'cancelada'))<br>`ck_comanda_preparacion`: CHECK (id_bar_cocina IS NOT NULL OR estado IN ('pendiente', 'cancelada')) | Estado: pendiente, en_preparacion, lista (listo para entregar), entregada o cancelada. |
 | comanda | `detalles` | `VARCHAR(255)` | NULL | Indicaciones del cliente (opcional). |
 | comanda | `numero_evento` | `INTEGER` | FK → cuenta (numero_evento, secuencial) · ON DELETE RESTRICT · ON UPDATE CASCADE<br>NOT NULL | Evento de la cuenta que genera la comanda (relación Genera). |
@@ -252,7 +255,7 @@ Los atributos derivados no son columnas de ninguna tabla; se consultan en estas 
 | Vista | Columna | Tipo | Cálculo | Descripción |
 | :-- | :-- | :-- | :-- | :-- |
 | v_evento | `numero_mesas` | `BIGINT` | `COUNT(*)` de mesa por evento | Número de mesas del evento |
-| v_cuenta | `total_acumulado` | `NUMERIC(10,2)` | `SUM(precio_cobrado)` de sus comandas no canceladas | Total acumulado de la cuenta |
+| v_cuenta | `total_acumulado` | `NUMERIC(10,2)` | `SUM(precio_cobrado)` de sus comandas no canceladas, sin las de `tipo_cobro = 'anfitrion'`; en la cuenta del anfitrión, más todas las del evento con ese tipo | Total acumulado de la cuenta |
 | v_cuenta | `total_pagado` | `NUMERIC(10,2)` | `SUM(monto - COALESCE(monto_propina, 0))` de sus pagos | Lo que se ha pagado del consumo, sin propinas |
 | v_cuenta | `saldo` | `NUMERIC(10,2)` | `total_acumulado - total_pagado` | Lo que falta por pagar |
 | v_usuario | `edad` | `SMALLINT` | Años de `age(CURRENT_DATE, fecha_nacimiento)` | Edad del usuario |
@@ -263,6 +266,16 @@ Los atributos derivados no son columnas de ninguna tabla; se consultan en estas 
 ### Validaciones del cobro
 
 `ck_pago_propina_limite` impide que la propina supere el monto del pago. `tg_pago_saldo` compara el abono sin propina con el saldo antes de insertar un pago. `tg_cuenta_cierre` exige saldo cero y comandas entregadas o canceladas al cerrar. `tg_comanda_cuenta_abierta` impide insertar pedidos en cuentas cerradas.
+
+### Cobro de los paquetes (migración 003)
+
+Lo que incluye un paquete del evento se sirve sin costo hasta la cantidad acordada. `tg_comanda_precio` (función `fijar_precio_cobrado`) suma la `cantidad_acordada` de las filas de `acuerdo` del evento y del producto con `modo_cobro <> 'aparte'`, y cuenta las comandas de ese producto con `tipo_cobro = 'paquete'` que no están canceladas. Si todavía quedan, la comanda queda en `paquete` con precio 0. Si ya se acabaron, aplica el modo más estricto de esas filas:
+
+- `cobrar`: precio de catálogo en su propia cuenta.
+- `bloquear`: rechaza la comanda (rechazo 37).
+- `anfitrion`: precio de catálogo, pagado por la cuenta `evento.secuencial_anfitrion`. Se rechaza si el evento no tiene esa cuenta o si ya está cerrada (rechazo 39).
+
+Las filas del acuerdo se bloquean (`FOR UPDATE`) para que dos meseros a la vez no se lleven la misma última porción. Una comanda incluida que se cancela devuelve su lugar. El tipo de cobro no se puede cambiar después (rechazo 38). El valor por omisión `aparte` mantiene el comportamiento anterior para los acuerdos que ya existían (prueba válida 16).
 
 ### Validaciones de catalogo y operacion
 
