@@ -154,3 +154,20 @@ VALUES ('Usuario formato inválido', 'ana maria', DATE '2000-01-01', 'hashDePrue
 \warn '--- 36. Evento con estado NULL explícito (DEFAULT no sustituye NULL)'
 INSERT INTO evento (fecha, tipo_evento, numero_asistentes, estado)
 VALUES (DATE '2026-11-05', 'prueba', 1, NULL);
+
+\warn '--- 37. Pedir más de lo acordado cuando el organizador decidió no vender más (migración 003)'
+BEGIN;
+UPDATE acuerdo SET modo_cobro = 'bloquear', cantidad_acordada = 1 WHERE numero_evento = 17 AND id_producto = 4;
+INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto) VALUES (17, 2, 1, 4);
+INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto) VALUES (17, 2, 1, 4);
+ROLLBACK;
+
+\warn '--- 38. Cambiar el tipo de cobro de una comanda ya levantada (se fija al levantarla)'
+UPDATE comanda SET tipo_cobro = 'paquete' WHERE id_comanda = 3;
+
+\warn '--- 39. Excedente para el anfitrión en un evento sin cuenta del anfitrión'
+BEGIN;
+UPDATE acuerdo SET modo_cobro = 'anfitrion', cantidad_acordada = 1 WHERE numero_evento = 17 AND id_producto = 4;
+INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto) VALUES (17, 2, 1, 4);
+INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto) VALUES (17, 2, 1, 4);
+ROLLBACK;

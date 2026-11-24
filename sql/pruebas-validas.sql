@@ -495,4 +495,60 @@ BEGIN;
     END $$;
     \warn '✓ 15 de 15'
 
+    \warn '=== 16. Lo que incluye el paquete del evento cuesta 0 hasta lo acordado (migración 003)'
+    DO $$
+    DECLARE
+        v_saldo_antes      NUMERIC(10,2);
+        v_anfitrion_antes  NUMERIC(10,2);
+        v_saldo            NUMERIC(10,2);
+        v_tipos            TEXT;
+        v_id           INTEGER;
+    BEGIN
+        -- Modo cobrar: el pastel del paquete 2 trae 2 porciones incluidas
+        UPDATE acuerdo SET modo_cobro = 'cobrar', cantidad_acordada = 2
+         WHERE numero_evento = 17 AND id_producto = 4;
+        SELECT saldo INTO v_saldo_antes FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 2;
+
+        -- Dos en la misma orden (un solo INSERT) y una más: 0, 0 y 95
+        INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto)
+        VALUES (17, 2, 1, 4), (17, 2, 1, 4);
+        INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto)
+        VALUES (17, 2, 1, 4) RETURNING id_comanda INTO v_id;
+        SELECT string_agg(tipo_cobro || ':' || precio_cobrado, ',' ORDER BY id_comanda) INTO v_tipos
+          FROM comanda WHERE numero_evento = 17 AND secuencial = 2 AND id_producto = 4 AND tipo_cobro <> 'normal'
+            OR id_comanda = v_id;
+        ASSERT v_tipos = 'paquete:0.00,paquete:0.00,normal:95.00', format('se cobró %s', v_tipos);
+        SELECT saldo INTO v_saldo FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 2;
+        ASSERT v_saldo = v_saldo_antes + 95.00, format('el saldo subió %s, se esperaba 95.00', v_saldo - v_saldo_antes);
+
+        -- Cancelar una incluida devuelve su lugar: la siguiente vuelve a costar 0
+        UPDATE comanda SET estado = 'cancelada', id_cajero_cancela = 5
+         WHERE id_comanda = (SELECT min(id_comanda) FROM comanda
+                              WHERE numero_evento = 17 AND id_producto = 4 AND tipo_cobro = 'paquete');
+        INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto)
+        VALUES (17, 2, 1, 4) RETURNING id_comanda INTO v_id;
+        ASSERT (SELECT precio_cobrado FROM comanda WHERE id_comanda = v_id) = 0, 'no regresó la porción cancelada';
+
+        -- Modo anfitrion: el refresco (paquetes 1 y 2, una porción en cada uno)
+        -- se pasa a la cuenta Padrinos cuando se acaban las 2 incluidas. Novios
+        -- no sirve de anfitrión aquí: el caso 13 la deja cerrada.
+        UPDATE acuerdo SET modo_cobro = 'anfitrion', cantidad_acordada = 1
+         WHERE numero_evento = 17 AND id_producto = 1;
+        UPDATE evento SET secuencial_anfitrion = 2 WHERE numero_evento = 17;
+        SELECT saldo INTO v_anfitrion_antes FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 2;
+        SELECT saldo INTO v_saldo_antes FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 3;
+        INSERT INTO comanda (numero_evento, secuencial, id_mesero, id_producto)
+        VALUES (17, 3, 2, 1), (17, 3, 2, 1), (17, 3, 2, 1);
+        SELECT string_agg(tipo_cobro, ',' ORDER BY id_comanda) INTO v_tipos
+          FROM (SELECT * FROM comanda WHERE numero_evento = 17 AND secuencial = 3 AND id_producto = 1
+                 ORDER BY id_comanda DESC LIMIT 3) AS ultimas;
+        ASSERT v_tipos = 'paquete,paquete,anfitrion', format('tipos de cobro: %s', v_tipos);
+        SELECT saldo INTO v_saldo FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 3;
+        ASSERT v_saldo = v_saldo_antes, 'el invitado pagó el excedente del anfitrión';
+        SELECT saldo INTO v_saldo FROM v_cuenta WHERE numero_evento = 17 AND secuencial = 2;
+        ASSERT v_saldo = v_anfitrion_antes + 35.00,
+               format('la cuenta del anfitrión subió %s, se esperaba 35.00', v_saldo - v_anfitrion_antes);
+    END $$;
+    \warn '✓ 16 de 16'
+
 ROLLBACK;
