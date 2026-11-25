@@ -1,36 +1,74 @@
-# Prácticas 4 y 5
+# Sistema de Comandas · Bases de Datos
 
-**Sitio del proyecto:** <https://actronix09.github.io/BD-Sistema-de-Comandas/> 
+**Demo en línea:** <https://actronix09.github.io/Sistema-de-Comandas/>
+
+**Sitio del proyecto:** <https://actronix09.github.io/BD-Sistema-de-Comandas/>
 
 **Aplicación del sistema de comandas:** <https://github.com/Actronix09/Sistema-de-Comandas>
- 
----
 
 |Alumnos|Boleta|@GitHub|
 |---|---|---|
 |Damas Garnica Adrian|2034630785|[@Actronix09](<https://github.com/Actronix09>)|
 |Hernandez Barrios Samuel Rodrigo|2026630008|[@Samuel-Hdzx07](<https://github.com/Samuel-Hdzx07>)|
 
-**Grupo:** 3CV4
-
-**Carrera:** Ingenieria en Sistemas Computacionales
-
-**Proyecto:** Sistema de Comandas Profesional
-
-**Proyecto Asignado:** 
-
-- **Visualización de Impacto de Sismos**
-- **Repositorio original:** [gabrielhuav/Seismic-Data-Visualization-System](<https://github.com/gabrielhuav/Seismic-Data-Visualization-System>)
-- **Fork del equipo:** [Samuel-Hdzx07/Proyecto-Asig-Sismos](<https://github.com/Samuel-Hdzx07/Proyecto-Asig-Sismos>)
-- **Identificador de la confirmación del fork:** `8569667cf4f46fab640dba3f82a7b324ca7efaf7`
+**Grupo:** 3CV4 · **Carrera:** Ingeniería en Sistemas Computacionales · **Proyecto:** Sistema de Comandas Profesional · **Proyecto asignado:** Visualización del impacto de sismos
 
 ---
 
-En el siguiente repositorio se presenta el trabajo de investigación y desarrollo correspondiente a las prácticas de la asignatura de *Bases de Datos*.
+## Proyecto final
+
+### 1. Proyecto propio: Sistema de Comandas
+
+| Qué | Dónde | Estado |
+| :-- | :-- | :-- |
+| Aplicación web | [Demo en línea](<https://actronix09.github.io/Sistema-de-Comandas/>). Se abre en el navegador sin instalar nada. Los botones del inicio entran como mesero, cocina, caja o administrador (contraseña `Demo_123.`) | Lista |
+| Ejecutarla localmente | [Levantar la base y el servidor](<https://github.com/Actronix09/Sistema-de-Comandas#levantar-la-base-y-el-servidor>), en el repositorio de la aplicación | Lista |
+| Camino del dato | Navegador → GitHub Pages → `wss://` (Tailscale Funnel) → servidor en C → PostgreSQL. Detalle en [Demo pública](<https://github.com/Actronix09/Sistema-de-Comandas#demo-pública>) | Lista |
+| Esquema | [`sql/esquema.sql`](<sql/esquema.sql>), [`sql/migraciones/`](<sql/migraciones>) y el [diagrama relacional](<modelo/diagrama-relacional.png>) | Lista |
+| Scripts de carga | [`sql/carga/poblar.sh`](<sql/carga/poblar.sh>), que llena la base con los datos de la Práctica 4 | Lista |
+| Evidencia del registro | Capturas del formulario y del `SELECT` que encuentra la fila | Pendiente |
+| Práctica integrada 6, 7 y 8 | `normalizacion.md`, `algebra.md` y el grupo de RelaX | Pendiente |
+
+### 2. Proyecto asignado: Sismos
+
+| Qué | Dónde | Estado |
+| :-- | :-- | :-- |
+| Sistema actual del artículo | [gabrielhuav/Seismic_Data_Geosciences](<https://github.com/gabrielhuav/Seismic_Data_Geosciences>), publicado en <https://gabrielhuav.github.io/Seismic_Data_Geosciences/> | Referencia |
+| Fork del equipo | [Samuel-Hdzx07/Proyecto-Asig-Sismos](<https://github.com/Samuel-Hdzx07/Proyecto-Asig-Sismos>), publicado en <https://samuel-hdzx07.github.io/Proyecto-Asig-Sismos/>. Viene del repositorio del primer parcial, [Seismic-Data-Visualization-System](<https://github.com/gabrielhuav/Seismic-Data-Visualization-System>), confirmación `8569667` | Del primer parcial |
+| Fork del repositorio actual | Fork de `Seismic_Data_Geosciences` | Pendiente |
+| Instrucciones de montaje | [README del fork](<https://github.com/Samuel-Hdzx07/Proyecto-Asig-Sismos#uso-del-dashboard>) | Del primer parcial |
+| Tres consultas | Pregunta, álgebra relacional, árbol, SQL y resultado de cada una | Pendiente |
+
+### 3. Artículo y exposición
+
+**Referencia (APA 7):**
+
+Villa Vargas, J. M., y Hurtado Avilés, G. (2026). *A browser-based seismic data observatory for detecting and comparing earthquake sequences across North American catalogues* [Manuscrito R4 enviado para su publicación]. GitHub. <https://github.com/gabrielhuav/Seismic_Data_Geosciences/blob/main/paper/manuscript/out/Seismic_CG_manuscript_R4.pdf>
+
+Datos y código: <https://doi.org/10.5281/zenodo.24361244>
+
+| Qué | Estado |
+| :-- | :-- |
+| Dos propuestas de mejora | Pendiente |
+| Presentación | Pendiente |
+
+**Aportaciones de cada integrante:**
+
+| Integrante | Aportaciones |
+| :-- | :-- |
+| Damas Garnica Adrian | Entorno, fuente de datos y carga, usuarios y permisos, edición de valores y transacciones (Prácticas 4 y 5). Migración 003 del cobro de los paquetes. Aplicación completa: cliente en Qt, servidor en C, demo en línea y servidor de casa. Reporte en LaTeX y sitio del proyecto |
+| Hernandez Barrios Samuel Rodrigo | Migraciones de dominios y formato de usuario, pruebas de dominio, claves foráneas y acciones referenciales, y pruebas de integridad (Prácticas 4 y 5). Reglas del cobro. Fork de Sismos con su documentación y el cambio de réplicas |
+| Los dos | Experimentos individuales de la Práctica 5 (2.6) |
 
 ---
 
-## Indice
+## Prácticas 1 a 5
+
+En este repositorio está el trabajo de investigación y desarrollo de las prácticas de la asignatura de *Bases de Datos*.
+
+<details>
+<summary><b>Índice de los documentos</b></summary>
+
 
 - [Introducción](<docs/practica1/Introduccion.md>)
   - [Planteamiento del problema](<docs/practica1/Introduccion.md#planteamiento-del-problema>)
@@ -203,9 +241,9 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
     - [Damas Garnica Adrian](<docs/practica5/integrantes/Damas_Garnica_Adrian.md>)
     - [Hernandez Barrios Samuel Rodrigo](<docs/practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md>)
 
----  
-  
-## Prácticas 4 y 5
+</details>
+
+### Prácticas 4 y 5
 
 | Ejercicio | Documento | Archivos ejecutables | Evidencia |
 | :-- | :-- | :-- | :-- |
@@ -222,11 +260,11 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
 
 El proyecto asignado (los ejercicios 1.7 y 2.5, y las comprobaciones de 2.3 sobre su base) se trabaja y se documenta por separado.
 
-### Proyecto final: cobro de los paquetes
+#### Migración 003: cobro de los paquetes
 
 La migración [`003-cobro-paquetes.sql`](<sql/migraciones/003-cobro-paquetes.sql>) hace que lo incluido en el paquete de un evento cueste 0 hasta la cantidad acordada; al acabarse, cada producto se cobra, se bloquea o se carga a la cuenta del anfitrión. Agrega las columnas `acuerdo.modo_cobro`, `comanda.tipo_cobro` y `evento.secuencial_anfitrion` y la clave foránea 26. Se prueba con la prueba válida 16 y los rechazos 37 a 39 (`make -C sql pruebas`), y está documentada en el [Diccionario de Datos](<docs/practica3/DiccionarioDeDatos.md>), el [Modelo Relacional](<docs/practica3/ModeloRelacional.md>), [`dominios.md`](<docs/practica4/dominios.md>) y [`referencias.md`](<docs/practica5/referencias.md>).
 
-### Cómo se reproduce
+#### Cómo se reproduce
 
 Con el contenedor levantado (`make -C sql levantar`) y `sql/carga/.env` ya lleno:
 
