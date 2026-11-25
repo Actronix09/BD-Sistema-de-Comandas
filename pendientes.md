@@ -164,24 +164,24 @@ tags:
 
 > [!todo]+ Antes del turno, visibles **al inicio** del README del repositorio
 > **1. Proyecto propio**
-> - [x] Enlace a la aplicación web o instrucciones para ejecutarla localmente.
-> - [x] Esquema y scripts.
-> - [ ] **Evidencia del registro**.
+> - [ ] Enlace a la aplicación web o instrucciones para ejecutarla localmente.
+> - [ ] Esquema, scripts y **evidencia del registro**.
 > - [ ] Archivos de la práctica integrada: `normalizacion.md`, `algebra.md` y el grupo de RelaX.
 >
 > **2. Proyecto asignado**
-> - [x] Enlace al **fork** y a su **versión publicada** (el fork viejo; falta el del repositorio actual).
-> - [x] Instrucciones de montaje (las del fork viejo).
+> - [ ] Enlace al **fork** y a su **versión publicada**.
+> - [ ] Instrucciones de montaje.
 > - [ ] Archivo con las tres consultas, sus árboles, el SQL y los resultados.
 >
 > **3. Artículo y exposición**
-> - [x] Referencia en **APA 7** con enlace directo al manuscrito R4 y el DOI de Zenodo.
+> - [ ] Referencia en **APA 7** con enlace directo al manuscrito y DOI si está disponible.
 > - [ ] Las dos propuestas de mejora.
 > - [ ] La **presentación** utilizada.
-> - [x] Las **aportaciones de cada integrante**.
+> - [ ] Las **aportaciones de cada integrante**.
 
-> [!note] El README actual (24-Noviembre-2026)
-> Ya empieza con la sección **Proyecto final** y sus tres bloques, cada uno con una tabla de qué se entrega, dónde está y si está listo o pendiente. El índice de las Prácticas 1 a 5 quedó debajo, plegado. Al terminar cada pendiente hay que cambiar su estado en el README.
+> [!note] El README actual (25-Noviembre-2026)
+> El README es lo que el profesor revisa para calificar las prácticas, así que ya está ordenado **por práctica** (1, 2, 3, 4 y 5), cada una con sus documentos, scripts, evidencias y diagramas. También tiene la sección de las **Prácticas 6, 7 y 8** con sus entregables en «Pendiente».
+> - [ ] Decidir cómo quedan los tres bloques de la exposición «al inicio del README» sin tapar la documentación de las prácticas. Se agregan cuando se acerque la exposición final.
 
 ---
 

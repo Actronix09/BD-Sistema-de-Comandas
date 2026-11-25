@@ -1,74 +1,47 @@
-# Sistema de Comandas · Bases de Datos
-
-**Demo en línea:** <https://actronix09.github.io/Sistema-de-Comandas/>
+# Sistema de Comandas · Prácticas de Bases de Datos
 
 **Sitio del proyecto:** <https://actronix09.github.io/BD-Sistema-de-Comandas/>
 
-**Aplicación del sistema de comandas:** <https://github.com/Actronix09/Sistema-de-Comandas>
+**Aplicación del sistema de comandas:** <https://github.com/Actronix09/Sistema-de-Comandas> · **Demo en línea:** <https://actronix09.github.io/Sistema-de-Comandas/>
+
+---
 
 |Alumnos|Boleta|@GitHub|
 |---|---|---|
 |Damas Garnica Adrian|2034630785|[@Actronix09](<https://github.com/Actronix09>)|
 |Hernandez Barrios Samuel Rodrigo|2026630008|[@Samuel-Hdzx07](<https://github.com/Samuel-Hdzx07>)|
 
-**Grupo:** 3CV4 · **Carrera:** Ingeniería en Sistemas Computacionales · **Proyecto:** Sistema de Comandas Profesional · **Proyecto asignado:** Visualización del impacto de sismos
+**Grupo:** 3CV4
+
+**Carrera:** Ingenieria en Sistemas Computacionales
+
+**Proyecto:** Sistema de Comandas Profesional
+
+**Proyecto Asignado:** 
+
+- **Visualización de Impacto de Sismos**
+- **Repositorio original:** [gabrielhuav/Seismic-Data-Visualization-System](<https://github.com/gabrielhuav/Seismic-Data-Visualization-System>)
+- **Fork del equipo:** [Samuel-Hdzx07/Proyecto-Asig-Sismos](<https://github.com/Samuel-Hdzx07/Proyecto-Asig-Sismos>)
+- **Identificador de la confirmación del fork:** `8569667cf4f46fab640dba3f82a7b324ca7efaf7`
 
 ---
 
-## Proyecto final
+En el siguiente repositorio se presenta el trabajo de investigación y desarrollo correspondiente a las prácticas de la asignatura de *Bases de Datos*.
 
-### 1. Proyecto propio: Sistema de Comandas
+## Índice
 
-| Qué | Dónde | Estado |
-| :-- | :-- | :-- |
-| Aplicación web | [Demo en línea](<https://actronix09.github.io/Sistema-de-Comandas/>). Se abre en el navegador sin instalar nada. Los botones del inicio entran como mesero, cocina, caja o administrador (contraseña `Demo_123.`) | Lista |
-| Ejecutarla localmente | [Levantar la base y el servidor](<https://github.com/Actronix09/Sistema-de-Comandas#levantar-la-base-y-el-servidor>), en el repositorio de la aplicación | Lista |
-| Camino del dato | Navegador → GitHub Pages → `wss://` (Tailscale Funnel) → servidor en C → PostgreSQL. Detalle en [Demo pública](<https://github.com/Actronix09/Sistema-de-Comandas#demo-pública>) | Lista |
-| Esquema | [`sql/esquema.sql`](<sql/esquema.sql>), [`sql/migraciones/`](<sql/migraciones>) y el [diagrama relacional](<modelo/diagrama-relacional.png>) | Lista |
-| Scripts de carga | [`sql/carga/poblar.sh`](<sql/carga/poblar.sh>), que llena la base con los datos de la Práctica 4 | Lista |
-| Evidencia del registro | Capturas del formulario y del `SELECT` que encuentra la fila | Pendiente |
-| Práctica integrada 6, 7 y 8 | `normalizacion.md`, `algebra.md` y el grupo de RelaX | Pendiente |
-
-### 2. Proyecto asignado: Sismos
-
-| Qué | Dónde | Estado |
-| :-- | :-- | :-- |
-| Sistema actual del artículo | [gabrielhuav/Seismic_Data_Geosciences](<https://github.com/gabrielhuav/Seismic_Data_Geosciences>), publicado en <https://gabrielhuav.github.io/Seismic_Data_Geosciences/> | Referencia |
-| Fork del equipo | [Samuel-Hdzx07/Proyecto-Asig-Sismos](<https://github.com/Samuel-Hdzx07/Proyecto-Asig-Sismos>), publicado en <https://samuel-hdzx07.github.io/Proyecto-Asig-Sismos/>. Viene del repositorio del primer parcial, [Seismic-Data-Visualization-System](<https://github.com/gabrielhuav/Seismic-Data-Visualization-System>), confirmación `8569667` | Del primer parcial |
-| Fork del repositorio actual | Fork de `Seismic_Data_Geosciences` | Pendiente |
-| Instrucciones de montaje | [README del fork](<https://github.com/Samuel-Hdzx07/Proyecto-Asig-Sismos#uso-del-dashboard>) | Del primer parcial |
-| Tres consultas | Pregunta, álgebra relacional, árbol, SQL y resultado de cada una | Pendiente |
-
-### 3. Artículo y exposición
-
-**Referencia (APA 7):**
-
-Villa Vargas, J. M., y Hurtado Avilés, G. (2026). *A browser-based seismic data observatory for detecting and comparing earthquake sequences across North American catalogues* [Manuscrito R4 enviado para su publicación]. GitHub. <https://github.com/gabrielhuav/Seismic_Data_Geosciences/blob/main/paper/manuscript/out/Seismic_CG_manuscript_R4.pdf>
-
-Datos y código: <https://doi.org/10.5281/zenodo.24361244>
-
-| Qué | Estado |
-| :-- | :-- |
-| Dos propuestas de mejora | Pendiente |
-| Presentación | Pendiente |
-
-**Aportaciones de cada integrante:**
-
-| Integrante | Aportaciones |
-| :-- | :-- |
-| Damas Garnica Adrian | Entorno, fuente de datos y carga, usuarios y permisos, edición de valores y transacciones (Prácticas 4 y 5). Migración 003 del cobro de los paquetes. Aplicación completa: cliente en Qt, servidor en C, demo en línea y servidor de casa. Reporte en LaTeX y sitio del proyecto |
-| Hernandez Barrios Samuel Rodrigo | Migraciones de dominios y formato de usuario, pruebas de dominio, claves foráneas y acciones referenciales, y pruebas de integridad (Prácticas 4 y 5). Reglas del cobro. Fork de Sismos con su documentación y el cambio de réplicas |
-| Los dos | Experimentos individuales de la Práctica 5 (2.6) |
+- [Práctica 1. Investigación, caso de estudio y entorno](#práctica-1-investigación-caso-de-estudio-y-entorno)
+- [Práctica 2. Artículos y modelo entidad-relación extendido](#práctica-2-artículos-y-modelo-entidad-relación-extendido)
+- [Práctica 3. Transformación al modelo relacional](#práctica-3-transformación-al-modelo-relacional)
+- [Prácticas 4 y 5. Dominios, carga, permisos e integridad referencial](#prácticas-4-y-5-dominios-carga-permisos-e-integridad-referencial)
+- [Prácticas 6, 7 y 8. Normalización, álgebra relacional y contenedor](#prácticas-6-7-y-8-normalización-álgebra-relacional-y-contenedor) (en desarrollo)
+- [Documento de desarrollo](#documento-de-desarrollo)
+- [Diagramas](#diagramas)
+- [Datos](#datos)
 
 ---
 
-## Prácticas 1 a 5
-
-En este repositorio está el trabajo de investigación y desarrollo de las prácticas de la asignatura de *Bases de Datos*.
-
-<details>
-<summary><b>Índice de los documentos</b></summary>
-
+## Práctica 1. Investigación, caso de estudio y entorno
 
 - [Introducción](<docs/practica1/Introduccion.md>)
   - [Planteamiento del problema](<docs/practica1/Introduccion.md#planteamiento-del-problema>)
@@ -126,6 +99,11 @@ En este repositorio está el trabajo de investigación y desarrollo de las prác
   - [Roles y permisos](<docs/practica1/Entrevista.md#roles-y-permisos>)
   - [Reportes](<docs/practica1/Entrevista.md#reportes>)
   - [Operacion y escalabilidad](<docs/practica1/Entrevista.md#operacion-y-escalabilidad>)
+
+**Evidencias:** [contenedor y volumen de Docker](<evidencias/docker>) y [ramas y pull requests](<evidencias/git>). **Diagrama:** [entidad-relación](<modelo/diagrama-er.png>).
+
+## Práctica 2. Artículos y modelo entidad-relación extendido
+
 - [Análisis de los Tres Artículos de los Proyectos](<docs/practica2/InvestigaciónDeArticulos.md>)
   - [Artículo 1: "Cuando México tiembla: la historia contada por los datos"](<docs/practica2/InvestigaciónDeArticulos.md#articulo-1-cuando-méxico-tiembla-la-historia-contada-por-los-datos-villa-vargas-et-al-2026>)
   - [Artículo 2: "Territorial Information Retrieval from Heterogeneous Open Data..."](<docs/practica2/InvestigaciónDeArticulos.md#articulo-2-territorial-information-retrieval-from-heterogeneous-open-data-through-the-construction-of-a-data-warehouse-for-water-management-in-mexico-city-velázquez-arrieta-et-al-en-prensa>)
@@ -139,6 +117,11 @@ En este repositorio está el trabajo de investigación y desarrollo de las prác
   - [Conceptos del modelo extendido que el caso no necesita](<docs/practica2/ModeloEntidadRelaciónExtendido.md#conceptos-del-modelo-extendido-que-el-caso-no-necesita>)
   - [Modelo en notación de Peter Chen](<docs/practica2/ModeloEntidadRelaciónExtendido.md#modelo-en-notación-de-peter-chen>)
   - [Justificación](<docs/practica2/ModeloEntidadRelaciónExtendido.md#justificación>)
+
+**Diagramas:** [EER en notación de Peter Chen](<modelo/diagrama-eer-chen.png>) y [EER en notación Crow's Foot](<modelo/diagrama-eer-crowsfeet.png>).
+
+## Práctica 3. Transformación al modelo relacional
+
 - [Entorno de Trabajo de la Práctica 3](<docs/practica3/EntornoPractica3.md>)
   - [Rama de trabajo](<docs/practica3/EntornoPractica3.md#rama-de-trabajo>)
   - [Levantamiento del gestor](<docs/practica3/EntornoPractica3.md#levantamiento-del-gestor>)
@@ -199,6 +182,11 @@ En este repositorio está el trabajo de investigación y desarrollo de las prác
   - [pago](<docs/practica3/DiccionarioDeDatos.md#pago>)
   - [anticipo](<docs/practica3/DiccionarioDeDatos.md#anticipo>)
   - [Vistas de atributos derivados](<docs/practica3/DiccionarioDeDatos.md#vistas-de-atributos-derivados>)
+
+**Scripts:** [`esquema.sql`](<sql/esquema.sql>), [`pruebas-validas.sql`](<sql/pruebas-validas.sql>), [`inserts-rechazados.sql`](<sql/inserts-rechazados.sql>) y [`datos-ejemplo.sql`](<sql/datos-ejemplo.sql>). **Evidencias:** [levantamiento y base vacía](<evidencias/practica3/parte1>) y [ejecución del esquema y rechazos](<evidencias/practica3/parte6>). **Diagrama:** [relacional](<modelo/diagrama-relacional.png>).
+
+## Prácticas 4 y 5. Dominios, carga, permisos e integridad referencial
+
 - [Entorno de Trabajo de las Prácticas 4 y 5](<docs/practica4/EntornoPractica4y5.md>)
   - [Rama de trabajo](<docs/practica4/EntornoPractica4y5.md#rama-de-trabajo>)
   - [Estructura de carpetas](<docs/practica4/EntornoPractica4y5.md#estructura-de-carpetas>)
@@ -241,9 +229,7 @@ En este repositorio está el trabajo de investigación y desarrollo de las prác
     - [Damas Garnica Adrian](<docs/practica5/integrantes/Damas_Garnica_Adrian.md>)
     - [Hernandez Barrios Samuel Rodrigo](<docs/practica5/integrantes/Hernandez_Barrios_Samuel_Rodrigo.md>)
 
-</details>
-
-### Prácticas 4 y 5
+### Ejercicios, scripts y evidencias
 
 | Ejercicio | Documento | Archivos ejecutables | Evidencia |
 | :-- | :-- | :-- | :-- |
@@ -260,11 +246,11 @@ En este repositorio está el trabajo de investigación y desarrollo de las prác
 
 El proyecto asignado (los ejercicios 1.7 y 2.5, y las comprobaciones de 2.3 sobre su base) se trabaja y se documenta por separado.
 
-#### Migración 003: cobro de los paquetes
+### Migración 003: cobro de los paquetes
 
 La migración [`003-cobro-paquetes.sql`](<sql/migraciones/003-cobro-paquetes.sql>) hace que lo incluido en el paquete de un evento cueste 0 hasta la cantidad acordada; al acabarse, cada producto se cobra, se bloquea o se carga a la cuenta del anfitrión. Agrega las columnas `acuerdo.modo_cobro`, `comanda.tipo_cobro` y `evento.secuencial_anfitrion` y la clave foránea 26. Se prueba con la prueba válida 16 y los rechazos 37 a 39 (`make -C sql pruebas`), y está documentada en el [Diccionario de Datos](<docs/practica3/DiccionarioDeDatos.md>), el [Modelo Relacional](<docs/practica3/ModeloRelacional.md>), [`dominios.md`](<docs/practica4/dominios.md>) y [`referencias.md`](<docs/practica5/referencias.md>).
 
-#### Cómo se reproduce
+### Cómo se reproduce
 
 Con el contenedor levantado (`make -C sql levantar`) y `sql/carga/.env` ya lleno:
 
@@ -282,7 +268,22 @@ sql/practica5/experimento-2.6-adrian.sh
 make -C sql experimento-samy
 ```
 
-## Documento de Desarrollo
+## Prácticas 6, 7 y 8. Normalización, álgebra relacional y contenedor
+
+> **En desarrollo.** Se entregan juntas el miércoles 2 de diciembre de 2026, en la rama `practica6-8`. Esta tabla se llena conforme se terminan los ejercicios.
+
+| Parte | Entregable | Estado |
+| :-- | :-- | :-- |
+| Dependencias funcionales y normalización | `normalizacion.md`: pautas informales, conjunto $F$ con su regla del negocio, cierres, claves candidatas, conjunto mínimo, formas normales y descomposiciones | Pendiente |
+| Migración de normalización | `sql/migraciones/004-…`, que mueve los renglones con `INSERT … SELECT` sobre la base poblada | Pendiente |
+| Almacén y formas normales | `almacen-y-formas-normales.md`: formas normales de las dimensiones de Sismos y cuándo conviene desnormalizar | Pendiente |
+| Datos en RelaX | `relax/exportar-grupo.*` y `relax/grupo.txt`, generados desde la base | Pendiente |
+| Consultas en álgebra relacional | `algebra.md` y `consultas/`: selección, proyección, conjuntos, producto, reuniones, agrupación y división, con su SQL y captura de RelaX | Pendiente |
+| Álgebra del proyecto asignado | Tres consultas de Sismos con su expresión y su árbol | Pendiente |
+| Contenedor | `compose.yaml` que levanta el gestor, migra y corre las consultas con un solo comando, con su README en inglés | Pendiente |
+| Trabajo por integrante | `integrantes/<Nombre>.md`: tres consultas propias y una descomposición explicada | Pendiente |
+
+## Documento de desarrollo
 
 El reporte del proyecto se encuentra en:
 
