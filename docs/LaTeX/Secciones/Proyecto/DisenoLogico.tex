@@ -133,6 +133,8 @@ La transformación produjo diecisiete tablas y seis vistas, que se listan en la 
 
 En total, el esquema tiene noventa y siete columnas y veinticinco claves foráneas. El diccionario de datos, con el tipo, las restricciones y la descripción de cada columna, se encuentra en el \hyperref[anexo:diccionario]{Anexo~1}.
 
+La Figura~\ref{fig:diagrama-relacional} incluye además los cambios de las migraciones posteriores: los montos y las cantidades usan los dominios \texttt{dinero} y \texttt{cantidad}, y el cobro de los paquetes agregó las columnas \texttt{acuerdo.modo\_cobro}, \texttt{comanda.tipo\_cobro} y \texttt{evento.secuencial\_anfitrion}, junto con una vigesimosexta clave foránea de \texttt{evento} hacia la cuenta del anfitrión.
+
 \subsection{Preservación del significado}
 
 Una vez ejecutado el esquema, se revisó contra el inventario, elemento por elemento, que conservara el significado del modelo extendido. Las ocho entidades fuertes, las dos débiles y las tres subclases tienen su tabla, y cada relación quedó expresada con restricciones: el máximo de uno, en la tabla donde vive la clave foránea; el máximo de muchos, en que esa columna no es única; y el mínimo, en que la columna sea obligatoria o admita nulos.
