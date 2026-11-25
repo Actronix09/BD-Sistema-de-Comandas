@@ -64,7 +64,7 @@ VALUES (900001, 1, 1);
 
 Al final, el SQL recorre el catálogo de PostgreSQL y ejecuta tres auditorías sobre las tablas del esquema `public`:
 
-1. **Referencias huérfanas:** revisa las 25 claves foráneas y busca filas hijas sin su padre. Los `NULL` de referencias opcionales no cuentan como huérfanos.
+1. **Referencias huérfanas:** revisa todas las claves foráneas del catálogo (25 en la Práctica 5; 26 desde la migración 003) y busca filas hijas sin su padre. Los `NULL` de referencias opcionales no cuentan como huérfanos.
 2. **Duplicados:** revisa las claves primarias, restricciones `UNIQUE` e índices únicos, incluidos los índices por minúsculas y el índice parcial de nombres de cuentas abiertas.
 3. **Nulos indebidos:** revisa las columnas declaradas `NOT NULL` en las tablas.
 

@@ -222,6 +222,10 @@ En el siguiente repositorio se presenta el trabajo de investigación y desarroll
 
 El proyecto asignado (los ejercicios 1.7 y 2.5, y las comprobaciones de 2.3 sobre su base) se trabaja y se documenta por separado.
 
+### Proyecto final: cobro de los paquetes
+
+La migración [`003-cobro-paquetes.sql`](<sql/migraciones/003-cobro-paquetes.sql>) hace que lo incluido en el paquete de un evento cueste 0 hasta la cantidad acordada; al acabarse, cada producto se cobra, se bloquea o se carga a la cuenta del anfitrión. Agrega las columnas `acuerdo.modo_cobro`, `comanda.tipo_cobro` y `evento.secuencial_anfitrion` y la clave foránea 26. Se prueba con la prueba válida 16 y los rechazos 37 a 39 (`make -C sql pruebas`), y está documentada en el [Diccionario de Datos](<docs/practica3/DiccionarioDeDatos.md>), el [Modelo Relacional](<docs/practica3/ModeloRelacional.md>), [`dominios.md`](<docs/practica4/dominios.md>) y [`referencias.md`](<docs/practica5/referencias.md>).
+
 ### Cómo se reproduce
 
 Con el contenedor levantado (`make -C sql levantar`) y `sql/carga/.env` ya lleno:
@@ -267,7 +271,7 @@ Recopila de manera formal el desarrollo de las prácticas 1 a 5. Los documentos 
 - [Diagrama entidad-relación](<modelo/diagrama-er.png>)
 - [Diagrama entidad-relación extendido en notación de Peter Chen](<modelo/diagrama-eer-chen.png>)
 - [Diagrama entidad-relación extendido en notación Crow's Foot](<modelo/diagrama-eer-crowsfeet.png>)
-- [Diagrama relacional del sistema de comandas](<modelo/diagrama-relacional.png>)
+- [Diagrama relacional del sistema de comandas](<modelo/diagrama-relacional.png>), con las migraciones 001 a 003
 
 ## Datos
 

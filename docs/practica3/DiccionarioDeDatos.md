@@ -8,7 +8,7 @@ En este documento se describe cada columna de las tablas resultantes de la trans
 
 **Origen:** generado desde el catálogo del gestor después de ejecutar [`sql/esquema.sql`](<../../sql/esquema.sql>). Las descripciones son los `COMMENT ON` del propio esquema, así que el diccionario y la base no pueden contradecirse.
 
-**Contenido:** 17 tablas y 97 columnas.
+**Contenido:** 17 tablas y 100 columnas (97 de la Práctica 3 y 3 de la migración 003).
 
 ---
 

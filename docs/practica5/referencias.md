@@ -2,7 +2,7 @@
 
 Práctica 5, ejercicios 2.1 y 2.2 · Sistema de Comandas
 
-Este documento enumera las 25 claves foráneas del esquema, relaciona cada una con el modelo EER, indica si admite `NULL` y justifica por separado qué ocurre al borrar o actualizar la fila referenciada.
+Este documento enumera las 26 claves foráneas del esquema (las 25 de la Práctica 3 y la que agregó la migración 003), relaciona cada una con el modelo EER, indica si admite `NULL` y justifica por separado qué ocurre al borrar o actualizar la fila referenciada.
 
 ## Cómo leer la tabla
 
@@ -11,7 +11,7 @@ Este documento enumera las 25 claves foráneas del esquema, relaciona cada una c
 - **`ON DELETE`** decide qué pasa con las hijas cuando se intenta borrar el padre.
 - **`ON UPDATE`** decide qué pasa con las hijas cuando cambia la clave del padre.
 
-El modelo tiene **25 claves foráneas**: 21 son obligatorias y 4 opcionales. El esquema usa `ON DELETE CASCADE` en 9 claves y `ON DELETE RESTRICT` en 16; para cambios de clave usa `ON UPDATE CASCADE` en 14 y `ON UPDATE RESTRICT` en 11. No se usa `SET NULL`: una relación opcional puede no existir desde el principio, pero si existe se conserva para no borrar una responsabilidad o un dato histórico.
+El modelo tiene **26 claves foráneas**: 21 son obligatorias y 5 opcionales. El esquema usa `ON DELETE CASCADE` en 9 claves y `ON DELETE RESTRICT` en 17; para cambios de clave usa `ON UPDATE CASCADE` en 14 y `ON UPDATE RESTRICT` en 12. No se usa `SET NULL`: una relación opcional puede no existir desde el principio, pero si existe se conserva para no borrar una responsabilidad o un dato histórico.
 
 ## Inventario y justificación por clave
 
@@ -42,6 +42,7 @@ El modelo tiene **25 claves foráneas**: 21 son obligatorias y 4 opcionales. El 
 | 23 | `fk_pago_cajero`<br>R11 Maneja: Cajero/Administrador → Pago | `pago.id_cajero` → `cajero_admin.id_usuario` | No | **RESTRICT.** Se conserva quién recibió cada pago. | **RESTRICT.** No se cambia la identidad de quien manejó dinero registrado. |
 | 24 | `fk_pago_mesero_propina`<br>R12 Recibe propina: Mesero → Pago | `pago.id_mesero_propina` → `mesero.id_usuario` | **Sí.** Un pago puede no llevar propina. | **RESTRICT.** Si existe una propina, no se borra su destinatario; la pareja mesero/monto se conserva. | **RESTRICT.** No se cambia la identidad del mesero que recibió una propina registrada. |
 | 25 | `fk_anticipo_evento`<br>R13 Recibe: Evento → Anticipo | `anticipo.numero_evento` → `evento.numero_evento` | No | **RESTRICT.** No se borra un evento que ya tiene un anticipo; se conserva el movimiento de dinero. | **CASCADE.** Si se corrige la clave del evento, el anticipo sigue vinculado al evento que lo recibió. |
+| 26 | `fk_evento_cuenta_anfitrion`<br>Migración 003: cuenta del anfitrión del evento | `evento.(numero_evento, secuencial_anfitrion)` → `cuenta.(numero_evento, secuencial)` | **Sí.** Un evento nuevo todavía no tiene cuentas, y no todos los eventos cargan excedentes al anfitrión. | **RESTRICT.** No se borra la cuenta que recibe los excedentes del paquete mientras el evento la tenga como anfitrión. | **RESTRICT.** La cuenta del anfitrión no cambia de clave por debajo del evento; para cambiarla se modifica el evento. |
 
 ## Por qué `NULL` no significa `SET NULL`
 

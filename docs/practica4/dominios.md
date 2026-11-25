@@ -2,7 +2,7 @@
 
 Práctica 4, ejercicio 1.1 · Sistema de Comandas
 
-Este documento registra el tipo elegido, su longitud o precisión y la razón de cada columna de las 17 tablas (97 columnas). No incluye las columnas calculadas de las vistas, porque no se almacenan en las tablas.
+Este documento registra el tipo elegido, su longitud o precisión y la razón de cada columna de las 17 tablas (100 columnas: 97 de la Práctica 3 y 3 de la migración 003). No incluye las columnas calculadas de las vistas, porque no se almacenan en las tablas.
 
 ## Dominios reutilizables
 
@@ -36,6 +36,7 @@ Los dominios fijan el tipo y la precisión comunes. Las reglas de negocio (por e
 | evento | `tipo_evento` | `VARCHAR(40)` | Máximo 40 caracteres | Nombre variable del tipo de evento; el límite evita etiquetas desproporcionadas. |
 | evento | `numero_asistentes` | `INTEGER` | 4 bytes; entero | Es un conteo de personas, sin fracciones, que puede ser mayor que el rango de `SMALLINT`. |
 | evento | `estado` | `VARCHAR(12)` | Máximo 12 caracteres | Código corto de una lista cerrada; el `CHECK` define los estados permitidos. |
+| evento | `secuencial_anfitrion` | `SMALLINT` | 2 bytes | Clave foránea compuesta opcional a la cuenta del anfitrión; es el mismo tipo que `cuenta.secuencial` (migración 003). |
 | evento_organizador | `numero_evento` | `INTEGER` | 4 bytes | Clave foránea con el mismo tipo que `evento.numero_evento`. |
 | evento_organizador | `organizador` | `VARCHAR(120)` | Máximo 120 caracteres | Permite guardar nombres de personas u organizaciones de longitud variable. |
 | usuario | `id_usuario` | `INTEGER` | 4 bytes | Identificador generado y referenciado por las tablas de subtipos y relaciones. |
@@ -90,6 +91,7 @@ Los dominios fijan el tipo y la precisión comunes. Las reglas de negocio (por e
 | acuerdo | `numero_paquete` | `INTEGER` | 4 bytes | Clave foránea compatible con el paquete acordado. |
 | acuerdo | `id_producto` | `INTEGER` | 4 bytes | Clave foránea compatible con el producto acordado. |
 | acuerdo | `cantidad_acordada` | `INTEGER` | 4 bytes; entero | Número de unidades pactadas; no se contratan fracciones de producto. |
+| acuerdo | `modo_cobro` | `VARCHAR(9)` | Máximo 9 caracteres | Código corto de una lista cerrada (`aparte`, `cobrar`, `bloquear`, `anfitrion`); el más largo, `anfitrion`, tiene 9 (migración 003). |
 | comanda | `id_comanda` | `INTEGER` | 4 bytes | Identificador generado para cada comanda. |
 | comanda | `fecha_hora` | `TIMESTAMPTZ` | Precisión predeterminada: microsegundos | Guarda el instante exacto y permite convertirlo a la zona local al mostrarlo. |
 | comanda | `fecha_hora_dia` | `SMALLINT` | 2 bytes; 1–31 | Componente generado en hora de Ciudad de México. |
@@ -105,6 +107,7 @@ Los dominios fijan el tipo y la precisión comunes. Las reglas de negocio (por e
 | comanda | `id_producto` | `INTEGER` | 4 bytes | Clave foránea compatible con el producto solicitado. |
 | comanda | `id_bar_cocina` | `INTEGER` | 4 bytes | Clave foránea opcional al usuario de la estación que prepara la comanda. |
 | comanda | `id_cajero_cancela` | `INTEGER` | 4 bytes | Clave foránea opcional al cajero que cancela la comanda. |
+| comanda | `tipo_cobro` | `VARCHAR(9)` | Máximo 9 caracteres | Código corto de una lista cerrada (`normal`, `paquete`, `anfitrion`) (migración 003). |
 | pago | `numero_pago` | `INTEGER` | 4 bytes | Identificador generado para cada pago. |
 | pago | `monto` | `dinero` | `NUMERIC(10,2)`; 2 decimales | Importe exacto cobrado, incluida la propina. |
 | pago | `forma_pago` | `VARCHAR(13)` | Máximo 13 caracteres | Código corto; alcanza para `transferencia` y el `CHECK` limita las opciones. |
@@ -182,6 +185,7 @@ Las reglas siguientes explican por qué se exige cada `NOT NULL`, valor inicial,
 | `acuerdo.numero_paquete` | Todo acuerdo debe identificar el paquete pactado. |
 | `acuerdo.id_producto` | Todo acuerdo debe identificar el producto pactado. |
 | `acuerdo.cantidad_acordada` | Todo acuerdo debe indicar cuántas unidades se pactaron. |
+| `acuerdo.modo_cobro` | Todo acuerdo debe decir cómo se cobra el producto al acabarse lo incluido (migración 003). |
 | `comanda.fecha_hora` | Toda comanda debe quedar fechada para ordenar y auditar la atención. |
 | `comanda.precio_cobrado` | Toda comanda debe conservar el precio aplicado al pedir el producto. |
 | `comanda.estado` | Toda comanda debe tener estado para controlar su preparación y entrega. |
@@ -189,6 +193,7 @@ Las reglas siguientes explican por qué se exige cada `NOT NULL`, valor inicial,
 | `comanda.secuencial` | Toda comanda debe identificar la cuenta dentro del evento. |
 | `comanda.id_mesero` | Toda comanda debe registrar qué mesero la levantó. |
 | `comanda.id_producto` | Toda comanda debe indicar qué producto se pidió. |
+| `comanda.tipo_cobro` | Toda comanda debe decir si se cobró normal, entró al paquete o la paga el anfitrión (migración 003). |
 | `pago.monto` | Todo pago debe registrar cuánto dinero se recibió. |
 | `pago.forma_pago` | Todo pago debe indicar cómo se recibió el dinero. |
 | `pago.fecha_hora` | Todo pago debe quedar fechado para el historial de caja. |
@@ -216,6 +221,8 @@ Las columnas que no aparecen en esta tabla admiten `NULL` porque el dato es opci
 | `ingrediente.stock_minimo` | `0` | Si no se define umbral de resurtido, se inicia en cero. |
 | `comanda.fecha_hora` | `now()` | Se registra el instante de creación si el cliente no lo envía. |
 | `comanda.estado` | `'pendiente'` | Una comanda nueva todavía no ha empezado a prepararse. |
+| `comanda.tipo_cobro` | `'normal'` | Si el producto no está en un paquete del evento, se cobra a precio de catálogo; el disparador lo cambia al levantarla (migración 003). |
+| `acuerdo.modo_cobro` | `'aparte'` | Un acuerdo sin modo elegido se comporta como antes de la migración: el producto no entra al cobro del paquete (migración 003). |
 | `pago.fecha_hora` | `now()` | Se registra el instante del cobro si no se envía uno. |
 | `anticipo.fecha` | `CURRENT_DATE` | Si no se indica el día, se usa el día de registro. |
 
@@ -267,6 +274,9 @@ Los identificadores `IDENTITY` se generan con una secuencia para que cada alta r
 | `ck_comanda_estado` | La comanda solo puede recorrer los estados definidos para su preparación y entrega. |
 | `ck_comanda_cancelacion` | Una comanda cancelada debe indicar el cajero que la canceló, y una comanda activa no debe indicar uno. |
 | `ck_comanda_preparacion` | Las comandas en preparación, listas o entregadas deben tener una estación asignada; las pendientes o canceladas pueden no tenerla. |
+| `ck_acuerdo_modo_cobro` | El modo de cobro solo puede ser aparte, cobrar, bloquear o anfitrion (migración 003). |
+| `ck_comanda_tipo_cobro` | La comanda solo puede cobrarse normal, como parte del paquete o al anfitrión (migración 003). |
+| `ck_comanda_paquete_sin_costo` | Una comanda que entró al paquete cuesta 0 (migración 003). |
 | `ck_pago_monto` | Un pago debe ser mayor que cero. |
 | `ck_pago_propina_limite` | La propina no puede ser mayor que el importe total del pago. |
 | `ck_pago_forma` | La forma de pago debe ser efectivo, tarjeta o transferencia. |

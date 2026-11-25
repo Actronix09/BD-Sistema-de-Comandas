@@ -50,7 +50,7 @@ Notación: clave primaria <ins>subrayada</ins>, clave foránea en *cursiva* y �
 
 ### Claves foráneas y acciones referenciales
 
-Las 25 claves foráneas del esquema, tal como quedaron registradas en el catálogo del gestor:
+Las 26 claves foráneas del esquema, tal como quedaron registradas en el catálogo del gestor (las 25 de la Práctica 3 y la de la migración 003):
 
 | # | Restricción | Tabla | Columnas | Referencia | ON DELETE | ON UPDATE |
 | :--: | :-- | :-- | :-- | :-- | :-- | :-- |
@@ -340,8 +340,9 @@ El diagrama se diseñó a partir del [Diagrama Entidad-Relación Extendido](<../
 - Cada línea une una clave foránea con la clave primaria que referencia y toma el color de la tabla a la que apunta. Las cardinalidades van en notación pata de gallo y salen del modelo EER (relaciones R1 a R17 del [Inventario del Modelo EER](<InventarioModeloEER.md>)): en cada extremo, la marca pegada a la tabla es el máximo (pata de gallo = muchos, barra = uno) y la que sigue es el mínimo (círculo = cero, barra = uno). Por ejemplo, entre `evento` y `mesa` va `||` junto a evento y `|<` junto a mesa: cada mesa es de un solo evento y todo evento tiene al menos una mesa. Algunos de esos mínimos de 1 no los hace cumplir el gestor; están en 6.5.
 - Cuando dos claves foráneas con cardinalidades distintas llegan a la misma columna (`mesero.id_usuario`, `cajero_admin.id_usuario` y `producto.id_producto`), cada una entra a una altura distinta de la fila para que sus marcas no se encimen.
 - 🔑 marca la clave primaria de una sola columna, 🔗 las claves foráneas y `NN` las columnas `NOT NULL`. Las claves primarias compuestas (`mesa`, `cuenta`, `receta`, `acuerdo`, `paquete_producto` y `evento_organizador`) no llevan 🔑 porque el plugin solo marca las de una columna; están en 6.1.
-- Las FK compuestas se dibujan desde la columna que las distingue: `numero_mesa` en `cuenta`, `secuencial` en `comanda` y `pago`, e `id_usuario` en los subtipos, aunque su FK sea `(id_usuario, rol)`. Las de los subtipos son uno a uno y no llevan pata de gallo.
-- Los tipos son los del esquema, salvo dos que no caben en el ancho fijo de las tablas: `producto.id_producto_principal` aparece como `int` (es `INTEGER`) y `receta.cantidad_por_porcion` como `numeric` (es `NUMERIC(10,3)`).
+- Las FK compuestas se dibujan desde la columna que las distingue: `numero_mesa` en `cuenta`, `secuencial` en `comanda` y `pago`, `secuencial_anfitrion` en `evento`, e `id_usuario` en los subtipos, aunque su FK sea `(id_usuario, rol)`. Las de los subtipos son uno a uno y no llevan pata de gallo; la del anfitrión es cero o uno en los dos extremos (un evento tiene a lo más una cuenta del anfitrión).
+- Los tipos son los del esquema con las migraciones: los montos usan el dominio `dinero` (`NUMERIC(10,2)`) y las existencias y porciones el dominio `cantidad` (`NUMERIC(10,3)`), los dos de la migración 001. Dos tipos no caben en el ancho fijo de las tablas: `producto.id_producto_principal` aparece como `int` (es `INTEGER`) y `evento.secuencial_anfitrion` como `int2` (es `SMALLINT`).
+- El diagrama ya incluye la migración 003 (cobro de los paquetes): `acuerdo.modo_cobro`, `comanda.tipo_cobro`, `evento.secuencial_anfitrion` y la FK 26 hacia la cuenta del anfitrión.
 - Las columnas generadas (los componentes de fecha y hora y `cuenta.folio`) aparecen como columnas normales; en 6.1 van marcadas con ⚙.
 - Las tablas se agrupan por área: arriba el catálogo y el inventario (ingrediente, receta, producto y paquete); a la izquierda el evento con sus organizadores, anticipos y cuentas; al centro mesa, acuerdo, comanda y pago; a la derecha la jerarquía de Usuario.
 
@@ -349,7 +350,7 @@ El diagrama se diseñó a partir del [Diagrama Entidad-Relación Extendido](<../
 
 ## 6.4 Diccionario de datos
 
-Está en un documento aparte por su tamaño: [Diccionario de Datos](<DiccionarioDeDatos.md>). Documenta las 97 columnas de las 17 tablas con tabla, columna, tipo, restricciones y descripción, más las columnas calculadas de las seis vistas. Se generó desde el catálogo, y las descripciones son los `COMMENT ON COLUMN` del propio `esquema.sql`, así que cualquiera puede consultarlas también desde el gestor:
+Está en un documento aparte por su tamaño: [Diccionario de Datos](<DiccionarioDeDatos.md>). Documenta las 100 columnas de las 17 tablas con tabla, columna, tipo, restricciones y descripción, más las columnas calculadas de las seis vistas. Se generó desde el catálogo, y las descripciones son los `COMMENT ON COLUMN` del propio `esquema.sql`, así que cualquiera puede consultarlas también desde el gestor:
 
 ```sql
 SELECT column_name, col_description('comanda'::regclass, ordinal_position)
@@ -407,7 +408,7 @@ En el modelo relacional la cardinalidad no se dibuja: se expresa con restriccion
 | R16 | *Acuerda* | Evento, Paquete, Producto (0,N) | Tabla `acuerdo`, PK de las tres claves, con `cantidad_acordada` | ✓ |
 | R17 | *Receta* | Producto (1,N) · Ingrediente (0,N) | Tabla `receta`, PK de las dos claves, con `cantidad_por_porcion` | ✓ \* |
 
-Las 17 relaciones están en el esquema, y las 25 claves foráneas se explican completas: 2 de las relaciones identificadoras, 12 de las uno a muchos, 2 de *Incluye*, 2 de *Receta*, 3 de *Acuerda*, 1 del atributo multivaluado y 3 de los subtipos.
+Las 17 relaciones están en el esquema, y las 25 claves foráneas que salen de ellas se explican completas: 2 de las relaciones identificadoras, 12 de las uno a muchos, 2 de *Incluye*, 2 de *Receta*, 3 de *Acuerda*, 1 del atributo multivaluado y 3 de los subtipos. La 26 no sale del modelo EER: la agregó la migración 003 para la cuenta del anfitrión.
 
 \* En tres relaciones, el **mínimo 1 del lado uno** no se hace cumplir en el gestor: que todo evento tenga al menos una mesa, que todo paquete incluya al menos un producto y que todo producto lleve al menos un ingrediente. Las tres se dejaron fuera a propósito y la razón está en [Lo que el esquema no puede garantizar](<ReglasDeTransformacion.md#lo-que-el-esquema-no-puede-garantizar>).
 
