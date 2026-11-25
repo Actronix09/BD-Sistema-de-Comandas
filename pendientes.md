@@ -203,7 +203,7 @@ tags:
 > - `bloquear`: ya no se vende.
 > - `anfitrion`: se carga a la cuenta del anfitrión.
 >
-> Los acuerdos que ya existían quedan en `aparte` y no cambian. Están en `sql/migraciones/003-cobro-paquetes.sql`, con la prueba válida 16 y los rechazos 37 a 39. Ya se documentaron en `docs/practica3/DiccionarioDeDatos.md` y `ModeloRelacional.md`.
-> - [ ] Correr `make -C sql pruebas` con la migración (39 rechazos y 16 válidas).
-> - [ ] Regenerar `modelo/diagrama-relacional.svg` y `.png` con las columnas nuevas: `evento.secuencial_anfitrion`, `acuerdo.modo_cobro` y `comanda.tipo_cobro`.
+> Los acuerdos que ya existían quedan en `aparte` y no cambian. Están en `sql/migraciones/003-cobro-paquetes.sql`, con la prueba válida 16 y los rechazos 37 a 39. Ya se documentaron en `docs/practica3/DiccionarioDeDatos.md`, `ModeloRelacional.md`, `docs/practica4/dominios.md` y `docs/practica5/referencias.md`.
+> - [x] Correr `make -C sql pruebas` con la migración (39 rechazos y 16 válidas).
+> - [x] Regenerar `modelo/diagrama-relacional.svg` y `.png` con las columnas nuevas: `evento.secuencial_anfitrion`, `acuerdo.modo_cobro` y `comanda.tipo_cobro` (24-Noviembre-2026; también muestra los dominios `dinero` y `cantidad` de la migración 001).
 > - [ ] Que Samy revise el disparador `fijar_precio_cobrado` y la vista `v_cuenta`.
