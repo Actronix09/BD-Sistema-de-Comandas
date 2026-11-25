@@ -84,8 +84,9 @@ tags:
 > - [x] **4.** Base de demostración que se reinicia cada noche y revisión del `Origin` (solo `https://actronix09.github.io`). Falta el límite de peticiones.
 > - [x] La demo carga **los datos de la Práctica 4** (`sql/carga/poblar.sql`, ~62 mil renglones, todas las tablas principales con más de 200) y encima las cuentas de prueba. Así cumple con lo de las prácticas: el evento en curso (la posada) es de hoy y tiene los paquetes Oro y Plata incluidos.
 > - [x] **5.** Funnel abierto al puerto 9000; probado desde internet (17 de 17).
+> - [x] La landing (`web/`) termina con la sección **Demo en línea**: 8 capturas de la app de escritorio contra la demo (inicio, mesero, cocina, caja y administración, en `web/imagenes/demo/`) y el botón **Abrir la demo** con las cuentas de prueba (24-Noviembre-2026).
 > - [ ] Probar desde el celular con datos móviles y revisar las pantallas en tamaño teléfono.
-> - [ ] Desactivar la expiración de la llave de `lilyth` en la consola de Tailscale.
+> - [x] Desactivar la expiración de la llave de `lilyth` en la consola de Tailscale.
 > - [ ] **Plan B:** el mismo contenedor en la laptop, por si se va la luz o el internet en casa.
 > - [ ] Preguntarle al docente si le parece bien Tailscale Funnel.
 
