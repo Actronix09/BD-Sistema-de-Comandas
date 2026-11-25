@@ -14,17 +14,24 @@ concurrency:
   group: pages
   cancel-in-progress: true
 
+# Subir y publicar en trabajos separados: en un solo trabajo, deploy-pages a veces
+# no encontraba el artefacto recién subido ("No artifacts named github-pages").
 jobs:
-  deploy:
+  subir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/configure-pages@v6
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: web
+
+  publicar:
+    needs: subir
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v5
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: web
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
