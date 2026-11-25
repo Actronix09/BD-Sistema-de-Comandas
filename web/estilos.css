@@ -465,6 +465,67 @@ figcaption code {
   opacity: .85;
 }
 
+/* --- Demo en línea ----------------------------------------- */
+
+.galeria {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(26rem, 100%), 1fr));
+  gap: 1rem;
+  margin-top: 1.75rem;
+}
+
+.captura {
+  margin: 0;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  overflow: hidden;
+  background: var(--superficie);
+  box-shadow: var(--sombra);
+}
+
+.captura img {
+  display: block;
+  width: 100%;
+  height: auto;
+  cursor: zoom-in;
+}
+
+.captura figcaption { justify-content: flex-start; }
+
+.llamado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  margin-top: 2rem;
+  padding: 1.5rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--acento-suave);
+}
+
+.llamado span {
+  flex: 1 1 18rem;
+  font-size: .9375rem;
+  color: var(--texto-suave);
+}
+
+.boton-demo {
+  display: inline-block;
+  padding: .85rem 1.75rem;
+  border-radius: var(--radio);
+  background: var(--acento);
+  color: var(--fondo);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform .15s ease, filter .15s ease;
+}
+
+.boton-demo:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+.boton-demo:focus-visible { outline: 3px solid var(--texto); outline-offset: 3px; }
+
 /* --- Visor de diagramas ------------------------------------ */
 
 .visor {
@@ -545,4 +606,5 @@ body.visor-abierto { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .enlace-tarjeta { transition: none; }
+  .boton-demo { transition: none; }
 }

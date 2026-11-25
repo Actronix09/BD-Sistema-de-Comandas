@@ -20,6 +20,7 @@
     <li><a href="#practicas">Prácticas 4 y 5</a></li>
     <li><a href="#repositorios">Repositorios</a></li>
     <li><a href="#documentacion">Documentación</a></li>
+    <li><a href="#demo">Demo</a></li>
   </ul>
 </nav>
 
@@ -399,6 +400,71 @@
         <span>Prueba de que los datos sobreviven a la eliminación del contenedor.</span>
       </li>
     </ul>
+  </section>
+
+  <section class="seccion" id="demo">
+    <h2>Demo en línea</h2>
+    <p class="seccion-nota">Proyecto final &middot; Aplicación, servidor y base de datos funcionando</p>
+    <p>
+      La aplicación completa corre en el navegador, sin instalar nada: la interfaz está hecha en
+      QML con Qt para WebAssembly y se conecta por WebSocket a un servidor escrito en C, que trabaja
+      sobre la base <code>comandas</code> en PostgreSQL con los datos de la Práctica 4. Cada rol tiene
+      su pantalla: el mesero levanta las órdenes, cocina y bar las preparan, la caja cobra y el
+      administrador maneja el menú, los paquetes, los eventos, el inventario y los usuarios.
+    </p>
+    <p>
+      Cualquiera puede entrar con las cuentas de prueba desde los botones de acceso rápido. Los
+      cambios se ven al momento en todas las pantallas abiertas, y la base vuelve a su estado
+      inicial cada noche a las 3:30.
+    </p>
+
+    <div class="galeria">
+      <figure class="captura">
+        <img src="imagenes/demo/inicio.webp" width="1280" height="800" loading="lazy"
+             alt="Inicio de sesión: Inicio de sesión con el evento en curso y los accesos rápidos a las cuentas de prueba." data-completa="imagenes/demo/inicio.webp" data-natural>
+        <figcaption><span><strong>Inicio de sesión.</strong> Inicio de sesión con el evento en curso y los accesos rápidos a las cuentas de prueba.</span></figcaption>
+      </figure>
+      <figure class="captura">
+        <img src="imagenes/demo/mesero-mesas.webp" width="1280" height="800" loading="lazy"
+             alt="Mesero: El mesero elige la mesa; las que atiende están marcadas como suyas." data-completa="imagenes/demo/mesero-mesas.webp" data-natural>
+        <figcaption><span><strong>Mesero.</strong> El mesero elige la mesa; las que atiende están marcadas como suyas.</span></figcaption>
+      </figure>
+      <figure class="captura">
+        <img src="imagenes/demo/mesero-orden.webp" width="1280" height="800" loading="lazy"
+             alt="Mesero: La orden en armado: cada producto muestra su receta y lo que incluye el paquete del evento." data-completa="imagenes/demo/mesero-orden.webp" data-natural>
+        <figcaption><span><strong>Mesero.</strong> La orden en armado: cada producto muestra su receta y lo que incluye el paquete del evento.</span></figcaption>
+      </figure>
+      <figure class="captura">
+        <img src="imagenes/demo/cocina.webp" width="1280" height="800" loading="lazy"
+             alt="Cocina y bar: Las comandas de la estación, separadas en pendientes, en preparación y listas." data-completa="imagenes/demo/cocina.webp" data-natural>
+        <figcaption><span><strong>Cocina y bar.</strong> Las comandas de la estación, separadas en pendientes, en preparación y listas.</span></figcaption>
+      </figure>
+      <figure class="captura">
+        <img src="imagenes/demo/caja.webp" width="1280" height="800" loading="lazy"
+             alt="Caja: El detalle de una cuenta con el estado de cada comanda y lo que falta por cobrar." data-completa="imagenes/demo/caja.webp" data-natural>
+        <figcaption><span><strong>Caja.</strong> El detalle de una cuenta con el estado de cada comanda y lo que falta por cobrar.</span></figcaption>
+      </figure>
+      <figure class="captura">
+        <img src="imagenes/demo/eventos.webp" width="1280" height="800" loading="lazy"
+             alt="Administración: El calendario de eventos con el evento en curso, los próximos y los pasados." data-completa="imagenes/demo/eventos.webp" data-natural>
+        <figcaption><span><strong>Administración.</strong> El calendario de eventos con el evento en curso, los próximos y los pasados.</span></figcaption>
+      </figure>
+      <figure class="captura">
+        <img src="imagenes/demo/paquetes.webp" width="1280" height="800" loading="lazy"
+             alt="Administración: Los paquetes con su precio, sus productos incluidos y en cuántos eventos se contrataron." data-completa="imagenes/demo/paquetes.webp" data-natural>
+        <figcaption><span><strong>Administración.</strong> Los paquetes con su precio, sus productos incluidos y en cuántos eventos se contrataron.</span></figcaption>
+      </figure>
+      <figure class="captura">
+        <img src="imagenes/demo/logs.webp" width="1280" height="800" loading="lazy"
+             alt="Administración: Los logs del servidor: inicios de sesión, cambios y operaciones rechazadas." data-completa="imagenes/demo/logs.webp" data-natural>
+        <figcaption><span><strong>Administración.</strong> Los logs del servidor: inicios de sesión, cambios y operaciones rechazadas.</span></figcaption>
+      </figure>
+    </div>
+
+    <div class="llamado">
+      <a class="boton-demo" href="https://actronix09.github.io/Sistema-de-Comandas/">Abrir la demo</a>
+      <span>Cuentas de prueba: meseroDemo1, cocinaDemo1, cajeroDemo y adminDemo, con la contraseña <code>Demo_123.</code> (el punto final es parte de la contraseña).</span>
+    </div>
   </section>
 
 </main>
